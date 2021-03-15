@@ -8,3 +8,13 @@
 * 송하준 (ganaab0000)
 * 안승철 (graeen3)
 * 함든솔 (non093)
+## 개발환경
+* OS : 
+* FW : Spring Framework
+* Front-end : javascript / jQuery / AJAX / JSON / HTML5 / CSS3
+* Back-end : 
+* WAS : 
+* DB : 
+* Developer Tools : 
+* 사용 API : 
+## 프로젝트 화면
