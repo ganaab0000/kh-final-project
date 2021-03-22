@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.person;
 
 
 import org.slf4j.Logger;
@@ -12,8 +12,11 @@ import com.example.demo.repository.LoginDao;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.LoginServiceimpl;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Controller
-public class TestController {
+public class MemberController {
 	@Autowired
 	private LoginDao loginDao;//UserDAO bean을 자동으로 주입
     @Autowired
@@ -21,14 +24,15 @@ public class TestController {
     @Autowired
     private LoginServiceimpl loginServiceimpl;
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@GetMapping("/test")
-	public String getIndex() throws Exception {
-		logger.info("/test");
-		logger.info(String.valueOf(loginDao.selectCalc()));
-		logger.info(memberRepository.findAll().toString());
-		logger.info(loginServiceimpl.findAll().toString());
-		return "test/welcome";
+	@GetMapping("/member/signin")
+	public String getSignin() {
+		log.info("/member/signup");
+		return "member/signup";
+	}
+	@GetMapping("/member/signup")
+	public String getSignup() {
+		log.info("/member/signin");
+		return "member/signin";
 	}
 }
