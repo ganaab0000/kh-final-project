@@ -10,9 +10,10 @@
 	<h2>회원가입</h2>
 
 	<div>
-		<button>
-			<a href="/member/sign-up">회원가입</a>
-		</button>
+		<form action="">
+			id : <input type="text">
+			pw : <input type="password">
+		</form>
 	</div>
 </body>
 </html>
