@@ -5,12 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import com.example.demo.entity.dto.MemberDto;
+import com.example.demo.entity.dto.MemberSnakeDto;
 
 @Mapper
 public interface TestAnnotationRepository {
 
-	@Select("select * from member")
-	public List<MemberDto> findAll();
+	@Select("select 1 + 1 from dual")
+	int selectCalc() throws Exception;
 
 }

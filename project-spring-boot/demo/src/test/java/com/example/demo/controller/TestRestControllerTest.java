@@ -28,28 +28,10 @@ class TestRestControllerTest {
 
     @Test
     void exampleTest() throws Exception {
-
         mvc.perform(get("/"))
         .andDo(print())
         .andExpect(MockMvcResultMatchers.model().size(0))
         .andExpect(status().isOk()).andExpect(content().string(""));
     }
-//	@Test
-//	void testGetTestItem(@Autowired MockMvc mvc) throws Exception {
-////        mvc.perform(get("/")).andExpect(status().isOk())
-////        //.andExpect(content().string("Hello World"));
-////        ;
-//
-//        mvc.perform(get("/")).andExpect(status().isOk()).andExpect(content().string("Hello World"));
-//
-//
-//
-////        mvc.perform(get("http://localhost:9090/api/string"))
-////                .andExpect(status().isOk())
-//////                .andExpect(content().json(
-//////                    "[{\"address\":\"Seoul\",\"name\":\"Bob zip\",\"id\":1004,\"information\":\"Bob zip in Seoul\"}]")
-//////                )
-////                ;
-//	}
 
 }
