@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>안녕 호미야 왜 왔니 ?</h2>
-	
+	<h2>회원가입</h2>
+
 	<div>
 		<button>
 			<a href="/member/sign-up">회원가입</a>
