@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.demo.service.MemberServiceImpl;
+import com.example.demo.service.UserDetailsServiceImpl;
 
 import lombok.AllArgsConstructor;
 
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private MemberServiceImpl memberServiceimpl;
+    private UserDetailsServiceImpl memberServiceimpl;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

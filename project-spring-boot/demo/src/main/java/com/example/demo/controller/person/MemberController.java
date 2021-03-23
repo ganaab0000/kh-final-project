@@ -1,7 +1,11 @@
 package com.example.demo.controller.person;
 
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.domain.dto.MemberDto;
 import com.example.demo.repository.TestAnnotationRepository;
 import com.example.demo.repository.TestXmlRepository;
-import com.example.demo.service.MemberServiceImpl;
+import com.example.demo.service.UserDetailsServiceImpl;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -18,12 +22,17 @@ import lombok.extern.log4j.Log4j2;
 @Controller
 public class MemberController {
 	@Autowired
-    private MemberServiceImpl memberServiceimpl;
+    private UserDetailsServiceImpl memberServiceimpl;
 
     // 메인 페이지
     @GetMapping("/member")
-    public String index() {
-        return "person/member/index";
+    public String index(@AuthenticationPrincipal User user) {
+    	if(user != null) {
+    		log.info(user.getUsername());
+    		log.info(user.getPassword());
+    		log.info(user.getAuthorities());
+    	}
+    	return "person/member/index";
     }
 
     // 회원가입 페이지

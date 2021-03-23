@@ -22,9 +22,6 @@ public interface MemberRepository {
 			+ "on member_role_category.role_category_id = role_category.id")
 	public MemberVo findRoleByEmail(String email);
 
-
-
-
 	@Select("select * from member")
 	public List<MemberDto> findAll();
 

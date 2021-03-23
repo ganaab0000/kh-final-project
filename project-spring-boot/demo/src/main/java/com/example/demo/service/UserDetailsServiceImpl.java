@@ -28,7 +28,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 @AllArgsConstructor
-public class MemberServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -54,12 +54,16 @@ public class MemberServiceImpl implements UserDetailsService {
         log.info(roleList.toString());
         List<GrantedAuthority> authorities = new ArrayList<>();
         if (roleList.size() > 0) {
+			log.info(Role.ADMIN.getValue());
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
             for (RoleCategoryDto role : roleList) {
-				log.info(role.getName());
-	            //authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+				String suffix = "ROLE_ADMIN_";
+				String auth = suffix + role.getName().toUpperCase();
+				log.info(auth);
+	            authorities.add(new SimpleGrantedAuthority(auth));
 			}
         } else {
+			log.info(Role.MEMBER.getValue());
             authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
         }
 
