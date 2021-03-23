@@ -1,4 +1,4 @@
-package com.example.demo.entity.dto;
+package com.example.demo.domain.vo;
 
 import java.util.Date;
 
@@ -11,18 +11,18 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 @Component
-public class MemberSnakeDto {
+public class MemberVo {
 	private int id;
 	private String email;
 	private String nickname;
 	private String pwd;
-	private String is_email_verified;
-	private String is_deleted;
-	private Date date_loggedin;
-	private Date date_created;
-	private Date date_updated;
+	private String isEmailVerified;
+	private String isDeleted;
+	private Date dateLoggedin;
+	private Date dateCreated;
+	private Date dateUpdated;
 	private String address;
 	private String phone;
-	private String profile_img;
-	private String profile_detail;
+	private String profileImg;
+	private String profileTxt;
 }

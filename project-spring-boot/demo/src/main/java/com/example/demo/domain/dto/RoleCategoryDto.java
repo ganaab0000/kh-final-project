@@ -1,4 +1,6 @@
-package com.example.demo.entity.dto;
+package com.example.demo.domain.dto;
+
+import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
@@ -9,8 +11,7 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 @Component
-public class TestItem {
-	private String id;
+public class RoleCategoryDto {
+	private int id;
 	private String name;
-	private String detailImg;
 }

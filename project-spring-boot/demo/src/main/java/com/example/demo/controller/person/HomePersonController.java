@@ -12,9 +12,9 @@ import lombok.extern.log4j.Log4j2;
 public class HomePersonController {
 
 	@GetMapping("/")
-	public String getSignin() {
+	public String getMain() {
 		log.info("/");
-		return "person/index";
+		return "person/main/index";
 	}
 
 }

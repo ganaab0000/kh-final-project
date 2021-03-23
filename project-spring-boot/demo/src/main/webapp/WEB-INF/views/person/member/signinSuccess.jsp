@@ -7,10 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>admin</h2>
-
-	<div>
-
-	</div>
+	<h2>로그인 성공</h2>
+   	<a href="/member">인덱스</a>
 </body>
 </html>

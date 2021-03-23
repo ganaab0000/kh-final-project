@@ -7,12 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>person</h2>
-
-	<div>
-		<button>
-			<a href="/member/sign-up">회원가입</a>
-		</button>
-	</div>
+	<h2>권한 문제 - 403</h2>
+   	<a href="/member">인덱스</a>
 </body>
 </html>

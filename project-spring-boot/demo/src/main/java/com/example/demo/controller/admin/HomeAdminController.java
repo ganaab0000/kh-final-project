@@ -14,7 +14,7 @@ public class HomeAdminController {
 	@GetMapping("/admin")
 	public String getSignin() {
 		log.info("/admin");
-		return "admin/index";
+		return "admin/main/index";
 	}
 
 }
