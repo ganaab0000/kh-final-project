@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,14 +48,17 @@ public class MemberServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
         Optional<MemberDto> userEntityWrapper = memberRepository.findByEmail(userEmail);
-        List<RoleCategoryDto> roleList = roleCategoryRepository.findRoleByEmail(userEmail);
-        log.info(roleList.toString());
         MemberDto userEntity = userEntityWrapper.get();
 
+        List<RoleCategoryDto> roleList = roleCategoryRepository.findRoleByEmail(userEmail);
+        log.info(roleList.toString());
         List<GrantedAuthority> authorities = new ArrayList<>();
-
-        if (("admin@admin.com").equals(userEmail)) {
+        if (roleList.size() > 0) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+            for (RoleCategoryDto role : roleList) {
+				log.info(role.getName());
+	            //authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+			}
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
         }
