@@ -25,4 +25,13 @@ public class TestController {
 		log.info(String.valueOf(testXmlRepository.selectCalc()));
 		return "test/test";
 	}
+
+
+	@GetMapping("/test/thymeleaf")
+	public String getThymeleaf() throws Exception {
+		log.info("/test");
+		log.info(String.valueOf(testAnnotationRepository.selectCalc()));
+		log.info(String.valueOf(testXmlRepository.selectCalc()));
+		return "thymeleaf/index";
+	}
 }
