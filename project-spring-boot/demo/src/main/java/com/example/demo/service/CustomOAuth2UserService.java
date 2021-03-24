@@ -53,6 +53,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	  OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributedName, oAuth2User.getAttributes()) ;
 
       log.info("start");
+      log.info(registrationId);
+      log.info(userNameAttributedName);
       log.info(oAuth2User.getAttributes().get("name"));
       log.info(oAuth2User.getAttributes().get("email"));
       log.info(oAuth2User.getAttributes().get("picture"));
@@ -94,17 +96,27 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 	private MemberDto saveOrUpdate(OAuthAttributes attributes) {
 
-//    Optional<MemberDto> userEntityWrapper = memberRepository.findByEmail(userEmail);
-//    MemberDto userEntity = userEntityWrapper.get();
+		Optional<MemberDto> userEntityWrapper = memberRepository.findByEmail(attributes.getEmail());
+//		MemberDto userEntity = userEntityWrapper.get();
+
+	    MemberDto member;
+		if(!userEntityWrapper.isPresent()) {
+			member = new MemberDto();
+		    member.setId(memberRepository.getNextId());
+		    member.setEmail(attributes.getEmail());
+		    member.setNickname(attributes.getName());
+		    member.setProfileImg(attributes.getPicture());
+		    member.setPwd(attributes.getNameAttributeKey());
+			memberRepository.saveWithId(member);
+		}else {
+			member = userEntityWrapper.get();
+		}
+
 //	  MemberDto member = memberRepository.findOneByEmail(attributes.getEmail());
 //	      .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
 //	      .orElse(attributes.toEntity()) ;
-	  MemberDto member = new MemberDto();
-	  member.setEmail(attributes.getEmail());
-	  member.setNickname(attributes.getName());
-	  member.setProfileImg(attributes.getPicture());
-//	  return memberRepository.save(member);
-	  return member;
+	//	    return memberRepository.save(member);
+	    return member;
 	}
 
 }

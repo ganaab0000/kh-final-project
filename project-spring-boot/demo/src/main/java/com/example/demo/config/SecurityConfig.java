@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -30,7 +29,7 @@ import lombok.AllArgsConstructor;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl memberServiceimpl;
     private final CustomOAuth2UserService customOAuth2UserService;
-	private UserDetailsService userDetailsService;
+//	private UserDetailsService userDetailsService;
 	@Autowired
 	@Qualifier("dataSource")
 	private DataSource dataSource;
@@ -67,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             	.rememberMe()
 //            	.userDetailsService(this.userDetailsService)
-	  		    .key("hayden") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
+	  		    .key("kh-final-cookie-key-9386") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
 			    .tokenRepository(persistentTokenRepository()) //DataSource 추가
 			    .tokenValiditySeconds(604800) //토큰 유지 시간(초단위) - 일주일
             .and() // 로그인 설정
