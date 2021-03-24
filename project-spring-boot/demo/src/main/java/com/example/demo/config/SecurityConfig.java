@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.demo.service.CustomOAuth2UserService;
 import com.example.demo.service.UserDetailsServiceImpl;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl memberServiceimpl;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -54,7 +56,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
             .and()
                 // 403 예외처리 핸들링
-               .exceptionHandling().accessDeniedPage("/member/denied");
+               .exceptionHandling().accessDeniedPage("/member/denied")
+            .and()
+              .oauth2Login()
+              .defaultSuccessUrl("/member/signin/result")
+              .userInfoEndpoint()
+              .userService(customOAuth2UserService)
+              ;
     }
 
     @Override

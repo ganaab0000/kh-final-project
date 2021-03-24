@@ -7,6 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>main</h2>
+	<h2>person</h2>
+
+	<div>
+		<button>
+			<a href="/member/sign-up">회원가입</a>
+		</button>
+	</div>
 </body>
 </html>

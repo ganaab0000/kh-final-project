@@ -10,7 +10,11 @@
 <body>
 	<h2>인덱스</h2>
 	<security:authorize access="isAuthenticated()">
-	    authenticated as <security:authentication property="principal.username" />
+		<img alt="" src="${member.profileImg}">
+		<p>${member.id}</p>
+		<p>${member.nickname}</p>
+		<p>${member.email}</p>
+	    authenticated as <security:authentication property="principal" />
 	</security:authorize>
     <hr>
 	<security:authorize access="!isAuthenticated()">
@@ -25,6 +29,9 @@
 	</security:authorize>
 	<security:authorize access="hasRole('ROLE_ADMIN')">
     	<a href="/admin">관리자 페이지</a>
+	</security:authorize>
+	<security:authorize access="hasRole('ROLE_MEMBER') && !hasRole('ROLE_MEMBER_AUTH')">
+    	<a href="#">이메일 인증</a>
 	</security:authorize>
 </body>
 </html>

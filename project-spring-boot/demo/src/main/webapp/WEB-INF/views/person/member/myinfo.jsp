@@ -9,7 +9,8 @@
 <body>
 	<h2>person</h2>
    	<a href="/member">인덱스</a>
-
+   	<a href="/member">수정</a>
+   	<a href="/member">탈톼</a>
 
 </body>
 </html>

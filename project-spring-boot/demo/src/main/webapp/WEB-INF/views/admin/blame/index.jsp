@@ -10,9 +10,7 @@
 	<h2>admin</h2>
 
 	<div>
-		<button>
-			<a href="/member/sign-up">회원가입</a>
-		</button>
+
 	</div>
 </body>
 </html>

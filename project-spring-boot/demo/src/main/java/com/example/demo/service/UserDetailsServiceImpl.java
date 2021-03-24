@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.Role;
 import com.example.demo.domain.dto.MemberDto;
 import com.example.demo.domain.dto.RoleCategoryDto;
@@ -30,6 +34,7 @@ import lombok.extern.log4j.Log4j2;
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+	private final HttpSession httpSession;
 	@Autowired
 	private MemberRepository memberRepository;
 
@@ -49,6 +54,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
         Optional<MemberDto> userEntityWrapper = memberRepository.findByEmail(userEmail);
         MemberDto userEntity = userEntityWrapper.get();
+        log.info(userEntity.toString());
+        //oauth ID, 로그인 금지.
+//      throw new UsernameNotFoundException(userEmail);
+//        if(userEmail.contentEquals("test")) {
+//            throw new Error(userEmail);
+//        }
+
+  	  	httpSession.setAttribute("member", new SessionMember(userEntity));
+
 
         List<RoleCategoryDto> roleList = roleCategoryRepository.findRoleByEmail(userEmail);
         log.info(roleList.toString());
