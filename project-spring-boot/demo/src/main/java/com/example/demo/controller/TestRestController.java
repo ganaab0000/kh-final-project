@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.dto.TestItem;
+import com.example.demo.service.EmailServiceImpl;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -17,6 +18,15 @@ public class TestRestController {
 
 	@Autowired
 	TestItem testItem;
+	@Autowired
+	EmailServiceImpl emailServiceImpl;
+
+	@GetMapping("/test/api/mail")
+	public String getMail() {
+		log.info("/test/api/mail");
+		emailServiceImpl.sendSimpleMessage("ganaab0000@gmail.com", "suba", "text22");
+		return "testItem";
+	}
 
 	@GetMapping("/test/api/string")
 	public String getString() {
