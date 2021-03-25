@@ -9,9 +9,6 @@
 </head>
 <body>
 	<h2>인덱스</h2>
-		<p>${member.id}</p>
-		<p>${member.nickname}</p>
-		<p>${member.email}</p>
 	<security:authorize access="isAuthenticated()">
 		<img alt="" src="${member.profileImg}">
 		<p>${member.id}</p>
