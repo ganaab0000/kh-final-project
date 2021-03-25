@@ -1,4 +1,4 @@
-package com.example.demo.controller.person;
+package com.example.demo.service.member;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -18,15 +18,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
+@Component
+public class AuthOauth2FailureHandlerImpl implements AuthenticationFailureHandler {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException exception) throws IOException, ServletException {
+	    response.setContentType("text/html; charset=UTF-8");
+	    response.setCharacterEncoding("UTF-8");
+	    request.setCharacterEncoding("UTF-8");
 
 	    response.setStatus(HttpStatus.UNAUTHORIZED.value());
 	    Map<String, Object> data = new HashMap<>();
@@ -42,27 +48,28 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	    	//&redirect_uri=http%3A%2F%2Flocalhost%3A9090%2Flogin%2Foauth2%2Fcode%2Fnaver
 	    	//&client_id=xxxxx&oauth_os=
 	    	//&inapp_view=&locale=ko_KR&oauth_token=VuF2mSaIC264sR9c2D
-			try {
-		            String clientId = "xxxxx";//애플리케이션 클라이언트 아이디값";
-		            String redirectURI;
-			        redirectURI = URLEncoder.encode("http://localhost:9090/login/oauth2/code/naver", "UTF-8");
-		            SecureRandom random = new SecureRandom();
-		            String state = new BigInteger(130, random).toString();
-		            String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
-//		            String apiURL = "/oauth2/authorization/naver?response_type=code";
-		            apiURL += "&client_id=" + clientId;
-		            apiURL += "&redirect_uri=" + redirectURI;
-		            apiURL += "&state=" + state;
-		            apiURL += "&auth_type=" + "reprompt";
-
-//		            httpSession.setAttribute("state", state);
-		            System.out.println(apiURL);
-			    	response.sendRedirect("/member/signin/result/fail/naver");
-
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+////		            String clientId = "xxxxx";//애플리케이션 클라이언트 아이디값";
+////		            String redirectURI;
+////			        redirectURI = URLEncoder.encode("http://localhost:9090/login/oauth2/code/naver", "UTF-8");
+////		            SecureRandom random = new SecureRandom();
+////		            String state = new BigInteger(130, random).toString();
+////		            String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+//////		            String apiURL = "/oauth2/authorization/naver?response_type=code";
+////		            apiURL += "&client_id=" + clientId;
+////		            apiURL += "&redirect_uri=" + redirectURI;
+////		            apiURL += "&state=" + state;
+////		            apiURL += "&auth_type=" + "reprompt";
+////
+//////		            httpSession.setAttribute("state", state);
+////		            System.out.println(apiURL);
+//			    	response.sendRedirect("/member/signin/result/fail/naver");
+//
+//			} catch (UnsupportedEncodingException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+	    	response.sendRedirect("/member/signin/result/fail/naver");
 //	    	response.sendRedirect("/");
 	    	//naver reprompt page
 	    }else if(exception.getMessage().contains("authorization_request_not_found")) {

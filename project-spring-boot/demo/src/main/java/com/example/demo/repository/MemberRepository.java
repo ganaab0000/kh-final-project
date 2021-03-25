@@ -15,7 +15,6 @@ public interface MemberRepository {
 	@Select("select member_id_seq.nextVal from dual")
 	public int getNextId();
 
-
 	@Select("select * from member")
 	public List<MemberDto> findAll();
 

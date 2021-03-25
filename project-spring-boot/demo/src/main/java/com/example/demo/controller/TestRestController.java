@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +24,15 @@ public class TestRestController {
 	@Autowired
 	EmailServiceImpl emailServiceImpl;
 
+
+
+	@GetMapping("/test/api/encoder")
+	public String getEncoder() throws UnsupportedEncodingException {
+		log.info("/test/api/encoder");
+		String encode = URLEncoder.encode("YOUR_CALLBACK_URL+_http://naver.com.df.adf.df", "UTF-8");
+		return encode;
+	}
+
 	@GetMapping("/test/api/mail")
 	public String getMail() {
 		log.info("/test/api/mail");
@@ -32,7 +44,7 @@ public class TestRestController {
 	public String getString() {
 		log.info("/api/string");
 
-		return "testItem";
+		return "한글테스트으릉르";
 	}
 	@GetMapping("/test/api/item")
 	public TestItem getTestItemByDefault() {

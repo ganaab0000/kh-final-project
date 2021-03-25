@@ -1,4 +1,4 @@
-package com.example.demo.controller.person;
+package com.example.demo.controller.user;
 
 
 import org.springframework.web.bind.annotation.PostMapping;

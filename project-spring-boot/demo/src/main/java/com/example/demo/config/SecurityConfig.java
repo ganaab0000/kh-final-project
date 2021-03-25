@@ -18,9 +18,11 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.demo.controller.person.CustomAuthenticationFailureHandler;
-import com.example.demo.service.CustomOAuth2UserService;
-import com.example.demo.service.UserDetailsServiceImpl;
+import com.example.demo.service.member.AuthFailureHandlerImpl;
+import com.example.demo.service.member.AuthOauth2FailureHandlerImpl;
+import com.example.demo.service.member.AuthSuccessHandlerImpl;
+import com.example.demo.service.member.UserDetailsServiceImpl;
+import com.example.demo.service.member.UserOAuth2ServiceImpl;
 
 import lombok.AllArgsConstructor;
 
@@ -29,7 +31,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl memberServiceimpl;
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private UserOAuth2ServiceImpl customOAuth2UserService;
+    private AuthSuccessHandlerImpl authSuccessHandlerImpl;
+    private AuthOauth2FailureHandlerImpl authOauth2FailureHandlerImpl;
 //	private UserDetailsService userDetailsService;
 	@Autowired
 	@Qualifier("dataSource")
@@ -70,10 +74,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			    .tokenValiditySeconds(604800) //토큰 유지 시간(초단위) - 일주일
             .and() // 로그인 설정
             	.formLogin()
+//                .failureHandler(new CustomAuthenticationFailureHandler())
+
             	.usernameParameter("email")
             	.passwordParameter("pwd")
                 .loginPage("/member/signin")
-                .defaultSuccessUrl("/member/signin/result")
+                .successHandler(authSuccessHandlerImpl)
+//                .defaultSuccessUrl("/member/signin/result")
                 .permitAll()
             .and() // 로그아웃 설정
                 .logout()
@@ -88,7 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
               .oauth2Login()
 //              .failureUrl("authenticationFailureUrl")
 //              .loginPage("/member/signin")
-              .failureHandler(new CustomAuthenticationFailureHandler())
+              .failureHandler(authOauth2FailureHandlerImpl)
               .defaultSuccessUrl("/member/signin/result")
               .userInfoEndpoint()
               .userService(customOAuth2UserService)

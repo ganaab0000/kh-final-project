@@ -1,4 +1,4 @@
-package com.example.demo.controller.person;
+package com.example.demo.controller.user;
 
 
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ public class HomePersonController {
 	@GetMapping("/")
 	public String getMain() {
 		log.info("/");
-		return "person/main/index";
+		return "user/main/index";
 	}
 
 }
