@@ -101,7 +101,8 @@ public class UserOAuth2ServiceImpl implements OAuth2UserService<OAuth2UserReques
 			log.info(Role.MEMBER.getValue());
 			authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
 		}
-		authorities.add(new SimpleGrantedAuthority(Role.MEMBER_AUTH.getValue()));
+		authorities.add(new SimpleGrantedAuthority(Role.MEMBER_MAIL.getValue()));
+		authorities.add(new SimpleGrantedAuthority(Role.MEMBER_OAUTH.getValue()));
 
 		// PROVIDER 점검 후, 로그인 가능 불가능 처리.
 		// role 추가. MEMBER_OAUTH, MEMBER_NO_OAUTH
