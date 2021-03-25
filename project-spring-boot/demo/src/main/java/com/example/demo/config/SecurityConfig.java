@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.demo.controller.person.CustomAuthenticationFailureHandler;
 import com.example.demo.service.CustomOAuth2UserService;
 import com.example.demo.service.UserDetailsServiceImpl;
 
@@ -54,10 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-//		http.rememberMe()
-//		  .key("hayden") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
-//		  .tokenRepository(persistentTokenRepository()) //DataSource 추가
-//		  .tokenValiditySeconds(604800); //토큰 유지 시간(초단위) - 일주일
+
+//		http.csrf().disable(); // csrf 비활성화 //only for test
         http.authorizeRequests()
                 // 페이지 권한 설정
                 .antMatchers("/admin/**").hasRole("ADMIN")
@@ -87,6 +86,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                .exceptionHandling().accessDeniedPage("/member/denied")
             .and()
               .oauth2Login()
+//              .failureUrl("authenticationFailureUrl")
+//              .loginPage("/member/signin")
+              .failureHandler(new CustomAuthenticationFailureHandler())
               .defaultSuccessUrl("/member/signin/result")
               .userInfoEndpoint()
               .userService(customOAuth2UserService)

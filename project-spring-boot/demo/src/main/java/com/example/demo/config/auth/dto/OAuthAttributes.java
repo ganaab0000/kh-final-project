@@ -26,7 +26,7 @@ public class OAuthAttributes {
 
 	//of() : OAuth2User에서 반환하는 사용자 정보는 Map이기 때문에 값 하나하나를 변환해야만 합니다.
 	public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-	    if("naver".equals(registrationId)) {
+	    if("naver".equals(registrationId) || "renaver".equals(registrationId)) {
 	        return ofNaver("id", attributes) ;
 	    }
 
@@ -47,7 +47,7 @@ public class OAuthAttributes {
 	    Map<String, Object> response = (Map<String, Object>) attributes.get("response") ;
 
 	    return OAuthAttributes.builder()
-	            .name((String) response.get("name"))
+	            .name((String) response.get("nickname"))
 	            .email((String) response.get("email"))
 	            .picture((String) response.get("profile_image"))
 	            .attributes(response)

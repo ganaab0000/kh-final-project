@@ -30,9 +30,7 @@
 	    <hr>
         <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
 		<a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>
-        <button>구글 로그인</button>
-        <button>페이스북 로그인</button>
-        <button>카카오 로그인</button>
+		<a href="/oauth2/authorization/renaver" class="btn btn-secondary active" role="button">Naver Login</a>
 	</div>
    	<a href="#">비밀번호 찾기</a>
 

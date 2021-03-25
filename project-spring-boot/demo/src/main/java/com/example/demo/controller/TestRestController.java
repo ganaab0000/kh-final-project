@@ -24,7 +24,7 @@ public class TestRestController {
 	@GetMapping("/test/api/mail")
 	public String getMail() {
 		log.info("/test/api/mail");
-		emailServiceImpl.sendSimpleMessage("ganaab0000@gmail.com", "suba", "text22");
+		emailServiceImpl.sendSimpleMessage("aaagmail.com", "aaaba", "text22");
 		return "testItem";
 	}
 
