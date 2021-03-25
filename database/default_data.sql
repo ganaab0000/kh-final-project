@@ -7,8 +7,8 @@
 -- RESERVE_STATUS_CATEGORY
 -- ...
 
-
 -- ROLE_CATEGORY
+-- all, member, project, notice, faq, ...
 INSERT INTO "ROLE_CATEGORY"(ID, NAME) 
 VALUES(ROLE_CATEGORY_ID_SEQ.NEXTVAL, 'all');
 
