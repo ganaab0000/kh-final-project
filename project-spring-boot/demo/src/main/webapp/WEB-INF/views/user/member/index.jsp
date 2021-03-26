@@ -10,7 +10,7 @@
 <body>
 	<h2>인덱스</h2>
 	<security:authorize access="isAuthenticated()">
-		<img alt="" src="${member.profileImg}">
+		<img alt="profileImg" src="${member.profileImg}">
 		<p>${member.id}</p>
 		<p>${member.nickname}</p>
 		<p>${member.email}</p>
@@ -30,7 +30,7 @@
 	<security:authorize access="hasRole('ROLE_ADMIN')">
     	<a href="/admin">관리자 페이지</a>
 	</security:authorize>
-	<security:authorize access="hasRole('ROLE_MEMBER') && !hasRole('ROLE_MEMBER_AUTH')">
+	<security:authorize access="hasRole('ROLE_MEMBER') && !hasRole('ROLE_MEMBER_MAIL')">
     	<a href="#">이메일 인증</a>
 	</security:authorize>
 </body>

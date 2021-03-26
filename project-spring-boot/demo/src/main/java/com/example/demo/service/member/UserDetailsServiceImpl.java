@@ -42,10 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
 
-//        if(true) {
-//      throw new Exception("");
-//            throw new UsernameNotFoundException("");
-//        }
+//		if(isInvalidValue) throw new Exception();
 
 		return memberServiceImpl.save(memberDto);
 	}
@@ -53,41 +50,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
 		Optional<MemberDto> userEntityWrapper = memberServiceImpl.findByEmail(userEmail);
-		System.out.println("test1");
 		if(!userEntityWrapper.isPresent()) throw new UsernameNotFoundException("");
-		System.out.println("test2");
-		//unsername not일 경우, 하단 InternalAuthenticationServiceException:
+//		if(isDeleted) throw new UsernameNotFoundException("");
+//		if(isOauth) throw new UsernameNotFoundException("");
+		// oauth 로그인시, 일반 로그인 불가처리.
+		// 에러메시지는 기존 방식대로 세션으로 처리.
 		MemberDto userEntity = userEntityWrapper.get();
-		System.out.println("test3");
-		log.info(userEntity.toString());
-		// oauth ID, 로그인 금지.
-//      throw new UsernameNotFoundException(userEmail);
-//		if (!userEntityWrapper.isPresent()) {
-//			System.out.println("???");
-////			throw new Error("adf");
-//			throw new UsernameNotFoundException("");
-////			throw new UsernameNotFoundException("aetetsdfsdfsf");
-////			throw new UsernameNotFoundException("adfasf", new Throwable("tesstdf", new Throwable("aaa")));
-//		}
-		//? 여기서 설정하면 안되는데??
-//		httpSession.setAttribute("member", new SessionMember(userEntity));
+//		log.info(userEntity.toString());
 
+		//logic 정리
 		List<RoleCategoryDto> roleList = roleCategoryRepository.findRoleByEmail(userEmail);
-		log.info(roleList.toString());
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		if (roleList.size() > 0) {
-			log.info(Role.ADMIN.getValue());
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
 			for (RoleCategoryDto role : roleList) {
 				String suffix = "ROLE_ADMIN_";
 				String auth = suffix + role.getName().toUpperCase();
-				log.info(auth);
 				authorities.add(new SimpleGrantedAuthority(auth));
 			}
-		} else {
-			log.info(Role.MEMBER.getValue());
-			authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
 		}
+		authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
 
 		return new User(userEntity.getEmail(), userEntity.getPwd(), authorities);
 	}
