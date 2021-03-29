@@ -8,7 +8,7 @@
     * https://countryxide.tistory.com/16
 
 
-# 세션 처리
+# 회원 관련 세션 처리
 * JSP
 ```jsp
 <p>${member.id}</p>
