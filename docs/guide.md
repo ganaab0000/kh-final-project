@@ -18,9 +18,9 @@
         * 설정 - Host URL, Source file URLs (http://localhost:9090/*)
 * eclipse extension
     * anyedit-tools
-        * snake case - camel case 단축키 변환(ctrl + alt + k), 대소문자 단축키 변환(ctrl + alt + l, ctrl + alt + u) 등.
-        * https://marketplace.eclipse.org/content/anyedit-tools
+        * snake case - camel case 단축키 변환(Ctrl + Alt + K), 대소문자 단축키 변환(Ctrl + Alt + L, Ctrl + Alt + U) 등.
         * https://annehouse.tistory.com/500
+        * https://marketplace.eclipse.org/content/anyedit-tools
 # 회원 관련 세션 처리 예제
 * JSP
 ```jsp
