@@ -8,7 +8,7 @@
     * https://countryxide.tistory.com/16
 
 
-# 회원 관련 세션 처리
+# 회원 관련 세션 처리 예제
 * JSP
 ```jsp
 <p>${member.id}</p>
@@ -27,18 +27,4 @@ public String getSession(HttpSession session) {
 	log.info(member.getNickname());
 	return "true";
 }
-```
-```java
-@GetMapping("/member/confirm/mail")
-public String dispComfirmMail(@AuthenticationPrincipal User user) {
-	log.info("/member/confirm/mail");
-	if (user != null) {
-		String email = user.getUsername();
-		log.info(email); //email
-		//find member by email
-		//...
-	}
-	return "user/member/index";
-}
-
 ```
