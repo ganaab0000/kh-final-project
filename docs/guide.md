@@ -22,6 +22,7 @@
 </head>
 <body>
 	<h2>인덱스</h2>
+	<!-- 아래 태그는 로그인시에만 출력 한다는 의미(상단에 taglib 설정) -->
 	<security:authorize access="isAuthenticated()">
 		<p>${member.id}</p>
 		<p>${member.nickname}</p>
