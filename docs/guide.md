@@ -17,6 +17,18 @@
 ```
 * Controller
 ```java
+@GetMapping("/test/api/session")
+public String getSession(HttpSession session) {
+	log.info("/test/api/session");
+	SessionMember member = (SessionMember) session.getAttribute("member");
+	if(member == null) return "null";
+	log.info(member.getId());
+	log.info(member.getEmail());
+	log.info(member.getNickname());
+	return "true";
+}
+```
+```java
 @GetMapping("/member/confirm/mail")
 public String dispComfirmMail(@AuthenticationPrincipal User user) {
 	log.info("/member/confirm/mail");
