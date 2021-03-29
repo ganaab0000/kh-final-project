@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>admin</h2>
-
+	<h2>Project Index</h2>
 	<div>
 		<button>
 			<a href="/member/sign-up">회원가입</a>
