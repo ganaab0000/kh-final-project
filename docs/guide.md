@@ -3,11 +3,24 @@
 * ddl.sql
 * default_data.sql
 
-# 개발 툴 설정 참고
+# 개발 툴 설정 필수
 * lombok eclipse 설정 방법
     * https://countryxide.tistory.com/16
-
-
+# 개발 툴 설정 참고 (필요 여부에 따라 각자 판단 후 사용)
+* spring dependency
+    * spring boot dev tools (pom.xml에 이미 포함됨.)
+        * 코드 변경 후 저장시, 스프링 자동 재시작.
+* chrome extension
+    * live reload
+        * 코드 변경 후 저장시, 브라우저 자동 새로고침.
+        * https://github.com/blaise-io/live-reload#readme
+        * https://chrome.google.com/webstore/detail/live-reload/jcejoncdonagmfohjcdgohnmecaipidc
+        * 설정 - Host URL, Source file URLs (http://localhost:9090/*)
+* eclipse extension
+    * anyedit-tools
+        * snake case - camel case 단축키 변환(Ctrl + Alt + K), 대소문자 단축키 변환(Ctrl + Alt + L, Ctrl + Alt + U) 등.
+        * https://annehouse.tistory.com/500
+        * https://marketplace.eclipse.org/content/anyedit-tools
 # 회원 관련 세션 처리 예제
 * JSP
 ```jsp
