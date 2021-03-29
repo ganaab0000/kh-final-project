@@ -11,9 +11,24 @@
 # 회원 관련 세션 처리 예제
 * JSP
 ```jsp
-<p>${member.id}</p>
-<p>${member.nickname}</p>
-<p>${member.email}</p>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>인덱스</h2>
+	<security:authorize access="isAuthenticated()">
+		<p>${member.id}</p>
+		<p>${member.nickname}</p>
+		<p>${member.email}</p>
+	</security:authorize>
+</body>
+</html>
 ```
 * Controller
 ```java
