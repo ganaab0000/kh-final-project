@@ -58,7 +58,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		MemberDto userEntity = userEntityWrapper.get();
 //		log.info(userEntity.toString());
 
-		//logic 정리
 		List<RoleCategoryDto> roleList = roleCategoryRepository.findRoleByEmail(userEmail);
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		if (roleList.size() > 0) {

@@ -30,16 +30,10 @@ public class AuthFailureHandlerImpl implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException exception) throws IOException, ServletException {
-	    response.setContentType("text/html; charset=UTF-8");
-	    response.setCharacterEncoding("UTF-8");
-	    request.setCharacterEncoding("UTF-8");
 
 	    exception.printStackTrace();
 	    response.setStatus(HttpStatus.UNAUTHORIZED.value());
 	    Map<String, Object> data = new HashMap<>();
-	    data.put(
-		        "testtest",
-		        Calendar.getInstance().getTime());
 	    data.put(
 	        "timestamp",
 	        Calendar.getInstance().getTime());

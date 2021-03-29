@@ -34,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserOAuth2ServiceImpl customOAuth2UserService;
     private AuthSuccessHandlerImpl authSuccessHandlerImpl;
     private AuthOauth2FailureHandlerImpl authOauth2FailureHandlerImpl;
-//	private UserDetailsService userDetailsService;
 	@Autowired
 	@Qualifier("dataSource")
 	private DataSource dataSource;
@@ -59,7 +58,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-
 //		http.csrf().disable(); // csrf 비활성화 //only for test
         http.authorizeRequests()
                 // 페이지 권한 설정
@@ -68,14 +66,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()
             .and()
             	.rememberMe()
-//            	.userDetailsService(this.userDetailsService)
 	  		    .key("kh-final-cookie-key-9386") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
 			    .tokenRepository(persistentTokenRepository()) //DataSource 추가
 			    .tokenValiditySeconds(604800) //토큰 유지 시간(초단위) - 일주일
             .and() // 로그인 설정
             	.formLogin()
 //                .failureHandler(new CustomAuthenticationFailureHandler())
-
             	.usernameParameter("email")
             	.passwordParameter("pwd")
                 .loginPage("/member/signin")

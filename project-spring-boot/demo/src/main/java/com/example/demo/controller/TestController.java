@@ -17,6 +17,23 @@ public class TestController {
     @Autowired
     private TestXmlRepository testXmlRepository;
 
+	@GetMapping("/test/chart")
+	public String getChart() throws Exception {
+		log.info("/test");
+		return "test/chartjs";
+	}
+
+	@GetMapping("/test/ck")
+	public String getCk() throws Exception {
+		log.info("/test");
+		return "test/ckeditor";
+	}
+
+	@GetMapping("/test/upload")
+	public String getUpload() throws Exception {
+		log.info("/test");
+		return "test/uploadFile";
+	}
 
 	@GetMapping("/test")
 	public String getIndex() throws Exception {
@@ -30,8 +47,6 @@ public class TestController {
 	@GetMapping("/test/thymeleaf")
 	public String getThymeleaf() throws Exception {
 		log.info("/test");
-		log.info(String.valueOf(testAnnotationRepository.selectCalc()));
-		log.info(String.valueOf(testXmlRepository.selectCalc()));
 		return "thymeleaf/index";
 	}
 }

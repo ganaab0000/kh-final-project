@@ -2,3 +2,6 @@
 
 #key
 /demo/**/application-oauth.properties
+/demo/**/application-user-api-key.properties
+
+

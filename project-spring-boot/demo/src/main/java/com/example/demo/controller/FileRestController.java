@@ -1,9 +1,28 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.domain.dto.UploadFileDTO;
+import com.example.demo.repository.UploadFileRepository;
+import com.example.demo.service.FileStorageService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -11,17 +30,84 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 public class FileRestController {
 
+	@Autowired
+	private FileStorageService fileStorageService;
+
+	@Autowired
+	private UploadFileRepository uploadFileInfoRepository;
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping("/api/file")
-	public String upload() {
+	public Map<String,String> uploadFile(@RequestParam MultipartFile file) {
 		log.info("/api/file");
+		String fileType = file.getContentType();
+		if (!fileType.contains("image")) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "upload only image file : " + fileType);
+		}
+		int id = uploadFileInfoRepository.getNextId();
+		String fileName = fileStorageService.storeFile(file, id + "_" + file.getOriginalFilename());
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api").path("/file/")
+				.path(fileName).toUriString();
+		System.out.println(fileDownloadUri);
+		UploadFileDTO uploadFile = new UploadFileDTO();
+		uploadFile.setId(id);
+		uploadFile.setUploadName(file.getOriginalFilename());
+		uploadFile.setSaveName(fileName);
+		uploadFile.setFileType(fileType);
+		uploadFile.setFileSize(file.getSize());
+		uploadFile.setMemberId(0);// ?
+		uploadFile.setFileType(file.getContentType());
 
-		return "filename";
+		uploadFileInfoRepository.saveWithId(uploadFile);
+		Map<String,String> resultMap = new HashMap<>();
+		resultMap.put("uploaded", "true");
+		resultMap.put("url", "/api/file/"+id);
+		resultMap.put("fileName", uploadFile.getSaveName());
+		return resultMap;
 	}
 
-	@GetMapping("/api/file")
-	public String download() {
-		log.info("/api/file");
-
-		return "filename";
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@PostMapping("/api/ckfile")
+	public Map<String,String> uploadCkFile(@RequestParam MultipartFile upload) {
+		log.info("/api/ckfile");
+		return uploadFile(upload);
 	}
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/api/multiplefiles")
+    public List<Map<String,String>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+        return Arrays.asList(files)
+                .stream()
+                .map(file -> uploadFile(file))
+                .collect(Collectors.toList());
+    }
+
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@GetMapping("/api/file/{id}")
+	public ResponseEntity<Resource> downloadFile(@PathVariable int id, HttpServletRequest request) {
+		log.info("/api/file/{id}");
+		Optional<UploadFileDTO> file = uploadFileInfoRepository.findById(id);
+		if (!file.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
+		}
+		UploadFileDTO filedto = file.get();
+		Resource resource = fileStorageService.loadFileAsResource(filedto.getSaveName());
+
+		String contentType = null;
+		try {
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (IOException ex) {
+			log.info("Could not determine file type.");
+		}
+
+		if (contentType == null) {
+			contentType = "application/octet-stream";
+		}
+
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+	}
+
 }

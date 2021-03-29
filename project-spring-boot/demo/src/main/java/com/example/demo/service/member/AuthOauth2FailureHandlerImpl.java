@@ -44,34 +44,8 @@ public class AuthOauth2FailureHandlerImpl implements AuthenticationFailureHandle
 	        exception.getMessage());
 	    System.out.println(exception.getMessage().toString());
 	    if(exception.getMessage().contains("OAUTH_VALUE_NULL_NAVER")) {
-	    	//https://nid.naver.com/oauth2.0/authorize?response_type=code&state=k85_WZtb0e-mZgXiTVdI3ET7ACAfNq_PCB40jPFDTwk%3D
-	    	//&redirect_uri=http%3A%2F%2Flocalhost%3A9090%2Flogin%2Foauth2%2Fcode%2Fnaver
-	    	//&client_id=xxxxx&oauth_os=
-	    	//&inapp_view=&locale=ko_KR&oauth_token=VuF2mSaIC264sR9c2D
-//			try {
-////		            String clientId = "xxxxx";//애플리케이션 클라이언트 아이디값";
-////		            String redirectURI;
-////			        redirectURI = URLEncoder.encode("http://localhost:9090/login/oauth2/code/naver", "UTF-8");
-////		            SecureRandom random = new SecureRandom();
-////		            String state = new BigInteger(130, random).toString();
-////		            String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
-//////		            String apiURL = "/oauth2/authorization/naver?response_type=code";
-////		            apiURL += "&client_id=" + clientId;
-////		            apiURL += "&redirect_uri=" + redirectURI;
-////		            apiURL += "&state=" + state;
-////		            apiURL += "&auth_type=" + "reprompt";
-////
-//////		            httpSession.setAttribute("state", state);
-////		            System.out.println(apiURL);
-//			    	response.sendRedirect("/member/signin/result/fail/naver");
-//
-//			} catch (UnsupportedEncodingException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-	    	response.sendRedirect("/member/signin/result/fail/naver");
-//	    	response.sendRedirect("/");
 	    	//naver reprompt page
+	    	response.sendRedirect("/member/signin/result/fail/naver");
 	    }else if(exception.getMessage().contains("authorization_request_not_found")) {
 	    	response.sendRedirect("/member/signin/result/fail");
 	    }else {

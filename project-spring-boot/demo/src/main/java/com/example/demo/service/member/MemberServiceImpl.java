@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService{
 	};
 
 	public int save(MemberDto memberDto) {
-		return memberRepository.getNextId();
+		return memberRepository.save(memberDto);
 	};
 
 	public int saveWithId(MemberDto memberDto) {
