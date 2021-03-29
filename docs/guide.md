@@ -11,22 +11,22 @@
 # 세션 처리
 * JSP
 ```jsp
-		<p>${member.id}</p>
-		<p>${member.nickname}</p>
-		<p>${member.email}</p>
+<p>${member.id}</p>
+<p>${member.nickname}</p>
+<p>${member.email}</p>
 ```
 * Controller
 ```java
-	@GetMapping("/member/confirm/mail")
-	public String dispComfirmMail(@AuthenticationPrincipal User user) {
-		log.info("/member/confirm/mail");
-		if (user != null) {
-         String email = user.getUsername();
-	      log.info(email); //email
-         //find member by email
-         //...
-		}
-		return "user/member/index";
+@GetMapping("/member/confirm/mail")
+public String dispComfirmMail(@AuthenticationPrincipal User user) {
+	log.info("/member/confirm/mail");
+	if (user != null) {
+		String email = user.getUsername();
+		log.info(email); //email
+		//find member by email
+		//...
 	}
+	return "user/member/index";
+}
 
 ```
