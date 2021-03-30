@@ -63,14 +63,14 @@
                         // The URL that the images are uploaded to.
                         uploadUrl: '/api/ckfile',
 
-                        // Enable the XMLHttpRequest.withCredentials property.
+                        /* // Enable the XMLHttpRequest.withCredentials property.
                         withCredentials: true,
 
                         // Headers sent along with the XMLHttpRequest to the upload server.
                         headers: {
                             '${_csrf.headerName}': '${_csrf.token}',
                             Authorization: 'Bearer <JSON Web Token>'
-						}
+						} */
                     },
                     toolbar: {
                         items: [

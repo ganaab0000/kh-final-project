@@ -31,7 +31,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl memberServiceimpl;
-    private UserOAuth2ServiceImpl customOAuth2UserService;
+    private UserOAuth2ServiceImpl userOAuth2ServiceImpl;
     private AuthSuccessHandlerImpl authSuccessHandlerImpl;
     private AuthOauth2FailureHandlerImpl authOauth2FailureHandlerImpl;
 	@Autowired
@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
               .failureHandler(authOauth2FailureHandlerImpl)
               .defaultSuccessUrl("/member/signin/result")
               .userInfoEndpoint()
-              .userService(customOAuth2UserService)
+              .userService(userOAuth2ServiceImpl)
               ;
     }
 
