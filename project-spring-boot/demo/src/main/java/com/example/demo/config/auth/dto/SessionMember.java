@@ -5,7 +5,9 @@ import java.io.Serializable;
 import com.example.demo.domain.dto.MemberDto;
 
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public class SessionMember implements Serializable {
 	private static final long serialVersionUID = 1L;
