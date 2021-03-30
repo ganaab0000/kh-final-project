@@ -3,13 +3,16 @@ package com.example.demo.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.config.FileConfig;
+import com.example.demo.config.IamportConfig;
+import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.dto.TestItem;
 import com.example.demo.service.EmailServiceImpl;
 
@@ -23,35 +26,28 @@ public class TestRestController {
 	private TestItem testItem;
 	@Autowired
 	private EmailServiceImpl emailServiceImpl;
-	@Value("${user.value}")
-	private String userProperty;
-	@Value("${user.value.a}")
-	private String userPropertya;
-	@Value("${user.value.b}")
-	private String userPropertyb;
-	@Value("${user.value.a}")
-	private String userPropertyc;
+	@Autowired
+	private FileConfig fileconfig;
+	@Autowired
+	private IamportConfig iamportConfig;
 
-
-	@GetMapping("/test/api/propertyb")
-	public String getPropertyb() throws UnsupportedEncodingException {
-		log.info("/test/api/property");
-		return userPropertyb;
-	}
-	@GetMapping("/test/api/propertyc")
-	public String getPropertyc() throws UnsupportedEncodingException {
-		log.info("/test/api/property");
-		return userPropertyc;
-	}
-	@GetMapping("/test/api/propertya")
-	public String getPropertya() throws UnsupportedEncodingException {
-		log.info("/test/api/property");
-		return userPropertya;
-	}
 	@GetMapping("/test/api/property")
-	public String getProperty() throws UnsupportedEncodingException {
+	public String getProperty() {
 		log.info("/test/api/property");
-		return userProperty;
+		log.info(fileconfig.toString());
+		log.info(iamportConfig.toString());
+		return "true";
+	}
+
+	@GetMapping("/test/api/session")
+	public String getSession(HttpSession session) {
+		log.info("/test/api/session");
+		SessionMember member = (SessionMember) session.getAttribute("member");
+		if(member == null) return "null";
+		log.info(member.getId());
+		log.info(member.getEmail());
+		log.info(member.getNickname().toString());
+		return "true";
 	}
 
 	@GetMapping("/test/api/encoder")
@@ -64,7 +60,7 @@ public class TestRestController {
 	@GetMapping("/test/api/mail")
 	public String getMail() {
 		log.info("/test/api/mail");
-		emailServiceImpl.sendSimpleMessage("aaagmail.com", "aaaba", "text22");
+		emailServiceImpl.sendSimpleMessage("a@gmail.com", "aaaba", "text22");
 		return "testItem";
 	}
 

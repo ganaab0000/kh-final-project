@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 
-import org.apache.ibatis.annotations.Delete;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.config.IamportConfig;
 import com.example.demo.service.IamportService;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.AgainPaymentData;
@@ -26,15 +25,19 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 public class BillingRestController {
 
+	@Autowired
+	private IamportConfig iamportConfig;
+
 	@GetMapping("/api/billing/token")
 	public String getBilling() throws UnsupportedEncodingException {
+		log.info("/api/billing/token");
 		//pg설정(정기결제 및 키인결제) - 나이스페이먼즈(KG이니시스)
-		String test_api_key = "aaaaa";
-		String test_api_secret = "bbbbb";
+		String test_api_key = iamportConfig.getKey();
+		String test_api_secret = iamportConfig.getSecret();
 		IamportService client = new IamportService(test_api_key, test_api_secret);
 		try {
 	        //card_num, date_expired_six_num, birth_six_num, pwd_two_num
-			CardInfo card = new CardInfo("111123", "3333", "363636", "123435");
+			CardInfo card = new CardInfo("111123", "221010", "363636", "123435");
 			String test_customer_uid = "customer_123456";
 			String merchantUid = "order_id_9123"+"10";
 			long amount = 16l; //결제 금액.
