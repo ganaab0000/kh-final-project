@@ -69,6 +69,7 @@ public class MemberController {
 		return "user/member/myinfo";
 	}
 
+	//////////
 	// 회원 정보 수정 페이지
 	@GetMapping("/member/edit/info")
 	public String getEditMemInfo(@AuthenticationPrincipal User user) {
@@ -78,7 +79,6 @@ public class MemberController {
 			log.info(user.getPassword());
 			log.info(user.getAuthorities());
 		}
-		emailServiceImpl.sendSimpleMessage("aaagmail.com", "aaaba", "text22");
 		return "user/member/index";
 	}
 	// 회원 정보 수정 처리
@@ -90,7 +90,6 @@ public class MemberController {
 			log.info(user.getPassword());
 			log.info(user.getAuthorities());
 		}
-		emailServiceImpl.sendSimpleMessage("aaagmail.com", "aaaba", "text22");
 		return "user/member/index";
 	}
 
@@ -114,7 +113,7 @@ public class MemberController {
 		int memberId = member.getId();
 		Date dateExpired = calendar.getTime();
 		Random rn = new Random();
-		String securedKey = ""+ (rn.nextLong());
+		String securedKey = ""+ rn.nextLong(); //임시 구현. 수정필요.
 		confirmEmailDto.setMemberId(memberId);
 		confirmEmailDto.setDateExpired(dateExpired);
 		confirmEmailDto.setSecuredKey(securedKey);
@@ -122,8 +121,6 @@ public class MemberController {
 		confirmEmailServiceImpl.save(confirmEmailDto);
 
 		String emailConfirmUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/member/auth/mail/confirm")
-//				.path("/id/")
-//				.path(""+memberId)
 				.path("/key/")
 				.path(securedKey)
 				.toUriString();
@@ -147,12 +144,12 @@ public class MemberController {
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null) {
 	        model.addAttribute("url", "/member");
-			model.addAttribute("message", "로그인이 필요합니다. 다시 로그인하여 주세요.");
+			model.addAttribute("message", "로그인이 필요합니다. 로그인하여 주세요.");
 			return "user/member/redirectWithMessage";
 		}
 		log.info(member.getId());
 		log.info(key);
-		int memberId = member.getId(); //Integer.parseInt(id);
+		int memberId = member.getId();
 		Optional<ConfirmEmailDto> opConfirmEmailDto = confirmEmailServiceImpl.findByMemberIdWhenNotExpired(memberId);
 		int isSuccess = 0;
 		if(opConfirmEmailDto.isPresent()) {
@@ -167,23 +164,19 @@ public class MemberController {
 			HashSet<GrantedAuthority> authorities = new HashSet<GrantedAuthority>(auth.getAuthorities());
 			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_MAIL.getValue()));
 			User oriUser = (User) auth.getPrincipal();
+			//customUser 작성. set Password Null.
 			User newUser = new User(oriUser.getUsername(), "", oriUser.isEnabled(), oriUser.isAccountNonExpired(),
 					oriUser.isCredentialsNonExpired(), oriUser.isAccountNonLocked(), authorities);
 			UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(newUser, auth.getCredentials(), authorities);
 	        SecurityContext context = SecurityContextHolder.getContext();
 	        context.setAuthentication(newAuth);
 	        SecurityContextHolder.setContext(context);
-
-//	        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//	        System.out.println(principal.toString());
-
 	        session.setAttribute(
 					  HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
 					  SecurityContextHolder.getContext()
 			);
         	model.addAttribute("message", "성공적으로 인증되었습니다. ");
         }else {
-            model.addAttribute("url", "/member");
         	model.addAttribute("message", "인증이 실패하였습니다. 다시 시도해주세요.");
         }
 		return "user/member/redirectWithMessage";
@@ -233,6 +226,10 @@ public class MemberController {
 	public String postWithdraw() {
 		return "user/member/index";
 	}
+
+	//////////
+
+
 
 	// 회원가입 페이지
 	@GetMapping("/member/signup")
