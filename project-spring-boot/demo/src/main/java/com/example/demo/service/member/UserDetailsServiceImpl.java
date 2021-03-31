@@ -69,6 +69,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			}
 		}
 		authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
+		if(userEntity.getIsEmailVerified().equals("Y")) {
+			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_MAIL.getValue()));
+		}
 
 		return new User(userEntity.getEmail(), userEntity.getPwd(), authorities);
 	}

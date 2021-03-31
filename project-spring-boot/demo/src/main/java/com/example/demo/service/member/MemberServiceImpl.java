@@ -3,6 +3,7 @@ package com.example.demo.service.member;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,17 @@ public class MemberServiceImpl implements MemberService{
 
 	public Optional<MemberDto> findByEmail(String email) {
 		return memberRepository.findByEmail(email);
+	}
+
+	@Override
+	public int updateAuthEmailById(int id) {
+		return memberRepository.updateAuthEmailById(id);
+	}
+
+	@Override
+	public int updateById(MemberDto memberDto) {
+		return memberRepository.updateById(memberDto);
 	};
+
+
 }
