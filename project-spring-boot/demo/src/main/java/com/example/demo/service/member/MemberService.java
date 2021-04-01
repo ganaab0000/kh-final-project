@@ -12,6 +12,8 @@ public interface MemberService {
 
 	public int save(MemberDto memberDto);
 
+	public int updatePwdById(MemberDto memberDto);
+
 	public int saveWithId(MemberDto memberDto);
 
 	public Optional<MemberDto> findByEmail(String email);
