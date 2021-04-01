@@ -34,6 +34,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private RoleCategoryServiceImpl roleCategoryServiceImpl;
 
 	@Transactional
+	public int updatePwdById(MemberDto memberDto) {
+		// 비밀번호 암호화
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
+		return memberServiceImpl.updatePwdById(memberDto);
+	}
+
+	@Transactional
 	public int joinUser(MemberDto memberDto) {
 		// 비밀번호 암호화
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
