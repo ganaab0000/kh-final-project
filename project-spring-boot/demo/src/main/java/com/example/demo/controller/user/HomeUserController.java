@@ -9,7 +9,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Controller
-public class HomePersonController {
+public class HomeUserController {
 
 	@GetMapping("/")
 	public String getMain() {

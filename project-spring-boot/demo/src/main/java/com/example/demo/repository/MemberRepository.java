@@ -22,6 +22,9 @@ public interface MemberRepository {
 	@Insert("insert into member (id, email, nickname, pwd) values(member_id_seq.nextVal, #{email}, #{nickname}, #{pwd})")
 	public int save(MemberDto memberDto);
 
+	@Update("update member set pwd=#{pwd} where id = #{id}")
+	public int updatePwdById(MemberDto memberDto);
+
 	@Insert("insert into member (id, email, nickname, pwd) values(#{id}, #{email}, #{nickname}, #{pwd})")
 	public int saveWithId(MemberDto memberDto);
 

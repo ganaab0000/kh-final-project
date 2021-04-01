@@ -44,6 +44,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int updateById(MemberDto memberDto) {
 		return memberRepository.updateById(memberDto);
+	}
+
+	@Override
+	public int updatePwdById(MemberDto memberDto) {
+		return memberRepository.updatePwdById(memberDto);
 	};
 
 
