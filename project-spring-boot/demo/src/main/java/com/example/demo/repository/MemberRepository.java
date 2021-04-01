@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.domain.dto.MemberDto;
 
@@ -26,5 +27,14 @@ public interface MemberRepository {
 
 	@Select("select * from member where email = #{email}")
 	public Optional<MemberDto> findByEmail(String email);
+
+	@Update("update member set is_email_verified='Y' where id = #{id}")
+	public int updateAuthEmailById(int id);
+
+	@Update("update member set nickname=#{nickname}, address=#{address}, phone=#{phone}, profile_img=#{profileImg}, "
+			+ "profile_detail=#{profileDetail}, date_updated=SYSDATE where id = #{id}")
+	public int updateById(MemberDto memberDto);
+
+
 
 }
