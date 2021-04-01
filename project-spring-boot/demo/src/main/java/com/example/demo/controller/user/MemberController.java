@@ -107,11 +107,13 @@ public class MemberController {
 	// 회원 탈퇴 페이지
 	@GetMapping("/member/withdraw")
 	public String getWithdraw() {
+		log.info("/member/signup");
 		return "user/member/index";
 	}
 	// 회원 탈퇴 처리
 	@PostMapping("/member/withdraw")
 	public String postWithdraw() {
+		log.info("/member/signup");
 		return "user/member/index";
 	}
 
@@ -125,8 +127,6 @@ public class MemberController {
 			model.addAttribute("message", "로그인이 필요합니다. 로그인하여 주세요.");
 			return "user/member/redirectWithMessage";
 		}
-		log.info(member.getEmail());
-		log.info(member.getNickname());
 		int EXPIRED_MINUTES = 30; //만료시간(분) //설정파일로 설정하기.
 	    Calendar calendar = Calendar.getInstance();
 	    calendar.setTime(new Date());
@@ -295,45 +295,50 @@ public class MemberController {
 	// 회원가입 페이지
 	@GetMapping("/member/signup")
 	public String dispSignup() {
+		log.info("/member/signup");
 		return "user/member/signup";
 	}
 	// 회원가입 처리
 	@PostMapping("/member/signup")
 	public String execSignup(MemberDto memberDto) {
 		log.info("/member/signup");
-		log.info(memberDto.toString());
 		userServiceimpl.joinUser(memberDto);
-
 		return "redirect:/member/signin";
 	}
 	// 로그인 페이지
 	@GetMapping("/member/signin")
 	public String dispsignin() {
+		log.info("/member/signup");
 		return "user/member/signin";
 	}
 	// 로그인 결과 페이지
 	@GetMapping("/member/signin/result")
 	public String dispsigninResult() {
+		log.info("/member/signup");
 		return "user/member/signinSuccess";
 	}
 	// 로그인 결과 페이지
 	@GetMapping("/member/signin/result/fail")
 	public String dispsigninResultFail() {
+		log.info("/member/signup");
 		return "user/member/signinFail";
 	}
 	// 로그인 결과 페이지
 	@GetMapping("/member/signin/result/fail/naver")
 	public String dispsigninResultFailNaver(HttpSession session) {
+		log.info("/member/signup");
 		return "user/member/signinFailInNaver";
 	}
 	// 로그아웃 결과 페이지
 	@GetMapping("/member/signout/result")
 	public String dispsignout() {
+		log.info("/member/signup");
 		return "user/member/signoutSuccess";
 	}
 	// 리다이렉트 페이지
 	@GetMapping("/member/redirect")
 	public String dispRedirectParm(String url,String message, Model model) {
+		log.info("/member/signup");
 		model.addAttribute("url", url);
 		model.addAttribute("message", message);
 		return "user/member/redirectWithMessage";
@@ -341,6 +346,7 @@ public class MemberController {
 	// 접근 거부 페이지
 	@GetMapping("/member/denied")
 	public String dispDenied() {
+		log.info("/member/signup");
 		return "user/member/denied";
 	}
 
