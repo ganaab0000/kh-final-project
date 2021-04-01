@@ -1,12 +1,8 @@
 package com.example.demo.controller.user;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -21,7 +17,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,12 +43,12 @@ public class MemberController {
 	private UserDetailsServiceImpl userServiceimpl;
 	@Autowired
 	private EmailServiceImpl emailServiceImpl;
-	@Autowired
-	private ConfirmEmailDto confirmEmailDto;
     @Autowired
     private ConfirmEmailServiceImpl confirmEmailServiceImpl;
     @Autowired
     private MemberServiceImpl memberServiceImpl;
+    @Autowired
+    private ConfirmEmailDto confirmEmailDto;
 
 	// 메인 페이지
 	@GetMapping("/member")

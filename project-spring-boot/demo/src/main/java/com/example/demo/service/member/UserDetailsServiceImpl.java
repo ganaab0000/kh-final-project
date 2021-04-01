@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,11 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.Role;
 import com.example.demo.domain.dto.MemberDto;
 import com.example.demo.domain.dto.RoleCategoryDto;
-import com.example.demo.repository.RoleCategoryRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private MemberServiceImpl memberServiceImpl;
 	@Autowired
-	private RoleCategoryRepository roleCategoryRepository;
+	private RoleCategoryServiceImpl roleCategoryServiceImpl;
 
 	@Transactional
 	public int joinUser(MemberDto memberDto) {
@@ -58,7 +55,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		MemberDto userEntity = userEntityWrapper.get();
 //		log.info(userEntity.toString());
 
-		List<RoleCategoryDto> roleList = roleCategoryRepository.findRoleByEmail(userEmail);
+		List<RoleCategoryDto> roleList = roleCategoryServiceImpl.findRoleByEmail(userEmail);
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		if (roleList.size() > 0) {
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
