@@ -33,5 +33,10 @@ public class MemberServiceImpl implements MemberService{
 
 	public Optional<MemberDto> findByEmail(String email) {
 		return memberRepository.findByEmail(email);
+	}
+
+	@Override
+	public MemberDto findById(Integer memberId) {
+		return memberRepository.findById(memberId);
 	};
 }

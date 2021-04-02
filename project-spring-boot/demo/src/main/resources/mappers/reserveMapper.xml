@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.ReserveRepository">
+	<select id="getCollected" resultType="int" parameterType="int">
+		select sum(L.reward_sum) from (
+		    select * from reserve where project_id = #{projectId} and (reserve.reserve_status_category_id = 1 or reserve.reserve_status_category_id = 2)
+		) R inner join reserve_reward L on R.id = l.reserve_id
+		group by R.project_id
+	</select>
+</mapper>

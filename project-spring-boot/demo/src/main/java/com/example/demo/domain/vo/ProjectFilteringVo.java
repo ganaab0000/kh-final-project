@@ -8,11 +8,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProjectFilteringVo {
-	private int category;
-	private int ongoing;
-	private int minArchiveRate;
-	private int maxArchiveRate;
-	private int minMoney;
-	private int maxMoney;
-	private int sort;
+	private Integer category;
+	private Integer status;
+	private Integer minArchiveRate;
+	private Integer maxArchiveRate;
+	private Integer minMoney;
+	private Integer maxMoney;
+	private Integer sort;
+	private Integer page;
 }

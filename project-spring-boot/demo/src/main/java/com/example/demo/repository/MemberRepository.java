@@ -27,4 +27,7 @@ public interface MemberRepository {
 	@Select("select * from member where email = #{email}")
 	public Optional<MemberDto> findByEmail(String email);
 
+	@Select("select * from member where id = #{memberId}")
+	public MemberDto findById(int memberId);
+
 }

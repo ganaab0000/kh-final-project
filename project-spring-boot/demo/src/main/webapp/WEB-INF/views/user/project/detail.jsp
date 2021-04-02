@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,12 +24,32 @@
         </tr>
         <tr>
             <td>Writer</td>
-            <td>${project.writerName}</td>
+            <td>${member.email}</td>
         </tr>
     </table>
+        <div>
+        	모인 금액 : ${project.collected == null ? 0 : project.collected}원
+        </div>
+        <div>
+        	달성률 : ${project.rate == null ? 0 : project.rate}%
+        </div>
+        <div>
+        	<c:if test="${project.remainDay > 0}">
+	        	남은 시간 : ${project.remainDay}일
+        	</c:if>
+        	<c:if test="${project.remainDay == 0}">
+	        	남은 시간 : ${project.remainHour}시간
+        	</c:if>
+        </div>
+        <div>
+        	후원자 수 : ${project.sponsor}명
+        </div>
 	<div>
 		<button>
 			<a href="/member/sign-up">회원가입</a>
+		</button>
+		<button>
+			<a href="list">리스트</a>
 		</button>
 	</div>
 </body>
