@@ -7,7 +7,10 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @MapperScan(basePackages = "com.example.demo.repository")
-@PropertySource("classpath:application-user-api-key.properties")
+@PropertySource({
+	"classpath:application-user-api-key.properties",
+	"classpath:application-user.properties"
+})
 public class DemoApplication {
 
 	public static void main(String[] args) {

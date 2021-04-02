@@ -31,7 +31,7 @@
     	<a href="/admin">관리자 페이지</a>
 	</security:authorize>
 	<security:authorize access="hasRole('ROLE_MEMBER') && !hasRole('ROLE_MEMBER_MAIL')">
-    	<a href="/member/auth/mail/submit">이메일 인증</a>
+    	<a href="#">이메일 인증</a>
 	</security:authorize>
 </body>
 </html>

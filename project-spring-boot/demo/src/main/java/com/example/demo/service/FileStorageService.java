@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.config.FileConfig;
 import com.example.demo.service.exception.FileStorageException;
 import com.example.demo.service.exception.MyFileNotFoundException;
 
@@ -23,8 +24,8 @@ public class FileStorageService {
     private Path fileStorageLocation;
 
     @Autowired
-    public FileStorageService() {
-        this.fileStorageLocation = Paths.get("C:/workspace/imageuploadtest")
+    public FileStorageService(FileConfig fileConfig) {
+        this.fileStorageLocation = Paths.get(fileConfig.getUploadDir())
             .toAbsolutePath().normalize();
         try{
             Files.createDirectories(this.fileStorageLocation);
