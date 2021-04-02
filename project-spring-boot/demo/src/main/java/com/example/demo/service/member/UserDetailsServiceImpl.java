@@ -68,8 +68,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (roleList.size() > 0) {
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
 			for (RoleCategoryDto role : roleList) {
-				String suffix = "ROLE_ADMIN_";
-				String auth = suffix + role.getName().toUpperCase();
+				String prefix = "ROLE_ADMIN_";
+				String auth = prefix + role.getName().toUpperCase();
 				authorities.add(new SimpleGrantedAuthority(auth));
 			}
 		}
