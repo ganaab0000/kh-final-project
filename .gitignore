@@ -1,0 +1,4 @@
+#key
+/project-spring-boot/demo/src/main/resources/application-oauth.properties
+/project-spring-boot/demo/src/main/resources/application-user-api-key.properties
+
