@@ -37,6 +37,10 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+	public MemberDto findById(Integer memberId) {
+		return memberRepository.findById(memberId);
+	}
+	
 	public int updateAuthEmailById(int id) {
 		return memberRepository.updateAuthEmailById(id);
 	}

@@ -31,6 +31,9 @@ public interface MemberRepository {
 	@Select("select * from member where email = #{email}")
 	public Optional<MemberDto> findByEmail(String email);
 
+	@Select("select * from member where id = #{memberId}")
+	public MemberDto findById(int memberId);
+	
 	@Update("update member set is_email_verified='Y' where id = #{id}")
 	public int updateAuthEmailById(int id);
 
