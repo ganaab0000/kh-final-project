@@ -61,6 +61,7 @@ public class FileRestController {
 		uploadFileInfoRepository.saveWithId(uploadFile);
 		Map<String,String> resultMap = new HashMap<>();
 		resultMap.put("uploaded", "true");
+		resultMap.put("id", ""+id);//ck test
 		resultMap.put("url", "/api/file/"+id);
 		resultMap.put("fileName", uploadFile.getSaveName());
 		return resultMap;
