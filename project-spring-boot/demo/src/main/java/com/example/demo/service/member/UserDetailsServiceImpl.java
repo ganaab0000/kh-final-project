@@ -42,14 +42,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	@Transactional
-	public int joinUser(MemberDto memberDto) {
+	public MemberDto joinUser(MemberDto memberDto) {
 		// 비밀번호 암호화
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
+		int id = memberServiceImpl.getNextId();
+		memberDto.setId(id);
+		memberServiceImpl.saveWithId(memberDto);
 
-//		if(isInvalidValue) throw new Exception();
-
-		return memberServiceImpl.save(memberDto);
+		return memberDto;
 	}
 
 	@Override

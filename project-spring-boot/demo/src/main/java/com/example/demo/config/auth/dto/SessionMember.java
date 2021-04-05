@@ -23,4 +23,12 @@ public class SessionMember implements Serializable {
 		this.profileImg = member.getProfileImg();
 	}
 
+	public MemberDto toMemberDto() {
+		MemberDto member = new MemberDto();
+		member.setId(id);
+		member.setNickname(nickname);
+		member.setEmail(email);
+		return member;
+	}
+
 }

@@ -5,6 +5,8 @@ import java.util.Optional;
 import com.example.demo.domain.dto.ConfirmEmailDto;
 
 public interface ConfirmEmailService {
+	public ConfirmEmailDto saveNewKeyByMemberId(int memberId);
+
 	public int deleteWhenExpired();
 
 	public int deleteByMemberIdWhenExpired(int memberId);
