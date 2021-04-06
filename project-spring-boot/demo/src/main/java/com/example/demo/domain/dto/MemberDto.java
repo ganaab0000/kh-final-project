@@ -35,6 +35,6 @@ public class MemberDto {
 	private String address;
 	private String phone;
 	private String profileImg;
-	private String profileTxt;
+	private String profileDetail;
 
 }

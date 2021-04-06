@@ -16,7 +16,6 @@ import com.example.demo.repository.ConfirmEmailRepository;
 public class ConfirmEmailServiceImpl implements ConfirmEmailService {
 	@Autowired
 	ConfirmEmailRepository confirmEmailRepository;
-
 	@Override
 	public ConfirmEmailDto saveNewKeyByMemberId(int memberId) {
 
@@ -29,6 +28,10 @@ public class ConfirmEmailServiceImpl implements ConfirmEmailService {
 		Random rn = new Random();
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String securedKey = passwordEncoder.encode("salt_239481_" + rn.nextLong());
+		//remove special character
+        String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
+        securedKey =securedKey.replaceAll(match, "");
+
 		ConfirmEmailDto confirmEmailDto = new ConfirmEmailDto();
 		confirmEmailDto.setMemberId(memberId);
 		confirmEmailDto.setDateExpired(dateExpired);

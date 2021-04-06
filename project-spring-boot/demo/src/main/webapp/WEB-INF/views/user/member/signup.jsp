@@ -16,10 +16,12 @@
 
         	<div>
 		        <input type="text" name="email" placeholder="이메일 입력해주세요" value="${memberDto.email}">
+	            <span>비동기 자동 중복 확인</span>
 	            <span>${valid_email}</span>
         	</div>
         	<div>
 		        <input type="text" name="nickname" placeholder="닉네임 입력해주세요" value="${memberDto.nickname}">
+	            <span>비동기 자동 중복 확인</span>
 	            <span>${valid_nickname}</span>
         	</div>
         	<div>

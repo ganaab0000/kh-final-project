@@ -23,7 +23,6 @@ import com.example.demo.domain.dto.RoleCategoryDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -34,8 +33,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private RoleCategoryServiceImpl roleCategoryServiceImpl;
 
 	@Transactional
+	public boolean isCorrectedPwd(MemberDto memberDto) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
+		return memberServiceImpl.findByEmailAndPwd(memberDto).isPresent();
+	}
+
+	@Transactional
 	public int updatePwdById(MemberDto memberDto) {
-		// 비밀번호 암호화
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
 		return memberServiceImpl.updatePwdById(memberDto);
@@ -43,13 +48,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Transactional
 	public MemberDto joinUser(MemberDto memberDto) {
-		// 비밀번호 암호화
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
 		int id = memberServiceImpl.getNextId();
 		memberDto.setId(id);
 		memberServiceImpl.saveWithId(memberDto);
-
 		return memberDto;
 	}
 

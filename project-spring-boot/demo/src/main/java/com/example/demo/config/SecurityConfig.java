@@ -58,11 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-	http.csrf().disable(); // csrf 비활성화 //only for test //
-        http.authorizeRequests()
-                // 페이지 권한 설정
+    	http.csrf().disable(); // csrf 비활성화 //only for test //
+        http.authorizeRequests() // 페이지 권한 설정
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/member/myinfo").hasRole("MEMBER")
                 .antMatchers("/**").permitAll()
             .and()
             	.rememberMe()
@@ -71,31 +69,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			    .tokenValiditySeconds(604800) //토큰 유지 시간(초단위) - 일주일
             .and() // 로그인 설정
             	.formLogin()
-//                .failureHandler(new CustomAuthenticationFailureHandler())
             	.usernameParameter("email")
             	.passwordParameter("pwd")
                 .loginPage("/member/signin")
                 .successHandler(authSuccessHandlerImpl)
-//                .defaultSuccessUrl("/member/signin/result")
                 .permitAll()
             .and() // 로그아웃 설정
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/signout"))
-                .logoutSuccessUrl("/member/signout/result")
+                .logoutSuccessUrl("/member")
                 .invalidateHttpSession(true)
                 .deleteCookies("remember-me", "JSESSIONID")//자동 로그인 쿠키, Tomcat이 발급한 세션 유지 쿠키 삭제
-            .and()
-                // 403 예외처리 핸들링
+            .and() // 403 예외처리 핸들링
                .exceptionHandling().accessDeniedPage("/member/denied")
             .and()
               .oauth2Login()
-//              .failureUrl("authenticationFailureUrl")
-//              .loginPage("/member/signin")
               .failureHandler(authOauth2FailureHandlerImpl)
               .defaultSuccessUrl("/member/signin/result")
               .userInfoEndpoint()
               .userService(userOAuth2ServiceImpl)
-              ;
+        ;
     }
 
     @Override

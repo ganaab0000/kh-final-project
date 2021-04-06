@@ -2,7 +2,6 @@ package com.example.demo.domain.vo;
 
 import java.util.Date;
 
-import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +9,7 @@ import lombok.ToString;
 
 @Getter @Setter
 @ToString
-@Component
-public class MemberVo {
+public class MemberDetailVo {
 	private int id;
 	private String email;
 	private String nickname;
@@ -25,4 +23,7 @@ public class MemberVo {
 	private String phone;
 	private String profileImg;
 	private String profileTxt;
+
+	private String provider;
+	private String providerProfileImg;
 }
