@@ -18,7 +18,11 @@ public interface MemberService {
 
 	public Optional<MemberDto> findByEmail(String email);
 
+	public Optional<MemberDto> findByEmailAndPwd(MemberDto memberDto);
+
 	public int updateAuthEmailById(int id);
+
+	public int updateIsDeleted(int id);
 
 	public int updateById(MemberDto memberDto);
 }
