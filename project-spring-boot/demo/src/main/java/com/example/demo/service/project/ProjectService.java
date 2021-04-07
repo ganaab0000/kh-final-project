@@ -14,4 +14,5 @@ public interface ProjectService {
 	public int getTotalCount(ProjectFilteringVo filter);
 	public List<ProjectCategoryDto> getCategory();
 	public List<ProjectStatusCategoryDto> getStatus();
+	public String getStory(int id);
 }

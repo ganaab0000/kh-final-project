@@ -26,4 +26,7 @@ public interface ProjectRepository {
 	public int getTotalCount(ProjectFilteringVo filter);
 	
 	public List<ProjectVo> findByFilter(ProjectFilteringVo filter);
+
+	@Select("select story from project where id = #{id}")
+	public String getStory(int id);
 }

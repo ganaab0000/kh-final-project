@@ -84,4 +84,9 @@ public class ProjectServiceImpl implements ProjectService{
 	public List<ProjectStatusCategoryDto> getStatus() {
 		return projectStatusCategoryRepository.findAll();
 	}
+	
+	@Override
+	public String getStory(int id) {
+		return projectRepository.getStory(id);
+	}
 }
