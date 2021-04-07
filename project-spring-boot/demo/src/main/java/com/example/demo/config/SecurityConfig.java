@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.demo.service.member.AuthFailureHandlerImpl;
 import com.example.demo.service.member.AuthOauth2FailureHandlerImpl;
+import com.example.demo.service.member.AuthOauth2SuccessHandlerImpl;
 import com.example.demo.service.member.AuthSuccessHandlerImpl;
 import com.example.demo.service.member.UserDetailsServiceImpl;
 import com.example.demo.service.member.UserOAuth2ServiceImpl;
@@ -32,8 +32,11 @@ import lombok.AllArgsConstructor;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl memberServiceimpl;
     private UserOAuth2ServiceImpl userOAuth2ServiceImpl;
+    private AuthOauth2SuccessHandlerImpl authOauth2SuccessHandlerImpl;
     private AuthSuccessHandlerImpl authSuccessHandlerImpl;
     private AuthOauth2FailureHandlerImpl authOauth2FailureHandlerImpl;
+    //private AuthFailureHandlerImpl authFailureHandlerImpl;
+
 	@Autowired
 	@Qualifier("dataSource")
 	private DataSource dataSource;
@@ -59,9 +62,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
     	http.csrf().disable(); // csrf 비활성화 //only for test //
-        http.authorizeRequests() // 페이지 권한 설정
+
+		http.authorizeRequests() // 페이지 권한 설정
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
+                .anyRequest().authenticated() //?
+            .and() // 403 예외처리 핸들링
+                .exceptionHandling()
+                .accessDeniedPage("/member/denied")
             .and()
             	.rememberMe()
 	  		    .key("kh-final-cookie-key-9386") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
@@ -73,19 +81,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             	.passwordParameter("pwd")
                 .loginPage("/member/signin")
                 .successHandler(authSuccessHandlerImpl)
+//                .failureHandler(authFailureHandlerImpl)
                 .permitAll()
             .and() // 로그아웃 설정
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/signout"))
-                .logoutSuccessUrl("/member")
+                .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .deleteCookies("remember-me", "JSESSIONID")//자동 로그인 쿠키, Tomcat이 발급한 세션 유지 쿠키 삭제
-            .and() // 403 예외처리 핸들링
-               .exceptionHandling().accessDeniedPage("/member/denied")
             .and()
               .oauth2Login()
+              .successHandler(authOauth2SuccessHandlerImpl)
               .failureHandler(authOauth2FailureHandlerImpl)
-              .defaultSuccessUrl("/member/signin/result")
+//              .defaultSuccessUrl("/member")
               .userInfoEndpoint()
               .userService(userOAuth2ServiceImpl)
         ;

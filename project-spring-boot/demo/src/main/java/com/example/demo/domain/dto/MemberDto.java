@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 
@@ -29,12 +28,14 @@ public class MemberDto {
 	private String pwd;
 	private String isEmailVerified;
 	private String isDeleted;
+	private String isBlocked;
 	private Date dateLoggedin;
 	private Date dateCreated;
 	private Date dateUpdated;
+	private Date dateDeleted;
+	private Date dateBlocked;
 	private String address;
 	private String phone;
-	private String profileImg;
+	private int profileImg;
 	private String profileDetail;
-
 }

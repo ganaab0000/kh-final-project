@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.dto.MemberDto;
+import com.example.demo.domain.vo.MemberDetailVo;
 import com.example.demo.repository.MemberRepository;
 
 @Service
@@ -39,6 +40,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Optional<MemberDto> findByEmail(String email) {
 		return memberRepository.findByEmail(email);
+	}
+
+	@Override
+	public Optional<MemberDetailVo> findMemberDetailByEmail(String email) {
+		return memberRepository.findMemberDetailByEmail(email);
 	}
 
 	@Override

@@ -17,13 +17,14 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.example.demo.config.auth.dto.SessionMember;
-import com.example.demo.domain.dto.MemberDto;
+import com.example.demo.domain.vo.MemberDetailVo;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 @Slf4j
 @Component
-public class AuthSuccessHandlerImpl implements AuthenticationSuccessHandler {
+public class AuthOauth2SuccessHandlerImpl implements AuthenticationSuccessHandler {
 	@Autowired
 	private HttpSession httpSession;
 	@Autowired
@@ -32,11 +33,12 @@ public class AuthSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 		log.info(String.format("%s : %s", request.getMethod(), request.getRequestURI()));
-		Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(authentication.getName());
-		MemberDto memberDto = opMemberDto.get();
-		httpSession.setAttribute("member", new SessionMember(memberDto));
+		String email = (String) ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes().get("email");
+		Optional<MemberDetailVo> opMemberVo = memberServiceImpl.findMemberDetailByEmail(email);
+		MemberDetailVo memberVo = opMemberVo.get();
+		httpSession.setAttribute("member", new SessionMember(memberVo));
 
-        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (roles.contains("ROLE_MEMBER_BLOCK")) {
 			request.setAttribute("trueUrl", "/");
 			request.setAttribute("falseUrl", "/");

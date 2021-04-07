@@ -1,9 +1,10 @@
 package com.example.demo.service.member;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,9 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.domain.Role;
 import com.example.demo.domain.dto.MemberDto;
 import com.example.demo.domain.dto.RoleCategoryDto;
+import com.example.demo.domain.vo.MemberDetailVo;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private MemberServiceImpl memberServiceImpl;
 	@Autowired
 	private RoleCategoryServiceImpl roleCategoryServiceImpl;
+	@Autowired
+	private HttpSession httpsession;
 
 	@Transactional
 	public boolean isCorrectedPwd(MemberDto memberDto) {
@@ -56,19 +59,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return memberDto;
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-		Optional<MemberDto> userEntityWrapper = memberServiceImpl.findByEmail(userEmail);
-		if(!userEntityWrapper.isPresent()) throw new UsernameNotFoundException("");
-//		if(isDeleted) throw new UsernameNotFoundException("");
-//		if(isOauth) throw new UsernameNotFoundException("");
-		// oauth 로그인시, 일반 로그인 불가처리.
-		// 에러메시지는 기존 방식대로 세션으로 처리.
-		MemberDto userEntity = userEntityWrapper.get();
-//		log.info(userEntity.toString());
-
-		List<RoleCategoryDto> roleList = roleCategoryServiceImpl.findRoleByEmail(userEmail);
-		List<GrantedAuthority> authorities = new ArrayList<>();
+	@Transactional
+	public HashSet<GrantedAuthority> getAuthorityList(MemberDetailVo memberVo) {
+		List<RoleCategoryDto> roleList = roleCategoryServiceImpl.findRoleByEmail(memberVo.getEmail());
+		HashSet<GrantedAuthority> authorities = new HashSet<>();
 		if (roleList.size() > 0) {
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
 			for (RoleCategoryDto role : roleList) {
@@ -78,10 +72,28 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			}
 		}
 		authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
-		if(userEntity.getIsEmailVerified().equals("Y")) {
+		if(memberVo.getIsEmailVerified().equals("Y"))
 			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_MAIL.getValue()));
-		}
+		if(memberVo.getIsDeleted().equals("Y"))
+			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_DEL.getValue()));
+		if(memberVo.getIsBlocked().equals("Y"))
+			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_BLOCK.getValue()));
+		if(memberVo.getProvider() != null)
+			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_OAUTH.getValue()));
+		return authorities;
+	}
 
-		return new User(userEntity.getEmail(), userEntity.getPwd(), authorities);
+	@Override
+	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+		Optional<MemberDetailVo> opMemberVo = memberServiceImpl.findMemberDetailByEmail(userEmail);
+		if(!opMemberVo.isPresent()) throw new UsernameNotFoundException(userEmail);
+
+		MemberDetailVo memberVo = opMemberVo.get();
+		HashSet<GrantedAuthority> authorities = getAuthorityList(memberVo);
+		if(authorities.contains(new SimpleGrantedAuthority(Role.MEMBER_OAUTH.getValue()))) {
+			httpsession.setAttribute("MEMBER_OAUTH_EXCEPTION", "SNS로 가입된 아이디입니다. SNS를 통해 로그인해 주세요.");
+			throw new UsernameNotFoundException(userEmail);
+		}
+		return new User(memberVo.getEmail(), memberVo.getPwd(), authorities);
 	}
 }
