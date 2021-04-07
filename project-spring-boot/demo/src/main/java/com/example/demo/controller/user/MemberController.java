@@ -25,6 +25,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.demo.config.auth.dto.SessionMember;
@@ -36,6 +37,7 @@ import com.example.demo.service.EmailServiceImpl;
 import com.example.demo.service.member.ConfirmEmailServiceImpl;
 import com.example.demo.service.member.MemberServiceImpl;
 import com.example.demo.service.member.UserDetailsServiceImpl;
+import com.example.demo.util.LogUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,34 +47,45 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class MemberController {
     private final static String REDIRECT_PATH = "user/member/redirectWithMessage";
+    private final static String REDIRECT_CONFIRM_PATH = "user/member/redirectWithConfirm";
     private MemberServiceImpl memberServiceImpl;
 	private UserDetailsServiceImpl userServiceimpl;
 	private EmailServiceImpl emailServiceImpl;
     private ConfirmEmailServiceImpl confirmEmailServiceImpl;
-
+    private LogUtil logUtil;
 	// 메인 페이지
 	@GetMapping("/member")
 	public String index(HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		return "user/member/index";
 	}
-	// 내 정보 페이지
-	@GetMapping("/member/info")
-	public String getMemInfo(HttpSession session, Model model, HttpServletRequest request) {
-		defaultLog(request);
+
+	// 로그인 페이지
+	@GetMapping("/member/signin")
+	public String getSignin(HttpSession session, HttpServletRequest request) {
+		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
-		if (member == null)
-			throw new InternalErrorCodeException("101");
-		Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(member.getEmail());
-		if (!opMemberDto.isPresent())
-			throw new InternalErrorCodeException("102");
-		model.addAttribute("memberDto", opMemberDto.get());
-		return "user/member/myinfo";
+		if (member != null)
+			return "user/member/index";
+		return "user/member/signin";
 	}
-	// 회원 정보 수정 페이지
+//	// 내 정보 페이지
+//	@GetMapping("/member/info")
+//	public String getMemInfo(HttpSession session, Model model, HttpServletRequest request) {
+//		logUtil.defaultLog(request);
+//		SessionMember member = (SessionMember) session.getAttribute("member");
+//		if (member == null)
+//			throw new InternalErrorCodeException("101");
+//		Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(member.getEmail());
+//		if (!opMemberDto.isPresent())
+//			throw new InternalErrorCodeException("102");
+//		model.addAttribute("memberDto", opMemberDto.get());
+//		return "user/member/myinfo";
+//	}
+	// 회원 정보 조회 및 수정 페이지
 	@GetMapping("/member/edit/info")
 	public String getEditMemInfo(HttpSession session, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
 			throw new InternalErrorCodeException("101");
@@ -80,12 +93,12 @@ public class MemberController {
 		if (!opMemberDto.isPresent())
 			throw new InternalErrorCodeException("102");
 		model.addAttribute("memberDto", opMemberDto.get());
-		return "user/member/editMyinfo";
+		return "user/member/editMyInfo";
 	}
 	// 회원 정보 수정 처리
 	@PostMapping("/member/edit/info")
 	public String postEditMemInfo(MemberDto newMemberDto, HttpSession session, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
 			throw new InternalErrorCodeException("101");
@@ -105,13 +118,13 @@ public class MemberController {
 	// 패스워드 변경 페이지
 	@GetMapping("/member/change/password")
 	public String getChangePwd(HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		return "user/member/editMyPwd";
 	}
 	// 패스워드 변경 처리
 	@PostMapping("/member/change/password")
 	public String postChangePwd(String oriPassword, String newPassword, HttpSession session, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
 			throw new InternalErrorCodeException("101");
@@ -133,13 +146,13 @@ public class MemberController {
 	// 회원 탈퇴 페이지
 	@GetMapping("/member/withdraw")
 	public String getWithdraw(HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		return "user/member/withdraw";
 	}
 	// 회원 탈퇴 처리
 	@PostMapping("/member/withdraw")
 	public String postWithdraw(HttpSession session, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
 			throw new InternalErrorCodeException("101");
@@ -158,7 +171,7 @@ public class MemberController {
 	// 회원가입 처리
 	@PostMapping("/member/signup")
 	public String postSignup(@Valid MemberDto memberDto, Errors errors, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
         if (errors.hasErrors()) {
             model.addAttribute("memberDto", memberDto);
             Map<String, String> validatorResult = validateHandling(errors);
@@ -184,7 +197,7 @@ public class MemberController {
 	// 이메일 인증 신청
 	@GetMapping("/member/auth/mail/submit")
 	public String getSubmitMail(HttpSession session, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
 			throw new InternalErrorCodeException("101");
@@ -196,13 +209,13 @@ public class MemberController {
 	// 이메일 인증 확인
 	@GetMapping("/member/auth/mail/confirm/id/{id}/key/{key}")
 	public String getComfirmMail(@PathVariable String id, @PathVariable String key, HttpSession session, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		return postComfirmMail(id, key, session, model, request);
 	}
 	// 이메일 인증 확인 처리
 	@PostMapping("/member/auth/mail/confirm")
 	public String postComfirmMail(@PathVariable String id, @PathVariable String key, HttpSession session, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		int memberId = Integer.parseInt(id);
 		Optional<ConfirmEmailDto> opConfirmEmailDto = confirmEmailServiceImpl.findByMemberIdWhenNotExpired(memberId);
 		confirmEmailServiceImpl.deleteByMemberId(memberId);
@@ -223,13 +236,13 @@ public class MemberController {
 	// 패스워드 찾기 신청
 	@GetMapping("/member/find/password/submit")
 	public String getSubmitPwd(HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		return "user/member/findMyPwd";
 	}
 	// 패스워드 찾기 신청 처리
 	@PostMapping("/member/find/password/submit")
 	public String postSubmitPwd(String email, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 	    Optional<MemberDto> opMember = memberServiceImpl.findByEmail(email);
 	    if(!opMember.isPresent())
 			throw new InternalErrorCodeException("102");
@@ -242,7 +255,7 @@ public class MemberController {
 	// 패스워드 찾기 확인
 	@GetMapping("/member/find/password/confirm/id/{id}/key/{key}")
 	public String getComfirmPwd(@PathVariable String id, @PathVariable String key, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
         model.addAttribute("id", id);
         model.addAttribute("key", key);
 		return "user/member/findMyPwdConfirm";
@@ -250,7 +263,7 @@ public class MemberController {
 	// 패스워드 찾기 확인 처리
 	@PostMapping("/member/find/password/confirm")
 	public String postComfirmPwd(String id, String key, String password, Model model, HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		int memberId = Integer.parseInt(id);
 		MemberDto memberDto = new MemberDto();
 		memberDto.setId(memberId);
@@ -267,60 +280,30 @@ public class MemberController {
 		model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다.");
 		return REDIRECT_PATH;
 	}
-
 	// 회원가입 페이지
 	@GetMapping("/member/signup")
 	public String getSignup(HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		return "user/member/signup";
 	}
-	// 로그인 페이지
-	@GetMapping("/member/signin")
-	public String getSignin(HttpServletRequest request) {
-		defaultLog(request);
-		return "user/member/signin";
-	}
-	// 로그인 결과 페이지
-	@GetMapping("/member/signin/result")
-	public String getSigninResult(HttpServletRequest request) {
-		defaultLog(request);
-		return "user/member/signinSuccess";
-	}
-	// 로그인 결과 페이지
-	@GetMapping("/member/signin/result/fail")
-	public String getSigninResultFail(HttpServletRequest request) {
-		defaultLog(request);
-		return "user/member/signinFail";
-	}
-	// 로그인 결과 페이지
-	@GetMapping("/member/signin/result/fail/naver")
-	public String getSigninResultFailNaver(HttpSession session, HttpServletRequest request) {
-		defaultLog(request);
-		return "user/member/signinFailInNaver";
-	}
-	// 로그아웃 결과 페이지
-	@GetMapping("/member/signout/result")
-	public String getSignout(HttpServletRequest request) {
-		defaultLog(request);
-		return "user/member/signoutSuccess";
-	}
 	// 리다이렉트 페이지
-	@GetMapping("/member/redirect")
-	public String getRedirectParm(String url,String message, Model model, HttpServletRequest request) {
-		defaultLog(request);
-		model.addAttribute("url", url);
-		model.addAttribute("message", message);
+	@RequestMapping("/member/redirect")
+	public String getRedirect(HttpServletRequest request) {
+		logUtil.defaultLog(request);
 		return REDIRECT_PATH;
 	}
+	// 리다이렉트 페이지
+	@RequestMapping("/member/redirect/confirm")
+	public String getRedirectConfirm(HttpServletRequest request) {
+		logUtil.defaultLog(request);
+		return REDIRECT_CONFIRM_PATH;
+	}
+
 	// 접근 거부 페이지
 	@GetMapping("/member/denied")
 	public String getDenied(HttpServletRequest request) {
-		defaultLog(request);
+		logUtil.defaultLog(request);
 		throw new InternalErrorCodeException("403");
-	}
-
-	public void defaultLog(HttpServletRequest request) {
-		log.info(String.format("%s : %s ", request.getMethod(), request.getRequestURI()));
 	}
 
     public Map<String, String> validateHandling(Errors errors) {

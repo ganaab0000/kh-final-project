@@ -29,6 +29,12 @@ public class TestController {
 		return "test/ckeditor";
 	}
 
+	@GetMapping("/test/billing")
+	public String getBilling() throws Exception {
+		log.info("/test");
+		return "test/billingRef";
+	}
+
 	@GetMapping("/test/upload")
 	public String getUpload() throws Exception {
 		log.info("/test");
