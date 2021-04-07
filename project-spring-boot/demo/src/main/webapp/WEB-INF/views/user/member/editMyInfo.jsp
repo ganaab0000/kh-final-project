@@ -1,37 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 </head>
 <body>
-	<h2>인덱스</h2>
-	<security:authorize access="isAuthenticated()">
-		<img alt="profileImg" src="${member.profileImg}">
-		<p>${member.id}</p>
-		<p>${member.nickname}</p>
-		<p>${member.email}</p>
-	    authenticated as <security:authentication property="principal" />
-	</security:authorize>
-    <hr>
-	<security:authorize access="!isAuthenticated()">
-    	<a href="/member/signin">로그인</a>
-    	<a href="/member/signup">회원가입</a>
-	</security:authorize>
-	<security:authorize access="isAuthenticated()">
-    	<a href="/member/signout">로그아웃</a>
-	</security:authorize>
-	<security:authorize access="hasRole('ROLE_MEMBER')">
-    	<a href="/member/info">내 정보</a>
-	</security:authorize>
-	<security:authorize access="hasRole('ROLE_ADMIN')">
-    	<a href="/admin">관리자 페이지</a>
-	</security:authorize>
-	<security:authorize access="hasRole('ROLE_MEMBER') && !hasRole('ROLE_MEMBER_MAIL')">
-    	<a href="#">이메일 인증</a>
-	</security:authorize>
+	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+	<main>
+		<div class="container">
+			<h2>설정</h2>
+			<div>${memberDto.id}</div>
+			<div>${memberDto.email}</div>
+			<div>${memberDto.nickname}</div>
+			<div>${memberDto.dateCreated}</div>
+			<div>프로필 이미지</div>
+			<div>프로필 글</div>
+			<div>주소</div>
+			<div>연락처</div>
+		   	<a href="/member">수정</a>
+		   	<a href="/member">패스워드 변경</a>
+		   	<a href="/member">탈톼</a>
+
+		</div>
+	</main>
+	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
+
 </body>
 </html>
