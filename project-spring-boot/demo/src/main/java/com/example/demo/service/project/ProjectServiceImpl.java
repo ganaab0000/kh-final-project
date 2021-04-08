@@ -57,17 +57,12 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		ProjectVo projectVo = projectRepository.findById(id);
 		
-		projectVo.setCollected(Optional.ofNullable(reserveRepository.getCollected(id)).orElse(0));
-		
 		//잔여일
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime closed = projectVo.getDateProjectClosed().toLocalDate().atStartOfDay();
 		projectVo.setRemainDay(ChronoUnit.DAYS.between(now, closed));
 		projectVo.setRemainHour(ChronoUnit.HOURS.between(now, closed));
 
-		projectVo.setSponsor(reserveRepository.getSponsorCount(id));
-
-		projectVo.setRate(Math.round(100.0*projectVo.getCollected()/projectVo.getTargetAmount()));
 		return projectVo;
 	}
 	

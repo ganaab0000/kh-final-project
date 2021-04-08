@@ -33,11 +33,29 @@
 			color: black;
 			text-decoration: underline;
 		}
+		.spinner{
+			width: 100%;
+		}
+		.rateBar{
+			height: 3px;
+			width: 100%;
+			position: relative;
+		}
+		.targetBar{
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			background-color: lightgray;
+		}
+		.collectedBar{
+			position: absolute;
+			height: 100%;
+			background-color: lightpink;
+		}
 	</style>
 </head>
 <body>
 	<div class="main">
-		<h2>Project List</h2>
 		<div>검색된 프로젝트 개수 : <span id="projectCount"></span></div>
 		<div>
 			<select id="category" class="filter">
@@ -82,6 +100,10 @@
 					<p class="card-text cardSubTitle"></p>
 				</div>
 				<div class="card-footer">
+					<div class="rateBar">
+						<div class="targetBar"></div>
+						<div class="collectedBar"></div>
+					</div>
 					<span class="collected"></span>
 					<span class="rate"></span>
 					<span class="remainTime"></span>
@@ -150,15 +172,18 @@
 
 						var cardBody = card.children(".card-body");
 						cardBody.find(".cardTitle").text(data.projectList[i].title);
-						cardBody.find(".cardCategory").text(data.projectList[i].projectCategoryId).attr("href", location.origin + "/project/list?category=" + data.projectList[i].projectCategoryId);
+						cardBody.find(".cardCategory").text(data.projectList[i].projectCategory).attr("href", location.origin + "/project/list?category=" + data.projectList[i].projectCategoryId);
 						cardBody.find(".cardWriter").text(data.projectList[i].writerName).attr("href", location.origin + "/member/" + data.projectList[i].memberId);
 						cardBody.find(".cardSubTitle").text(data.projectList[i].subTitle);
 
 						var cardFooter = card.children(".card-footer");
 						cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
-						cardFooter.find(".rate").text((data.projectList[i].rate == null ? 0 : data.projectList[i].rate) + "%");
 						cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
-
+						var rate = data.projectList[i].rate;
+						rate = rate==null ? 0 : rate;
+						cardFooter.find(".rate").text(rate + "%");
+						cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
+						
 						$(".cardContainer").append(cardWrapper);
 					}
 					

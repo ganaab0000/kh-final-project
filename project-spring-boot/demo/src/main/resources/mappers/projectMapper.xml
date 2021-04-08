@@ -33,41 +33,53 @@
 		</if>	
 	</select>
 	
+	<select id="findById" resultType="ProjectVo" parameterType="int">
+		select P.*, C.name project_category, RRR.sponsor, RRR.collected, round(collected/P.target_amount*100) rate from (
+	        select * from project where id = #{projectId}
+	    ) P 
+	    left outer join project_category C on P.project_category_id = C.id
+	    left outer join (select R.project_id, count(R.id) sponsor, sum(RR.reward_sum) collected from reserve R 
+	    left outer join reserve_reward RR on R.id = rr.reserve_id where R.reserve_status_category_id = 1 or R.reserve_status_category_id = 2 group by R.project_id)
+	    RRR on P.id = RRR.project_id
+	</select>
+	
 	<select id="findByFilter" resultType="ProjectVo" parameterType="ProjectFilteringVo">
-		select * from (
-		select rownum rn, T.* from (
-		select P.id, p.title, p.sub_title, p.target_amount, p.date_project_started, p.date_project_closed, p.thumb_img, p.main_img, p.writer_name, p.date_created, p.member_id, p.project_category_id, p.project_status_category_id, 
-		count(R.id) sponsor, sum(RR.reward_sum) collected, round(sum(RR.reward_sum)/p.target_amount*100) rate from (
-		    select * from project where id > 0 
-		    <if test="category != null and category != ''">
-    			and project_category_id = #{category}
-			</if>		    
-			<if test="status != null">
-				and project_status_category_id = #{status}
-			</if>	
-		) P left outer join (select * from reserve where project_id=1 and (reserve.reserve_status_category_id = 1 or reserve.reserve_status_category_id = 2)) R on P.id = R.project_id 
-		left outer join reserve_reward RR on R.id = rr.reserve_id
-		group by P.id, p.title, p.sub_title, p.target_amount, p.date_project_started, p.date_project_closed, p.thumb_img, p.main_img, p.writer_name, p.date_created, p.member_id, p.project_category_id, p.project_status_category_id
-		<if test="sort != null">
-			<choose>
-				<when test="sort==1">
-					order by p.id desc
-				</when>
-				<when test="sort==2">
-					order by sponsor desc nulls last
-				</when>
-				<when test="sort==3">
-					order by collected desc nulls last
-				</when>
-				<when test="sort==4">
-					order by rate desc  nulls last
-				</when>
-			</choose>
-		</if>
-		<if test="sort == null">
-			order by p.id desc
-		</if>
-		) T )
+		select * from ( select rownum rn, T.* from (
+			select P.*, C.name project_category, RRR.sponsor, RRR.collected, round(collected/P.target_amount*100) rate from (
+				select * from project
+				<where>
+					<if test="category != null and category != ''">
+		    			and project_category_id = #{category}
+					</if>		    
+					<if test="status != null">
+						and project_status_category_id = #{status}
+					</if>
+				</where>
+			) P 
+			left outer join project_category C on P.project_category_id = C.id
+			left outer join (select R.project_id, count(R.id) sponsor, sum(RR.reward_sum) collected from reserve R 
+			left outer join reserve_reward RR on R.id = rr.reserve_id where R.reserve_status_category_id = 1 or R.reserve_status_category_id = 2 group by R.project_id)
+			RRR on P.id = RRR.project_id
+			<if test="sort != null">
+				<choose>
+					<when test="sort==1">
+						order by p.id desc
+					</when>
+					<when test="sort==2">
+						order by sponsor desc nulls last
+					</when>
+					<when test="sort==3">
+						order by collected desc nulls last
+					</when>
+					<when test="sort==4">
+						order by date_project_closed asc
+					</when>
+				</choose>
+			</if>
+			<if test="sort == null">
+				order by p.id desc
+			</if>
+		) T ) 
 		<where>
 			<if test="page != null">
 				and rn between #{page}*18-17 and #{page}*18
@@ -77,4 +89,5 @@
 			</if>
 		</where>
 	</select>
+	
 </mapper>

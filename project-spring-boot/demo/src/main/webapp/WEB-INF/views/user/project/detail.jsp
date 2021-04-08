@@ -150,7 +150,7 @@
         <div class="projectInfo">
             <div class="projectHeader">
                 <div class="projectCategory">
-                    <a href=""><span>${project.projectCategoryId }</span></a>
+                    <a href=""><span>${project.projectCategory}</span></a>
                 </div>
                 <div class="projectTitle"><h1>${project.title}</h1></div>
                 <div class="projectWriter">${project.writerName}</div>
@@ -194,18 +194,24 @@
         <div class="projectContent">
             <div class="contentNav">
                 <a href="" id="storyLink">스토리</a>
+                <a href="" id="">새소식</a>
                 <a href="" id="communityLink">커뮤니티</a>
+                <a href="" id="">펀딩 안내</a>
             </div>
             <div class="contentWrapper">
                 <div class="mainColumn">
-                	<div class="contentBox communityBtnWrapper">
-			            <button class="filter communityBtn" value="">모든 게시글</button>
-			            <button class="filter communityBtn" value="1">창작자 업데이트</button>
-			            <button class="filter communityBtn" value="2">응원</button>
-			            <button class="filter communityBtn" value="3">의견</button>
-			            <button class="filter communityBtn" value="4">체험 리뷰</button>
-			            <button class="communityBtn" id="writeBtn">글쓰기</button>
-			        </div>
+                	<div class="contentBox postBtnWrapper">
+                        <button class="communityBtn writeBtn">글쓰기</button>
+                        <button class="backToCommunity">커뮤니티로 돌아가기</button>
+                    </div>
+                    <div class="contentBox filterBtnWrapper">
+                        <div>
+                            <button class="filter communityBtn" value="">모든 게시글</button>
+                            <button class="filter communityBtn" value="1">응원</button>
+                            <button class="filter communityBtn" value="2">의견</button>
+                            <button class="filter communityBtn" value="3">체험 리뷰</button>
+                        </div>
+                    </div>
                     <div class="content"></div>
                 </div>
                 <div class="subColumn">
@@ -245,10 +251,7 @@
                 </div>
             </div>
         </div>
-    </div>
-        <div class="projectContent">
-            
-        </div>
+    	</div>
     </div>
 	<button>
 		<a href="list">리스트</a>
@@ -278,23 +281,19 @@
         </div>
     </script>
 
-    <script type="text/template" id="communityBtnWrapperTemplate">
-        
-    </script>
-
     <script type="text/template" id="postTemplate">
         <div class="post contentBox">
             <div class="postHeader"></div>
+            <div class="postCreated"></div>
             <div class="postContent"></div>
             <div class="postReply"></div>
         </div>
     </script>
 
     <script type="text/template" id="postFormTemplate">
-        <div class="communityPostForm">
+        <div class="communityPostForm contentBox">
             <div class="fromHeader">게시글 작성하기</div>
-            <form action="">
-                <input type="hidden" name="projectId">
+            <form action="" id="postForm">
                 <div>
                     <select name="communityCategoryId" id="communityCategoryId">
                         <option value="1">응원</option>
@@ -302,14 +301,15 @@
                         <option value="3">체험리뷰</option>
                     </select>
                 </div>
-                <textarea name="content" id="" cols="30" rows="10"></textarea>
+                <textarea name="content" id="content" cols="30" rows="10"></textarea>
                 <div>
-                    <button type="submit">올리기</button>
+                    <button type="submit" id="submitBtn">올리기</button>
                 </div>
             </form>
         </div>
     </script>
     <script>
+    	var rootUrl = location.href;
     	//리워드 클릭 시 엑스트라 인포 열고 닫기
         $(".rewardInfo").on("click", function(){
             if($(this).parent().children().length == 1){
@@ -325,9 +325,10 @@
             loadingStory();
         });
         function loadingStory(){
-            $(".communityBtnWrapper").hide();
+        	$(".postBtnWrapper").hide();
+            $(".filterBtnWrapper").hide();
             $.ajax({
-                url: location.href + "/story",
+                url: rootUrl + "/story",
                 type: "get",
                 data: {},
                 success: function(data){
@@ -342,12 +343,15 @@
         //커뮤니티 불러오기
         $("#communityLink").on("click", function(e){
             e.preventDefault();
-            $(".communityBtnWrapper").show();
+            $(".postBtnWrapper").show();
+            $(".filterBtnWrapper").show();
+            $(".backToCommunity").hide();
             $.ajax({
-                url: location.href + "/community",
+                url: rootUrl + "/community",
                 type: "get",
                 data: {},
                 success: function(data){
+                    $(".writeBtn").show();
                     $(".content").children().remove();
                     $(".content").append($($("#communityBtnWrapperTemplate").html()));
 
@@ -355,6 +359,7 @@
                     for(var i=0; i<data.length; i++){
                         var post = $($("#postTemplate").html());
                         post.find(".postHeader").text(data[i].memberId);
+                        post.find(".postCreated").text(data[i].dateCreated);
                         post.find(".postContent").text(data[i].content);
                         $(".postWrapper").append(post);
                     }
@@ -362,11 +367,34 @@
             });
         });
         
-        $("#writeBtn").on("click", function(){
-        	alert("글쓰기");
-        });
+        $(".writeBtn").on("click", function(){
+            $(this).hide();
+            $(".backToCommunity").show();
+            $(".filterBtnWrapper").hide();
+            $(".content").children().remove();
 
-        //스토리 로딩
+            $(".content").append($($("#postFormTemplate").html()));
+            
+            $("#submitBtn").on("click", function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: rootUrl + "/community",
+                    type: "post",
+                    data: {
+                    	communityCategoryId : $("#communityCategoryId").val(),
+                    	content : $("#content").val()
+                    },
+                    success: function(data){
+                    	$("#communityLink").trigger("click");
+                    }
+                });
+            });
+        });
+        $(".backToCommunity").on("click", function(){
+            $("#communityLink").trigger("click");
+        });
+        
+        
         loadingStory();
     </script>
 </body>

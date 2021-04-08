@@ -33,6 +33,7 @@ public class ProjectVo {
 	private Integer projectCategoryId;
 	private Integer projectStatusCategoryId;
 	
+	private String projectCategory;
 	private Integer sponsor;
 	private Integer collected;
 	private Long rate;

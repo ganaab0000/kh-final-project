@@ -18,4 +18,8 @@ public class CommunityServiceImpl implements CommunityService{
 	public List<CommunityDto> findByProjectId(Integer projectId) {
 		return communityRepository.findByProjectId(projectId);
 	}
+	@Override
+	public void save(CommunityDto communityDto) {
+		communityRepository.save(communityDto);
+	}
 }
