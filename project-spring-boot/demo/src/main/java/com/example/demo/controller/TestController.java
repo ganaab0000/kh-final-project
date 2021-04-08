@@ -39,6 +39,11 @@ public class TestController {
 		log.info("/test");
 		return "test/testWriteProject";
 	}
+	@GetMapping("/test/pjt/5")
+	public String getPjt5() throws Exception {
+		log.info("/test");
+		return "test/testListProject";
+	}
 
 
 	@GetMapping("/test/chart")
