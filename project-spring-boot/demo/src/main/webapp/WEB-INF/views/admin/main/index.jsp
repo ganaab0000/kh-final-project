@@ -6,114 +6,37 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<jsp:include page="/WEB-INF/views/admin/common/head.jsp"></jsp:include>
-	<style type="text/css">
-	body {
-	  font-size: .875rem;
-	}
-
-	.feather {
-	  width: 16px;
-	  height: 16px;
-	  vertical-align: text-bottom;
-	}
-
-	/*
-	 * Sidebar
-	 */
-
-	.sidebar {
-	  position: fixed;
-	  top: 0;
-	  /* rtl:raw:
-	  right: 0;
-	  */
-	  bottom: 0;
-	  /* rtl:remove */
-	  left: 0;
-	  z-index: 100; /* Behind the navbar */
-	  padding: 48px 0 0; /* Height of navbar */
-	  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-	}
-
-	@media (max-width: 767.98px) {
-	  .sidebar {
-	    top: 5rem;
-	  }
-	}
-
-	.sidebar-sticky {
-	  position: relative;
-	  top: 0;
-	  height: calc(100vh - 48px);
-	  padding-top: .5rem;
-	  overflow-x: hidden;
-	  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-	}
-
-	.sidebar .nav-link {
-	  font-weight: 500;
-	  color: #333;
-	}
-
-	.sidebar .nav-link .feather {
-	  margin-right: 4px;
-	  color: #727272;
-	}
-
-	.sidebar .nav-link.active {
-	  color: #007bff;
-	}
-
-	.sidebar .nav-link:hover .feather,
-	.sidebar .nav-link.active .feather {
-	  color: inherit;
-	}
-
-	.sidebar-heading {
-	  font-size: .75rem;
-	  text-transform: uppercase;
-	}
-
-	/*
-	 * Navbar
-	 */
-
-	.navbar-brand {
-	  padding-top: .75rem;
-	  padding-bottom: .75rem;
-	  font-size: 1rem;
-	  background-color: rgba(0, 0, 0, .25);
-	  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-	}
-
-	.navbar .navbar-toggler {
-	  top: .25rem;
-	  right: 1rem;
-	}
-
-	.navbar .form-control {
-	  padding: .75rem 1rem;
-	  border-width: 0;
-	  border-radius: 0;
-	}
-
-	.form-control-dark {
-	  color: #fff;
-	  background-color: rgba(255, 255, 255, .1);
-	  border-color: rgba(255, 255, 255, .1);
-	}
-
-	.form-control-dark:focus {
-	  border-color: transparent;
-	  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
-	}
-
-	</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/admin/common/header.jsp"></jsp:include>
-	<main>
-		<h2>ADMIN 메인</h2>
-	</main>
+	<side class="p-3 mb-3 border-bottom">
+	<div class="container-fluid">
+	  <div class="row">
+		<jsp:include page="/WEB-INF/views/admin/common/sideNav.jsp"></jsp:include>
+
+
+
+	    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+	      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+	        <h1 class="h2">대시보드</h1>
+	        <div class="btn-toolbar mb-2 mb-md-0">
+	          <div class="btn-group me-2">
+	            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+	            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+	          </div>
+	          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+	            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+	            This week
+	          </button>
+	        </div>
+	      </div>
+
+
+
+	    </main>
+
+	  </div>
+	</div>
+	</side>
 </body>
 </html>
