@@ -8,8 +8,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.config.FileConfig;
-import com.example.demo.service.exception.FileStorageException;
-import com.example.demo.service.exception.MyFileNotFoundException;
+import com.example.demo.controller.exception.FileStorageException;
+import com.example.demo.controller.exception.MyFileNotFoundException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

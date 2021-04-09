@@ -10,8 +10,10 @@ public enum Role {
     MEMBER("ROLE_MEMBER"),
 	//메일 인증 멤버
     MEMBER_MAIL("ROLE_MEMBER_MAIL"),
+	//탈퇴한 멤버
+    MEMBER_DEL("ROLE_MEMBER_DEL"),
 	//차단된 멤버
-    MEMBER_BLACK("ROLE_MEMBER_BLACK"),
+    MEMBER_BLOCK("ROLE_MEMBER_BLOCK"),
 	//OAUTH로 로그인된 멤버 //패스워드 변경 등 일부 기능 불가.
     MEMBER_OAUTH("ROLE_MEMBER_OAUTH"),
     //하나 이상의 ADMIN ROLE 소유. //ADMIN 페이지 접근 여부.
