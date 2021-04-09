@@ -18,7 +18,6 @@ public interface ProjectRepository {
 	@Select("select * from project")
 	public List<ProjectDto> findAll();
 	
-	@Select("select * from project where id = #{id}")
 	public ProjectVo findById(int id);
 	
 	public List<ProjectDto> findForMain(ProjectFilteringVo filter);

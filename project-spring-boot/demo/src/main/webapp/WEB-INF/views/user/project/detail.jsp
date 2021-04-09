@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-	</script>
+	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
     <style>
         .main{
             width: 1080px;
@@ -26,6 +22,10 @@
         .projectHeader{
             width: 100%;
             text-align: center;
+            margin: 2rem 0;
+        }
+        .projectTitle{
+            margin: 1rem 0;
         }
         .projectMainImgWrapper{
             width: 660px;
@@ -55,6 +55,10 @@
         }
         .statusValue{
             font-size: 2.75rem;
+        }
+        .statusRate{
+        	font-size: 1rem;
+        	font-weight: bold;
         }
         .fundingInfo{
             background-color: rgb(250, 250, 250);
@@ -91,6 +95,9 @@
             max-width: 660px;
             width: auto;
             flex-grow: 1;
+        }
+        .content{
+        	height: 1000px;
         }
         .contentWrapper .subColumn{
             max-width: 354px;
@@ -145,15 +152,18 @@
     </style>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 	<div class="main">
         <div class="main">
         <div class="projectInfo">
             <div class="projectHeader">
                 <div class="projectCategory">
-                    <a href=""><span>${project.projectCategoryId }</span></a>
+                    <a href="list?category=${project.projectCategoryId}"><span>${project.projectCategory}</span></a>
                 </div>
                 <div class="projectTitle"><h1>${project.title}</h1></div>
-                <div class="projectWriter">${project.writerName}</div>
+                <div class="projectWriter">
+                	<a href="${project.memberId}">${project.writerName}</a>
+                </div>
             </div>
             <div class="projectMainImgWrapper">
                 <img height="490" class="mainImg" src="http://127.0.0.1:9090/api/file/${project.mainImg}" alt="">
@@ -161,7 +171,10 @@
             <div class="projectFundingStatus">
                 <div class="collected statusItem">
                     <div class="statusTitle">모인 금액</div>
-                    <div class="statusValue">${project.collected == null ? 0 : project.collected}원</div>
+                    <div class="statusValue">
+                    	<fmt:formatNumber value="${project.collected == null ? 0 : project.collected}" pattern="#,###"/>원
+                    	<span class="statusRate"><fmt:formatNumber value="${project.rate == null ? 0 : project.rate}" pattern="#,###"/>%</span>
+                    </div>
                 </div>
                 <div class="remainTime statusItem">
                     <div class="statusTitle">남은 시간</div>
@@ -181,8 +194,8 @@
                 <div class="fundingInfo">
                     <div class="fundingInfoHeader">펀딩 진행중</div>
                     <div class="fundingInfoContent">
-			                      목표 금액인 2,200,000원이 모여야만 결제됩니다.<br>
-			                      결제는 2021년 4월 6일에 다함께 진행됩니다.
+			                      목표 금액인 <fmt:formatNumber value="${project.targetAmount}" pattern="#,###"/>원이 모여야만 결제됩니다.<br>
+			                      결제는 <fmt:formatDate value="${project.dateProjectClosed}" pattern="yyyy년 MM월 dd일"/>에 다함께 진행됩니다.
                     </div>
                 </div>
                 <div class="projectBtnWrapper">
@@ -194,18 +207,24 @@
         <div class="projectContent">
             <div class="contentNav">
                 <a href="" id="storyLink">스토리</a>
+                <a href="" id="">새소식</a>
                 <a href="" id="communityLink">커뮤니티</a>
+                <a href="" id="">펀딩 안내</a>
             </div>
             <div class="contentWrapper">
                 <div class="mainColumn">
-                	<div class="contentBox communityBtnWrapper">
-			            <button class="filter communityBtn" value="">모든 게시글</button>
-			            <button class="filter communityBtn" value="1">창작자 업데이트</button>
-			            <button class="filter communityBtn" value="2">응원</button>
-			            <button class="filter communityBtn" value="3">의견</button>
-			            <button class="filter communityBtn" value="4">체험 리뷰</button>
-			            <button class="communityBtn" id="writeBtn">글쓰기</button>
-			        </div>
+                	<div class="contentBox postBtnWrapper">
+                        <button class="communityBtn writeBtn">글쓰기</button>
+                        <button class="backToCommunity">커뮤니티로 돌아가기</button>
+                    </div>
+                    <div class="contentBox filterBtnWrapper">
+                        <div>
+                            <button class="filter communityBtn" value="">모든 게시글</button>
+                            <button class="filter communityBtn" value="1">응원</button>
+                            <button class="filter communityBtn" value="2">의견</button>
+                            <button class="filter communityBtn" value="3">체험 리뷰</button>
+                        </div>
+                    </div>
                     <div class="content"></div>
                 </div>
                 <div class="subColumn">
@@ -245,14 +264,13 @@
                 </div>
             </div>
         </div>
-    </div>
-        <div class="projectContent">
-            
-        </div>
+    	</div>
     </div>
 	<button>
 		<a href="list">리스트</a>
 	</button>
+	
+	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 	
 	<script type="text/template" id="extraSupport">
         <hr>
@@ -278,23 +296,19 @@
         </div>
     </script>
 
-    <script type="text/template" id="communityBtnWrapperTemplate">
-        
-    </script>
-
     <script type="text/template" id="postTemplate">
         <div class="post contentBox">
             <div class="postHeader"></div>
+            <div class="postCreated"></div>
             <div class="postContent"></div>
             <div class="postReply"></div>
         </div>
     </script>
 
     <script type="text/template" id="postFormTemplate">
-        <div class="communityPostForm">
+        <div class="communityPostForm contentBox">
             <div class="fromHeader">게시글 작성하기</div>
-            <form action="">
-                <input type="hidden" name="projectId">
+            <form action="" id="postForm">
                 <div>
                     <select name="communityCategoryId" id="communityCategoryId">
                         <option value="1">응원</option>
@@ -302,14 +316,15 @@
                         <option value="3">체험리뷰</option>
                     </select>
                 </div>
-                <textarea name="content" id="" cols="30" rows="10"></textarea>
+                <textarea name="content" id="content" cols="30" rows="10"></textarea>
                 <div>
-                    <button type="submit">올리기</button>
+                    <button type="submit" id="submitBtn">올리기</button>
                 </div>
             </form>
         </div>
     </script>
     <script>
+    	var rootUrl = location.href;
     	//리워드 클릭 시 엑스트라 인포 열고 닫기
         $(".rewardInfo").on("click", function(){
             if($(this).parent().children().length == 1){
@@ -325,9 +340,10 @@
             loadingStory();
         });
         function loadingStory(){
-            $(".communityBtnWrapper").hide();
+        	$(".postBtnWrapper").hide();
+            $(".filterBtnWrapper").hide();
             $.ajax({
-                url: location.href + "/story",
+                url: rootUrl + "/story",
                 type: "get",
                 data: {},
                 success: function(data){
@@ -342,12 +358,15 @@
         //커뮤니티 불러오기
         $("#communityLink").on("click", function(e){
             e.preventDefault();
-            $(".communityBtnWrapper").show();
+            $(".postBtnWrapper").show();
+            $(".filterBtnWrapper").show();
+            $(".backToCommunity").hide();
             $.ajax({
-                url: location.href + "/community",
+                url: rootUrl + "/community",
                 type: "get",
                 data: {},
                 success: function(data){
+                    $(".writeBtn").show();
                     $(".content").children().remove();
                     $(".content").append($($("#communityBtnWrapperTemplate").html()));
 
@@ -355,6 +374,7 @@
                     for(var i=0; i<data.length; i++){
                         var post = $($("#postTemplate").html());
                         post.find(".postHeader").text(data[i].memberId);
+                        post.find(".postCreated").text(data[i].dateCreated);
                         post.find(".postContent").text(data[i].content);
                         $(".postWrapper").append(post);
                     }
@@ -362,11 +382,34 @@
             });
         });
         
-        $("#writeBtn").on("click", function(){
-        	alert("글쓰기");
-        });
+        $(".writeBtn").on("click", function(){
+            $(this).hide();
+            $(".backToCommunity").show();
+            $(".filterBtnWrapper").hide();
+            $(".content").children().remove();
 
-        //스토리 로딩
+            $(".content").append($($("#postFormTemplate").html()));
+            
+            $("#submitBtn").on("click", function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: rootUrl + "/community",
+                    type: "post",
+                    data: {
+                    	communityCategoryId : $("#communityCategoryId").val(),
+                    	content : $("#content").val()
+                    },
+                    success: function(data){
+                    	$("#communityLink").trigger("click");
+                    }
+                });
+            });
+        });
+        $(".backToCommunity").on("click", function(){
+            $("#communityLink").trigger("click");
+        });
+        
+        
         loadingStory();
     </script>
 </body>

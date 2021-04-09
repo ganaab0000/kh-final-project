@@ -2,6 +2,8 @@ package com.example.demo.controller.user;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.dto.CommunityDto;
 import com.example.demo.domain.vo.ProejctAjaxListVo;
 import com.example.demo.domain.vo.ProjectFilteringVo;
 import com.example.demo.domain.vo.ProjectVo;
-import com.example.demo.repository.RewardRepository;
 import com.example.demo.service.RewardService;
 import com.example.demo.service.member.MemberService;
 import com.example.demo.service.project.CommunityService;
@@ -109,8 +111,17 @@ public class ProjectController {
 		return communityService.findByProjectId(id);
 	}
 	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
 	@PostMapping("/{id}/community")
-	public void writeCommunity() {
+	public void writeCommunity(@PathVariable("id") int id, CommunityDto communityDto, HttpSession session) {
+		SessionMember member = (SessionMember) session.getAttribute("member");
+
+		//TODO
+//		communityDto.setMemberId(member.getId());
+		communityDto.setMemberId(1);
+		communityDto.setProjectId(id);
 		
+		communityService.save(communityDto);
 	}
 }

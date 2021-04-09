@@ -7,4 +7,6 @@ import com.example.demo.domain.dto.CommunityDto;
 public interface CommunityService {
 
 	public List<CommunityDto> findByProjectId(Integer projectId);
+
+	public void save(CommunityDto communityDto);
 }
