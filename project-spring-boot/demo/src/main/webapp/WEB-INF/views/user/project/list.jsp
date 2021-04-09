@@ -6,12 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-	</script>
+	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<style>
 		.main{
 			max-width: 1080px;
@@ -65,8 +60,8 @@
 	</style>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 	<div class="main">
-		<div><span id="projectCount"></span>개의 프로젝트가 있습니다.</div>
 		<div>
 			<div class="dropdown">
 				<button class="btn dropdown-toggle filter" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">
@@ -140,20 +135,26 @@
 						</div>
 					</li>
 				</ul>
-				<button class="btn dropdown-toggle filter" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
-					최신순
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="sort">
-					<li><button class="dropdown-item" name="sort" value="1">최신순</button></li>
-					<li><button class="dropdown-item" name="sort" value="2">최다 후원수</button></li>
-					<li><button class="dropdown-item" name="sort" value="3">최다 금액순</button></li>
-					<li><button class="dropdown-item" name="sort" value="4">마감 임박순</button></li>
-				</ul>
+				<button class="btn filterReset">필터 초기화</button>
 			</div>
+		</div>
+		
+		<div>
+			<span id="projectCount"></span>개의 프로젝트가 있습니다.
+			<button class="btn dropdown-toggle filter" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
+				최신순
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="sort">
+				<li><button class="dropdown-item" name="sort" value="1">최신순</button></li>
+				<li><button class="dropdown-item" name="sort" value="2">최다 후원수</button></li>
+				<li><button class="dropdown-item" name="sort" value="3">최다 금액순</button></li>
+				<li><button class="dropdown-item" name="sort" value="4">마감 임박순</button></li>
+			</ul>
 		</div>
 		
 		<div class="row row-cols-1 row-cols-md-3 g-4 cardContainer"></div>
 	</div>
+	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 	
 	<script type="text/template" id="cardTemplate">
 		<div class="col cardWrapper">
@@ -230,7 +231,8 @@
 		
 		var a;
 		//리스트 비동기 로딩
-		var loadingList = function(){
+		function loadingList(){
+			$(".cardContainer").append($($("#spinner").html()));
 			$.ajax({
 				url: "listajax",
 				type: "get",
@@ -299,7 +301,6 @@
 							newParams += key + "=" + value;
 							index++;
 						}
-						
 					}
 					history.pushState(null, null, newParams);
 				}
@@ -308,7 +309,6 @@
 		
 		//페이지 첫 로딩 때 리스트 호출
 		window.onload = function () {
-			$(".cardContainer").append($($("#spinner").html()));
 			loadingList();
 		};
 
@@ -343,7 +343,21 @@
 				collected="";
 			}
 			page = 1;
-			$(".cardContainer").append($($("#spinner").html()));
+			loadingList();
+		})
+		
+		//필터 초기화
+		$(".filterReset").on("click", function(){
+			category = "";
+			status = "";
+			rate = "";
+			minRate = "";
+			maxRate = "";
+			collected = "";
+			minCollected = "";
+			maxCollected = "";
+			sort = "";
+			page = 1;
 			loadingList();
 		})
 
@@ -351,7 +365,6 @@
 		document.addEventListener("scroll", function(){
 			if(document.documentElement.scrollTop + document.documentElement.clientHeight == document.documentElement.scrollHeight){
 				if (page < max) {
-					$(".cardContainer").append($($("#spinner").html()));
 					page++;
 					loadingList();
 				}
