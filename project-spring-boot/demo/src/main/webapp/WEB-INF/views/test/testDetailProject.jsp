@@ -7,11 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<p>
-로그인 실패. 다시 시도해주세요.
-</p>
-<a href="/member">인덱스</a>
-
 
 </body>
 </html>

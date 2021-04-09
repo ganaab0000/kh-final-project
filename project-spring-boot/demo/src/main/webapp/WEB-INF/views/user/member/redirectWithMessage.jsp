@@ -7,11 +7,13 @@
 <title>redirect</title>
 <script type="text/javascript">
 	var message = "${message}";
-	if (message.length > 0)
-		alert("${message}");
 	var url = "${url}";
-	if (url.length > 0)
-		location.href = "${url}";
+	if (message.length > 0)
+		alert(message);
+	if (url.length > 0){
+		if(url == "-1") window.history.back();
+		location.href = url;
+	}
 </script>
 </head>
 <body>

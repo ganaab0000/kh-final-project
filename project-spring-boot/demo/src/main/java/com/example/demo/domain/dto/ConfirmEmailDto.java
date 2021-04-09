@@ -10,7 +10,6 @@ import lombok.ToString;
 
 @Getter @Setter
 @ToString
-@Component
 public class ConfirmEmailDto {
 	private int memberId;
 	private Date dateExpired;
