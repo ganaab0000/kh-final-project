@@ -1,6 +1,6 @@
 package com.example.demo.service.member;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,16 +17,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.Role;
 import com.example.demo.domain.dto.MemberDto;
 import com.example.demo.domain.dto.RoleCategoryDto;
-import com.example.demo.repository.RoleCategoryRepository;
+import com.example.demo.domain.vo.MemberDetailVo;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -34,42 +31,69 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private MemberServiceImpl memberServiceImpl;
 	@Autowired
-	private RoleCategoryRepository roleCategoryRepository;
+	private RoleCategoryServiceImpl roleCategoryServiceImpl;
+	@Autowired
+	private HttpSession httpsession;
 
 	@Transactional
-	public int joinUser(MemberDto memberDto) {
-		// 비밀번호 암호화
+	public boolean isCorrectedPwd(MemberDto memberDto) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
-
-//		if(isInvalidValue) throw new Exception();
-
-		return memberServiceImpl.save(memberDto);
+		return memberServiceImpl.findByEmailAndPwd(memberDto).isPresent();
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-		Optional<MemberDto> userEntityWrapper = memberServiceImpl.findByEmail(userEmail);
-		if(!userEntityWrapper.isPresent()) throw new UsernameNotFoundException("");
-//		if(isDeleted) throw new UsernameNotFoundException("");
-//		if(isOauth) throw new UsernameNotFoundException("");
-		// oauth 로그인시, 일반 로그인 불가처리.
-		// 에러메시지는 기존 방식대로 세션으로 처리.
-		MemberDto userEntity = userEntityWrapper.get();
-//		log.info(userEntity.toString());
+	@Transactional
+	public int updatePwdById(MemberDto memberDto) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
+		return memberServiceImpl.updatePwdById(memberDto);
+	}
 
-		List<RoleCategoryDto> roleList = roleCategoryRepository.findRoleByEmail(userEmail);
-		List<GrantedAuthority> authorities = new ArrayList<>();
+	@Transactional
+	public MemberDto joinUser(MemberDto memberDto) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
+		int id = memberServiceImpl.getNextId();
+		memberDto.setId(id);
+		memberServiceImpl.saveWithId(memberDto);
+		return memberDto;
+	}
+
+	@Transactional
+	public HashSet<GrantedAuthority> getAuthorityList(MemberDetailVo memberVo) {
+		List<RoleCategoryDto> roleList = roleCategoryServiceImpl.findRoleByEmail(memberVo.getEmail());
+		HashSet<GrantedAuthority> authorities = new HashSet<>();
 		if (roleList.size() > 0) {
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
 			for (RoleCategoryDto role : roleList) {
-				String suffix = "ROLE_ADMIN_";
-				String auth = suffix + role.getName().toUpperCase();
+				String prefix = "ROLE_ADMIN_";
+				String auth = prefix + role.getName().toUpperCase();
 				authorities.add(new SimpleGrantedAuthority(auth));
 			}
 		}
 		authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
+		if(memberVo.getIsEmailVerified().equals("Y"))
+			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_MAIL.getValue()));
+		if(memberVo.getIsDeleted().equals("Y"))
+			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_DEL.getValue()));
+		if(memberVo.getIsBlocked().equals("Y"))
+			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_BLOCK.getValue()));
+		if(memberVo.getProvider() != null)
+			authorities.add(new SimpleGrantedAuthority(Role.MEMBER_OAUTH.getValue()));
+		return authorities;
+	}
 
-		return new User(userEntity.getEmail(), userEntity.getPwd(), authorities);
+	@Override
+	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+		Optional<MemberDetailVo> opMemberVo = memberServiceImpl.findMemberDetailByEmail(userEmail);
+		if(!opMemberVo.isPresent()) throw new UsernameNotFoundException(userEmail);
+
+		MemberDetailVo memberVo = opMemberVo.get();
+		HashSet<GrantedAuthority> authorities = getAuthorityList(memberVo);
+		if(authorities.contains(new SimpleGrantedAuthority(Role.MEMBER_OAUTH.getValue()))) {
+			httpsession.setAttribute("MEMBER_OAUTH_EXCEPTION", "SNS로 가입된 아이디입니다. SNS를 통해 로그인해 주세요.");
+			throw new UsernameNotFoundException(userEmail);
+		}
+		return new User(memberVo.getEmail(), memberVo.getPwd(), authorities);
 	}
 }

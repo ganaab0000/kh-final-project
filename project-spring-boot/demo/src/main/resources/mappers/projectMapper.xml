@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.ProjectRepository">
+	<select id="findForMain" resultType="ProjectDto" parameterType="ProjectFilteringVo">
+		select T.* from (
+		    select rownum rn, P.* from project P where id > 0 
+			<if test="category != null and category != ''">
+    			and project_category_id = #{category}
+			</if>		    
+			<if test="status != null">
+				and project_status_category_id = #{status}
+			</if>	
+	    	order by id asc
+		) T 
+		<where>
+			<if test="page != null">
+				and rn between #{page}*18-17 and #{page}*18
+			</if>
+			<if test="page == null">
+				and rn between 1 and 18
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTotalCount" resultType="int" parameterType="ProjectFilteringVo">
+		select count(*) from project where id > 0
+		<if test="category != null">
+   			and project_category_id = #{category}
+		</if>		    
+		<if test="status != null">
+			and project_status_category_id = #{status}
+		</if>	
+	</select>
+	
+	<select id="findByFilter" resultType="ProjectVo" parameterType="ProjectFilteringVo">
+		select * from (
+		select rownum rn, T.* from (
+		select P.id, p.title, p.sub_title, p.target_amount, p.date_project_started, p.date_project_closed, p.thumb_img, p.main_img, p.writer_name, p.date_created, p.member_id, p.project_category_id, p.project_status_category_id, 
+		count(R.id) sponsor, sum(RR.reward_sum) collected, round(sum(RR.reward_sum)/p.target_amount*100) rate from (
+		    select * from project where id > 0 
+		    <if test="category != null and category != ''">
+    			and project_category_id = #{category}
+			</if>		    
+			<if test="status != null">
+				and project_status_category_id = #{status}
+			</if>	
+		) P left outer join (select * from reserve where project_id=1 and (reserve.reserve_status_category_id = 1 or reserve.reserve_status_category_id = 2)) R on P.id = R.project_id 
+		left outer join reserve_reward RR on R.id = rr.reserve_id
+		group by P.id, p.title, p.sub_title, p.target_amount, p.date_project_started, p.date_project_closed, p.thumb_img, p.main_img, p.writer_name, p.date_created, p.member_id, p.project_category_id, p.project_status_category_id
+		<if test="sort != null">
+			<choose>
+				<when test="sort==1">
+					order by p.id desc
+				</when>
+				<when test="sort==2">
+					order by sponsor desc nulls last
+				</when>
+				<when test="sort==3">
+					order by collected desc nulls last
+				</when>
+				<when test="sort==4">
+					order by rate desc  nulls last
+				</when>
+			</choose>
+		</if>
+		<if test="sort == null">
+			order by p.id desc
+		</if>
+		) T )
+		<where>
+			<if test="page != null">
+				and rn between #{page}*18-17 and #{page}*18
+			</if>
+			<if test="page == null">
+				and rn between 1 and 18
+			</if>
+		</where>
+	</select>
+</mapper>

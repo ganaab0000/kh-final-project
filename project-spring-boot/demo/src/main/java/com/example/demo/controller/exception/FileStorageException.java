@@ -1,4 +1,4 @@
-package com.example.demo.service.exception;
+package com.example.demo.controller.exception;
 
 //나머지 경우
 public class FileStorageException extends RuntimeException {

@@ -1,59 +1,43 @@
 package com.example.demo.service.member;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.net.URLEncoder;
-import java.security.SecureRandom;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class AuthOauth2FailureHandlerImpl implements AuthenticationFailureHandler {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-		AuthenticationException exception) throws IOException, ServletException {
-	    response.setContentType("text/html; charset=UTF-8");
-	    response.setCharacterEncoding("UTF-8");
-	    request.setCharacterEncoding("UTF-8");
-
-	    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-	    Map<String, Object> data = new HashMap<>();
-	    data.put(
-	        "timestamp",
-	        Calendar.getInstance().getTime());
-	    data.put(
-	        "exception",
-	        exception.getMessage());
-	    System.out.println(exception.getMessage().toString());
-	    if(exception.getMessage().contains("OAUTH_VALUE_NULL_NAVER")) {
-	    	//naver reprompt page
-	    	response.sendRedirect("/member/signin/result/fail/naver");
-	    }else if(exception.getMessage().contains("authorization_request_not_found")) {
-	    	response.sendRedirect("/member/signin/result/fail");
-	    }else {
-	    	response.getOutputStream()
-	    	.println(objectMapper.writeValueAsString(data));
-	    }
-
+			AuthenticationException exception) throws IOException, ServletException {
+		log.warn(String.format("%s : %s : %s", request.getMethod(), request.getRequestURI(), exception.getMessage()));
+		if (exception.getMessage().contains("OAUTH_VALUE_NULL_NAVER")) {
+			request.setAttribute("trueUrl", "/oauth2/authorization/renaver");
+			request.setAttribute("falseUrl", "/member/signin");
+			request.setAttribute("message", "필수 권한이 누락되었습니다. 권한 설정을 다시 해주세요.");
+	        String url = "/member/redirect/confirm";
+	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
+	        requestDispatcher.forward(request, response);
+		} else if (exception.getMessage().contains("authorization_request_not_found")) {
+			request.setAttribute("url", "/member/signin");
+			request.setAttribute("message", "계정정보를 받아오는 데 실패하였습니다. 다시 시도해주세요.");
+	        String url = "/member/redirect";
+	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
+	        requestDispatcher.forward(request, response);
+		} else {
+			response.sendRedirect("/member/denied");
+		}
 	}
-
 
 }

@@ -17,6 +17,35 @@ public class TestController {
     @Autowired
     private TestXmlRepository testXmlRepository;
 
+
+
+	@GetMapping("/test/pjt/1")
+	public String getPjt1() throws Exception {
+		log.info("/test");
+		return "test/testBilling";
+	}
+	@GetMapping("/test/pjt/2")
+	public String getPjt2() throws Exception {
+		log.info("/test");
+		return "test/testDetailProject";
+	}
+	@GetMapping("/test/pjt/3")
+	public String getPjt3() throws Exception {
+		log.info("/test");
+		return "test/testReserveProject";
+	}
+	@GetMapping("/test/pjt/4")
+	public String getPjt4() throws Exception {
+		log.info("/test");
+		return "test/testWriteProject";
+	}
+	@GetMapping("/test/pjt/5")
+	public String getPjt5() throws Exception {
+		log.info("/test");
+		return "test/testListProject";
+	}
+
+
 	@GetMapping("/test/chart")
 	public String getChart() throws Exception {
 		log.info("/test");
@@ -28,6 +57,7 @@ public class TestController {
 		log.info("/test");
 		return "test/ckeditor";
 	}
+
 
 	@GetMapping("/test/upload")
 	public String getUpload() throws Exception {
