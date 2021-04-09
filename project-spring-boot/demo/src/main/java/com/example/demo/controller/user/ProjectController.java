@@ -1,18 +1,25 @@
 package com.example.demo.controller.user;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.domain.dto.CommunityDto;
 import com.example.demo.domain.vo.ProejctAjaxListVo;
 import com.example.demo.domain.vo.ProjectFilteringVo;
 import com.example.demo.domain.vo.ProjectVo;
+import com.example.demo.repository.RewardRepository;
+import com.example.demo.service.RewardService;
 import com.example.demo.service.member.MemberService;
+import com.example.demo.service.project.CommunityService;
 import com.example.demo.service.project.ProjectService;
 
 import lombok.extern.java.Log;
@@ -26,6 +33,10 @@ public class ProjectController {
 	private ProjectService projectService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private RewardService rewardService;
+	@Autowired
+	private CommunityService communityService;
 	
 	//프로젝트 인덱스 페이지
 	@GetMapping("/index")
@@ -45,6 +56,7 @@ public class ProjectController {
 		ProjectVo projectVo = projectService.getDetail(id);
 		model.addAttribute("project", projectVo);
 		model.addAttribute("member", memberService.findById(projectVo.getMemberId()));
+		model.addAttribute("rewardList", rewardService.findByProjectId(projectVo.getId()));
 		
 		return "/user/project/detail";
 	}
@@ -62,12 +74,10 @@ public class ProjectController {
 	
 	//비동기 리스트 로드
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping("/listajax")
 	@ResponseBody
+	@GetMapping("/listajax")
 	public ProejctAjaxListVo getListAjax(ProjectFilteringVo filter){
 		log.info("project list : category = " + filter.getCategory() + " , status = " + filter.getStatus());
-		
-		System.out.println("page :" + filter.getPage());
 		
 		ProejctAjaxListVo proejctAjaxListVo = new ProejctAjaxListVo();
 		
@@ -77,5 +87,30 @@ public class ProjectController {
 		proejctAjaxListVo.setProjectList(projectService.getList(filter));
 		
 		return proejctAjaxListVo;
+	}
+	
+	//프로젝트 스토리 로드
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@GetMapping("/{id}/story")
+	public String getStory(@PathVariable("id") int id, Model model) {
+		log.info("project story : " + id);
+		
+		return projectService.getStory(id);
+	}
+	
+	//프로젝트 커뮤니티 로드
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@GetMapping("/{id}/community")
+	public List<CommunityDto> getCommunity(@PathVariable("id") int id, Model model) {
+		log.info("project community : " + id);
+		
+		return communityService.findByProjectId(id);
+	}
+	
+	@PostMapping("/{id}/community")
+	public void writeCommunity() {
+		
 	}
 }
