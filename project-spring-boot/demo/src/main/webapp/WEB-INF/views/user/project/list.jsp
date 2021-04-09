@@ -36,48 +36,120 @@
 		.spinner{
 			width: 100%;
 		}
+
+		.card-footer{
+			background-color: white;
+			padding: 0;
+			border: none;
+		}
 		.rateBar{
-			height: 3px;
+			height: 2px;
 			width: 100%;
 			position: relative;
+			margin: 1rem 0;
 		}
 		.targetBar{
 			position: absolute;
 			height: 100%;
 			width: 100%;
-			background-color: lightgray;
+			background-color: #939597;
 		}
 		.collectedBar{
 			position: absolute;
 			height: 100%;
-			background-color: lightpink;
+			background-color: #F5dF4D;
+		}
+		.remainTime{
+			float: right;
 		}
 	</style>
 </head>
 <body>
 	<div class="main">
-		<div>검색된 프로젝트 개수 : <span id="projectCount"></span></div>
+		<div><span id="projectCount"></span>개의 프로젝트가 있습니다.</div>
 		<div>
-			<select id="category" class="filter">
-				<option value="">카테고리</option>
-				<c:forEach var="category" items="${category}">
-					<option value="${category.id}">${category.name}</option>
-				</c:forEach>
-			</select>
-			
-			<select id="status" class="filter">
-				<option value="">상태</option>
-				<c:forEach var="status" items="${status}">
-					<option value="${status.id}">${status.detail}</option>
-				</c:forEach>
-			</select>
-			
-			<select id="sort" class="filter">
-				<option value="1">최신순</option>
-				<option value="2">최다 후원수</option>
-				<option value="3">최다 금액순</option>
-				<option value="4">마감 임박순</option>
-			</select>
+			<div class="dropdown">
+				<button class="btn dropdown-toggle filter" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">
+					카테고리
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="category">
+					<li><button class="dropdown-item" name="category" value="">전체 보기</button></li>
+					<c:forEach var="category" items="${category}">
+						<li><button class="dropdown-item" name="category" value="${category.id}">${category.name}</button></li>
+					</c:forEach>
+				</ul>
+				<button class="btn dropdown-toggle filter" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">
+					상태
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="status">
+					<li><button class="dropdown-item" name="status" value="">전체 보기</button></li>
+					<c:forEach var="status" items="${status}">
+						<li><button class="dropdown-item" name="status" value="${status.id}">${status.detail}</button></li>
+					</c:forEach>
+				</ul>
+				<button class="btn dropdown-toggle filter" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">
+					달성률
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="rate">
+					<li><button class="dropdown-item" name="rate" value="">전체 보기</button></li>
+					<li><button class="dropdown-item" name="rate" value="1">75% 이하</button></li>
+					<li><button class="dropdown-item" name="rate" value="2">75% ~ 100%</button></li>
+					<li><button class="dropdown-item" name="rate" value="3">100% 이상</button></li>
+					<li><hr class="dropdown-divider"></li>
+					<li>
+						<div class="">
+							<div class="">직접 입력</div>
+							<div class="">
+								<span class="">
+								<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="minRate" class="min" value="">
+								<span class="">%</span>
+								</span>-<span class="">
+								<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="maxRate" class="max" value="">
+								<span class="">%</span></span>
+							</div>
+							<button class="customFilter">
+								<span>입력값 적용</span>
+							</button>
+						</div>
+					</li>
+				</ul>
+				<button class="btn dropdown-toggle filter" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">
+					모인 금액
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="collected">
+					<li><button class="dropdown-item" name="collected" value="">전체 보기</button></li>
+					<li><button class="dropdown-item" name="collected" value="1">1백만원 이하</button></li>
+					<li><button class="dropdown-item" name="collected" value="2">1백만원 ~ 1천만원</button></li>
+					<li><button class="dropdown-item" name="collected" value="3">1천만원 ~ 5천만원</button></li>
+					<li><button class="dropdown-item" name="collected" value="4">5천만원 이상</button></li>
+					<li><hr class="dropdown-divider"></li>
+					<li>
+						<div class="">
+							<div class="">직접 입력</div>
+							<div class="">
+								<span class="">
+								<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="minCollected" class="min" value="">
+								<span class="">원</span>
+								</span>-<span class="">
+								<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="maxCollected" class="max" value="">
+								<span class="">원</span></span>
+							</div>
+							<button class="customFilter">
+								<span>입력값 적용</span>
+							</button>
+						</div>
+					</li>
+				</ul>
+				<button class="btn dropdown-toggle filter" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
+					최신순
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="sort">
+					<li><button class="dropdown-item" name="sort" value="1">최신순</button></li>
+					<li><button class="dropdown-item" name="sort" value="2">최다 후원수</button></li>
+					<li><button class="dropdown-item" name="sort" value="3">최다 금액순</button></li>
+					<li><button class="dropdown-item" name="sort" value="4">마감 임박순</button></li>
+				</ul>
+			</div>
 		</div>
 		
 		<div class="row row-cols-1 row-cols-md-3 g-4 cardContainer"></div>
@@ -126,15 +198,18 @@
 				parent.removeChild(parent.firstChild);
 			}
 		}
-		
-		var loadingBtn = document.querySelector("#loadingList");
-
 		//url 파라미터 가져오기
 		var url = new URL(location.href);
 		var urlParams = url.searchParams;
 
 		var category = urlParams.get("category");
 		var pStatus = urlParams.get("status");
+		var rate = urlParams.get("rate");
+		var minRate = urlParams.get("minRate");
+		var maxRate = urlParams.get("maxRate");
+		var collected = urlParams.get("collected");
+		var minCollected = urlParams.get("minCollected");
+		var maxCollected = urlParams.get("maxCollected");
 		var sort = urlParams.get("sort");
 		var page = urlParams.get("page");
 		page = page==null?1:page;
@@ -142,11 +217,19 @@
 		class setParam{
 			category(param){category = param;}
 			status(param){pStatus = param;}
+			rate(param){rate = param;}
+			minRate(param){minRate = param;}
+			maxRate(param){maxRate = param;}
+			collected(param){collected = param;}
+			minCollected(param){minCollected = param;}
+			maxCollected(param){maxCollected = param;}
 			sort(param){sort = param;}
 		}
 		var paramSetter = new setParam();
 		var max;
 		
+		var a;
+		//리스트 비동기 로딩
 		var loadingList = function(){
 			$.ajax({
 				url: "listajax",
@@ -154,6 +237,12 @@
 				data: {
 					category : category,
 					status : pStatus,
+					rate : rate,
+					minRate : minRate,
+					maxRate : maxRate,
+					collected : collected,
+					minCollected : minCollected,
+					maxCollected : maxCollected,
 					sort : sort,
 					page : page
 				},
@@ -192,10 +281,27 @@
 						max = Math.ceil(data.projectCount/18);
 					}
 					
-					//통신 후 url 변경
 					var ajaxUrl = this.url;
 					ajaxUrl = ajaxUrl.substr(0, ajaxUrl.indexOf("&page"));
-					history.pushState(null, null, "list" + ajaxUrl.substr(ajaxUrl.indexOf("?"), ajaxUrl.length-1));
+					ajaxUrl = ajaxUrl.substr(ajaxUrl.indexOf("?"), ajaxUrl.length-1);
+					ajaxUrl = new URL(location.origin + location.pathname + ajaxUrl);
+					
+					var ajaxParams = ajaxUrl.searchParams;
+					var keys = ajaxParams.keys();
+					var newParams = "?";
+					var index = 0;
+					while(true){
+						var key = keys.next().value;
+						if(!key) break;
+						var value = ajaxParams.get(key);
+						if(value){
+							if(index!=0) newParams += "&";
+							newParams += key + "=" + value;
+							index++;
+						}
+						
+					}
+					history.pushState(null, null, newParams);
 				}
 			});
 		};
@@ -207,15 +313,39 @@
 		};
 
 		//필터 변경으로 리스트 호출
-		document.querySelectorAll(".filter").forEach(function (ele) {
-			ele.addEventListener("change", function () {
-				removeAllChild(document.querySelector(".cardContainer"));
-				paramSetter[this.id](this.value);
-				page = 1;
-				$(".cardContainer").append($($("#spinner").html()));
-				loadingList();
-			});
-		});
+		$(".dropdown-item").on("click", function(){
+			removeAllChild(document.querySelector(".cardContainer"));
+			$(this).parents(".dropdown-menu").find(".dropdown-item").removeClass("active");
+			$(this).addClass("active");
+			paramSetter[this.name](this.value);
+			if(this.name=="rate"){
+				minRate = "";
+				maxRate = "";
+			}
+			if(this.name=="collected"){
+				minCollected = "";
+				maxCollected = "";
+			}
+			page = 1;
+			$(".cardContainer").append($($("#spinner").html()));
+			loadingList();
+		})
+		$(".customFilter").on("click", function(){
+			removeAllChild(document.querySelector(".cardContainer"));
+			$(this).parents(".dropdown-menu").find(".dropdown-item").removeClass("active");
+			var minValue = $(this).parents(".dropdown-menu").find(".min");
+			var maxValue = $(this).parents(".dropdown-menu").find(".max");
+			paramSetter[minValue.attr("name")](minValue.val());
+			paramSetter[maxValue.attr("name")](maxValue.val());
+			if(minValue.attr("name")=="minRate"){
+				rate="";
+			} else{
+				collected="";
+			}
+			page = 1;
+			$(".cardContainer").append($($("#spinner").html()));
+			loadingList();
+		})
 
 		//스크롤이 끝으로 가면 리스트 호출
 		document.addEventListener("scroll", function(){

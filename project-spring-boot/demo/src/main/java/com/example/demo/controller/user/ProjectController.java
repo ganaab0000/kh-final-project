@@ -116,9 +116,10 @@ public class ProjectController {
 	@PostMapping("/{id}/community")
 	public void writeCommunity(@PathVariable("id") int id, CommunityDto communityDto, HttpSession session) {
 		SessionMember member = (SessionMember) session.getAttribute("member");
+
+		//TODO
 //		communityDto.setMemberId(member.getId());
 		communityDto.setMemberId(1);
-		
 		communityDto.setProjectId(id);
 		
 		communityService.save(communityDto);

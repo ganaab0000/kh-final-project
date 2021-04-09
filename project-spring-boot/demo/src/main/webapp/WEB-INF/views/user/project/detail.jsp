@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +27,10 @@
         .projectHeader{
             width: 100%;
             text-align: center;
+            margin: 2rem 0;
+        }
+        .projectTitle{
+            margin: 1rem 0;
         }
         .projectMainImgWrapper{
             width: 660px;
@@ -55,6 +60,10 @@
         }
         .statusValue{
             font-size: 2.75rem;
+        }
+        .statusRate{
+        	font-size: 1rem;
+        	font-weight: bold;
         }
         .fundingInfo{
             background-color: rgb(250, 250, 250);
@@ -150,7 +159,7 @@
         <div class="projectInfo">
             <div class="projectHeader">
                 <div class="projectCategory">
-                    <a href=""><span>${project.projectCategory}</span></a>
+                    <a href="list?category=${project.projectCategoryId}"><span>${project.projectCategory}</span></a>
                 </div>
                 <div class="projectTitle"><h1>${project.title}</h1></div>
                 <div class="projectWriter">${project.writerName}</div>
@@ -161,7 +170,10 @@
             <div class="projectFundingStatus">
                 <div class="collected statusItem">
                     <div class="statusTitle">모인 금액</div>
-                    <div class="statusValue">${project.collected == null ? 0 : project.collected}원</div>
+                    <div class="statusValue">
+                    	<fmt:formatNumber value="${project.collected == null ? 0 : project.collected}" pattern="#,###"/>원
+                    	<span class="statusRate"><fmt:formatNumber value="${project.rate == null ? 0 : project.rate}" pattern="#,###"/>%</span>
+                    </div>
                 </div>
                 <div class="remainTime statusItem">
                     <div class="statusTitle">남은 시간</div>
@@ -181,8 +193,8 @@
                 <div class="fundingInfo">
                     <div class="fundingInfoHeader">펀딩 진행중</div>
                     <div class="fundingInfoContent">
-			                      목표 금액인 2,200,000원이 모여야만 결제됩니다.<br>
-			                      결제는 2021년 4월 6일에 다함께 진행됩니다.
+			                      목표 금액인 <fmt:formatNumber value="${project.targetAmount}" pattern="#,###"/>원이 모여야만 결제됩니다.<br>
+			                      결제는 <fmt:formatDate value="${project.dateProjectClosed}" pattern="yyyy년 MM월 dd일"/>에 다함께 진행됩니다.
                     </div>
                 </div>
                 <div class="projectBtnWrapper">
