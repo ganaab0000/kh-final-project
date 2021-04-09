@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.example.demo.domain.dto.ProjectDto;
+import com.example.demo.domain.vo.ProjectFilteringVo;
+import com.example.demo.domain.vo.ProjectVo;
 
 @Mapper
 public interface ProjectRepository {
@@ -17,6 +19,14 @@ public interface ProjectRepository {
 	public List<ProjectDto> findAll();
 	
 	@Select("select * from project where id = #{id}")
-	public ProjectDto findById(int id);
+	public ProjectVo findById(int id);
 	
+	public List<ProjectDto> findForMain(ProjectFilteringVo filter);
+
+	public int getTotalCount(ProjectFilteringVo filter);
+	
+	public List<ProjectVo> findByFilter(ProjectFilteringVo filter);
+
+	@Select("select story from project where id = #{id}")
+	public String getStory(int id);
 }

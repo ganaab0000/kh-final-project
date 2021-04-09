@@ -18,6 +18,8 @@ public interface MemberService {
 	public int saveWithId(MemberDto memberDto);
 
 	public Optional<MemberDto> findByEmail(String email);
+	
+	public MemberDto findById(Integer memberId);
 
 	public Optional<MemberDetailVo> findMemberDetailByEmail(String email);
 

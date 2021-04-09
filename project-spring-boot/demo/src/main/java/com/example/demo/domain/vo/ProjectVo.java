@@ -1,4 +1,4 @@
-package com.example.demo.domain.dto;
+package com.example.demo.domain.vo;
 
 import java.sql.Date;
 
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ProjectDto {
+public class ProjectVo {
 	private Integer id;
 	private String title;
 	private String subTitle;
@@ -32,4 +32,10 @@ public class ProjectDto {
 	private Integer memberId;
 	private Integer projectCategoryId;
 	private Integer projectStatusCategoryId;
+	
+	private Integer sponsor;
+	private Integer collected;
+	private Long rate;
+	private Long remainDay;
+	private Long remainHour;
 }
