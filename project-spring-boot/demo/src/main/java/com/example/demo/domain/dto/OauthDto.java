@@ -9,9 +9,8 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 public class OauthDto {
-	private int id;
 	private int memberId;
-	private int accessToken;
-	private int provider;
-	private int providerProfileImg;
+	private String accessToken;
+	private String provider;
+	private String providerProfileImg;
 }

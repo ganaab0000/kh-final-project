@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.domain.dto.MemberDto;
+import com.example.demo.domain.dto.RoleCategoryDto;
+import com.example.demo.domain.vo.MemberDetailVo;
 
 @Mapper
 public interface MemberRepository {
@@ -30,6 +32,11 @@ public interface MemberRepository {
 
 	@Select("select * from member where email = #{email}")
 	public Optional<MemberDto> findByEmail(String email);
+
+	@Select("select * from member left join oauth "
+			+ "on member.id = oauth.member_id "
+			+ "where member.email = #{email}")
+	public Optional<MemberDetailVo> findMemberDetailByEmail(String email);
 
 	@Select("select * from member where email = #{email} and pwd = #{pwd}")
 	public Optional<MemberDto> findByEmailAndPwd(MemberDto memberDto);

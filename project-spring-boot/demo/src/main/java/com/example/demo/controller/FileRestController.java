@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.demo.domain.dto.UploadFileDTO;
 import com.example.demo.repository.UploadFileRepository;
 import com.example.demo.service.FileStorageService;
+import com.example.demo.util.LogUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -32,14 +33,15 @@ public class FileRestController {
 
 	@Autowired
 	private FileStorageService fileStorageService;
-
 	@Autowired
 	private UploadFileRepository uploadFileInfoRepository;
+	@Autowired
+    private LogUtil logUtil;
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping("/api/file")
-	public Map<String,String> uploadFile(@RequestParam MultipartFile file) {
-		log.info("/api/file");
+	public Map<String,String> uploadFile(@RequestParam MultipartFile file, HttpServletRequest request) {
+		logUtil.defaultLog(request);
 		String fileType = file.getContentType();
 		if (!fileType.contains("image")) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "upload only image file : " + fileType);
@@ -69,17 +71,17 @@ public class FileRestController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping("/api/ckfile")
-	public Map<String,String> uploadCkFile(@RequestParam MultipartFile upload) {
-		log.info("/api/ckfile");
-		return uploadFile(upload);
+	public Map<String,String> uploadCkFile(@RequestParam MultipartFile upload, HttpServletRequest request) {
+		logUtil.defaultLog(request);
+		return uploadFile(upload, request);
 	}
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/api/multiplefiles")
-    public List<Map<String,String>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+    public List<Map<String,String>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
         return Arrays.asList(files)
                 .stream()
-                .map(file -> uploadFile(file))
+                .map(file -> uploadFile(file, request))
                 .collect(Collectors.toList());
     }
 
@@ -87,7 +89,7 @@ public class FileRestController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping("/api/file/{id}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable int id, HttpServletRequest request) {
-		log.info("/api/file/{id}");
+		logUtil.defaultLog(request);
 		Optional<UploadFileDTO> file = uploadFileInfoRepository.findById(id);
 		if (!file.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
@@ -110,5 +112,4 @@ public class FileRestController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
 	}
-
 }

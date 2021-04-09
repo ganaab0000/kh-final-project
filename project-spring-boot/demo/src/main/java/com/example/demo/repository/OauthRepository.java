@@ -8,8 +8,8 @@ import com.example.demo.domain.dto.OauthDto;
 @Mapper
 public interface OauthRepository {
 
-	@Insert("insert into oauth (id, memberId, accessToken, provider, providerProfileImg) "
-			+ "values(oauth_id_seq.nextVal, #{memberId}, #{accessToken}, #{provider}, #{providerProfileImg})")
+	@Insert("insert into oauth (member_id, access_token, provider, provider_profile_img) "
+			+ "values(#{memberId}, #{accessToken}, #{provider}, #{providerProfileImg})")
 	public int save(OauthDto oauthDto);
 
 }

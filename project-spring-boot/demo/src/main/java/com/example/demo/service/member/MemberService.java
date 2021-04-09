@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.domain.dto.MemberDto;
+import com.example.demo.domain.vo.MemberDetailVo;
 
 public interface MemberService {
 	public int getNextId();
@@ -17,6 +18,8 @@ public interface MemberService {
 	public int saveWithId(MemberDto memberDto);
 
 	public Optional<MemberDto> findByEmail(String email);
+
+	public Optional<MemberDetailVo> findMemberDetailByEmail(String email);
 
 	public Optional<MemberDto> findByEmailAndPwd(MemberDto memberDto);
 
