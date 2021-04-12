@@ -31,6 +31,7 @@ section{
     max-width: 1160px;
     margin: 0 auto;
     padding: 0 5%;
+    
 }
 
 .sub-menu li + li::before {
@@ -163,73 +164,90 @@ input {
     -webkit-appearance: none;
 	 width: 20%;
 }
-.article-container{
-	padding: 24px 24px 64px;
-	width: 1080px;
-    margin: 0px auto;
-}
-.article-main {
-    background-color: #ffffff;
-    padding: 25px 30px;
-    border: 1px solid rgba(0, 0, 0, .05);
-}
-.content{
-    padding: 48px 44px 0px;
-    font-size: 16px;
-    line-height: 27px;
-    letter-spacing: -0.02em;
-    word-wrap: break-word;
-}
-.article-main > header{
-	padding: 0px 0px 16px;
-	border-bottom: 1px solid rgb(230, 230, 230);
-}
-.date{
-	font-size: 13px;
-    line-height: 20px;
-    letter-spacing: -0.015em;
-}
+a{
+		text-decoration: none
+	}
+a:link{
+		 color: rgb(61, 61, 61);
+		cursor: pointer;
+	}
+a:visited {
+	text-decoration: none; 
+	 color: rgb(61, 61, 61);
+	}
 
 </style>
 </head>
 
-<body>
-  	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
-  	
+<body>       
+	
+	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+	
 	<div class="container">
 		
 		<nav class="sub-nav">
 			<ol class="sub-menu">
-				<li title="FAQ">
-					<a href="${pageContext.request.contextPath}/cs/faqPage">FAQ</a>	
+				<li title="NOTICE">
+					<a href="${pageContext.request.contextPath}/noticeList">관리자공지사항</a>	
 				</li>
-				<li title="상세페이지">
-					상세페이지
+				<li title="검색결과">
+					검색결과
 				</li>
 			</ol>
-			<form class="search" action="seachResult2"  name="searchForm"  method="GET">
+			<form class="search" action="nAdminSeach"  name="searchForm"  method="GET">
 				<input type="hidden" value="${search.searchType}"> 
 				<input type="search"  name="keyword"  value="${search.keyword}" placeholder="검색">
 				<button class="searchBtn" type="submit">검색</button>
 			</form>		
 		</nav>
 		
-		
-			<div class="article-container">
-					<form action="faqDetail" method="get">
-							<input type="hidden" value="${faq.id }">
-							<div class="article-main">
-								<header>
-									<h3>${faq.title}</h3>
-									<span class="date"><fmt:formatDate  value="${faq.dateUpdated }"  type="date"  pattern="yyyy.MM.dd"/></span>
-								</header>							
-								<div class="content">
-								<!--escapeXml = "false"  html 태그를 해석해서 보여줌  -->
-									<c:out value="${faq.content}"  escapeXml = "false"/>
-								</div>		
+		<header class= "page-header">
+	 		 <h1>검색 결과</h1>
+	 		 <p></p>
+		</header>
+		<div class="search-results">
+			<section class="search-results-column">
+				<h3 class="search-results-subheading">주제별 도움말</h3>
+				<ul class="search-results-list">
+					 <c:choose>
+					 		<c:when test="${empty viewAll}">
+	                   			<li class="list-row" >
+										'${search.keyword}' 에 대한 검색 결과가 없습니다
+								</li>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${viewAll}" var="notice">
+										<li class="search-result">											
+											<div class="search-result-description">
+												<input type="hidden" value="${notice.id }">
+											</div>
+											<div>
+											<a href="${pageContext.request.contextPath}/nRead?id=${notice.id}">
+													${notice.title}		
+											</a>												
+											</div>
+										</li>		
+								</c:forEach>
+						</c:otherwise>
+					 </c:choose>			
+				</ul>
+			</section>
+			<section class="search-results-column">
+				<h3 class="search-results-subheading">창작자 가이드</h3>
+					<ul class="search-results-list">
+						<li class="search-result">							
+							<div class="search-result-description">
+								'${search.keyword}' 에 대한 검색 결과가 없습니다  
 							</div>
-					</form>
-			</div>			
+						</li>					
+						
+					</ul>
+			</section>
 		</div>
+		
+		
+	
+	</div>
+	
 </body>
 </html>

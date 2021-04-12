@@ -5,11 +5,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/cs-css/cs-common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 </head>
 <style>
-body {
+p {
     background-color: #FFFFFF;
     color: #3d3d3d;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -28,7 +29,7 @@ body {
     font-size: 14px;    
     padding:0.8rem;
 }
-ul-list>li{
+.ul-list>li{
 	margin-bottom: 0;
 	color: rgb(39, 163, 255);
     text-decoration: none;
@@ -37,13 +38,8 @@ ul-list>li{
     text-align: -webkit-match-parent;
 }
 </style>
-<body>
-         <div>
-    		<button>
-    			<a href="/member/sign-up">회원가입</a>
-    		</button>
-    	</div>
-
+<body class="body">       
+	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 
 	<div class="outbox">
 		

@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
+<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
 <style>
@@ -189,13 +189,9 @@ input {
 </head>
 
 <body>
-         <div>
-    		<button>
-    			<a href="/member/sign-up">회원가입</a>
-    		</button>    		
-    	</div>
-
-
+ 	
+ 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+ 	
 	<div class="container">
 		
 		<nav class="sub-nav">

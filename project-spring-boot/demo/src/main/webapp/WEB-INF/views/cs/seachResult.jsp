@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
+<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
 <style>
@@ -31,6 +31,7 @@ section{
     max-width: 1160px;
     margin: 0 auto;
     padding: 0 5%;
+    
 }
 
 .sub-menu li + li::before {
@@ -178,14 +179,10 @@ a:visited {
 </style>
 </head>
 
-<body>
-         <div>
-    		<button>
-    			<a href="/member/sign-up">회원가입</a>
-    		</button>    		
-    	</div>
-
-
+<body>       
+	
+	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+	
 	<div class="container">
 		
 		<nav class="sub-nav">
@@ -214,7 +211,7 @@ a:visited {
 				<ul class="search-results-list">
 					 <c:choose>
 					 		<c:when test="${empty viewAll}">
-	                   			<li class="row" >
+	                   			<li class="list-row" >
 										'${search.keyword}' 에 대한 검색 결과가 없습니다
 								</li>
 							</c:when>
@@ -238,8 +235,7 @@ a:visited {
 			<section class="search-results-column">
 				<h3 class="search-results-subheading">창작자 가이드</h3>
 					<ul class="search-results-list">
-						<li class="search-result">
-							<a href="#"></a>
+						<li class="search-result">							
 							<div class="search-result-description">
 								'${search.keyword}' 에 대한 검색 결과가 없습니다  
 							</div>

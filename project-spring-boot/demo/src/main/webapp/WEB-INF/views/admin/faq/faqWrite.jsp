@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="/css/summernote/summernote-lite.css">
 
 <title>Insert title here</title>
+
 </head>
 <style>
 .creadted_settingTitle{
@@ -124,17 +125,20 @@ body {
 	 		});
 	 		
 	 		$("#resetBtn").on("click", function(){
-	 			location.href = "cs/faqPage";
+	 			location.href = "faqList";
 	 		});
 		}); 
 	 
 </script>
 <body>
+	
+	
+	
 	<div class="creadted_settingTitle">
 		<div class="container-header">
 			<h1>자주 묻는 질문:답변</h1>
 		</div>
-		<a href="${pageContext.request.contextPath}/cs/faqPage">FAQ</a>	
+		<a href="${pageContext.request.contextPath}/faqList">관리자FAQ</a>	
 	</div>
 	
 	<div class="container-container">

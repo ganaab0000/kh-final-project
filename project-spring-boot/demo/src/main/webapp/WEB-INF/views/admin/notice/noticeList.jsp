@@ -39,19 +39,20 @@
 </script>
 </head>
 
-<body>   
-	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
-	
+<body>
+     
+     <jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+     
 	<div class="outbox">
 		
 		<div class= "note">
-	 		 <span>FAQ</span>
+	 		 <span>공지사항</span>
 		</div>
 
 		<div class="menubar">
-			<span><a href="${pageContext.request.contextPath}/cs/noticePage">공지사항</a></span>
+			<span><a href="${pageContext.request.contextPath}/noticeList">공지사항</a></span>
 			<span><a href="${pageContext.request.contextPath}/cs/tos">이용약관</a></span>
-			<span><a class="active" href="${pageContext.request.contextPath}/cs/faqPage">FAQ</a></span>
+			<span><a class="active" href="${pageContext.request.contextPath}/noticeList">FAQ</a></span>
 		</div>
 		<!-- 옵션선택 끝 -->
 		<!-- 
@@ -69,7 +70,7 @@
 		</div> 
 		 -->
 		 
-		   <div class="search-row">		 		
+		   <div class="list-row">		 		
 			 	<form class="search" action="seachResult2"  name="searchForm" method="GET">		
 			 		<input type="hidden" value="${search.searchType}"> 			
 			 		<input class="input-search"  type="search" name="keyword" value="${search.keyword}" placeholder="결제, 정산, 공개검토 등으로 검색해보세요 !">
@@ -84,16 +85,16 @@
 					</li>
 				</c:when>
 				<c:otherwise>
-					<c:forEach items="${viewAll}" var="faq">
+					<c:forEach items="${viewAll}" var="notice">
 						<li class="list-row" align="left">
 						    <span class="list">
-						    	<input type="hidden" value="${faq.id}">
+						    	<input type="hidden" value="${notice.id}">
 						    	<span class="cate">도움말</span>						    	
 								<span class="title">									
-									<a href="${pageContext.request.contextPath}/cs/faqDetail?id=${faq.id}">
-										${faq.title}									
+									<a href="${pageContext.request.contextPath}/nRead?id=${notice.id}">
+										${notice.title}									
 									</a>						
-								</span>																	
+								</span>																								
 							</span>											
 						</li>
 					</c:forEach>
@@ -103,7 +104,7 @@
 		
 		<div style="display: block; text-align: center;" class="pagination">		
 			<c:if test="${paging.startPage != 1}">
-				<a href="faqPage?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">&lt;</a>
+				<a href="noticeList?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">&lt;</a>
 			</c:if>
 			<c:forEach begin="${paging.startPage}"  end="${paging.endPage}"  var="p">
 				<c:choose>
@@ -111,12 +112,12 @@
 						<b>${p}</b>
 					</c:when>
 					<c:when test="${p != paging.nowPage}">
-						<a href="faqPage?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
+						<a href="noticeList?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
 					</c:when>
 				</c:choose>
 			</c:forEach>
 			<c:if test="${paging.endPage != paging.lastPage}">
-				<a href="faqPage?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">&gt;</a>
+				<a href="noticeList?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">&gt;</a>
 			</c:if>
 		</div>
 		

@@ -20,7 +20,6 @@ import com.example.demo.cs.service.FaqService;
 
 
 @Controller
-@RequestMapping("/cs")
 public class FaqController {
 	private static final Logger log =
 			LoggerFactory.getLogger(NoticeController.class);
@@ -28,15 +27,7 @@ public class FaqController {
 	@Autowired
 	private FaqService faqService;
 	
-	@GetMapping("/faq")
-	public void list(Model model) throws Exception {
-		List<FaqDto> faqList = faqService.list();
-		
-		model.addAttribute("faqlist", faqList);
-	
-	}
-	
-	@GetMapping("faqPage")
+	@GetMapping("/cs/faqPage")
 	public String faqList(PagingVO vo, Model model 
 			, @RequestParam(value="nowPage", required=false)String nowPage 
 			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) throws Exception {
@@ -79,7 +70,7 @@ public class FaqController {
 		
 	}
 	
-	@GetMapping("faqDetail")
+	@GetMapping("/cs/faqDetail")
 	public String faqDetail(int id, Model model) throws Exception{
 		
 		log.info("faqDetail()");

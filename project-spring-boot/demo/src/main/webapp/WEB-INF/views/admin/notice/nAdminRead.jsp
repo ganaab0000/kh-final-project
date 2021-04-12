@@ -193,15 +193,16 @@ input {
 </style>
 </head>
 
-<body>
-  	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
-  	
+<body>     
+
+	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+	
 	<div class="container">
 		
 		<nav class="sub-nav">
 			<ol class="sub-menu">
-				<li title="FAQ">
-					<a href="${pageContext.request.contextPath}/cs/faqPage">FAQ</a>	
+				<li title="NOTICE">
+					<a href="${pageContext.request.contextPath}/noticeList">공지사항</a>	
 				</li>
 				<li title="상세페이지">
 					상세페이지
@@ -216,16 +217,17 @@ input {
 		
 		
 			<div class="article-container">
-					<form action="faqDetail" method="get">
-							<input type="hidden" value="${faq.id }">
+					<form action="nRead" method="get" >
+							<input type="hidden" value="${notice.id }">
 							<div class="article-main">
 								<header>
-									<h3>${faq.title}</h3>
-									<span class="date"><fmt:formatDate  value="${faq.dateUpdated }"  type="date"  pattern="yyyy.MM.dd"/></span>
+									<a class="cate" href="${pageContext.request.contextPath}/fModify?id=${notice.id}">수정</a>	
+									<h3>${notice.title}</h3>
+									<span class="date"><fmt:formatDate  value="${notice.dateUpdated }"  type="date"  pattern="yyyy.MM.dd"/></span>
 								</header>							
 								<div class="content">
 								<!--escapeXml = "false"  html 태그를 해석해서 보여줌  -->
-									<c:out value="${faq.content}"  escapeXml = "false"/>
+									<c:out value="${notice.content}"  escapeXml = "false"/>
 								</div>		
 							</div>
 					</form>

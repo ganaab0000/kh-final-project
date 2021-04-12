@@ -7,7 +7,7 @@
 	  <div class="container d-flex flex-wrap">
 	    <ul class="nav me-auto">
 	      <li class="nav-item">
-		      <a href="#" class="nav-link link-dark px-2 active ">공지사항</a>
+		      <a href="${pageContext.request.contextPath}/cs/noticePage" class="nav-link link-dark px-2 active ">공지사항</a>
 		      <a href="#" class="nav-link link-dark px-2 active">채용</a>
 		      <a href="#" class="nav-link link-dark px-2 active">창작자 가이드</a>
 		      <a href="#" class="nav-link link-dark px-2 active">서비스 개선사항</a>
@@ -17,7 +17,7 @@
 		      <a href="#" class="nav-link link-dark px-2 active">이용약관</a>
 		      <a href="#" class="nav-link link-dark px-2 active">개인정보 처리방침</a>
 		      <a href="#" class="nav-link link-dark px-2 active">수수료 정책</a>
-		      <a href="#" class="nav-link link-dark px-2 active">헬프 센터</a>
+		      <a href="${pageContext.request.contextPath}/cs/faqPage" class="nav-link link-dark px-2 active">헬프 센터</a>
 	      </li>
 	    </ul>
 	    <ul class="nav">

@@ -29,7 +29,7 @@ public class AdminFaqController {
 	 @Autowired
 	 FaqService faqService;
 	
-	 @GetMapping("faqList")
+	 @GetMapping("/admin/faqList")
 		public String faqList(PagingVO vo, Model model 
 				, @RequestParam(value="nowPage", required=false)String nowPage 
 				, @RequestParam(value="cntPerPage", required=false)String cntPerPage) throws Exception {
@@ -49,7 +49,7 @@ public class AdminFaqController {
 			return "admin/faq/faqList";
 		}
 	 
-	 @GetMapping("fRead")
+	 @GetMapping("/admin/fRead")
 		public String faqDetail(int id, Model model) throws Exception{
 			
 			log.info("faqRead()");
@@ -61,7 +61,7 @@ public class AdminFaqController {
 			return "admin/faq/fAdminRead";
 		}	
 	
-	@GetMapping("faqWrite")
+	@GetMapping("/admin/faqWrite")
 	public String faqWriteForm() throws Exception{
 		
 		log.info("faqWriteForm()");		
@@ -69,7 +69,7 @@ public class AdminFaqController {
 		return "admin/faq/faqWrite";
 	}
 	
-	@PostMapping("faqWrite")
+	@PostMapping("/admin/faqWrite")
 	public String faqWrite(FaqDto faqDto, Model model) throws Exception{
 		
 		adminFaqService.resister(faqDto);
@@ -79,7 +79,7 @@ public class AdminFaqController {
 		return "redirect:cs/faqPage";			
 	}
 	
-	@GetMapping("fModify")
+	@GetMapping("/admin/fModify")
 	public String getModify(int id, Model model) throws Exception {
 		log.info("getModify()");
 		
@@ -88,7 +88,7 @@ public class AdminFaqController {
 		return "admin/faq/fModify";
 	}
 	
-	@PostMapping("fModify")
+	@PostMapping("/admin/fModify")
 	public String postModify(FaqDto faqDto, Model model) throws Exception {
 		log.info("postModify()");
 		

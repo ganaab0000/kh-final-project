@@ -74,7 +74,7 @@ body {
     font-size: 14px;
     margin-bottom: 10px;
 }
-#writeBtn,
+#editBtn,
 #resetBtn{
 	min-width: 90px;
     height: 30px;
@@ -111,7 +111,7 @@ body {
 	});
 	
 	 	 $(function(){
-	 		$("#writeBtn").on("click", function(){	 			
+	 		$("#editBtn").on("click", function(){	 			
 	 			
 	 			if($("input[name=title]").val().trim() ==  ""){
 	 				alert("제목을 입력해주세요");
@@ -121,34 +121,36 @@ body {
 	 				alert("내용을 입력해주세요");
 	 				return false;
 	 			}
-	 			$("#writeForm").submit();
+	 			$("#modifyForm").submit();
 	 		});
 	 		
 	 		$("#resetBtn").on("click", function(){
-	 			location.href = "cs/faqPage";
+	 			location.href = "faqList";
 	 		});
 		}); 
 	 
 </script>
 <body>
 	
-	
+
 	
 	<div class="creadted_settingTitle">
 		<div class="container-header">
-			<h1>공지사항:등록</h1>
+			<h1>공지사항 -수정</h1>
 		</div>
 		<a href="${pageContext.request.contextPath}/noticeList">관리자공지사항</a>	
 	</div>
 	
 	<div class="container-container">
-		<form id="writeForm" method="post" action="notice/noticeWrite">
+		<form id="modifyForm" method="post" action="nModify">
 			<button id="resetBtn" type="reset">취소</button>
-			<button id="writeBtn" type="button">저장</button>
-			
-			<input id="summernote-title" type="text" name="title" placeholder="제목을 입력하세요" >	
+			<button id="editBtn" type="button">저장</button>
+			<input type="hidden" name="id" value="${faqDto.id }">
+			<input id="summernote-title" type="text" name="title" value="${faqDto.title}"/>	
 				
-			<textarea id="summernote" name="content"></textarea>			
+			<textarea id="summernote" name="content" >${faqDto.content }</textarea>			
+			
+			
 		</form>	
 	</div>
 	

@@ -9,6 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/cs-css/cs-common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
@@ -39,13 +40,9 @@
 </head>
 
 <body>
-         <div>
-    		<button>
-    			<a href="/member/sign-up">회원가입</a>
-    		</button>
-    	</div>
-	
-	
+     
+     <jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+     
 	<div class="outbox">
 		
 		<div class= "note">
@@ -53,9 +50,9 @@
 		</div>
 
 		<div class="menubar">
-			<span><a href="${pageContext.request.contextPath}/cs/noticePage">공지사항</a></span>
+			<span><a href="${pageContext.request.contextPath}/noticeList">공지사항</a></span>
 			<span><a href="${pageContext.request.contextPath}/cs/tos">이용약관</a></span>
-			<span><a class="active" href="${pageContext.request.contextPath}/cs/faqPage">FAQ</a></span>
+			<span><a class="active" href="${pageContext.request.contextPath}/faqList">FAQ</a></span>
 		</div>
 		<!-- 옵션선택 끝 -->
 		<!-- 
@@ -73,7 +70,7 @@
 		</div> 
 		 -->
 		 
-		   <div class="row">		 		
+		   <div class="list-row">		 		
 			 	<form class="search" action="seachResult2"  name="searchForm" method="GET">		
 			 		<input type="hidden" value="${search.searchType}"> 			
 			 		<input class="input-search"  type="search" name="keyword" value="${search.keyword}" placeholder="결제, 정산, 공개검토 등으로 검색해보세요 !">
@@ -83,13 +80,13 @@
 		<ul>
 		  	<c:choose>
 		  	  	<c:when test="${empty viewAll}">
-                   	<li class="row" >
+                   	<li class="list-row" >
 							게시물이 없습니다.
 					</li>
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${viewAll}" var="faq">
-						<li class="row" align="left">
+						<li class="list-row" align="left">
 						    <span class="list">
 						    	<input type="hidden" value="${faq.id}">
 						    	<span class="cate">도움말</span>						    	

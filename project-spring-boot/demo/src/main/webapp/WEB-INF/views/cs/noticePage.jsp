@@ -10,6 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/cs-css/cs-common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
@@ -21,12 +22,7 @@
 </head>
 
 <body>
-         <div>
-    		<button>
-    			<a href="/member/sign-up">회원가입</a>
-    		</button>
-    	</div>
-
+    <jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 
 	<div class="outbox">
 		
@@ -59,13 +55,13 @@
 		<ul>
 		  	<c:choose>
 		  	  	<c:when test="${empty viewAll}">
-                   	<li class="row" >
+                   	<li class="list-row" >
 							게시물이 없습니다.
 					</li>
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${viewAll}" var="notice">
-						<li class="row" align="left">
+						<li class="list-row" align="left">
 						    <span class="list">
 						    	<input type="hidden" value="${notice.id}">
 						    	<span class="cate">공지사항</span>

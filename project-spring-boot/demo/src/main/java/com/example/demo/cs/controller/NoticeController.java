@@ -19,7 +19,6 @@ import com.example.demo.cs.service.NoticeService;
 
 
 @Controller
-@RequestMapping("/cs")
 public class NoticeController {
 	
 	private static final Logger log =
@@ -28,14 +27,8 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
-	@GetMapping("/noticeList")
-	public void list(Model model) throws Exception {
-		List<NoticeDto> noticeList = noticeService.list();
-		
-		model.addAttribute("noticeList", noticeList);		
-	}
 	
-	@GetMapping("noticePage")
+	@GetMapping("/cs/noticePage")
 	public String noticeList(PagingVO vo, Model model 
 			, @RequestParam(value="nowPage", required=false)String nowPage 
 			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) throws Exception {		
@@ -56,7 +49,7 @@ public class NoticeController {
 		return "cs/noticePage";
 	}
 	
-	@GetMapping("noticeDetail")
+	@GetMapping("/cs/noticeDetail")
 	public String noticeDetail(int id, Model model) throws Exception{
 		
 		log.info("noticeDetail()");
