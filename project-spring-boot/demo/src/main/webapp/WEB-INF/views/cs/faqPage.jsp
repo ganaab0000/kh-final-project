@@ -70,7 +70,7 @@
 		 -->
 		 
 		   <div class="search-row">		 		
-			 	<form class="search" action="seachResult2"  name="searchForm" method="GET">		
+			 	<form class="search" action="/cs/seachResult2"  name="searchForm" method="GET">		
 			 		<input type="hidden" value="${search.searchType}"> 			
 			 		<input class="input-search"  type="search" name="keyword" value="${search.keyword}" placeholder="결제, 정산, 공개검토 등으로 검색해보세요 !">
 			 		<button class="searchBtn" type="submit">검색</button>
@@ -88,7 +88,7 @@
 						<li class="list-row" align="left">
 						    <span class="list">
 						    	<input type="hidden" value="${faq.id}">
-						    	<span class="cate">도움말</span>						    	
+						    	<span class="pin">도움말</span>						    	
 								<span class="title">									
 									<a href="${pageContext.request.contextPath}/cs/faqDetail?id=${faq.id}">
 										${faq.title}									
@@ -121,6 +121,6 @@
 		</div>
 		
 	</div>
-	
+	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 </body>
 </html>

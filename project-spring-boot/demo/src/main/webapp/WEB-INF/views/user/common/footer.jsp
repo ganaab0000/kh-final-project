@@ -14,7 +14,7 @@
 		      <a href="#" class="nav-link link-dark px-2 active">2020년 결산</a>
 	      </li>
 	      <li class="nav-item">
-		      <a href="#" class="nav-link link-dark px-2 active">이용약관</a>
+		      <a href="${pageContext.request.contextPath}/cs/tos" class="nav-link link-dark px-2 active">이용약관</a>
 		      <a href="#" class="nav-link link-dark px-2 active">개인정보 처리방침</a>
 		      <a href="#" class="nav-link link-dark px-2 active">수수료 정책</a>
 		      <a href="${pageContext.request.contextPath}/cs/faqPage" class="nav-link link-dark px-2 active">헬프 센터</a>

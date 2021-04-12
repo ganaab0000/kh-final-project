@@ -231,5 +231,6 @@ input {
 					</form>
 			</div>			
 		</div>
+		<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 </body>
 </html>

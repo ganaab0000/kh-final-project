@@ -1,5 +1,7 @@
 package com.example.demo.controller.admin;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.admin.service.AdminNoticeService;
+import com.example.demo.cs.entity.FaqDto;
 import com.example.demo.cs.entity.NoticeDto;
 import com.example.demo.cs.entity.PagingVO;
+import com.example.demo.cs.entity.Search;
 import com.example.demo.cs.service.NoticeService;
 
 @Controller
@@ -94,6 +99,22 @@ public class AdminNoticeController {
 		
 		model.addAttribute("msg", "수정완료");
 		
-		return "redirect:/NoticeList";
+		return "redirect:/admin/noticeList";
 	}
+	
+	@RequestMapping("admin/nAdminSeach")
+	public String FaqSearch(Search search, Model model) throws Exception {
+		
+		ArrayList<NoticeDto> searchList = noticeService.searchList(search);
+		
+		
+		model.addAttribute("viewAll", searchList);
+		model.addAttribute("search", search);
+		
+		log.info("FaqSearch() :"+searchList);
+		
+		return "admin/notice/nAdminSeach";
+		
+	}
+	
 }

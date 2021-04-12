@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/admin/common/head.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
 <style>
@@ -189,41 +189,58 @@ input {
     line-height: 20px;
     letter-spacing: -0.015em;
 }
+.cate{
+	float: right;
+}
+.cate>a{
+		text-decoration: none
+	}	
+	
+.cate > a:link{
+	color: rgb(39, 163, 255);
+	cursor: pointer;
+}
+.cate > a:visited {
+	text-decoration: none; 
+	 color: rgb(39, 163, 255);
+	}
 
 </style>
 </head>
 
 <body>     
 
-	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/admin/common/header.jsp"></jsp:include>
 	
 	<div class="container">
 		
 		<nav class="sub-nav">
 			<ol class="sub-menu">
 				<li title="FAQ">
-					<a href="${pageContext.request.contextPath}/cs/faqList">FAQ</a>	
+					<a href="${pageContext.request.contextPath}/admin/faqList">FAQ</a>	
 				</li>
 				<li title="상세페이지">
 					상세페이지
 				</li>
 			</ol>
-			<form class="search" action="seachResult2"  name="searchForm"  method="GET">
+			<form class="search" action="/admin/fAdminSeach"  name="searchForm"  method="GET">
 				<input type="hidden" value="${search.searchType}"> 
 				<input type="search"  name="keyword"  value="${search.keyword}" placeholder="검색">
 				<button class="searchBtn" type="submit">검색</button>
 			</form>		
 		</nav>
 		
+			<jsp:include page="/WEB-INF/views/admin/common/sideNav.jsp"></jsp:include>
 		
 			<div class="article-container">
 					<form action="fRead" method="get" >
 							<input type="hidden" value="${faq.id }">
 							<div class="article-main">
 								<header>
-									<a class="cate" href="${pageContext.request.contextPath}/fModify?id=${faq.id}">수정</a>	
+									
 									<h3>${faq.title}</h3>
 									<span class="date"><fmt:formatDate  value="${faq.dateUpdated }"  type="date"  pattern="yyyy.MM.dd"/></span>
+									<span class="cate" ><a href="${pageContext.request.contextPath}/admin/fModify?id=${faq.id}">수정</a>	</span>
 								</header>							
 								<div class="content">
 								<!--escapeXml = "false"  html 태그를 해석해서 보여줌  -->

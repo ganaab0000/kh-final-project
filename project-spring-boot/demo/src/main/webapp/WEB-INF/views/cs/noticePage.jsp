@@ -64,7 +64,7 @@
 						<li class="list-row" align="left">
 						    <span class="list">
 						    	<input type="hidden" value="${notice.id}">
-						    	<span class="cate">공지사항</span>
+						    	<span class="pin">공지사항</span>
 								<span class="title">
 									<a href="${pageContext.request.contextPath}/cs/noticeDetail?id=${notice.id}">
 										${notice.title}																		
@@ -98,6 +98,6 @@
 		</div>
 		
 	</div>
-	
+	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 </body>
 </html>

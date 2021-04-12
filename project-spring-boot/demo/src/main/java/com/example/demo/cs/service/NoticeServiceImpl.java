@@ -1,5 +1,6 @@
 package com.example.demo.cs.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -8,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.cs.entity.FaqDto;
 import com.example.demo.cs.entity.NoticeDto;
 import com.example.demo.cs.entity.PagingVO;
+import com.example.demo.cs.entity.Search;
 import com.example.demo.repository.NoticeRepository;
 
 
@@ -48,6 +51,19 @@ public class NoticeServiceImpl implements NoticeService{
 	public NoticeDto detail(Integer id) throws Exception {
 		// TODO Auto-generated method stub
 		return repository.detail(id);
+	}
+	
+	@Override
+	public ArrayList<NoticeDto> searchList(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return repository.searchList(search);
+	}
+
+
+	@Override
+	public List<NoticeDto> NoticeResult(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return repository.NoticeResult(search);
 	}
 	
 }

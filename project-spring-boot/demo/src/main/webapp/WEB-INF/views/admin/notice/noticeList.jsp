@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/admin/common/head.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/cs-css/cs-common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
@@ -41,18 +41,20 @@
 
 <body>
      
-     <jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+     <jsp:include page="/WEB-INF/views/admin/common/header.jsp"></jsp:include>
      
 	<div class="outbox">
 		
 		<div class= "note">
 	 		 <span>공지사항</span>
 		</div>
-
+			
+			<jsp:include page="/WEB-INF/views/admin/common/sideNav.jsp"></jsp:include>
+			
 		<div class="menubar">
-			<span><a href="${pageContext.request.contextPath}/noticeList">공지사항</a></span>
-			<span><a href="${pageContext.request.contextPath}/cs/tos">이용약관</a></span>
-			<span><a class="active" href="${pageContext.request.contextPath}/noticeList">FAQ</a></span>
+			<span><a class="active"  href="${pageContext.request.contextPath}/admin/noticeList">공지사항</a></span>			
+			<span><a href="${pageContext.request.contextPath}/admin/faqList">FAQ</a></span>
+			<span class="write"><a href="${pageContext.request.contextPath}/admin/noticeWrite">공지등록</a></span>
 		</div>
 		<!-- 옵션선택 끝 -->
 		<!-- 
@@ -70,12 +72,12 @@
 		</div> 
 		 -->
 		 
-		   <div class="list-row">		 		
-			 	<form class="search" action="seachResult2"  name="searchForm" method="GET">		
+		   <div class="search-row">		 		
+			 	<form class="search" action="/admin/nAdminSeach"  name="searchForm" method="GET">		
 			 		<input type="hidden" value="${search.searchType}"> 			
 			 		<input class="input-search"  type="search" name="keyword" value="${search.keyword}" placeholder="결제, 정산, 공개검토 등으로 검색해보세요 !">
 			 		<button class="searchBtn" type="submit">검색</button>
-			 	</form>
+			 	</form>			 		
 		 	</div>
 		<ul>
 		  	<c:choose>
@@ -89,9 +91,9 @@
 						<li class="list-row" align="left">
 						    <span class="list">
 						    	<input type="hidden" value="${notice.id}">
-						    	<span class="cate">도움말</span>						    	
+						    	<span class="pin">도움말</span>						    	
 								<span class="title">									
-									<a href="${pageContext.request.contextPath}/nRead?id=${notice.id}">
+									<a href="${pageContext.request.contextPath}/admin/nRead?id=${notice.id}">
 										${notice.title}									
 									</a>						
 								</span>																								
@@ -104,7 +106,7 @@
 		
 		<div style="display: block; text-align: center;" class="pagination">		
 			<c:if test="${paging.startPage != 1}">
-				<a href="noticeList?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">&lt;</a>
+				<a href="/admin/noticeList?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">&lt;</a>
 			</c:if>
 			<c:forEach begin="${paging.startPage}"  end="${paging.endPage}"  var="p">
 				<c:choose>
@@ -112,12 +114,12 @@
 						<b>${p}</b>
 					</c:when>
 					<c:when test="${p != paging.nowPage}">
-						<a href="noticeList?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
+						<a href="/admin/noticeList?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
 					</c:when>
 				</c:choose>
 			</c:forEach>
 			<c:if test="${paging.endPage != paging.lastPage}">
-				<a href="noticeList?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">&gt;</a>
+				<a href="/admin/noticeList?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">&gt;</a>
 			</c:if>
 		</div>
 		

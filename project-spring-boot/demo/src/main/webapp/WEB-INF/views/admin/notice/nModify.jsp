@@ -125,7 +125,7 @@ body {
 	 		});
 	 		
 	 		$("#resetBtn").on("click", function(){
-	 			location.href = "faqList";
+	 			location.href = "/admin/noticeList";
 	 		});
 		}); 
 	 
@@ -137,18 +137,19 @@ body {
 	<div class="creadted_settingTitle">
 		<div class="container-header">
 			<h1>공지사항 -수정</h1>
-		</div>
-		<a href="${pageContext.request.contextPath}/noticeList">관리자공지사항</a>	
+		</div>		
 	</div>
 	
+	
+	
 	<div class="container-container">
-		<form id="modifyForm" method="post" action="nModify">
+		<form id="modifyForm" method="post" action="/admin/nModify">
 			<button id="resetBtn" type="reset">취소</button>
 			<button id="editBtn" type="button">저장</button>
-			<input type="hidden" name="id" value="${faqDto.id }">
-			<input id="summernote-title" type="text" name="title" value="${faqDto.title}"/>	
+			<input type="hidden" name="id" value="${noticeDto.id }">
+			<input id="summernote-title" type="text" name="title" value="${noticeDto.title}"/>	
 				
-			<textarea id="summernote" name="content" >${faqDto.content }</textarea>			
+			<textarea id="summernote" name="content" >${noticeDto.content }</textarea>			
 			
 			
 		</form>	

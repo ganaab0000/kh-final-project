@@ -1,5 +1,7 @@
 package com.example.demo.controller.admin;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.admin.service.AdminFaqService;
 import com.example.demo.cs.entity.FaqDto;
 import com.example.demo.cs.entity.PagingVO;
+import com.example.demo.cs.entity.Search;
 import com.example.demo.cs.service.FaqService;
 
 import oracle.jdbc.proxy.annotation.Post;
@@ -76,7 +80,7 @@ public class AdminFaqController {
 		
 		model.addAttribute("msg", "등록!");
 		
-		return "redirect:cs/faqPage";			
+		return "redirect:/cs/faqPage";			
 	}
 	
 	@GetMapping("/admin/fModify")
@@ -96,6 +100,21 @@ public class AdminFaqController {
 		
 		model.addAttribute("msg", "수정완료");
 		
-		return "redirect:/faqList";
+		return "redirect:/admin/faqList";
+	}
+	
+	@RequestMapping("admin/fAdminSeach")
+	public String FaqSearch(Search search, Model model) throws Exception {
+		
+		ArrayList<FaqDto> searchList = faqService.searchList(search);
+		
+		
+		model.addAttribute("viewAll", searchList);
+		model.addAttribute("search", search);
+		
+		log.info("FaqSearch() :"+searchList);
+		
+		return "admin/faq/fAdminSeach";
+		
 	}
 }

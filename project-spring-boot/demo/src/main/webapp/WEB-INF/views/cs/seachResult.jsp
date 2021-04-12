@@ -248,6 +248,6 @@ a:visited {
 		
 	
 	</div>
-	
+	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 </body>
 </html>

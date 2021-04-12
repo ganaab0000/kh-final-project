@@ -125,7 +125,7 @@ body {
 	 		});
 	 		
 	 		$("#resetBtn").on("click", function(){
-	 			location.href = "faqList";
+	 			location.href = "/admin/faqList";
 	 		});
 		}); 
 	 
@@ -138,11 +138,10 @@ body {
 		<div class="container-header">
 			<h1>자주 묻는 질문:답변 -수정</h1>
 		</div>
-		<a href="${pageContext.request.contextPath}/faqList">관리자FAQ</a>	
 	</div>
 	
 	<div class="container-container">
-		<form id="modifyForm" method="post" action="fModify">
+		<form id="modifyForm" method="post" action="/admin/fModify">
 			<button id="resetBtn" type="reset">취소</button>
 			<button id="editBtn" type="button">저장</button>
 			<input type="hidden" name="id" value="${faqDto.id }">

@@ -125,7 +125,7 @@ body {
 	 		});
 	 		
 	 		$("#resetBtn").on("click", function(){
-	 			location.href = "cs/faqPage";
+	 			location.href = "/admin/noticeList";
 	 		});
 		}); 
 	 
@@ -137,12 +137,11 @@ body {
 	<div class="creadted_settingTitle">
 		<div class="container-header">
 			<h1>공지사항:등록</h1>
-		</div>
-		<a href="${pageContext.request.contextPath}/noticeList">관리자공지사항</a>	
+		</div>		
 	</div>
 	
 	<div class="container-container">
-		<form id="writeForm" method="post" action="notice/noticeWrite">
+		<form id="writeForm" method="post" action="/admin/notice/noticeWrite">
 			<button id="resetBtn" type="reset">취소</button>
 			<button id="writeBtn" type="button">저장</button>
 			

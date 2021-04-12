@@ -55,14 +55,14 @@ a{
 		text-decoration: none
 	}
 a:link{
-		 color: rgb(61, 61, 61);
+		color: rgb(61, 61, 61);
 		cursor: pointer;
 	}
 a:visited {
 	text-decoration: none; 
 	 color: rgb(61, 61, 61);
 	}
-.cate{
+.pin{
 		display: flex;
 	    -webkit-box-align: center;
 	    align-items: center;
@@ -71,8 +71,9 @@ a:visited {
 	    color: rgb(158, 158, 158);
 	    line-height: 1.54;
 	    letter-spacing: -0.2px;	    
-	    margin: 0px 0px 4px;
+	    margin: 0px 0px 4px;	    
 	}
+
 .title{
 		display: -webkit-box;
 	    flex: 110%;
@@ -127,6 +128,12 @@ a:visited {
 	font-size: 13px;
     line-height: 20px;
     letter-spacing: -0.015em;
+}
+.write>a:link{
+		color: rgb(61, 61, 61);
+		cursor: pointer;
+		float: right;
+		font-weight: 500;
 }
 
 

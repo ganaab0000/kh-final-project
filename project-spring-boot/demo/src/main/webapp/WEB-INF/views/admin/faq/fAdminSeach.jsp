@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/admin/common/head.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
 <style>
@@ -181,25 +181,27 @@ a:visited {
 
 <body>       
 	
-	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/admin/common/header.jsp"></jsp:include>
 	
 	<div class="container">
 		
 		<nav class="sub-nav">
 			<ol class="sub-menu">
 				<li title="FAQ">
-					<a href="${pageContext.request.contextPath}/cs/faqPage">FAQ</a>	
+					<a href="${pageContext.request.contextPath}/admin/faqList">관리자-FAQ</a>	
 				</li>
 				<li title="검색결과">
 					검색결과
 				</li>
 			</ol>
-			<form class="search" action="fAdminSeach"  name="searchForm"  method="GET">
+			<form class="search" action="/admin/fAdminSeach"  name="searchForm"  method="GET">
 				<input type="hidden" value="${search.searchType}"> 
 				<input type="search"  name="keyword"  value="${search.keyword}" placeholder="검색">
 				<button class="searchBtn" type="submit">검색</button>
 			</form>		
 		</nav>
+		
+		<jsp:include page="/WEB-INF/views/admin/common/sideNav.jsp"></jsp:include>
 		
 		<header class= "page-header">
 	 		 <h1>검색 결과</h1>
