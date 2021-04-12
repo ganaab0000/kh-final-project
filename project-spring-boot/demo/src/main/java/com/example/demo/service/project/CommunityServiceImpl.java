@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.dto.CommunityDto;
+import com.example.demo.domain.vo.CommunityVo;
 import com.example.demo.repository.CommunityRepository;
 
 @Service
@@ -16,7 +17,7 @@ public class CommunityServiceImpl implements CommunityService{
 	private CommunityRepository communityRepository;
 	
 	@Override
-	public List<CommunityDto> findByProjectId(Integer projectId, Integer category) {
+	public List<CommunityVo> findByProjectId(Integer projectId, Integer category) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("projectId", projectId);
 		params.put("category", category);
@@ -24,7 +25,7 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 	
 	@Override
-	public List<CommunityDto> findReply(Integer parentId) {
+	public List<CommunityVo> findReply(Integer parentId) {
 		return communityRepository.findReply(parentId);
 	}
 	
@@ -39,7 +40,7 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 	
 	@Override
-	public CommunityDto findById(Integer postId) {
-		return communityRepository.findById(postId);
+	public CommunityVo findById(Integer id) {
+		return communityRepository.findById(id);
 	}
 }

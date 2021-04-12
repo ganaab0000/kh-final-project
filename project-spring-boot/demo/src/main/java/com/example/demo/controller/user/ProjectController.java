@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.dto.CommunityDto;
+import com.example.demo.domain.vo.CommunityVo;
 import com.example.demo.domain.vo.ProejctAjaxListVo;
 import com.example.demo.domain.vo.ProjectFilteringVo;
 import com.example.demo.domain.vo.ProjectVo;
@@ -106,7 +107,7 @@ public class ProjectController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
 	@GetMapping("/{id}/community")
-	public List<CommunityDto> getCommunity(@PathVariable("id") Integer id, @RequestParam("category") Integer category, Model model) {
+	public List<CommunityVo> getCommunity(@PathVariable("id") Integer id, @RequestParam("category") Integer category, Model model) {
 		log.info("project community : " + id);
 		log.info("category : " + category);
 		
@@ -138,7 +139,7 @@ public class ProjectController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
 	@GetMapping("/{projectId}/community/{postId}")
-	public CommunityDto readPost(@PathVariable("postId") Integer postId) {
+	public CommunityVo readPost(@PathVariable("postId") Integer postId) {
 		log.info("readPost()");
 		
 		return communityService.findById(postId);
@@ -148,7 +149,7 @@ public class ProjectController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
 	@GetMapping("/{projectId}/community/{postId}/reply")
-	public List<CommunityDto> getPostReply(@PathVariable("postId") Integer parentId) {
+	public List<CommunityVo> getPostReply(@PathVariable("postId") Integer parentId) {
 		log.info("getPostReply()");
 		
 		return communityService.findReply(parentId);

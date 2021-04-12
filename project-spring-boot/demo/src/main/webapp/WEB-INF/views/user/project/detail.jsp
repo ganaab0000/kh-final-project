@@ -146,6 +146,9 @@
         #writeBtn{
             float: right;
         }
+        .reply{
+        	border: 1px solid lightgray;
+        }
     </style>
 </head>
 <body>
@@ -291,6 +294,7 @@
             <div class="postCreated"></div>
             <div class="postContent"></div>
             <div class="postReply">
+				<div class="replyCount"></div>
 				<div class="postReplyForm">
 					<form action="" id="replyForm">
 						<input type="text" name="content" id="content">
@@ -376,9 +380,10 @@
                     for(var i=0; i<data.length; i++){
                         var post = $($("#postTemplate").html());
                         post.attr("id", data[i].id);
-                        post.find(".postHeader").text(data[i].memberId);
+                        post.find(".postHeader").text(data[i].nickname);
                         post.find(".postCreated").text(data[i].dateCreated);
                         post.find(".postContent").text(data[i].content);
+                        post.find(".replyCount").text(data[i].replyCount + "개의 댓글이 있습니다.");
                         $(".postWrapper").append(post);
                         
                         post.on("click", function(){
@@ -435,9 +440,10 @@
                 	
                 	var post = $($("#postTemplate").html());
                     post.attr("id", data.id);
-                    post.find(".postHeader").text(data.memberId);
+                    post.find(".postHeader").text(data.nickname);
                     post.find(".postCreated").text(data.dateCreated);
                     post.find(".postContent").text(data.content);
+                    post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
                     
                     //댓글 작성 
                     post.find("#replySubmitBtn").on("click", function(e){
@@ -465,7 +471,7 @@
                         	var replyWrapper = post.find(".replyWrapper");
                         	for(var i=0; i<data.length; i++){
                         		var reply = $($("#replyTemplate").html());
-                        		reply.find(".replyHeader").text(data[i].memberId);
+                        		reply.find(".replyHeader").text(data[i].nickname);
                         		reply.find(".replyCreated").text(data[i].dateCreated);
                         		reply.find(".replyContent").text(data[i].content);
                         		replyWrapper.append(reply);
