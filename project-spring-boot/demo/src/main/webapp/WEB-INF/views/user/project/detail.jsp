@@ -96,9 +96,6 @@
             width: auto;
             flex-grow: 1;
         }
-        .content{
-        	height: 1000px;
-        }
         .contentWrapper .subColumn{
             max-width: 354px;
             width: 100%;
@@ -199,30 +196,25 @@
                     </div>
                 </div>
                 <div class="projectBtnWrapper">
-                    <button class="join">프로젝트 밀어주기</button>
-                    <button class="like">좋아</button>
+                    <button class="join btn">프로젝트 밀어주기</button>
+                    <button class="like btn">좋아</button>
                 </div>
             </div>
         </div>
         <div class="projectContent">
             <div class="contentNav">
                 <a href="" id="storyLink">스토리</a>
-                <a href="" id="">새소식</a>
                 <a href="" id="communityLink">커뮤니티</a>
                 <a href="" id="">펀딩 안내</a>
             </div>
             <div class="contentWrapper">
                 <div class="mainColumn">
-                	<div class="contentBox postBtnWrapper">
-                        <button class="communityBtn writeBtn">글쓰기</button>
-                        <button class="backToCommunity">커뮤니티로 돌아가기</button>
-                    </div>
-                    <div class="contentBox filterBtnWrapper">
+                    <div class="contentBox communityBtnWrapper">
                         <div>
-                            <button class="filter communityBtn" value="">모든 게시글</button>
-                            <button class="filter communityBtn" value="1">응원</button>
-                            <button class="filter communityBtn" value="2">의견</button>
-                            <button class="filter communityBtn" value="3">체험 리뷰</button>
+                            <button class="filter communityBtn btn" value="1">모든 게시글</button>
+                            <button class="filter communityBtn btn" value="2">창작자 업데이트</button>
+	                        <button class="communityBtn communityWriteBtn btn">글쓰기</button>
+	                        <button class="backToCommunity btn">커뮤니티로 돌아가기</button>
                         </div>
                     </div>
                     <div class="content"></div>
@@ -230,10 +222,10 @@
                 <div class="subColumn">
                     <div class="writerWrapper contentBox">
                         <div class="writerInfoHeader">창작자 소개</div>
-                        <div class="writerName">${member.nickname}</div>
+                        <div class="writerName">${writer.nickname}</div>
                         <div class="writerContent">작성자 소개입니다.</div>
                         <hr>
-                        <div class="lastLoggedIn">마지막 로그인 : ${member.dateLoggedin}</div>
+                        <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
                         <div class="writerProject">
                             <span class="createdProject">진행한 프로젝트 ?</span> / 
                             <span class="joinedProject">밀어준 프로젝트 ?</span>
@@ -266,9 +258,6 @@
         </div>
     	</div>
     </div>
-	<button>
-		<a href="list">리스트</a>
-	</button>
 	
 	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 	
@@ -285,14 +274,14 @@
                 *추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.
             </div>
             <div class="extraSupportBtnWrapper">
-                <button class="extraSupportBtn">+5천원</button>
-                <button class="extraSupportBtn">+1만원</button>
-                <button class="extraSupportBtn">+5만원</button>
-                <button class="extraSupportBtn">+10만원</button>
+                <button class="extraSupportBtn btn">+5천원</button>
+                <button class="extraSupportBtn btn">+1만원</button>
+                <button class="extraSupportBtn btn">+5만원</button>
+                <button class="extraSupportBtn btn">+10만원</button>
             </div>
         </div>
         <div class="projectJoin">
-            <button>프로젝트 후원하기</button>
+            <button class="btn">프로젝트 후원하기</button>
         </div>
     </script>
 
@@ -301,24 +290,32 @@
             <div class="postHeader"></div>
             <div class="postCreated"></div>
             <div class="postContent"></div>
-            <div class="postReply"></div>
+            <div class="postReply">
+				<div class="postReplyForm">
+					<form action="" id="replyForm">
+						<input type="text" name="content" id="content">
+						<button class="btn" id="replySubmitBtn">댓글 쓰기</button>
+					</form>
+				</div>
+				<div class="replyWrapper"></div>
+			</div>
         </div>
     </script>
 
+	<script type="text/template" id="replyTemplate">
+		<div class="reply">
+            <div class="replyHeader"></div>
+            <div class="replyCreated"></div>
+            <div class="replyContent"></div>
+        </div>
+	</script>
     <script type="text/template" id="postFormTemplate">
         <div class="communityPostForm contentBox">
             <div class="fromHeader">게시글 작성하기</div>
             <form action="" id="postForm">
-                <div>
-                    <select name="communityCategoryId" id="communityCategoryId">
-                        <option value="1">응원</option>
-                        <option value="2">의견</option>
-                        <option value="3">체험리뷰</option>
-                    </select>
-                </div>
                 <textarea name="content" id="content" cols="30" rows="10"></textarea>
                 <div>
-                    <button type="submit" id="submitBtn">올리기</button>
+                    <button id="submitBtn" class="btn">올리기</button>
                 </div>
             </form>
         </div>
@@ -340,8 +337,7 @@
             loadingStory();
         });
         function loadingStory(){
-        	$(".postBtnWrapper").hide();
-            $(".filterBtnWrapper").hide();
+        	$(".communityBtnWrapper").hide();
             $.ajax({
                 url: rootUrl + "/story",
                 type: "get",
@@ -355,16 +351,22 @@
             });
         }
 
-        //커뮤니티 불러오기
+        //커뮤니티 버튼 이벤트
         $("#communityLink").on("click", function(e){
             e.preventDefault();
-            $(".postBtnWrapper").show();
-            $(".filterBtnWrapper").show();
+            $(".communityBtnWrapper").show();
+            $(".communityBtn").show();
             $(".backToCommunity").hide();
-            $.ajax({
+            $(".communityBtn.filter").first().trigger("click");
+        });
+        //커뮤니티 불러오기
+        $(".communityBtn.filter").on("click", function(){
+        	$.ajax({
                 url: rootUrl + "/community",
                 type: "get",
-                data: {},
+                data: {
+                	category : this.value
+                },
                 success: function(data){
                     $(".writeBtn").show();
                     $(".content").children().remove();
@@ -373,30 +375,38 @@
                     $(".content").append($("<div class='postWrapper'></div>"));
                     for(var i=0; i<data.length; i++){
                         var post = $($("#postTemplate").html());
+                        post.attr("id", data[i].id);
                         post.find(".postHeader").text(data[i].memberId);
                         post.find(".postCreated").text(data[i].dateCreated);
                         post.find(".postContent").text(data[i].content);
                         $(".postWrapper").append(post);
+                        
+                        post.on("click", function(){
+							readPost(this.id);
+                        })
                     }
+                    $(".postReplyForm").hide();
                 }
             });
         });
         
-        $(".writeBtn").on("click", function(){
+        //커뮤니티 글 작성 폼 생성
+        $(".communityWriteBtn").on("click", function(){
             $(this).hide();
             $(".backToCommunity").show();
-            $(".filterBtnWrapper").hide();
+            $(".communityBtn").hide();
             $(".content").children().remove();
 
             $(".content").append($($("#postFormTemplate").html()));
             
+            //커뮤니티 글 작성 통신
             $("#submitBtn").on("click", function(e){
                 e.preventDefault();
                 $.ajax({
                     url: rootUrl + "/community",
                     type: "post",
                     data: {
-                    	communityCategoryId : $("#communityCategoryId").val(),
+                    	writerId : ${writer.id},
                     	content : $("#content").val()
                     },
                     success: function(data){
@@ -408,6 +418,66 @@
         $(".backToCommunity").on("click", function(){
             $("#communityLink").trigger("click");
         });
+        
+        //커뮤니티 글 읽기
+        function readPost(id){
+        	$(".backToCommunity").show();
+            $(".communityBtn").hide();
+            $(".content").children().remove();
+            
+            $.ajax({
+                url: rootUrl + "/community/" + id,
+                type: "get",
+                data: {
+                },
+                success: function(data){
+                	$(".content").append($("<div class='postWrapper'></div>"));
+                	
+                	var post = $($("#postTemplate").html());
+                    post.attr("id", data.id);
+                    post.find(".postHeader").text(data.memberId);
+                    post.find(".postCreated").text(data.dateCreated);
+                    post.find(".postContent").text(data.content);
+                    
+                    //댓글 작성 
+                    post.find("#replySubmitBtn").on("click", function(e){
+                        e.preventDefault();
+                        $.ajax({
+                            url: rootUrl + "/community",
+                            type: "post",
+                            data: {
+                            	parentId : id,
+                            	writerId : ${writer.id},
+                            	content : $("#content").val()
+                            },
+                            success: function(data){
+								readPost(id);
+                            }
+                        });
+                    });
+                    
+                    //댓글 불러오기
+                    $.ajax({
+                        url: this.url + "/reply",
+                        type: "get",
+                        data: {},
+                        success: function(data){
+                        	var replyWrapper = post.find(".replyWrapper");
+                        	for(var i=0; i<data.length; i++){
+                        		var reply = $($("#replyTemplate").html());
+                        		reply.find(".replyHeader").text(data[i].memberId);
+                        		reply.find(".replyCreated").text(data[i].dateCreated);
+                        		reply.find(".replyContent").text(data[i].content);
+                        		replyWrapper.append(reply);
+                        	}
+                        }
+                    });
+                    
+                    
+                    $(".postWrapper").append(post);
+                }
+            });
+        }
         
         
         loadingStory();

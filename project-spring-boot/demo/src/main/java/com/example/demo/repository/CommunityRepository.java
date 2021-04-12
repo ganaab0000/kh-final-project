@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
@@ -11,11 +12,17 @@ import com.example.demo.domain.dto.CommunityDto;
 @Mapper
 public interface CommunityRepository {
 
-	@Select("select * from community where project_id = #{projectId} order by id desc")
-	public List<CommunityDto> findByProjectId(Integer projectId);
+	public List<CommunityDto> findByProjectId(HashMap<String, Object> params);
 
-	@Insert("insert into community values("
-			+ "community_id_seq.nextval, #{content}, 'N', sysdate, sysdate,"
-			+ "#{projectId}, #{memberId}, #{communityCategoryId}, '')")
+	public List<CommunityDto> findReply(Integer parentId);
+	
+	@Insert("insert into community values(community_id_seq.nextval, #{content}, 'N', sysdate, sysdate,#{projectId}, #{memberId}, #{communityCategoryId}, '')")
 	public void save(CommunityDto communityDto);
+	
+	@Insert("insert into community values(community_id_seq.nextval, #{content}, 'N', sysdate, sysdate,#{projectId}, #{memberId}, #{communityCategoryId}, #{parentCommunityId})")
+	public void saveReply(CommunityDto communityDto);
+
+	@Select("select * from community where id = #{postId}")
+	public CommunityDto findById(Integer postId);
+	
 }

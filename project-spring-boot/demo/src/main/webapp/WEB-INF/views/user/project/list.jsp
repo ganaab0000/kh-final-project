@@ -14,6 +14,9 @@
 			margin: 0 auto;
 			padding: 10px;
 		}
+		.cardWrapper{
+			margin: 2rem 0;
+		}
 		.card{
 			padding: 10px;
 		}
@@ -57,89 +60,106 @@
 		.remainTime{
 			float: right;
 		}
+		.rate{
+		}
+		.filterWrapper{
+			position: relative;
+			display: flex;
+			align-items: center;
+			margin-bottom: 1rem;
+		}
+		.filterReset, #sort{
+			position: absolute;
+			right: 0;
+		}
+		.noList{
+		    margin-top: 200px;
+		    text-align: center;
+		    height: 300px;
+		    font-size: 3rem;
+		    font-weight: bold;
+		    color: darkgray;
+		}
 	</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 	<div class="main">
-		<div>
-			<div class="dropdown">
-				<button class="btn dropdown-toggle filter" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">
-					카테고리
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="category">
-					<li><button class="dropdown-item" name="category" value="">전체 보기</button></li>
-					<c:forEach var="category" items="${category}">
-						<li><button class="dropdown-item" name="category" value="${category.id}">${category.name}</button></li>
-					</c:forEach>
-				</ul>
-				<button class="btn dropdown-toggle filter" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">
-					상태
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="status">
-					<li><button class="dropdown-item" name="status" value="">전체 보기</button></li>
-					<c:forEach var="status" items="${status}">
-						<li><button class="dropdown-item" name="status" value="${status.id}">${status.detail}</button></li>
-					</c:forEach>
-				</ul>
-				<button class="btn dropdown-toggle filter" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">
-					달성률
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="rate">
-					<li><button class="dropdown-item" name="rate" value="">전체 보기</button></li>
-					<li><button class="dropdown-item" name="rate" value="1">75% 이하</button></li>
-					<li><button class="dropdown-item" name="rate" value="2">75% ~ 100%</button></li>
-					<li><button class="dropdown-item" name="rate" value="3">100% 이상</button></li>
-					<li><hr class="dropdown-divider"></li>
-					<li>
+		<div class="dropdown filterWrapper">
+			<button class="btn dropdown-toggle filter" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">
+				카테고리
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="category">
+				<li><button class="dropdown-item" name="category" value="">전체 보기</button></li>
+				<c:forEach var="category" items="${category}">
+					<li><button class="dropdown-item" name="category" value="${category.id}">${category.name}</button></li>
+				</c:forEach>
+			</ul>
+			<button class="btn dropdown-toggle filter" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">
+				상태
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="status">
+				<li><button class="dropdown-item" name="status" value="">전체 보기</button></li>
+				<c:forEach var="status" items="${status}">
+					<li><button class="dropdown-item" name="status" value="${status.id}">${status.detail}</button></li>
+				</c:forEach>
+			</ul>
+			<button class="btn dropdown-toggle filter" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">
+				달성률
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="rate">
+				<li><button class="dropdown-item" name="rate" value="">전체 보기</button></li>
+				<li><button class="dropdown-item" name="rate" value="1">75% 이하</button></li>
+				<li><button class="dropdown-item" name="rate" value="2">75% ~ 100%</button></li>
+				<li><button class="dropdown-item" name="rate" value="3">100% 이상</button></li>
+				<li><hr class="dropdown-divider"></li>
+				<li>
+					<div class="">
+						<div class="">직접 입력</div>
 						<div class="">
-							<div class="">직접 입력</div>
-							<div class="">
-								<span class="">
-								<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="minRate" class="min" value="">
-								<span class="">%</span>
-								</span>-<span class="">
-								<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="maxRate" class="max" value="">
-								<span class="">%</span></span>
-							</div>
-							<button class="customFilter">
-								<span>입력값 적용</span>
-							</button>
+							<span class="">
+							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="minRate" class="min" value="">
+							<span class="">%</span>
+							</span>-<span class="">
+							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="maxRate" class="max" value="">
+							<span class="">%</span></span>
 						</div>
-					</li>
-				</ul>
-				<button class="btn dropdown-toggle filter" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">
-					모인 금액
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="collected">
-					<li><button class="dropdown-item" name="collected" value="">전체 보기</button></li>
-					<li><button class="dropdown-item" name="collected" value="1">1백만원 이하</button></li>
-					<li><button class="dropdown-item" name="collected" value="2">1백만원 ~ 1천만원</button></li>
-					<li><button class="dropdown-item" name="collected" value="3">1천만원 ~ 5천만원</button></li>
-					<li><button class="dropdown-item" name="collected" value="4">5천만원 이상</button></li>
-					<li><hr class="dropdown-divider"></li>
-					<li>
+						<button class="customFilter">
+							<span>입력값 적용</span>
+						</button>
+					</div>
+				</li>
+			</ul>
+			<button class="btn dropdown-toggle filter" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">
+				모인 금액
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="collected">
+				<li><button class="dropdown-item" name="collected" value="">전체 보기</button></li>
+				<li><button class="dropdown-item" name="collected" value="1">1백만원 이하</button></li>
+				<li><button class="dropdown-item" name="collected" value="2">1백만원 ~ 1천만원</button></li>
+				<li><button class="dropdown-item" name="collected" value="3">1천만원 ~ 5천만원</button></li>
+				<li><button class="dropdown-item" name="collected" value="4">5천만원 이상</button></li>
+				<li><hr class="dropdown-divider"></li>
+				<li>
+					<div class="">
+						<div class="">직접 입력</div>
 						<div class="">
-							<div class="">직접 입력</div>
-							<div class="">
-								<span class="">
-								<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="minCollected" class="min" value="">
-								<span class="">원</span>
-								</span>-<span class="">
-								<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="maxCollected" class="max" value="">
-								<span class="">원</span></span>
-							</div>
-							<button class="customFilter">
-								<span>입력값 적용</span>
-							</button>
+							<span class="">
+							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="minCollected" class="min" value="">
+							<span class="">원</span>
+							</span>-<span class="">
+							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="maxCollected" class="max" value="">
+							<span class="">원</span></span>
 						</div>
-					</li>
-				</ul>
-				<button class="btn filterReset">필터 초기화</button>
-			</div>
+						<button class="customFilter">
+							<span>입력값 적용</span>
+						</button>
+					</div>
+				</li>
+			</ul>
+			<button class="btn filterReset">필터 초기화</button>
 		</div>
-		
-		<div>
+		<div class="filterWrapper">
 			<span id="projectCount"></span>개의 프로젝트가 있습니다.
 			<button class="btn dropdown-toggle filter" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
 				최신순
@@ -153,6 +173,9 @@
 		</div>
 		
 		<div class="row row-cols-1 row-cols-md-3 g-4 cardContainer"></div>
+		<div class="noList">
+			발견된 프로젝트가 없습니다.
+		</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 	
@@ -251,31 +274,35 @@
 				dataType: "json",
 				success: function(data){
 					$(".spinner").remove();
-					
-					var listTable = document.querySelector("#listTable>tbody");
-					
-					for(var i=0; i<data.projectList.length; i++){
-						var cardWrapper = $($("#cardTemplate").html());
-						var card = cardWrapper.children(".card");
-
-						card.find(".mainImg").attr("src", "http://127.0.0.1:9090/api/file/" + data.projectList[i].mainImg);
-						card.find("a").attr("href", location.origin + "/project/" + data.projectList[i].id);
-
-						var cardBody = card.children(".card-body");
-						cardBody.find(".cardTitle").text(data.projectList[i].title);
-						cardBody.find(".cardCategory").text(data.projectList[i].projectCategory).attr("href", location.origin + "/project/list?category=" + data.projectList[i].projectCategoryId);
-						cardBody.find(".cardWriter").text(data.projectList[i].writerName).attr("href", location.origin + "/member/" + data.projectList[i].memberId);
-						cardBody.find(".cardSubTitle").text(data.projectList[i].subTitle);
-
-						var cardFooter = card.children(".card-footer");
-						cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
-						cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
-						var rate = data.projectList[i].rate;
-						rate = rate==null ? 0 : rate;
-						cardFooter.find(".rate").text(rate + "%");
-						cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
+					if(data.projectCount!=0){
+						var listTable = document.querySelector("#listTable>tbody");
 						
-						$(".cardContainer").append(cardWrapper);
+						for(var i=0; i<data.projectList.length; i++){
+							var cardWrapper = $($("#cardTemplate").html());
+							var card = cardWrapper.children(".card");
+	
+							card.find(".mainImg").attr("src", "http://127.0.0.1:9090/api/file/" + data.projectList[i].mainImg);
+							card.find("a").attr("href", location.origin + "/project/" + data.projectList[i].id);
+	
+							var cardBody = card.children(".card-body");
+							cardBody.find(".cardTitle").text(data.projectList[i].title);
+							cardBody.find(".cardCategory").text(data.projectList[i].projectCategory).attr("href", location.origin + "/project/list?category=" + data.projectList[i].projectCategoryId);
+							cardBody.find(".cardWriter").text(data.projectList[i].writerName).attr("href", location.origin + "/member/" + data.projectList[i].memberId);
+							cardBody.find(".cardSubTitle").text(data.projectList[i].subTitle);
+	
+							var cardFooter = card.children(".card-footer");
+							cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
+							cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
+							var rate = data.projectList[i].rate;
+							rate = rate==null ? 0 : rate;
+							cardFooter.find(".rate").text(rate + "%");
+							cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
+							
+							$(".cardContainer").append(cardWrapper);
+						}
+						$(".noList").hide();
+					} else{
+						$(".noList").show();
 					}
 					
 					if(page==1){
@@ -327,7 +354,6 @@
 				maxCollected = "";
 			}
 			page = 1;
-			$(".cardContainer").append($($("#spinner").html()));
 			loadingList();
 		})
 		$(".customFilter").on("click", function(){
@@ -348,6 +374,7 @@
 		
 		//필터 초기화
 		$(".filterReset").on("click", function(){
+			removeAllChild(document.querySelector(".cardContainer"));
 			category = "";
 			status = "";
 			rate = "";

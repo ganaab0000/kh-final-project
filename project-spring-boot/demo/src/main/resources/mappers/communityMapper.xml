@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.CommunityRepository">
+	<select id="findByProjectId" resultType="CommunityDto" parameterType="HashMap">
+		select * from community 
+			where project_id = #{projectId} and parent_community_id is null
+			<if test="category==2">
+				and community_category_id = #{category}
+			</if>
+			order by id desc
+	</select>
+	
+	<select id="findReply" resultType="CommunityDto" parameterType="int">
+		select * from community 
+			where parent_community_id = #{parentId}
+			order by id desc
+	</select>
+</mapper>
