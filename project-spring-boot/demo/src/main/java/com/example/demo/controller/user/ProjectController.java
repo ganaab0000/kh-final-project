@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -153,5 +155,34 @@ public class ProjectController {
 		log.info("getPostReply()");
 		
 		return communityService.findReply(parentId);
+	}
+	
+	//프로젝트 커뮤니티 포스트 개수 로드
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@GetMapping("/{projectId}/community/count")
+	public int getCount(@PathVariable("projectId") Integer projectId) {
+		log.info("getCount()");
+		
+		return communityService.getCount(projectId);
+	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@PutMapping("/community/{communityId}")
+	public void update(@PathVariable("communityId") Integer communityId, CommunityDto communityDto) {
+		log.info("community update()" + communityId);
+		
+		communityDto.setId(communityId);
+		communityService.update(communityDto);
+	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@DeleteMapping("/community/{communityId}")
+	public void delete(@PathVariable("communityId") Integer communityId) {
+		log.info("community delete()" + communityId);
+		
+		communityService.delete(communityId);
 	}
 }

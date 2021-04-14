@@ -30,6 +30,11 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 	
 	@Override
+	public CommunityVo findById(Integer id) {
+		return communityRepository.findById(id);
+	}
+
+	@Override
 	public void save(CommunityDto communityDto) {
 		communityRepository.save(communityDto);
 	}
@@ -40,7 +45,17 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 	
 	@Override
-	public CommunityVo findById(Integer id) {
-		return communityRepository.findById(id);
+	public int getCount(Integer projectId) {
+		return communityRepository.getCount(projectId);
+	}
+	
+	@Override
+	public void update(CommunityDto communityDto) {
+		communityRepository.update(communityDto);
+	}
+	
+	@Override
+	public void delete(Integer communityId) {
+		communityRepository.delete(communityId);
 	}
 }

@@ -149,6 +149,24 @@
         .reply{
         	border: 1px solid lightgray;
         }
+        .like{
+        	padding: 0;
+        }
+        .noList{
+		    margin-top: 200px;
+		    text-align: center;
+		    height: 300px;
+		    font-size: 3rem;
+		    font-weight: bold;
+		    color: darkgray;
+		}
+		.header{
+			position: relative;
+		}
+		.manageBtnWrapper{
+			position: absolute;
+			right: 0;
+		}
     </style>
 </head>
 <body>
@@ -200,14 +218,14 @@
                 </div>
                 <div class="projectBtnWrapper">
                     <button class="join btn">프로젝트 밀어주기</button>
-                    <button class="like btn">좋아</button>
+                    <button class="like btn"><i class="bi bi-heart-fill"></i></button>
                 </div>
             </div>
         </div>
         <div class="projectContent">
             <div class="contentNav">
                 <a href="" id="storyLink">스토리</a>
-                <a href="" id="communityLink">커뮤니티</a>
+                <a href="" id="communityLink">커뮤니티 <span class="count"></span></a>
                 <a href="" id="">펀딩 안내</a>
             </div>
             <div class="contentWrapper">
@@ -290,7 +308,7 @@
 
     <script type="text/template" id="postTemplate">
         <div class="post contentBox">
-            <div class="postHeader"></div>
+            <div class="postHeader header"></div>
             <div class="postCreated"></div>
             <div class="postContent"></div>
             <div class="postReply">
@@ -308,15 +326,16 @@
 
 	<script type="text/template" id="replyTemplate">
 		<div class="reply">
-            <div class="replyHeader"></div>
+            <div class="replyHeader header"></div>
             <div class="replyCreated"></div>
             <div class="replyContent"></div>
         </div>
 	</script>
     <script type="text/template" id="postFormTemplate">
         <div class="communityPostForm contentBox">
-            <div class="fromHeader">게시글 작성하기</div>
+            <div class="formHeader">게시글 작성하기</div>
             <form action="" id="postForm">
+				<input type="hidden" name="id" class="id">
                 <textarea name="content" id="content" cols="30" rows="10"></textarea>
                 <div>
                     <button id="submitBtn" class="btn">올리기</button>
@@ -324,7 +343,15 @@
             </form>
         </div>
     </script>
+    <script type="text/template" id="manageBtnTemplate">
+		<span class="manageBtnWrapper">
+        	<span class="update">수정</span>
+        	<span class="separator"> | </span>
+       		<span class="delete">삭제</span>
+    	</span>
+    </script>
     <script>
+    	var loginUser = ${member.id == null ? 0 : member.id};
     	var rootUrl = location.href;
     	//리워드 클릭 시 엑스트라 인포 열고 닫기
         $(".rewardInfo").on("click", function(){
@@ -377,6 +404,9 @@
                     $(".content").append($($("#communityBtnWrapperTemplate").html()));
 
                     $(".content").append($("<div class='postWrapper'></div>"));
+                    
+					if(data.length == 0) $(".postWrapper").append($("<div class='noList'>게시글이 없습니다.</div>"));
+					
                     for(var i=0; i<data.length; i++){
                         var post = $($("#postTemplate").html());
                         post.attr("id", data[i].id);
@@ -386,10 +416,13 @@
                         post.find(".replyCount").text(data[i].replyCount + "개의 댓글이 있습니다.");
                         $(".postWrapper").append(post);
                         
-                        post.on("click", function(){
-							readPost(this.id);
+                        post.find(".postContent").on("click", function(){
+							readPost($(this).parent().attr("id"));
                         })
+                        
+                        if(loginUser == data[i].memberId) setManageBtn(post);
                     }
+                    
                     $(".postReplyForm").hide();
                 }
             });
@@ -397,7 +430,7 @@
         
         //커뮤니티 글 작성 폼 생성
         $(".communityWriteBtn").on("click", function(){
-            $(this).hide();
+            $(".communityWriteBtn").hide();
             $(".backToCommunity").show();
             $(".communityBtn").hide();
             $(".content").children().remove();
@@ -416,6 +449,7 @@
                     },
                     success: function(data){
                     	$("#communityLink").trigger("click");
+                    	getCount();
                     }
                 });
             });
@@ -445,6 +479,7 @@
                     post.find(".postContent").text(data.content);
                     post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
                     
+                    if(loginUser == data.memberId) setManageBtn(post);
                     //댓글 작성 
                     post.find("#replySubmitBtn").on("click", function(e){
                         e.preventDefault();
@@ -471,22 +506,96 @@
                         	var replyWrapper = post.find(".replyWrapper");
                         	for(var i=0; i<data.length; i++){
                         		var reply = $($("#replyTemplate").html());
+                        		reply.attr("id", data[i].id);
                         		reply.find(".replyHeader").text(data[i].nickname);
                         		reply.find(".replyCreated").text(data[i].dateCreated);
                         		reply.find(".replyContent").text(data[i].content);
                         		replyWrapper.append(reply);
+                        		
+		                        if(loginUser == data[i].memberId) setManageBtn(reply);
                         	}
                         }
                     });
-                    
                     
                     $(".postWrapper").append(post);
                 }
             });
         }
         
+        //커뮤니티 포스트 개수 불러오기
+        function getCount(){
+        	$.ajax({
+                url: rootUrl + "/community/count",
+                type: "get",
+                data: {},
+                success: function(data){
+					$(".count").text(data);
+                }
+            });
+        }
+
+        function setManageBtn(ele){
+        	var manageBtn = $($("#manageBtnTemplate").html());
+			ele.find(".header").append(manageBtn);
+			if(ele.hasClass("reply")){
+				manageBtn.find(".update").remove();
+				manageBtn.find(".separator").remove();
+			}
+			manageBtn.find(".update").on("click", function(){
+				$(".communityWriteBtn").trigger("click");
+				$(".formHeader").text("게시글 수정하기");
+				$(".id").val(ele.attr("id"));
+				//글 내용 가져오기
+				$.ajax({
+                    url: rootUrl + "/community/" + ele.attr("id"),
+                    type: "get",
+                    data: {
+                    	content : $("#content").val()
+                    },
+                    success: function(data){
+                    	$("#content").val(data.content);
+                    }
+                });
+				$("#submitBtn").unbind();
+				//수정 통신
+				$("#submitBtn").on("click", function(e){
+					e.preventDefault();
+	                $.ajax({
+	                    url: location.origin + "/project/community/" + ele.attr("id"),
+	                    type: "put",
+	                    data: {
+	                    	content : $("#content").val()
+	                    },
+	                    success: function(data){
+	                    	$("#communityLink").trigger("click");
+	                    	getCount();
+	                    }
+	                });
+				})
+			})
+			manageBtn.find(".delete").on("click", function(){
+				if(confirm("삭제하시겠습니까?")){
+					deleteCommunity(ele, this);
+				}
+			})
+        }
         
+        function deleteCommunity(ele, btn){
+        	$.ajax({
+				url: location.origin + "/project/community/" + ele.attr("id"),
+				type: "delete",
+				success: function(){
+					if($(btn).parent().parent().parent().hasClass("post")){
+						$("#communityLink").trigger("click");
+					} else{
+						readPost($(btn).parents(".post").attr("id"));
+					}
+			        getCount();
+				}
+			});
+        }
         loadingStory();
+        getCount();
     </script>
 </body>
 </html>

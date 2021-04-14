@@ -11,10 +11,15 @@ public interface CommunityService {
 	
 	public List<CommunityVo> findReply(Integer parentId);
 
+	public CommunityVo findById(Integer id);
+
 	public void save(CommunityDto communityDto);
 
 	public void saveReply(CommunityDto communityDto);
 	
-	public CommunityVo findById(Integer id);
+	public int getCount(Integer projectId);
 
+	public void update(CommunityDto communityDto);
+
+	public void delete(Integer communityId);
 }
