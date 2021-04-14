@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="csMapper">
+
+	<!-- 
+	<select id="noticeList" resultType="NoticeDto">
+		select * from notice
+     		where is_deleted = 'N'
+    	order by ID desc
+	 </select>
+-->
+	<!--  공지 -->
+	<resultMap id="NoticeResultSet" type="com.example.demo.cs.entity.NoticeDto">
+	      <id property="id" column="ID" />
+	      <result property="title" column="TITLE" />
+	      <result property="content" column="CONTENT" />
+	      <result property="date_created" column="DATE_CREATED" />
+	      <result property="date_updated" column="DATE_UPDATED" />
+	      <result property="is_deleted" column="IS_DELETED" />
+	      <result property="member_id" column="MEMBER_ID" />
+   </resultMap>
+   
+   <!-- FAQ -->
+   	<resultMap id="FaqResultSet" type="com.example.demo.cs.entity.FaqDto">
+	      <id property="id" column="ID" />
+	      <result property="title" column="TITLE" />
+	      <result property="content" column="CONTENT" />
+	      <result property="date_created" column="DATE_CREATED" />
+	      <result property="date_updated" column="DATE_UPDATED" />
+	      <result property="is_deleted" column="IS_DELETED" />
+	      <result property="member_id" column="MEMBER_ID" />
+   </resultMap>
+   
+   
+	<!-- ###### 공지(NOTICEDTO) ###### -->
+	
+	
+	
+	<!-- 공지 수 조회 -->
+	
+		<select id="countNotice" resultType="_int">
+			SELECT 
+				COUNT(*) 
+			FROM 
+				NOTICE
+			WHERE  IS_DELETED= 'N'		
+		</select>
+	
+	<!-- 공지사항 리스트 쿼리 -->
+	
+	   <select id="noticeSelect" resultMap="NoticeResultSet">
+	      SELECT * 
+	      FROM NOTICE
+	      WHERE  IS_DELETED= 'N'		
+	      ORDER BY ID DESC
+	   </select>
+
+	<!-- 페이징 처리 후 공지 조회 -->
+		<select id="selectNotice"  resultType="com.example.demo.cs.entity.NoticeDto">
+			SELECT * 
+				FROM (
+					SELECT ROWNUM RN, A.* 
+						FROM (
+								SELECT * 
+								FROM NOTICE 
+								WHERE is_deleted = 'N'
+								ORDER BY ID DESC 
+								) A
+						)
+			WHERE RN BETWEEN #{start} AND #{end}			
+		</select>
+	
+	
+	<!-- ###### FAQ(FAQDTO) ###### -->
+		
+		<!-- FAQ 수 조회 -->
+		
+		<select id="countFaq" resultType="_int">
+			SELECT 
+				COUNT(*) 
+			FROM 
+				FAQ
+			WHERE  IS_DELETED= 'N'		
+		</select>
+		
+		<!-- FAQ 리스트 쿼리 -->
+		
+	   <select id="faqSelect" resultMap="FaqResultSet">
+	      SELECT * 
+	      FROM FAQ
+	      WHERE  IS_DELETED= 'N'		
+	      ORDER BY DATE_UPDATED DESC
+	   </select>
+	
+			<!-- 페이징 처리 후 FAQ 조회 -->
+
+		<select id="selectFaq"  resultType="com.example.demo.cs.entity.FaqDto">
+			SELECT * 
+				FROM (
+					SELECT ROWNUM RN, A.* 
+						FROM (
+								SELECT * 
+								FROM FAQ 
+								WHERE is_deleted = 'N'
+								ORDER BY ID DESC 
+								) A
+						)
+			WHERE RN BETWEEN #{start} AND #{end}			
+		</select>
+	<!-- 	
+		  FAQ 검색쿼리
+   <select id="searchList" parameterType="com.example.demo.cs.entity.Search"
+      resultMap="FaqResultSet">
+      <bind name="parameter" value="'%' + _parameter.getSearchValue() +'%'" />
+
+      SELECT * FROM FAQ
+      <where>
+         <choose>
+            <when test="searchCondition == 'title'">
+               AND TITLE LIKE #{parameter}
+            </when>
+            <when test="searchCondition == 'content'">
+               AND CONTENT LIKE #{parameter}
+            </when>
+            <otherwise>
+               AND (TITLE LIKE #{parameter} OR CONTENT LIKE #{parameter})
+            </otherwise>
+         </choose>
+      </where>
+      ORDER BY date_updated DESC
+
+   </select> -->
+   
+   	  <!--  FAQ 검색쿼리-->
+     <select id="searchResult">
+	     SELECT * 
+					FROM (
+						SELECT ROWNUM RN, A.* 
+							FROM (
+									SELECT * 
+									FROM FAQ 
+									WHERE title like '%'||{searchValue}||'%'
+									ORDER BY ID DESC 
+									) A
+							)
+			WHERE RN BETWEEN 1 AND 10		  
+	</select>	
+</mapper>

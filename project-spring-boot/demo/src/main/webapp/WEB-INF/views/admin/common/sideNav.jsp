@@ -79,8 +79,8 @@
 	      </div>
 	      <div class="collapse collapse-el" id="collapse-el-5" style="">
 	        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-	          <li><a href="#" class="link-dark rounded d-block px-4">공지사항</a></li>
-	          <li><a href="#" class="link-dark rounded d-block px-4">FAQ</a></li>
+	          <li><a href="${pageContext.request.contextPath}/admin/noticeList" class="link-dark rounded d-block px-4">공지사항</a></li>
+	          <li><a href="${pageContext.request.contextPath}/admin/faqList" class="link-dark rounded d-block px-4">FAQ</a></li>
 	          <li><a href="#" class="link-dark rounded d-block px-4">QNA</a></li>
 	        </ul>
 	      </div>
