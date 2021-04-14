@@ -170,11 +170,13 @@ public class ProjectController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
 	@PutMapping("/community/{communityId}")
-	public void update(@PathVariable("communityId") Integer communityId, CommunityDto communityDto) {
+	public Integer update(@PathVariable("communityId") Integer communityId, CommunityDto communityDto) {
 		log.info("community update()" + communityId);
 		
 		communityDto.setId(communityId);
 		communityService.update(communityDto);
+		
+		return communityDto.getId();
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

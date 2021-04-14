@@ -11,6 +11,9 @@
     <title>Document</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
     <style>
+    	.pointer{
+    		cursor: pointer;
+    	}
         .main{
             width: 1080px;
             margin: 0 auto;
@@ -139,16 +142,13 @@
         }
         
         .contentBox{
-            padding: 1rem;
             border: 1px solid lightgray;
             margin-bottom: 1rem;
         }
         #writeBtn{
             float: right;
         }
-        .reply{
-        	border: 1px solid lightgray;
-        }
+        
         .like{
         	padding: 0;
         }
@@ -163,9 +163,56 @@
 		.header{
 			position: relative;
 		}
-		.manageBtnWrapper{
+		span.manageBtnWrapper{
+			position: absolute;
+			right: 5px;
+			font-size: 0.75rem;
+		    color: #4c4c4c;
+		}
+		.communityBtnWrapper{
+			position: relative;
+		}
+		.communityWriteBtn{
 			position: absolute;
 			right: 0;
+		}
+		i.bi.bi-chat-dots-fill {
+		    margin-right: 0.5rem;
+		}
+		.postHeader{
+			padding: 0.5rem;
+		}
+		.postWriter, .replyWriter{
+			font-weight: bold;
+		}
+		.postCreated, .replyCreated{
+			font-size: 12px;
+			color: #616161;
+		}
+		.postContent{
+			padding: 2rem;
+		}
+		.postReply{
+			border-top: 1px solid lightgray;
+			padding: 0.5rem 1rem;
+		}
+		.reply{
+        	border-top: 1px solid lightgray;
+        }
+        .replyHeader{
+        	display: flex;
+        	align-items: center;
+        }
+        .replyContent{
+        	padding-left: 2.5rem;
+        }
+		.postWriterImg{
+			width: 40px;
+			height: 40px;
+			margin-right: 0.5rem;
+		}
+		.replyWriterImg{
+			margin-right: 0.5rem;
 		}
     </style>
 </head>
@@ -231,12 +278,10 @@
             <div class="contentWrapper">
                 <div class="mainColumn">
                     <div class="contentBox communityBtnWrapper">
-                        <div>
-                            <button class="filter communityBtn btn" value="1">모든 게시글</button>
-                            <button class="filter communityBtn btn" value="2">창작자 업데이트</button>
-	                        <button class="communityBtn communityWriteBtn btn">글쓰기</button>
-	                        <button class="backToCommunity btn">커뮤니티로 돌아가기</button>
-                        </div>
+                        <button class="filter communityBtn btn" value="1">모든 게시글</button>
+                        <button class="filter communityBtn btn" value="2">창작자 업데이트</button>
+                        <button class="communityBtn communityWriteBtn btn">글쓰기</button>
+                        <button class="backToCommunity btn">커뮤니티로 돌아가기</button>
                     </div>
                     <div class="content"></div>
                 </div>
@@ -308,15 +353,22 @@
 
     <script type="text/template" id="postTemplate">
         <div class="post contentBox">
-            <div class="postHeader header"></div>
-            <div class="postCreated"></div>
+            <div class="postHeader header">
+				<span class="postWriterImg"><i class="bi bi-person-circle" style="font-size: 40px;"></i></span>
+				<div style="display: inline-block;">
+        		    <div class="postWriter"></div>
+        		    <div class="postCreated"></div>
+				</div>
+			</div>
             <div class="postContent"></div>
             <div class="postReply">
-				<div class="replyCount"></div>
+				<div class="replyCount"><i class="bi bi-chat-dots-fill"></i><span></span></div>
 				<div class="postReplyForm">
-					<form action="" id="replyForm">
-						<input type="text" name="content" id="content">
-						<button class="btn" id="replySubmitBtn">댓글 쓰기</button>
+					<form id="replyForm">
+						<div class="input-group mb-3">
+  							<input type="text" name="content" id="replyContent" class="form-control" aria-describedby="button-addon2">
+  							<button class="btn btn-outline-secondary" type="button" id="replySubmitBtn">등록</button>
+						</div>
 					</form>
 				</div>
 				<div class="replyWrapper"></div>
@@ -326,8 +378,11 @@
 
 	<script type="text/template" id="replyTemplate">
 		<div class="reply">
-            <div class="replyHeader header"></div>
-            <div class="replyCreated"></div>
+            <div class="replyHeader header">
+				<span class="replyWriterImg"><i class="bi bi-person-circle" style="font-size: 30px;"></i></span>
+				<span class="replyWriter"></span>
+        		<span class="replyCreated"></span>			
+			</div>
             <div class="replyContent"></div>
         </div>
 	</script>
@@ -345,9 +400,9 @@
     </script>
     <script type="text/template" id="manageBtnTemplate">
 		<span class="manageBtnWrapper">
-        	<span class="update">수정</span>
+        	<span class="update pointer">수정</span>
         	<span class="separator"> | </span>
-       		<span class="delete">삭제</span>
+       		<span class="delete pointer">삭제</span>
     	</span>
     </script>
     <script>
@@ -410,10 +465,10 @@
                     for(var i=0; i<data.length; i++){
                         var post = $($("#postTemplate").html());
                         post.attr("id", data[i].id);
-                        post.find(".postHeader").text(data[i].nickname);
+                        post.find(".postWriter").text(data[i].nickname);
                         post.find(".postCreated").text(data[i].dateCreated);
                         post.find(".postContent").text(data[i].content);
-                        post.find(".replyCount").text(data[i].replyCount + "개의 댓글이 있습니다.");
+                        post.find(".replyCount>span").text(data[i].replyCount);
                         $(".postWrapper").append(post);
                         
                         post.find(".postContent").on("click", function(){
@@ -474,7 +529,7 @@
                 	
                 	var post = $($("#postTemplate").html());
                     post.attr("id", data.id);
-                    post.find(".postHeader").text(data.nickname);
+                    post.find(".postWriter").text(data.nickname);
                     post.find(".postCreated").text(data.dateCreated);
                     post.find(".postContent").text(data.content);
                     post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
@@ -489,7 +544,7 @@
                             data: {
                             	parentId : id,
                             	writerId : ${writer.id},
-                            	content : $("#content").val()
+                            	content : $("#replyContent").val()
                             },
                             success: function(data){
 								readPost(id);
@@ -507,8 +562,8 @@
                         	for(var i=0; i<data.length; i++){
                         		var reply = $($("#replyTemplate").html());
                         		reply.attr("id", data[i].id);
-                        		reply.find(".replyHeader").text(data[i].nickname);
-                        		reply.find(".replyCreated").text(data[i].dateCreated);
+                        		reply.find(".replyWriter").text(data[i].nickname);
+                        		reply.find(".replyCreated").text("(" + data[i].dateCreated + ")");
                         		reply.find(".replyContent").text(data[i].content);
                         		replyWrapper.append(reply);
                         		
@@ -567,7 +622,7 @@
 	                    	content : $("#content").val()
 	                    },
 	                    success: function(data){
-	                    	$("#communityLink").trigger("click");
+							readPost(data);
 	                    	getCount();
 	                    }
 	                });
