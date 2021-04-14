@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.domain.dto.ProjectCategoryDto;
 import com.example.demo.domain.dto.ProjectStatusCategoryDto;
+import com.example.demo.domain.dto.VoteDto;
 import com.example.demo.domain.vo.ProjectFilteringVo;
 import com.example.demo.domain.vo.ProjectVo;
 
@@ -15,4 +16,6 @@ public interface ProjectService {
 	public List<ProjectCategoryDto> getCategory();
 	public List<ProjectStatusCategoryDto> getStatus();
 	public String getStory(int id);
+	public int updateLike(VoteDto voteDto);
+	public int getLike(VoteDto voteDto);
 }

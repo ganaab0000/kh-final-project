@@ -1,5 +1,6 @@
 package com.example.demo.controller.user;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.dto.CommunityDto;
+import com.example.demo.domain.dto.VoteDto;
 import com.example.demo.domain.vo.CommunityVo;
 import com.example.demo.domain.vo.ProejctAjaxListVo;
 import com.example.demo.domain.vo.ProjectFilteringVo;
@@ -95,6 +97,36 @@ public class ProjectController {
 		return proejctAjaxListVo;
 	}
 	
+	//프로젝트 좋아요 가져오기
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@GetMapping("/{projectId}/like")
+	public int getLike(@PathVariable("projectId") Integer projectId, HttpSession session) {
+		System.out.println("getLike");
+		SessionMember member = (SessionMember) session.getAttribute("member");
+		VoteDto voteDto = new VoteDto();
+		
+		voteDto.setMemberId(member.getId());
+		voteDto.setProjectId(projectId);
+		
+		return projectService.getLike(voteDto);
+	}
+	
+	//좋아요 업데이트
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@PostMapping("/{projectId}/like")
+	public int updateLike(@PathVariable("projectId") Integer projectId, HttpSession session) {
+		System.out.println("updateLike");
+		SessionMember member = (SessionMember) session.getAttribute("member");
+		VoteDto voteDto = new VoteDto();
+		
+		voteDto.setMemberId(member.getId());
+		voteDto.setProjectId(projectId);
+		
+		return projectService.updateLike(voteDto);
+	}
+	
 	//프로젝트 스토리 로드
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
@@ -122,7 +154,6 @@ public class ProjectController {
 	@PostMapping("/{id}/community")
 	public void writeCommunity(@PathVariable("id") Integer id, CommunityDto communityDto, HttpSession session, Integer writerId, Integer parentId) {
 		SessionMember member = (SessionMember) session.getAttribute("member");
-		//TODO
 		communityDto.setMemberId(member.getId());
 		communityDto.setProjectId(id);
 		communityDto.setCommunityCategoryId(writerId == communityDto.getMemberId() ? 2 : 1);
@@ -167,6 +198,7 @@ public class ProjectController {
 		return communityService.getCount(projectId);
 	}
 	
+	//커뮤니티 업데이트
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
 	@PutMapping("/community/{communityId}")
@@ -179,6 +211,7 @@ public class ProjectController {
 		return communityDto.getId();
 	}
 	
+	//커뮤니티 삭제
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
 	@DeleteMapping("/community/{communityId}")

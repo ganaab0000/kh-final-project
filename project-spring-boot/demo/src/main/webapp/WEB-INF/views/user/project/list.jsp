@@ -22,6 +22,11 @@
 		}
 		.mainImgWrapper{
 			height: 240px;
+			position: relative;
+		}
+		.like{
+			position: absolute;
+			right: 0;
 		}
 		a{
 			color: black;
@@ -79,6 +84,9 @@
 		    font-size: 3rem;
 		    font-weight: bold;
 		    color: darkgray;
+		}
+		.bi-heart-fill{
+			color: #ff4b4b;
 		}
 	</style>
 </head>
@@ -183,6 +191,7 @@
 		<div class="col cardWrapper">
 			<div class="card h-100">
 				<div class="mainImgWrapper">
+					<button class="like btn"><i class="bi bi-heart"></i></button>
 					<a href="">
 						<img class="card-img-top mainImg" alt="프로젝트 메인 이미지">
 					</a>
@@ -283,7 +292,36 @@
 	
 							card.find(".mainImg").attr("src", "http://127.0.0.1:9090/api/file/" + data.projectList[i].mainImg);
 							card.find("a").attr("href", location.origin + "/project/" + data.projectList[i].id);
-	
+
+							var like = card.find(".like");
+							$.ajax({
+								url: location.origin + "/project/" + data.projectList[i].id + "/like",
+								type: "get",
+								async: false,
+								success: function(data){
+									if(data==1){
+										like.html('<i class="bi bi-heart-fill"></i>');
+									} else{
+										like.html('<i class="bi bi-heart"></i>');
+									}
+								}
+							});
+							like.on("click", function(){
+								var target = $(this).next().attr("href") + "/like";
+								var btn = $(this);
+								$.ajax({
+									url: target,
+									type: "post",
+									success: function(data){
+										if(data==1){
+											btn.html('<i class="bi bi-heart-fill"></i>');
+										} else{
+											btn.html('<i class="bi bi-heart"></i>');
+										}
+									}
+								});
+							})
+							
 							var cardBody = card.children(".card-body");
 							cardBody.find(".cardTitle").text(data.projectList[i].title);
 							cardBody.find(".cardCategory").text(data.projectList[i].projectCategory).attr("href", location.origin + "/project/list?category=" + data.projectList[i].projectCategoryId);

@@ -205,6 +205,7 @@
         }
         .replyContent{
         	padding-left: 2.5rem;
+        	margin-bottom: 5px;
         }
 		.postWriterImg{
 			width: 40px;
@@ -213,6 +214,9 @@
 		}
 		.replyWriterImg{
 			margin-right: 0.5rem;
+		}
+		.bi-heart-fill{
+			color: #ff4b4b;
 		}
     </style>
 </head>
@@ -589,6 +593,7 @@
             });
         }
 
+        //커뮤니티 수정/삭제 버튼 이벤트
         function setManageBtn(ele){
         	var manageBtn = $($("#manageBtnTemplate").html());
 			ele.find(".header").append(manageBtn);
@@ -635,6 +640,7 @@
 			})
         }
         
+        //커뮤니티 삭제 통신
         function deleteCommunity(ele, btn){
         	$.ajax({
 				url: location.origin + "/project/community/" + ele.attr("id"),
@@ -649,8 +655,38 @@
 				}
 			});
         }
+        
+        //좋아요 통신
+        function getLike(){
+        	$.ajax({
+				url: rootUrl + "/like",
+				type: "get",
+				success: function(data){
+					if(data==1){
+						$(".like").html('<i class="bi bi-heart-fill"></i>');
+					} else{
+						$(".like").html('<i class="bi bi-heart"></i>');
+					}
+				}
+			});
+        }
+        //좋아요 업데이트
+        $(".like").on("click", function(){
+        	$.ajax({
+				url: rootUrl + "/like",
+				type: "post",
+				success: function(data){
+					if(data==1){
+						$(".like").html('<i class="bi bi-heart-fill"></i>');
+					} else{
+						$(".like").html('<i class="bi bi-heart"></i>');
+					}
+				}
+			});
+        })
         loadingStory();
         getCount();
+        getLike();
     </script>
 </body>
 </html>
