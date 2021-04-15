@@ -41,6 +41,9 @@
 		    select P.*, C.name project_category, nvl(RRR.sponsor, 0) sponsor, nvl(RRR.collected, 0) collected, nvl(round(collected/P.target_amount*100), 0) rate from (
 		        select * from project
 				<where>
+					<if test="keyword != null and keyword !=''">
+						<![CDATA[and (instr(title, #{keyword}) > 0 or instr(sub_title, #{keyword}) > 0)]]>
+					</if>
 					<if test="category != null and category != ''">
 		    			and project_category_id = #{category}
 					</if>		    
@@ -147,6 +150,9 @@
 		    select P.*, C.name project_category, nvl(RRR.sponsor, 0) sponsor, nvl(RRR.collected, 0) collected, nvl(round(collected/P.target_amount*100), 0) rate from (
 		        select * from project
 		        <where>
+		        	<if test="keyword != null and keyword !=''">
+						<![CDATA[and (instr(title, #{keyword}) > 0 or instr(sub_title, #{keyword}) > 0)]]>
+					</if>
 					<if test="category != null and category != ''">
 		    			and project_category_id = #{category}
 					</if>		    
