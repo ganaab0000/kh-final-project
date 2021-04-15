@@ -24,6 +24,9 @@ insert into project_status_category values(project_status_category_id_seq.nextva
 
 -- COMMUNITY_CATEGORY
 -- 문의,,,...
+insert into community_category values(1, '후원자');
+insert into community_category values(2, '창작자');
+
 -- RESERVE_STATUS_CATEGORY
 -- ready,paid,failed,cancelled,...
 insert into reserve_status_category values(1, '결제대기');
