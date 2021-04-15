@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.CommunityRepository">
+	<select id="findByProjectId" resultType="CommunityVo" parameterType="HashMap">
+		select C.*, M.nickname from (
+			select L.*, nvl(R.replyCount, 0) replyCount from community L left outer join (
+				select parent_community_id, count(parent_community_id) replyCount from community where project_id = #{projectId} and is_deleted = 'N' group by parent_community_id
+			) R on L.id = r.parent_community_id where project_id = #{projectId} and l.parent_community_id is null
+			<if test="category==2">
+				and community_category_id = #{category}
+			</if>
+		) C left outer join member M on C.member_id = M.id where C.is_deleted = 'N' order by C.id desc
+	</select>
+	
+	<select id="findReply" resultType="CommunityVo" parameterType="int">
+		select C.*, M.nickname from community C left outer join member M on C.member_id = M.id 
+			where C.parent_community_id = #{parentId} and C.is_deleted = 'N' order by C.id desc
+	</select>
+	
+	<select id="findById"  resultType="CommunityVo" parameterType="int">
+		select C.*, M.nickname from (
+			select L.*, nvl(R.replyCount, 0) replyCount from community L left outer join (
+				select parent_community_id, count(parent_community_id) replyCount from community where parent_community_id = #{id} and is_deleted = 'N' group by parent_community_id
+			) R on L.id = r.parent_community_id where id = #{id}
+		) C left outer join member M on C.member_id = M.id order by C.id desc
+	</select>
+</mapper>

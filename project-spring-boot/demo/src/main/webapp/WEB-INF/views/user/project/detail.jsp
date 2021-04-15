@@ -11,6 +11,9 @@
     <title>Document</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
     <style>
+    	.pointer{
+    		cursor: pointer;
+    	}
         .main{
             width: 1080px;
             margin: 0 auto;
@@ -96,9 +99,6 @@
             width: auto;
             flex-grow: 1;
         }
-        .content{
-        	height: 1000px;
-        }
         .contentWrapper .subColumn{
             max-width: 354px;
             width: 100%;
@@ -142,13 +142,82 @@
         }
         
         .contentBox{
-            padding: 1rem;
             border: 1px solid lightgray;
             margin-bottom: 1rem;
         }
         #writeBtn{
             float: right;
         }
+        
+        .like{
+        	padding: 0;
+        }
+        .noList{
+		    margin-top: 200px;
+		    text-align: center;
+		    height: 300px;
+		    font-size: 3rem;
+		    font-weight: bold;
+		    color: darkgray;
+		}
+		.header{
+			position: relative;
+		}
+		span.manageBtnWrapper{
+			position: absolute;
+			right: 5px;
+			font-size: 0.75rem;
+		    color: #4c4c4c;
+		}
+		.communityBtnWrapper{
+			position: relative;
+		}
+		.communityWriteBtn{
+			position: absolute;
+			right: 0;
+		}
+		i.bi.bi-chat-dots-fill {
+		    margin-right: 0.5rem;
+		}
+		.postHeader{
+			padding: 0.5rem;
+		}
+		.postWriter, .replyWriter{
+			font-weight: bold;
+		}
+		.postCreated, .replyCreated{
+			font-size: 12px;
+			color: #616161;
+		}
+		.postContent{
+			padding: 2rem;
+		}
+		.postReply{
+			border-top: 1px solid lightgray;
+			padding: 0.5rem 1rem;
+		}
+		.reply{
+        	border-top: 1px solid lightgray;
+        }
+        .replyHeader{
+        	display: flex;
+        	align-items: center;
+        }
+        .replyContent{
+        	padding-left: 2.5rem;
+        	margin-bottom: 5px;
+        }
+		.postWriterImg{
+			width: 40px;
+			height: 40px;
+			margin-right: 0.5rem;
+		}
+		.replyWriterImg{
+			margin-right: 0.5rem;
+		}
+		.bi-heart-fill{
+			color: #ff4b4b;
+		}
     </style>
 </head>
 <body>
@@ -199,41 +268,34 @@
                     </div>
                 </div>
                 <div class="projectBtnWrapper">
-                    <button class="join">프로젝트 밀어주기</button>
-                    <button class="like">좋아</button>
+                    <button class="join btn">프로젝트 밀어주기</button>
+                    <button class="like btn"><i class="bi bi-heart-fill"></i></button>
                 </div>
             </div>
         </div>
         <div class="projectContent">
             <div class="contentNav">
                 <a href="" id="storyLink">스토리</a>
-                <a href="" id="">새소식</a>
-                <a href="" id="communityLink">커뮤니티</a>
+                <a href="" id="communityLink">커뮤니티 <span class="count"></span></a>
                 <a href="" id="">펀딩 안내</a>
             </div>
             <div class="contentWrapper">
                 <div class="mainColumn">
-                	<div class="contentBox postBtnWrapper">
-                        <button class="communityBtn writeBtn">글쓰기</button>
-                        <button class="backToCommunity">커뮤니티로 돌아가기</button>
-                    </div>
-                    <div class="contentBox filterBtnWrapper">
-                        <div>
-                            <button class="filter communityBtn" value="">모든 게시글</button>
-                            <button class="filter communityBtn" value="1">응원</button>
-                            <button class="filter communityBtn" value="2">의견</button>
-                            <button class="filter communityBtn" value="3">체험 리뷰</button>
-                        </div>
+                    <div class="contentBox communityBtnWrapper">
+                        <button class="filter communityBtn btn" value="1">모든 게시글</button>
+                        <button class="filter communityBtn btn" value="2">창작자 업데이트</button>
+                        <button class="communityBtn communityWriteBtn btn">글쓰기</button>
+                        <button class="backToCommunity btn">커뮤니티로 돌아가기</button>
                     </div>
                     <div class="content"></div>
                 </div>
                 <div class="subColumn">
                     <div class="writerWrapper contentBox">
                         <div class="writerInfoHeader">창작자 소개</div>
-                        <div class="writerName">${member.nickname}</div>
+                        <div class="writerName">${writer.nickname}</div>
                         <div class="writerContent">작성자 소개입니다.</div>
                         <hr>
-                        <div class="lastLoggedIn">마지막 로그인 : ${member.dateLoggedin}</div>
+                        <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
                         <div class="writerProject">
                             <span class="createdProject">진행한 프로젝트 ?</span> / 
                             <span class="joinedProject">밀어준 프로젝트 ?</span>
@@ -266,9 +328,6 @@
         </div>
     	</div>
     </div>
-	<button>
-		<a href="list">리스트</a>
-	</button>
 	
 	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 	
@@ -285,45 +344,73 @@
                 *추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.
             </div>
             <div class="extraSupportBtnWrapper">
-                <button class="extraSupportBtn">+5천원</button>
-                <button class="extraSupportBtn">+1만원</button>
-                <button class="extraSupportBtn">+5만원</button>
-                <button class="extraSupportBtn">+10만원</button>
+                <button class="extraSupportBtn btn">+5천원</button>
+                <button class="extraSupportBtn btn">+1만원</button>
+                <button class="extraSupportBtn btn">+5만원</button>
+                <button class="extraSupportBtn btn">+10만원</button>
             </div>
         </div>
         <div class="projectJoin">
-            <button>프로젝트 후원하기</button>
+            <button class="btn">프로젝트 후원하기</button>
         </div>
     </script>
 
     <script type="text/template" id="postTemplate">
         <div class="post contentBox">
-            <div class="postHeader"></div>
-            <div class="postCreated"></div>
+            <div class="postHeader header">
+				<span class="postWriterImg"><i class="bi bi-person-circle" style="font-size: 40px;"></i></span>
+				<div style="display: inline-block;">
+        		    <div class="postWriter"></div>
+        		    <div class="postCreated"></div>
+				</div>
+			</div>
             <div class="postContent"></div>
-            <div class="postReply"></div>
+            <div class="postReply">
+				<div class="replyCount"><i class="bi bi-chat-dots-fill"></i><span></span></div>
+				<div class="postReplyForm">
+					<form id="replyForm">
+						<div class="input-group mb-3">
+  							<input type="text" name="content" id="replyContent" class="form-control" aria-describedby="button-addon2">
+  							<button class="btn btn-outline-secondary" type="button" id="replySubmitBtn">등록</button>
+						</div>
+					</form>
+				</div>
+				<div class="replyWrapper"></div>
+			</div>
         </div>
     </script>
 
+	<script type="text/template" id="replyTemplate">
+		<div class="reply">
+            <div class="replyHeader header">
+				<span class="replyWriterImg"><i class="bi bi-person-circle" style="font-size: 30px;"></i></span>
+				<span class="replyWriter"></span>
+        		<span class="replyCreated"></span>			
+			</div>
+            <div class="replyContent"></div>
+        </div>
+	</script>
     <script type="text/template" id="postFormTemplate">
         <div class="communityPostForm contentBox">
-            <div class="fromHeader">게시글 작성하기</div>
+            <div class="formHeader">게시글 작성하기</div>
             <form action="" id="postForm">
-                <div>
-                    <select name="communityCategoryId" id="communityCategoryId">
-                        <option value="1">응원</option>
-                        <option value="2">의견</option>
-                        <option value="3">체험리뷰</option>
-                    </select>
-                </div>
+				<input type="hidden" name="id" class="id">
                 <textarea name="content" id="content" cols="30" rows="10"></textarea>
                 <div>
-                    <button type="submit" id="submitBtn">올리기</button>
+                    <button id="submitBtn" class="btn">올리기</button>
                 </div>
             </form>
         </div>
     </script>
+    <script type="text/template" id="manageBtnTemplate">
+		<span class="manageBtnWrapper">
+        	<span class="update pointer">수정</span>
+        	<span class="separator"> | </span>
+       		<span class="delete pointer">삭제</span>
+    	</span>
+    </script>
     <script>
+    	var loginUser = ${member.id == null ? 0 : member.id};
     	var rootUrl = location.href;
     	//리워드 클릭 시 엑스트라 인포 열고 닫기
         $(".rewardInfo").on("click", function(){
@@ -340,8 +427,7 @@
             loadingStory();
         });
         function loadingStory(){
-        	$(".postBtnWrapper").hide();
-            $(".filterBtnWrapper").hide();
+        	$(".communityBtnWrapper").hide();
             $.ajax({
                 url: rootUrl + "/story",
                 type: "get",
@@ -355,52 +441,74 @@
             });
         }
 
-        //커뮤니티 불러오기
+        //커뮤니티 버튼 이벤트
         $("#communityLink").on("click", function(e){
             e.preventDefault();
-            $(".postBtnWrapper").show();
-            $(".filterBtnWrapper").show();
+            $(".communityBtnWrapper").show();
+            $(".communityBtn").show();
             $(".backToCommunity").hide();
-            $.ajax({
+            $(".communityBtn.filter").first().trigger("click");
+        });
+        //커뮤니티 불러오기
+        $(".communityBtn.filter").on("click", function(){
+        	$.ajax({
                 url: rootUrl + "/community",
                 type: "get",
-                data: {},
+                data: {
+                	category : this.value
+                },
                 success: function(data){
                     $(".writeBtn").show();
                     $(".content").children().remove();
                     $(".content").append($($("#communityBtnWrapperTemplate").html()));
 
                     $(".content").append($("<div class='postWrapper'></div>"));
+                    
+					if(data.length == 0) $(".postWrapper").append($("<div class='noList'>게시글이 없습니다.</div>"));
+					
                     for(var i=0; i<data.length; i++){
                         var post = $($("#postTemplate").html());
-                        post.find(".postHeader").text(data[i].memberId);
+                        post.attr("id", data[i].id);
+                        post.find(".postWriter").text(data[i].nickname);
                         post.find(".postCreated").text(data[i].dateCreated);
                         post.find(".postContent").text(data[i].content);
+                        post.find(".replyCount>span").text(data[i].replyCount);
                         $(".postWrapper").append(post);
+                        
+                        post.find(".postContent").on("click", function(){
+							readPost($(this).parent().attr("id"));
+                        })
+                        
+                        if(loginUser == data[i].memberId) setManageBtn(post);
                     }
+                    
+                    $(".postReplyForm").hide();
                 }
             });
         });
         
-        $(".writeBtn").on("click", function(){
-            $(this).hide();
+        //커뮤니티 글 작성 폼 생성
+        $(".communityWriteBtn").on("click", function(){
+            $(".communityWriteBtn").hide();
             $(".backToCommunity").show();
-            $(".filterBtnWrapper").hide();
+            $(".communityBtn").hide();
             $(".content").children().remove();
 
             $(".content").append($($("#postFormTemplate").html()));
             
+            //커뮤니티 글 작성 통신
             $("#submitBtn").on("click", function(e){
                 e.preventDefault();
                 $.ajax({
                     url: rootUrl + "/community",
                     type: "post",
                     data: {
-                    	communityCategoryId : $("#communityCategoryId").val(),
+                    	writerId : ${writer.id},
                     	content : $("#content").val()
                     },
                     success: function(data){
                     	$("#communityLink").trigger("click");
+                    	getCount();
                     }
                 });
             });
@@ -409,8 +517,176 @@
             $("#communityLink").trigger("click");
         });
         
+        //커뮤니티 글 읽기
+        function readPost(id){
+        	$(".backToCommunity").show();
+            $(".communityBtn").hide();
+            $(".content").children().remove();
+            
+            $.ajax({
+                url: rootUrl + "/community/" + id,
+                type: "get",
+                data: {
+                },
+                success: function(data){
+                	$(".content").append($("<div class='postWrapper'></div>"));
+                	
+                	var post = $($("#postTemplate").html());
+                    post.attr("id", data.id);
+                    post.find(".postWriter").text(data.nickname);
+                    post.find(".postCreated").text(data.dateCreated);
+                    post.find(".postContent").text(data.content);
+                    post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
+                    
+                    if(loginUser == data.memberId) setManageBtn(post);
+                    //댓글 작성 
+                    post.find("#replySubmitBtn").on("click", function(e){
+                        e.preventDefault();
+                        $.ajax({
+                            url: rootUrl + "/community",
+                            type: "post",
+                            data: {
+                            	parentId : id,
+                            	writerId : ${writer.id},
+                            	content : $("#replyContent").val()
+                            },
+                            success: function(data){
+								readPost(id);
+                            }
+                        });
+                    });
+                    
+                    //댓글 불러오기
+                    $.ajax({
+                        url: this.url + "/reply",
+                        type: "get",
+                        data: {},
+                        success: function(data){
+                        	var replyWrapper = post.find(".replyWrapper");
+                        	for(var i=0; i<data.length; i++){
+                        		var reply = $($("#replyTemplate").html());
+                        		reply.attr("id", data[i].id);
+                        		reply.find(".replyWriter").text(data[i].nickname);
+                        		reply.find(".replyCreated").text("(" + data[i].dateCreated + ")");
+                        		reply.find(".replyContent").text(data[i].content);
+                        		replyWrapper.append(reply);
+                        		
+		                        if(loginUser == data[i].memberId) setManageBtn(reply);
+                        	}
+                        }
+                    });
+                    
+                    $(".postWrapper").append(post);
+                }
+            });
+        }
         
+        //커뮤니티 포스트 개수 불러오기
+        function getCount(){
+        	$.ajax({
+                url: rootUrl + "/community/count",
+                type: "get",
+                data: {},
+                success: function(data){
+					$(".count").text(data);
+                }
+            });
+        }
+
+        //커뮤니티 수정/삭제 버튼 이벤트
+        function setManageBtn(ele){
+        	var manageBtn = $($("#manageBtnTemplate").html());
+			ele.find(".header").append(manageBtn);
+			if(ele.hasClass("reply")){
+				manageBtn.find(".update").remove();
+				manageBtn.find(".separator").remove();
+			}
+			manageBtn.find(".update").on("click", function(){
+				$(".communityWriteBtn").trigger("click");
+				$(".formHeader").text("게시글 수정하기");
+				$(".id").val(ele.attr("id"));
+				//글 내용 가져오기
+				$.ajax({
+                    url: rootUrl + "/community/" + ele.attr("id"),
+                    type: "get",
+                    data: {
+                    	content : $("#content").val()
+                    },
+                    success: function(data){
+                    	$("#content").val(data.content);
+                    }
+                });
+				$("#submitBtn").unbind();
+				//수정 통신
+				$("#submitBtn").on("click", function(e){
+					e.preventDefault();
+	                $.ajax({
+	                    url: location.origin + "/project/community/" + ele.attr("id"),
+	                    type: "put",
+	                    data: {
+	                    	content : $("#content").val()
+	                    },
+	                    success: function(data){
+							readPost(data);
+	                    	getCount();
+	                    }
+	                });
+				})
+			})
+			manageBtn.find(".delete").on("click", function(){
+				if(confirm("삭제하시겠습니까?")){
+					deleteCommunity(ele, this);
+				}
+			})
+        }
+        
+        //커뮤니티 삭제 통신
+        function deleteCommunity(ele, btn){
+        	$.ajax({
+				url: location.origin + "/project/community/" + ele.attr("id"),
+				type: "delete",
+				success: function(){
+					if($(btn).parent().parent().parent().hasClass("post")){
+						$("#communityLink").trigger("click");
+					} else{
+						readPost($(btn).parents(".post").attr("id"));
+					}
+			        getCount();
+				}
+			});
+        }
+        
+        //좋아요 통신
+        function getLike(){
+        	$.ajax({
+				url: rootUrl + "/like",
+				type: "get",
+				success: function(data){
+					if(data==1){
+						$(".like").html('<i class="bi bi-heart-fill"></i>');
+					} else{
+						$(".like").html('<i class="bi bi-heart"></i>');
+					}
+				}
+			});
+        }
+        //좋아요 업데이트
+        $(".like").on("click", function(){
+        	$.ajax({
+				url: rootUrl + "/like",
+				type: "post",
+				success: function(data){
+					if(data==1){
+						$(".like").html('<i class="bi bi-heart-fill"></i>');
+					} else{
+						$(".like").html('<i class="bi bi-heart"></i>');
+					}
+				}
+			});
+        })
         loadingStory();
+        getCount();
+        getLike();
     </script>
 </body>
 </html>
