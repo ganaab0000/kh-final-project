@@ -94,27 +94,22 @@
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 	<div class="main">
 		<div class="dropdown filterWrapper">
-			<button class="btn dropdown-toggle filter" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">
-				카테고리
-			</button>
+			<button class="btn filter" type="button" id="keyword"></button>
+			<button class="btn dropdown-toggle filter" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false"></button>
 			<ul class="dropdown-menu" aria-labelledby="category">
 				<li><button class="dropdown-item" name="category" value="">전체 보기</button></li>
 				<c:forEach var="category" items="${category}">
 					<li><button class="dropdown-item" name="category" value="${category.id}">${category.name}</button></li>
 				</c:forEach>
 			</ul>
-			<button class="btn dropdown-toggle filter" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">
-				상태
-			</button>
+			<button class="btn dropdown-toggle filter" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false"></button>
 			<ul class="dropdown-menu" aria-labelledby="status">
 				<li><button class="dropdown-item" name="status" value="">전체 보기</button></li>
 				<c:forEach var="status" items="${status}">
 					<li><button class="dropdown-item" name="status" value="${status.id}">${status.detail}</button></li>
 				</c:forEach>
 			</ul>
-			<button class="btn dropdown-toggle filter" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">
-				달성률
-			</button>
+			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false"></button>
 			<ul class="dropdown-menu" aria-labelledby="rate">
 				<li><button class="dropdown-item" name="rate" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="rate" value="1">75% 이하</button></li>
@@ -138,9 +133,7 @@
 					</div>
 				</li>
 			</ul>
-			<button class="btn dropdown-toggle filter" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">
-				모인 금액
-			</button>
+			<button class="btn dropdown-toggle filter" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false"></button>
 			<ul class="dropdown-menu" aria-labelledby="collected">
 				<li><button class="dropdown-item" name="collected" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="collected" value="1">1백만원 이하</button></li>
@@ -169,8 +162,7 @@
 		</div>
 		<div class="filterWrapper">
 			<span id="projectCount"></span>개의 프로젝트가 있습니다.
-			<button class="btn dropdown-toggle filter" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
-				최신순
+			<button class="btn dropdown-toggle filter" value="최신순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="sort">
 				<li><button class="dropdown-item" name="sort" value="1">최신순</button></li>
@@ -235,6 +227,7 @@
 		var url = new URL(location.href);
 		var urlParams = url.searchParams;
 
+		var keyword = urlParams.get("keyword");
 		var category = urlParams.get("category");
 		var pStatus = urlParams.get("status");
 		var rate = urlParams.get("rate");
@@ -248,6 +241,7 @@
 		page = page==null?1:page;
 		
 		class setParam{
+			keyword(param){keyword = param;}
 			category(param){category = param;}
 			status(param){pStatus = param;}
 			rate(param){rate = param;}
@@ -269,6 +263,7 @@
 				url: "listajax",
 				type: "get",
 				data: {
+					keyword : keyword,
 					category : category,
 					status : pStatus,
 					rate : rate,
@@ -292,35 +287,6 @@
 	
 							card.find(".mainImg").attr("src", "http://127.0.0.1:9090/api/file/" + data.projectList[i].mainImg);
 							card.find("a").attr("href", location.origin + "/project/" + data.projectList[i].id);
-
-							var like = card.find(".like");
-							$.ajax({
-								url: location.origin + "/project/" + data.projectList[i].id + "/like",
-								type: "get",
-								async: false,
-								success: function(data){
-									if(data==1){
-										like.html('<i class="bi bi-heart-fill"></i>');
-									} else{
-										like.html('<i class="bi bi-heart"></i>');
-									}
-								}
-							});
-							like.on("click", function(){
-								var target = $(this).next().attr("href") + "/like";
-								var btn = $(this);
-								$.ajax({
-									url: target,
-									type: "post",
-									success: function(data){
-										if(data==1){
-											btn.html('<i class="bi bi-heart-fill"></i>');
-										} else{
-											btn.html('<i class="bi bi-heart"></i>');
-										}
-									}
-								});
-							})
 							
 							var cardBody = card.children(".card-body");
 							cardBody.find(".cardTitle").text(data.projectList[i].title);
@@ -337,6 +303,37 @@
 							cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
 							
 							$(".cardContainer").append(cardWrapper);
+							
+							var like = card.find(".like");
+							//프로젝트 좋아요 로딩
+							$.ajax({
+								url: location.origin + "/project/" + data.projectList[i].id + "/like",
+								type: "get",
+								async: false,
+								success: function(data){
+									if(data==1){
+										like.html('<i class="bi bi-heart-fill"></i>');
+									} else{
+										like.html('<i class="bi bi-heart"></i>');
+									}
+								}
+							});
+							//좋아요 버튼 이벤트
+							like.on("click", function(){
+								var target = $(this).next().attr("href") + "/like";
+								var btn = $(this);
+								$.ajax({
+									url: target,
+									type: "post",
+									success: function(data){
+										if(data==1){
+											btn.html('<i class="bi bi-heart-fill"></i>');
+										} else{
+											btn.html('<i class="bi bi-heart"></i>');
+										}
+									}
+								});
+							})
 						}
 						$(".noList").hide();
 					} else{
@@ -364,7 +361,14 @@
 						if(value){
 							if(index!=0) newParams += "&";
 							newParams += key + "=" + value;
+							
+							$("#"+key).text($("button[name="+key+"][value="+value+"]").text());
+							$("#keyword").show();
+							if(key=='keyword') $("#keyword").show().text(value);
 							index++;
+						} else{
+							$("#"+key).text($("#"+key).val());
+							if(key=='keyword') $("#keyword").hide();
 						}
 					}
 					history.pushState(null, null, newParams);
@@ -413,8 +417,9 @@
 		//필터 초기화
 		$(".filterReset").on("click", function(){
 			removeAllChild(document.querySelector(".cardContainer"));
+			keyword = "";
 			category = "";
-			status = "";
+			pStatus = "";
 			rate = "";
 			minRate = "";
 			maxRate = "";

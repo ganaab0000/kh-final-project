@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProjectFilteringVo {
+	private String keyword;
 	private Integer category;
 	private Integer status;
 	

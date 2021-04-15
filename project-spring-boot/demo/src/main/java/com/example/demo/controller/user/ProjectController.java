@@ -1,6 +1,5 @@
 package com.example.demo.controller.user;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.dto.CommunityDto;
+import com.example.demo.domain.dto.ProjectCategoryDto;
 import com.example.demo.domain.dto.VoteDto;
 import com.example.demo.domain.vo.CommunityVo;
 import com.example.demo.domain.vo.ProejctAjaxListVo;
@@ -135,6 +135,15 @@ public class ProjectController {
 		log.info("project story : " + id);
 		
 		return projectService.getStory(id);
+	}
+	
+	//프로젝트 스토리 로드
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@GetMapping("/category")
+	public List<ProjectCategoryDto> getCategory() {
+		
+		return projectService.getCategory();
 	}
 	
 	//프로젝트 커뮤니티 로드
