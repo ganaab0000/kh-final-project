@@ -1,6 +1,5 @@
 package com.example.demo.controller.exception;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,6 +37,14 @@ public class ExceptionController {
         case "403":
             url = "/";
             msg = "해당 자원에 대한 권한이 없습니다.";
+            break;
+        case "701":
+            url = "/member/change/password";
+            msg = "비밀번호가 일치하지 않습니다.";
+            break;
+        case "702":
+            url = "/member/withdraw";
+            msg = "비밀번호가 일치하지 않습니다.";
             break;
         default:
             url = "/";
