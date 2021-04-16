@@ -59,13 +59,13 @@ public class AuthOauth2SuccessHandlerImpl implements AuthenticationSuccessHandle
         }
         if (roles.contains("ROLE_ADMIN")) {
 			request.setAttribute("trueUrl", "/admin");
-			request.setAttribute("falseUrl", "/member");
+			request.setAttribute("falseUrl", "/");
 			request.setAttribute("message", "관리자 페이지로 이동하겠습니까?");
 	        String url = "/member/redirect/confirm";
 	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
 	        requestDispatcher.forward(request, response);
             return;
         }
-    	response.sendRedirect("/member");
+    	response.sendRedirect("/");
 	}
 }

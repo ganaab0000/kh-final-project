@@ -36,10 +36,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private HttpSession httpsession;
 
 	@Transactional
-	public boolean isCorrectedPwd(MemberDto memberDto) {
+	public boolean isCorrectedPwd(MemberDto memberDto, String plainPwd) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		memberDto.setPwd(passwordEncoder.encode(memberDto.getPwd()));
-		return memberServiceImpl.findByEmailAndPwd(memberDto).isPresent();
+		return passwordEncoder.matches(plainPwd, memberDto.getPwd());
 	}
 
 	@Transactional
@@ -90,8 +89,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		MemberDetailVo memberVo = opMemberVo.get();
 		HashSet<GrantedAuthority> authorities = getAuthorityList(memberVo);
+		if(authorities.contains(new SimpleGrantedAuthority(Role.MEMBER_DEL.getValue()))) {
+			httpsession.setAttribute("MEMBER_SIGNIN_EXCEPTION", "탈퇴한 회원입니다. 궁금하신 것이 있으신 경우 문의 기능을 사용해주세요.");
+			throw new UsernameNotFoundException(userEmail);
+		}
+		if(authorities.contains(new SimpleGrantedAuthority(Role.MEMBER_BLOCK.getValue()))) {
+			httpsession.setAttribute("MEMBER_SIGNIN_EXCEPTION", "차단된 회원입니다. 궁금하신 것이 있으신 경우 문의 기능을 사용해주세요.");
+			throw new UsernameNotFoundException(userEmail);
+		}
 		if(authorities.contains(new SimpleGrantedAuthority(Role.MEMBER_OAUTH.getValue()))) {
-			httpsession.setAttribute("MEMBER_OAUTH_EXCEPTION", "SNS로 가입된 아이디입니다. SNS를 통해 로그인해 주세요.");
+			httpsession.setAttribute("MEMBER_SIGNIN_EXCEPTION", "SNS로 가입된 아이디입니다. SNS를 통해 로그인해 주세요.");
 			throw new UsernameNotFoundException(userEmail);
 		}
 		return new User(memberVo.getEmail(), memberVo.getPwd(), authorities);

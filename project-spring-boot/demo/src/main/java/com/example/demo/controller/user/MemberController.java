@@ -46,13 +46,14 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @AllArgsConstructor
 public class MemberController {
-    private final static String REDIRECT_PATH = "user/member/redirectWithMessage";
-    private final static String REDIRECT_CONFIRM_PATH = "user/member/redirectWithConfirm";
-    private MemberServiceImpl memberServiceImpl;
+	private final static String REDIRECT_PATH = "user/member/redirectWithMessage";
+	private final static String REDIRECT_CONFIRM_PATH = "user/member/redirectWithConfirm";
+	private MemberServiceImpl memberServiceImpl;
 	private UserDetailsServiceImpl userServiceimpl;
 	private EmailServiceImpl emailServiceImpl;
-    private ConfirmEmailServiceImpl confirmEmailServiceImpl;
-    private LogUtil logUtil;
+	private ConfirmEmailServiceImpl confirmEmailServiceImpl;
+	private LogUtil logUtil;
+
 	// 메인 페이지
 	@GetMapping("/member")
 	public String index(HttpServletRequest request) {
@@ -69,19 +70,7 @@ public class MemberController {
 			return "user/member/index";
 		return "user/member/signin";
 	}
-//	// 내 정보 페이지
-//	@GetMapping("/member/info")
-//	public String getMemInfo(HttpSession session, Model model, HttpServletRequest request) {
-//		logUtil.defaultLog(request);
-//		SessionMember member = (SessionMember) session.getAttribute("member");
-//		if (member == null)
-//			throw new InternalErrorCodeException("101");
-//		Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(member.getEmail());
-//		if (!opMemberDto.isPresent())
-//			throw new InternalErrorCodeException("102");
-//		model.addAttribute("memberDto", opMemberDto.get());
-//		return "user/member/myinfo";
-//	}
+
 	// 회원 정보 조회 및 수정 페이지
 	@GetMapping("/member/edit/info")
 	public String getEditMemInfo(HttpSession session, Model model, HttpServletRequest request) {
@@ -95,23 +84,29 @@ public class MemberController {
 		model.addAttribute("memberDto", opMemberDto.get());
 		return "user/member/editMyInfo";
 	}
+
 	// 회원 정보 수정 처리
 	@PostMapping("/member/edit/info")
-	public String postEditMemInfo(MemberDto newMemberDto, HttpSession session, Model model, HttpServletRequest request) {
+	public String postEditMemInfo(MemberDto newMemberDto, HttpSession session, Model model,
+			HttpServletRequest request) {
 		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
 			throw new InternalErrorCodeException("101");
-	    Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(member.getEmail());
+		Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(member.getEmail());
 		if (!opMemberDto.isPresent())
 			throw new InternalErrorCodeException("102");
-	    MemberDto oriMemberDto = opMemberDto.get();
-	    newMemberDto.setId(oriMemberDto.getId());
-		int isSuccess = memberServiceImpl.updateById(oriMemberDto);
+		MemberDto oriMemberDto = opMemberDto.get();
+		newMemberDto.setId(oriMemberDto.getId());
+		System.out.println(newMemberDto.toString());
+		int isSuccess = memberServiceImpl.updateById(newMemberDto);
 		if (isSuccess == 0)
 			throw new InternalErrorCodeException();
-        model.addAttribute("url", "/member");
-    	model.addAttribute("message", "성공적으로 수정 되었습니다.");
+		member.setProfileImgUrl(newMemberDto.getProfileImg());
+		member.setNickname(newMemberDto.getNickname());
+		session.setAttribute("member", member);
+		model.addAttribute("url", "/member/edit/info");
+		model.addAttribute("message", "성공적으로 수정 되었습니다.");
 		return REDIRECT_PATH;
 	}
 
@@ -121,9 +116,11 @@ public class MemberController {
 		logUtil.defaultLog(request);
 		return "user/member/editMyPwd";
 	}
+
 	// 패스워드 변경 처리
 	@PostMapping("/member/change/password")
-	public String postChangePwd(String oriPassword, String newPassword, HttpSession session, Model model, HttpServletRequest request) {
+	public String postChangePwd(String oriPassword, String newPassword, HttpSession session, Model model,
+			HttpServletRequest request) {
 		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
@@ -131,40 +128,45 @@ public class MemberController {
 		Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(member.getEmail());
 		if (!opMemberDto.isPresent())
 			throw new InternalErrorCodeException("102");
-	    MemberDto memberDto = opMemberDto.get();
-	    memberDto.setPwd(newPassword);
-		boolean isCorrected = userServiceimpl.isCorrectedPwd(memberDto);
-		if(!isCorrected)
-			throw new InternalErrorCodeException();
+		MemberDto memberDto = opMemberDto.get();
+		boolean isCorrected = userServiceimpl.isCorrectedPwd(memberDto, oriPassword);
+		if (!isCorrected)
+			throw new InternalErrorCodeException("701");
+		memberDto.setPwd(newPassword);
 		int isSuccess = userServiceimpl.updatePwdById(memberDto);
 		if (isSuccess == 0)
 			throw new InternalErrorCodeException();
-        model.addAttribute("url", "/member");
-    	model.addAttribute("message", "성공적으로 인증되었습니다.");
+		model.addAttribute("url", "/member/signout");
+		model.addAttribute("message", "성공적으로 변경되었습니다. 다시 로그인하여 주세요.");
 		return REDIRECT_PATH;
 	}
+
 	// 회원 탈퇴 페이지
 	@GetMapping("/member/withdraw")
 	public String getWithdraw(HttpServletRequest request) {
 		logUtil.defaultLog(request);
 		return "user/member/withdraw";
 	}
+
 	// 회원 탈퇴 처리
 	@PostMapping("/member/withdraw")
-	public String postWithdraw(HttpSession session, Model model, HttpServletRequest request) {
+	public String postWithdraw(String password, HttpSession session, Model model, HttpServletRequest request) {
 		logUtil.defaultLog(request);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
 			throw new InternalErrorCodeException("101");
-	    Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(member.getEmail());
+		Optional<MemberDto> opMemberDto = memberServiceImpl.findByEmail(member.getEmail());
 		if (!opMemberDto.isPresent())
 			throw new InternalErrorCodeException("102");
-	    MemberDto memberDto = opMemberDto.get();
-	    int isSuccess = memberServiceImpl.updateIsDeleted(memberDto.getId());
+		MemberDto memberDto = opMemberDto.get();
+		boolean isCorrected = userServiceimpl.isCorrectedPwd(memberDto, password);
+		if (!isCorrected)
+			throw new InternalErrorCodeException("702");
+		int isSuccess = memberServiceImpl.updateIsDeleted(memberDto.getId());
 		if (isSuccess == 0)
 			throw new InternalErrorCodeException();
-        model.addAttribute("url", "/member");
-    	model.addAttribute("message", "성공적으로 인증되었습니다.");
+		model.addAttribute("url", "/member/signout");
+		model.addAttribute("message", "성공적으로 탈퇴되었습니다.");
 		return REDIRECT_PATH;
 	}
 
@@ -172,17 +174,17 @@ public class MemberController {
 	@PostMapping("/member/signup")
 	public String postSignup(@Valid MemberDto memberDto, Errors errors, Model model, HttpServletRequest request) {
 		logUtil.defaultLog(request);
-        if (errors.hasErrors()) {
-            model.addAttribute("memberDto", memberDto);
-            Map<String, String> validatorResult = validateHandling(errors);
-            for (String key : validatorResult.keySet()) {
-                model.addAttribute(key, validatorResult.get(key));
-            }
-    		model.addAttribute("message", "입력값이 유효하지 않습니다. ");
-    		return "user/member/signup";
-        }
+		if (errors.hasErrors()) {
+			model.addAttribute("memberDto", memberDto);
+			Map<String, String> validatorResult = validateHandling(errors);
+			for (String key : validatorResult.keySet()) {
+				model.addAttribute(key, validatorResult.get(key));
+			}
+			model.addAttribute("message", "입력값이 유효하지 않습니다. ");
+			return "user/member/signup";
+		}
 		MemberDto joinMember = userServiceimpl.joinUser(memberDto);
-        model.addAttribute("url", "/member/signin");
+		model.addAttribute("url", "/member/signin");
 		try {
 			sendAuthMail(joinMember);
 		} catch (MailSendException e) {
@@ -202,34 +204,37 @@ public class MemberController {
 		if (member == null)
 			throw new InternalErrorCodeException("101");
 		sendAuthMail(member.toMemberDto());
-        model.addAttribute("url", "/member");
+		model.addAttribute("url", "/member");
 		model.addAttribute("message", "메일이 발송되었습니다. 수신받은 메일을 확인하여 인증을 완료 해주세요.");
 		return REDIRECT_PATH;
 	}
+
 	// 이메일 인증 확인
 	@GetMapping("/member/auth/mail/confirm/id/{id}/key/{key}")
-	public String getComfirmMail(@PathVariable String id, @PathVariable String key, HttpSession session, Model model, HttpServletRequest request) {
+	public String getComfirmMail(@PathVariable String id, @PathVariable String key, HttpSession session, Model model,
+			HttpServletRequest request) {
 		logUtil.defaultLog(request);
 		return postComfirmMail(id, key, session, model, request);
 	}
+
 	// 이메일 인증 확인 처리
 	@PostMapping("/member/auth/mail/confirm")
-	public String postComfirmMail(@PathVariable String id, @PathVariable String key, HttpSession session, Model model, HttpServletRequest request) {
+	public String postComfirmMail(@PathVariable String id, @PathVariable String key, HttpSession session, Model model,
+			HttpServletRequest request) {
 		logUtil.defaultLog(request);
 		int memberId = Integer.parseInt(id);
 		Optional<ConfirmEmailDto> opConfirmEmailDto = confirmEmailServiceImpl.findByMemberIdWhenNotExpired(memberId);
 		confirmEmailServiceImpl.deleteByMemberId(memberId);
-		if(!opConfirmEmailDto.isPresent()
-		|| !opConfirmEmailDto.get().getSecuredKey().equals(key))
+		if (!opConfirmEmailDto.isPresent() || !opConfirmEmailDto.get().getSecuredKey().equals(key))
 			throw new InternalErrorCodeException("300");
 		int isSuccess = memberServiceImpl.updateAuthEmailById(memberId);
-		if(isSuccess == 0)
+		if (isSuccess == 0)
 			throw new InternalErrorCodeException();
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member != null)
 			updateCurrentAuthRole(session);
-        model.addAttribute("url", "/member");
-    	model.addAttribute("message", "성공적으로 인증되었습니다.");
+		model.addAttribute("url", "/member");
+		model.addAttribute("message", "성공적으로 인증되었습니다.");
 		return REDIRECT_PATH;
 	}
 
@@ -239,27 +244,31 @@ public class MemberController {
 		logUtil.defaultLog(request);
 		return "user/member/findMyPwd";
 	}
+
 	// 패스워드 찾기 신청 처리
 	@PostMapping("/member/find/password/submit")
 	public String postSubmitPwd(String email, Model model, HttpServletRequest request) {
 		logUtil.defaultLog(request);
-	    Optional<MemberDto> opMember = memberServiceImpl.findByEmail(email);
-	    if(!opMember.isPresent())
+		Optional<MemberDto> opMember = memberServiceImpl.findByEmail(email);
+		if (!opMember.isPresent())
 			throw new InternalErrorCodeException("102");
-	    MemberDto member = opMember.get();
+		MemberDto member = opMember.get();
 		sendInitPwdMail(member);
-        model.addAttribute("url", "/member");
+		model.addAttribute("url", "/member");
 		model.addAttribute("message", "메일이 발송되었습니다. 메일을 확인 해주세요.");
 		return REDIRECT_PATH;
 	}
+
 	// 패스워드 찾기 확인
 	@GetMapping("/member/find/password/confirm/id/{id}/key/{key}")
-	public String getComfirmPwd(@PathVariable String id, @PathVariable String key, Model model, HttpServletRequest request) {
+	public String getComfirmPwd(@PathVariable String id, @PathVariable String key, Model model,
+			HttpServletRequest request) {
 		logUtil.defaultLog(request);
-        model.addAttribute("id", id);
-        model.addAttribute("key", key);
+		model.addAttribute("id", id);
+		model.addAttribute("key", key);
 		return "user/member/findMyPwdConfirm";
 	}
+
 	// 패스워드 찾기 확인 처리
 	@PostMapping("/member/find/password/confirm")
 	public String postComfirmPwd(String id, String key, String password, Model model, HttpServletRequest request) {
@@ -270,28 +279,30 @@ public class MemberController {
 		memberDto.setPwd(password);
 		Optional<ConfirmEmailDto> opConfirmEmailDto = confirmEmailServiceImpl.findByMemberIdWhenNotExpired(memberId);
 		confirmEmailServiceImpl.deleteByMemberId(memberId);
-		if(!opConfirmEmailDto.isPresent()
-		|| !opConfirmEmailDto.get().getSecuredKey().equals(key))
+		if (!opConfirmEmailDto.isPresent() || !opConfirmEmailDto.get().getSecuredKey().equals(key))
 			throw new InternalErrorCodeException("300");
 		int isSuccess = userServiceimpl.updatePwdById(memberDto);
-		if(isSuccess == 0)
+		if (isSuccess == 0)
 			throw new InternalErrorCodeException();
-        model.addAttribute("url", "/member");
+		model.addAttribute("url", "/member");
 		model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다.");
 		return REDIRECT_PATH;
 	}
+
 	// 회원가입 페이지
 	@GetMapping("/member/signup")
 	public String getSignup(HttpServletRequest request) {
 		logUtil.defaultLog(request);
 		return "user/member/signup";
 	}
+
 	// 리다이렉트 페이지
 	@RequestMapping("/member/redirect")
 	public String getRedirect(HttpServletRequest request) {
 		logUtil.defaultLog(request);
 		return REDIRECT_PATH;
 	}
+
 	// 리다이렉트 페이지
 	@RequestMapping("/member/redirect/confirm")
 	public String getRedirectConfirm(HttpServletRequest request) {
@@ -306,14 +317,14 @@ public class MemberController {
 		throw new InternalErrorCodeException("403");
 	}
 
-    public Map<String, String> validateHandling(Errors errors) {
-        Map<String, String> validatorResult = new HashMap<>();
-        for (FieldError error : errors.getFieldErrors()) {
-            String validKeyName = String.format("valid_%s", error.getField());
-            validatorResult.put(validKeyName, error.getDefaultMessage());
-        }
-        return validatorResult;
-    }
+	public Map<String, String> validateHandling(Errors errors) {
+		Map<String, String> validatorResult = new HashMap<>();
+		for (FieldError error : errors.getFieldErrors()) {
+			String validKeyName = String.format("valid_%s", error.getField());
+			validatorResult.put(validKeyName, error.getDefaultMessage());
+		}
+		return validatorResult;
+	}
 
 	public void updateCurrentAuthRole(HttpSession session) {
 		// update the current Authentication
@@ -321,51 +332,41 @@ public class MemberController {
 		HashSet<GrantedAuthority> authorities = new HashSet<GrantedAuthority>(auth.getAuthorities());
 		authorities.add(new SimpleGrantedAuthority(Role.MEMBER_MAIL.getValue()));
 		User oriUser = (User) auth.getPrincipal();
-		//customUser 작성. set Password Null.
+		// customUser 작성. set Password Null.
 		User newUser = new User(oriUser.getUsername(), "", oriUser.isEnabled(), oriUser.isAccountNonExpired(),
 				oriUser.isCredentialsNonExpired(), oriUser.isAccountNonLocked(), authorities);
-		UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(newUser, auth.getCredentials(), authorities);
-        SecurityContext context = SecurityContextHolder.getContext();
-        context.setAuthentication(newAuth);
-        SecurityContextHolder.setContext(context);
-        session.setAttribute(
-				  HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-				  SecurityContextHolder.getContext()
-		);
+		UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(newUser,
+				auth.getCredentials(), authorities);
+		SecurityContext context = SecurityContextHolder.getContext();
+		context.setAuthentication(newAuth);
+		SecurityContextHolder.setContext(context);
+		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+				SecurityContextHolder.getContext());
 	}
+
 	public void sendInitPwdMail(MemberDto member) {
 		ConfirmEmailDto confirmEmailDto = confirmEmailServiceImpl.saveNewKeyByMemberId(member.getId());
-		String emailConfirmUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/member/find/password/confirm")
-				.path("/id/")
-				.path("" + member.getId())
-				.path("/key/")
-				.path(confirmEmailDto.getSecuredKey())
-				.toUriString();
-        String emailCon=""
-        		+ "<p>안녕하세요. #1님. </p>"
-        		+ "<div>아래 버튼을 클릭하여 비밀번호를 초기화하여 주세요. </div>"
-        		+ "<a href=\"#2\">비밀번호 초기화</a>";
-        emailCon = emailCon.replace("#1", member.getNickname());
-        emailCon = emailCon.replace("#2", emailConfirmUri);
-        String subject = "[텀블업]  패스워드 초기화";
+		String emailConfirmUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/member/find/password/confirm").path("/id/").path("" + member.getId()).path("/key/")
+				.path(confirmEmailDto.getSecuredKey()).toUriString();
+		String emailCon = "" + "<p>안녕하세요. #1님. </p>" + "<div>아래 버튼을 클릭하여 비밀번호를 초기화하여 주세요. </div>"
+				+ "<a href=\"#2\">비밀번호 초기화</a>";
+		emailCon = emailCon.replace("#1", member.getNickname());
+		emailCon = emailCon.replace("#2", emailConfirmUri);
+		String subject = "[텀블업]  패스워드 초기화";
 		emailServiceImpl.sendHtmlMail(member.getEmail(), subject, emailCon);
 	}
 
 	public void sendAuthMail(MemberDto member) {
 		ConfirmEmailDto confirmEmailDto = confirmEmailServiceImpl.saveNewKeyByMemberId(member.getId());
 		String emailConfirmUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/member/auth/mail/confirm")
-				.path("/id/")
-				.path("" + member.getId())
-				.path("/key/")
-				.path(confirmEmailDto.getSecuredKey())
+				.path("/id/").path("" + member.getId()).path("/key/").path(confirmEmailDto.getSecuredKey())
 				.toUriString();
-        String emailCon=""
-        		+ "<p>안녕하세요. #1님. </p>"
-        		+ "<div>아래 버튼을 클릭하여 인증을 완료하여 주세요. </div>"
-        		+ "<a href=\"#2\">이메일 인증</a>";
-        emailCon = emailCon.replace("#1", member.getNickname());
-        emailCon = emailCon.replace("#2", emailConfirmUri);
-        String subject = "[텀블업]  이메일 인증 확인";
+		String emailCon = "" + "<p>안녕하세요. #1님. </p>" + "<div>아래 버튼을 클릭하여 인증을 완료하여 주세요. </div>"
+				+ "<a href=\"#2\">이메일 인증</a>";
+		emailCon = emailCon.replace("#1", member.getNickname());
+		emailCon = emailCon.replace("#2", emailConfirmUri);
+		String subject = "[텀블업]  이메일 인증 확인";
 		emailServiceImpl.sendHtmlMail(member.getEmail(), subject, emailCon);
 	}
 
