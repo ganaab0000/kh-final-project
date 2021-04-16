@@ -91,31 +91,31 @@
 				<div class="row">
 					<div class="col-lg-3">
 
-						<h4 class="py-2">회원 현황</h4>
+						<h4 class="py-2">회원</h4>
 						<p class="py-2">신규회원 : 1 명</p>
 						<p class="py-2">탈퇴회원 : 1 명</p>
 						<p class="py-2">차단회원 : 1 명</p>
 					</div>
 					<!-- /.col-lg-4 -->
 					<div class="col-lg-3">
-
-						<h4 class="py-2">프로젝트 현황</h4>
-						<p class="py-2">심사 대기 중 프로젝트 : 1 명</p>
+						<h4 class="py-2">프로젝트</h4>
 						<p class="py-2">오픈 중인 프로젝트 : 1 명</p>
+						<p class="py-2">심사 대기 중 프로젝트 : 1 명</p>
 						<p class="py-2">마감된 프로젝트 : 1 명</p>
+						<p class="py-2">신고된 프로젝트 : 1 명</p>
 					</div>
 					<!-- /.col-lg-4 -->
 					<div class="col-lg-3 pb-5">
 
-						<h4 class="py-2">결제 현황</h4>
+						<h4 class="py-2">주문</h4>
 						<p class="py-2">주문 예약 현황 : 1 명</p>
 						<p class="py-2">결제 완료 현황 : 1 명</p>
 						<p class="py-2">취소 및 환불 현황 : 1 명</p>
 					</div>
 					<div class="col-lg-3 pb-5">
 
-						<h4 class="py-2">신고 현황</h4>
-						<p class="py-2">신고 접수된 프로젝트 : 23 개</p>
+						<h4 class="py-2">고객</h4>
+						<p class="py-2">문의 현황 : 23 개</p>
 					</div>
 					<!-- /.col-lg-4 -->
 				</div>

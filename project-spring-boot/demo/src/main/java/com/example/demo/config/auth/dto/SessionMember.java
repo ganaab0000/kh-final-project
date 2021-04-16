@@ -44,4 +44,12 @@ public class SessionMember implements Serializable {
 		return member;
 	}
 
+	public void setProfileImgUrl(int profileImgUrl) {
+		this.profileImgUrl = profileImgUrl == 0? DEFAULT_PROFILE_IMG : FILE_API_URL + profileImgUrl;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
 }

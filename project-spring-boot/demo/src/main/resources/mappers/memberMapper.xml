@@ -3,8 +3,13 @@
 
 <mapper namespace="com.example.demo.repository.MemberRepository">
 
- <select id="selectCalc" resultType="_int">
-	SELECT 	2 + 3 from dual
- </select>
+<update id="updateById" parameterType="MemberDto">
+	update member set
+	<if test="profileImg != 0">
+		profile_img=#{profileImg},
+	</if>
+	nickname=#{nickname}, address=#{address}, phone=#{phone},
+	profile_detail=#{profileDetail}, date_updated=SYSDATE where id = #{id}
+</update>
 
 </mapper>

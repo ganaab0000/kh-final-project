@@ -59,11 +59,14 @@
 	        <security:authorize access="hasRole('ROLE_ADMIN')">
 	          <li><a class="dropdown-item" href="/admin">관리자</a></li>
 	        </security:authorize>
-            <li><a class="dropdown-item" href="#">메세지</a></li>
+            <li><a class="dropdown-item" href="#">메시지</a></li>
             <li><a class="dropdown-item" href="#">후원현황</a></li>
             <li><a class="dropdown-item" href="#">좋아하는 프로젝트</a></li>
             <li><a class="dropdown-item" href="#">내가 만든 프로젝트</a></li>
+            <!--
             <li><a class="dropdown-item" href="/member">내 정보</a></li>
+             -->
+
             <li><a class="dropdown-item" href="/member/edit/info">설정</a></li>
 
 
@@ -82,7 +85,7 @@
       </security:authorize>
     </div>
   </div>
-  
+
 	<!-- Modal -->
 	<div class="modal fade" id="navModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-fullscreen">

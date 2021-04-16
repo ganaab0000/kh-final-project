@@ -89,11 +89,11 @@
 	        	<input type="hidden" name="key" value="${key}" />
 
 			    <div class="form-floating my-3">
-			      <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+			      <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password" required="">
 			      <label for="floatingPassword">비밀번호 입력</label>
 			    </div>
 			    <div class="form-floating my-3">
-			      <input name="repassword" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+			      <input name="repassword" type="password" class="form-control" id="floatingPassword" placeholder="Password" required="">
 			      <label for="floatingPassword">비밀번호 재입력</label>
 			    </div>
 

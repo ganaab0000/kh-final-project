@@ -94,7 +94,7 @@
 			    </div>
 
 			    <div class="form-floating my-3">
-			      <input name="nickname" type="text" class="form-control" id="floatingNickname" placeholder="nickname">
+			      <input name="nickname" type="text" class="form-control" id="floatingNickname" placeholder="nickname" required>
 			      <label for="floatingNickname">닉네임 입력</label>
 		            <span>${valid_nickname}</span>
 		            <!--
@@ -104,7 +104,7 @@
 
 
 			    <div class="form-floating my-3">
-			      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+			      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
 			      <label for="floatingPassword">비밀번호 입력</label>
 			      <span>${valid_pwd}</span>
 			    </div>
