@@ -107,12 +107,33 @@
         .writerWrapper{
             margin-bottom: 20px;
         }
-        .rewardWrapper{
-        
+        .writerWrapper>div{
+        	padding: 0.5rem 1.5rem;
         }
+        .lastLoggedIn, .writerProject {
+		    font-size: 0.75rem;
+		}
         .reward{
             padding: 0.5rem;
         }
+        .rewardSold {
+		    font-size: 0.75rem;
+		}
+        .rewardPrice {
+		    font-size: 1.5rem;
+		    font-weight: bold;
+		    margin: 0.5rem 0;
+		}
+		.rewardName {
+		    font-weight: bold;
+		}
+		.rewardDetail {
+		    font-size: 0.9rem;
+		}
+		.rewardDeliveryDate {
+			margin-top: 0.5rem;
+		    font-size: 0.75rem;
+		}
         .extraSupport>div{
             margin-bottom: 1rem;
         }
@@ -121,6 +142,8 @@
         }
         .extraSupportBtnWrapper{
             text-align: center;
+		    display: flex;
+		    flex-grow: 1;
         }
         .projectJoin{
             text-align: center;
@@ -171,6 +194,13 @@
 		}
 		.communityBtnWrapper{
 			position: relative;
+			border: none;
+		}
+		.communityBtnWrapper>button{
+			background-color: lightgray;
+		}
+		.story{
+			padding: 2rem 1.5rem;
 		}
 		.communityWriteBtn{
 			position: absolute;
@@ -218,7 +248,14 @@
 		.bi-heart-fill{
 			color: #ff4b4b;
 		}
+		button.like.btn:hover {
+		    background: rgb(0 0 0 / 25%);
+		}
+		.ck.ck-content{
+		    height: 400px;
+		}
     </style>
+    <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
@@ -241,8 +278,8 @@
                 <div class="collected statusItem">
                     <div class="statusTitle">모인 금액</div>
                     <div class="statusValue">
-                    	<fmt:formatNumber value="${project.collected == null ? 0 : project.collected}" pattern="#,###"/>원
-                    	<span class="statusRate"><fmt:formatNumber value="${project.rate == null ? 0 : project.rate}" pattern="#,###"/>%</span>
+                    	<fmt:formatNumber value="${project.collected}" pattern="#,###"/>원
+                    	<span class="statusRate"><fmt:formatNumber value="${project.rate}" pattern="#,###"/>%</span>
                     </div>
                 </div>
                 <div class="remainTime statusItem">
@@ -315,7 +352,7 @@
 	                                <div class="rewardInfo">
 	                                    <div class="rewardSold">${reward.maxStock - reward.currentStock}명이 선택</div>
 	                                    <div class="rewardPrice">${reward.price}원 +</div>
-	                                    <div class="rewardName">선물 : ${reward.name}</div>
+	                                    <div class="rewardName">${reward.name}</div>
 	                                    <div class="rewardDetail">${reward.detail}</div>
 	                                    <div class="rewardDeliveryDate">예상 전달일 : ${reward.dateDeliveryEstimated}</div>
 	                                </div>
@@ -371,7 +408,7 @@
 					<form id="replyForm">
 						<div class="input-group mb-3">
   							<input type="text" name="content" id="replyContent" class="form-control" aria-describedby="button-addon2">
-  							<button class="btn btn-outline-secondary" type="button" id="replySubmitBtn">등록</button>
+  							<button class="btn btn-outline-secondary" type="submit" id="replySubmitBtn">등록</button>
 						</div>
 					</form>
 				</div>
@@ -395,7 +432,7 @@
             <div class="formHeader">게시글 작성하기</div>
             <form action="" id="postForm">
 				<input type="hidden" name="id" class="id">
-                <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                <textarea name="content" id="content"></textarea>
                 <div>
                     <button id="submitBtn" class="btn">올리기</button>
                 </div>
@@ -410,15 +447,13 @@
     	</span>
     </script>
     <script>
+	    
     	var loginUser = ${member.id == null ? 0 : member.id};
     	var rootUrl = location.href;
     	//리워드 클릭 시 엑스트라 인포 열고 닫기
         $(".rewardInfo").on("click", function(){
-            if($(this).parent().children().length == 1){
-                $(this).after($($("#extraSupport").html()));
-            } else{
-                $(this).nextAll().remove();
-            }
+        	$(".rewardInfo").nextAll().remove();
+            $(this).after($($("#extraSupport").html()));
         });
 
         //스토리 불러오기
@@ -471,7 +506,7 @@
                         post.attr("id", data[i].id);
                         post.find(".postWriter").text(data[i].nickname);
                         post.find(".postCreated").text(data[i].dateCreated);
-                        post.find(".postContent").text(data[i].content);
+                        post.find(".postContent").html(data[i].content);
                         post.find(".replyCount>span").text(data[i].replyCount);
                         $(".postWrapper").append(post);
                         
@@ -487,6 +522,7 @@
             });
         });
         
+        let editor;
         //커뮤니티 글 작성 폼 생성
         $(".communityWriteBtn").on("click", function(){
             $(".communityWriteBtn").hide();
@@ -496,6 +532,16 @@
 
             $(".content").append($($("#postFormTemplate").html()));
             
+
+    		ClassicEditor
+    			.create( document.querySelector( '#content' ) )
+    			.then( newEditor => {
+    				editor = newEditor;
+    			} )
+    			.catch( error => {
+    				console.error( error );
+    			} );
+            
             //커뮤니티 글 작성 통신
             $("#submitBtn").on("click", function(e){
                 e.preventDefault();
@@ -504,7 +550,7 @@
                     type: "post",
                     data: {
                     	writerId : ${writer.id},
-                    	content : $("#content").val()
+                    	content : editor.getData()
                     },
                     success: function(data){
                     	$("#communityLink").trigger("click");
@@ -535,12 +581,12 @@
                     post.attr("id", data.id);
                     post.find(".postWriter").text(data.nickname);
                     post.find(".postCreated").text(data.dateCreated);
-                    post.find(".postContent").text(data.content);
+                    post.find(".postContent").html(data.content);
                     post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
                     
                     if(loginUser == data.memberId) setManageBtn(post);
                     //댓글 작성 
-                    post.find("#replySubmitBtn").on("click", function(e){
+                    post.find("#replyForm").on("submit", function(e){
                         e.preventDefault();
                         $.ajax({
                             url: rootUrl + "/community",
@@ -609,11 +655,8 @@
 				$.ajax({
                     url: rootUrl + "/community/" + ele.attr("id"),
                     type: "get",
-                    data: {
-                    	content : $("#content").val()
-                    },
                     success: function(data){
-                    	$("#content").val(data.content);
+						editor.setData(data.content);
                     }
                 });
 				$("#submitBtn").unbind();
@@ -624,7 +667,7 @@
 	                    url: location.origin + "/project/community/" + ele.attr("id"),
 	                    type: "put",
 	                    data: {
-	                    	content : $("#content").val()
+	                    	content : editor.getData()
 	                    },
 	                    success: function(data){
 							readPost(data);
@@ -681,9 +724,15 @@
 					} else{
 						$(".like").html('<i class="bi bi-heart"></i>');
 					}
+				},
+				error: function(){
+					if(confirm("로그인 페이지로 이동합니다.")){
+						location.href = "/member/signin";
+					}
 				}
 			});
         })
+        
         loadingStory();
         getCount();
         getLike();

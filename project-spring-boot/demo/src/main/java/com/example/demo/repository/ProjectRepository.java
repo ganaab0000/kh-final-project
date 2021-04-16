@@ -26,6 +26,10 @@ public interface ProjectRepository {
 	
 	public List<ProjectVo> findByFilter(ProjectFilteringVo filter);
 
+	public List<ProjectVo> findLiked(ProjectFilteringVo filter);
+
+	public int getLikedCount(ProjectFilteringVo filter);
+	
 	@Select("select story from project where id = #{id}")
 	public String getStory(int id);
 }

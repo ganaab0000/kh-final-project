@@ -18,4 +18,6 @@ public interface ProjectService {
 	public String getStory(int id);
 	public int updateLike(VoteDto voteDto);
 	public int getLike(VoteDto voteDto);
+	public List<ProjectVo> getLiked(ProjectFilteringVo filter);
+	public int getLikedCount(ProjectFilteringVo filter);
 }

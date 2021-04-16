@@ -103,4 +103,13 @@ public class ProjectServiceImpl implements ProjectService{
 			return 0;
 		}
 	}
+	@Override
+	public List<ProjectVo> getLiked(ProjectFilteringVo filter) {
+		return projectRepository.findLiked(filter);
+	}
+	
+	@Override
+	public int getLikedCount(ProjectFilteringVo filter) {
+		return projectRepository.getLikedCount(filter);
+	}
 }
