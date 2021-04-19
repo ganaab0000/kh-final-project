@@ -33,11 +33,11 @@ public class CommunityRestController {
 	
 	//프로젝트 커뮤니티 로드
 	@GetMapping("/{id}/community")
-	public List<CommunityVo> getCommunity(@PathVariable("id") Integer id, @RequestParam("category") Integer category, Model model) {
+	public List<CommunityVo> getCommunity(@PathVariable("id") Integer id, @RequestParam("category") Integer category, @RequestParam("page") Integer page) {
 		log.info("project community : " + id);
 		log.info("category : " + category);
 		
-		return communityService.findByProjectId(id, category);
+		return communityService.findByProjectId(id, category, page);
 	}
 	
 	//프로젝트 커뮤니티 작성

@@ -26,8 +26,6 @@ public class ProjectServiceImpl implements ProjectService{
 	@Autowired
 	private ProjectRepository projectRepository;
 	@Autowired
-	private ReserveRepository reserveRepository;
-	@Autowired
 	private ProjectCategoryRepository projectCategoryRepository;
 	@Autowired
 	private ProjectStatusCategoryRepository projectStatusCategoryRepository;
@@ -105,7 +103,15 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 	@Override
 	public List<ProjectVo> getLiked(ProjectFilteringVo filter) {
-		return projectRepository.findLiked(filter);
+		List<ProjectVo> list = projectRepository.findLiked(filter);
+		list.stream()
+			.forEach(vo->{
+				LocalDateTime now = LocalDateTime.now();
+				LocalDateTime closed = vo.getDateProjectClosed().toLocalDate().atStartOfDay();
+				vo.setRemainDay(ChronoUnit.DAYS.between(now, closed));
+				vo.setRemainHour(ChronoUnit.HOURS.between(now, closed));
+			});
+		return list;
 	}
 	
 	@Override

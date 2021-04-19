@@ -461,6 +461,7 @@
             e.preventDefault();
             loadingStory();
         });
+        //스토리 로딩
         function loadingStory(){
         	$(".communityBtnWrapper").hide();
             $.ajax({
@@ -484,20 +485,27 @@
             $(".backToCommunity").hide();
             $(".communityBtn.filter").first().trigger("click");
         });
+        
         //커뮤니티 불러오기
         $(".communityBtn.filter").on("click", function(){
+            $(".writeBtn").show();
+            $(".content").children().remove();
+            $(".content").append($($("#communityBtnWrapperTemplate").html()));
+
+            $(".content").append($("<div class='postWrapper'></div>"));
+        	
+            loadingCommunity(this.value);
+        });
+        //커뮤니티 로딩
+        function loadingCommunity(category){
         	$.ajax({
                 url: rootUrl + "/community",
                 type: "get",
                 data: {
-                	category : this.value
+                	category : category,
+                	page : 1
                 },
                 success: function(data){
-                    $(".writeBtn").show();
-                    $(".content").children().remove();
-                    $(".content").append($($("#communityBtnWrapperTemplate").html()));
-
-                    $(".content").append($("<div class='postWrapper'></div>"));
                     
 					if(data.length == 0) $(".postWrapper").append($("<div class='noList'>게시글이 없습니다.</div>"));
 					
@@ -520,7 +528,7 @@
                     $(".postReplyForm").hide();
                 }
             });
-        });
+        }
         
         let editor;
         //커뮤니티 글 작성 폼 생성

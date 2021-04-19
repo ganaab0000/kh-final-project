@@ -7,7 +7,7 @@ import com.example.demo.domain.vo.CommunityVo;
 
 public interface CommunityService {
 
-	public List<CommunityVo> findByProjectId(Integer projectId, Integer category);
+	public List<CommunityVo> findByProjectId(Integer projectId, Integer category, Integer page);
 	
 	public List<CommunityVo> findReply(Integer parentId);
 

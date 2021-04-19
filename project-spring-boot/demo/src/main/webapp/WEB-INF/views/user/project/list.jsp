@@ -104,21 +104,21 @@
 	<div class="main">
 		<div class="dropdown filterWrapper">
 			<button class="btn filter" type="button" id="keyword"></button>
-			<button class="btn dropdown-toggle filter" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false"></button>
+			<button class="btn dropdown-toggle filter" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">카테고리</button>
 			<ul class="dropdown-menu" aria-labelledby="category">
 				<li><button class="dropdown-item" name="category" value="">전체 보기</button></li>
 				<c:forEach var="category" items="${category}">
 					<li><button class="dropdown-item" name="category" value="${category.id}">${category.name}</button></li>
 				</c:forEach>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false"></button>
+			<button class="btn dropdown-toggle filter" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">상태</button>
 			<ul class="dropdown-menu" aria-labelledby="status">
 				<li><button class="dropdown-item" name="status" value="">전체 보기</button></li>
 				<c:forEach var="status" items="${status}">
 					<li><button class="dropdown-item" name="status" value="${status.id}">${status.detail}</button></li>
 				</c:forEach>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false"></button>
+			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
 			<ul class="dropdown-menu" aria-labelledby="rate">
 				<li><button class="dropdown-item" name="rate" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="rate" value="1">75% 이하</button></li>
@@ -142,7 +142,7 @@
 					</div>
 				</li>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false"></button>
+			<button class="btn dropdown-toggle filter" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">모인 금액</button>
 			<ul class="dropdown-menu" aria-labelledby="collected">
 				<li><button class="dropdown-item" name="collected" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="collected" value="1">1백만원 이하</button></li>

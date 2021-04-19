@@ -134,6 +134,7 @@ public class ProjectController {
 	@GetMapping("/{projectId}/like")
 	public Integer getLike(@PathVariable("projectId") Integer projectId, HttpSession session) {
 		SessionMember member = (SessionMember) session.getAttribute("member");
+		if(member==null) return null;
 		VoteDto voteDto = new VoteDto();
 		
 		voteDto.setMemberId(member.getId());

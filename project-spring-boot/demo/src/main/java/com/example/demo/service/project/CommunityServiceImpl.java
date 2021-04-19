@@ -17,10 +17,11 @@ public class CommunityServiceImpl implements CommunityService{
 	private CommunityRepository communityRepository;
 	
 	@Override
-	public List<CommunityVo> findByProjectId(Integer projectId, Integer category) {
+	public List<CommunityVo> findByProjectId(Integer projectId, Integer category, Integer page) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("projectId", projectId);
 		params.put("category", category);
+		params.put("page", page);
 		return communityRepository.findByProjectId(params);
 	}
 	

@@ -230,17 +230,7 @@
 								$.ajax({
 									url: target,
 									type: "post",
-									success: function(data){
-										if(data==1){
-											btn.html('<i class="bi bi-heart-fill"></i>');
-										} else{
-											btn.html('<i class="bi bi-heart"></i>');
-										}
-									},
-									error: function(){
-										if(confirm("로그인 페이지로 이동합니다.")){
-											location.href = "/member/signin";
-										}
+									success: function(){
 									}
 								});
 								removeAllChild(document.querySelector(".cardContainer"));
