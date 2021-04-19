@@ -24,4 +24,6 @@ public interface StatRepository {
 //	public int getCountGroupProjectCategory();
 
 
+//	@Select("select count(*) from vistor...")
+
 }
