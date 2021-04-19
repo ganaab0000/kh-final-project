@@ -11,8 +11,8 @@
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 	<main>
-		<div class="container">
-			<h2>내 정보</h2>
+		<div class="container my-5">
+			<h2 class="mb-5">내 정보</h2>
 			<security:authorize access="hasRole('ROLE_MEMBER')">
 		    	<a href="/member/edit/info">설정</a>
 			</security:authorize>
