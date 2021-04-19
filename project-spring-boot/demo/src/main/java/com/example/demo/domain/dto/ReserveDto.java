@@ -10,15 +10,15 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ReserveDto {
-	private Integer id;
+	private int id;
 	private String billingkey;
-	private Integer additionalBillings;
+	private int additionalBillings;
 	private Date dateCreated;
 	private String receiverName;
-	private Integer receiverPhone;
+	private int receiverPhone;
 	private String receiverAddress;
 	private String requestForDelivery;
-	private Integer reserveStatusCategoryId;
-	private Integer memberId;
-	private Integer projectId;
+	private int reserveStatusCategoryId;
+	private int memberId;
+	private int projectId;
 }

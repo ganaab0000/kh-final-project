@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.ProjectRepository">
+	<select id="findForMain" resultType="ProjectDto" parameterType="ProjectFilteringVo">
+		select T.* from (
+		    select rownum rn, P.* from project P where id > 0 
+			<if test="category != null and category != ''">
+    			and project_category_id = #{category}
+			</if>		    
+			<if test="status != null">
+				and project_status_category_id = #{status}
+			</if>	
+	    	order by id asc
+		) T 
+		<where>
+			<if test="page != null">
+				and rn between #{page}*18-17 and #{page}*18
+			</if>
+			<if test="page == null">
+				and rn between 1 and 18
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="findById" resultType="ProjectVo" parameterType="int">
+		select P.*, C.name project_category, RRR.sponsor, RRR.collected, round(collected/P.target_amount*100) rate from (
+	        select * from project where id = #{projectId}
+	    ) P 
+	    left outer join project_category C on P.project_category_id = C.id
+	    left outer join (select R.project_id, count(R.id) sponsor, sum(RR.reward_sum) collected from reserve R 
+	    left outer join reserve_reward RR on R.id = rr.reserve_id where R.reserve_status_category_id = 1 or R.reserve_status_category_id = 2 group by R.project_id)
+	    RRR on P.id = RRR.project_id
+	</select>
+	
+	<select id="findByFilter" resultType="ProjectVo" parameterType="ProjectFilteringVo">
+		select * from (
+		select rownum rn, T.* from (
+		select * from (
+		    select P.*, C.name project_category, nvl(RRR.sponsor, 0) sponsor, nvl(RRR.collected, 0) collected, nvl(round(collected/P.target_amount*100), 0) rate from (
+		        select * from project
+				<where>
+					<if test="category != null and category != ''">
+		    			and project_category_id = #{category}
+					</if>		    
+					<if test="status != null and status != ''">
+						and project_status_category_id = #{status}
+					</if>
+				</where>
+			) P 
+		left outer join project_category C on P.project_category_id = C.id
+		left outer join (select R.project_id, count(R.id) sponsor, sum(RR.reward_sum) collected from reserve R 
+		left outer join reserve_reward RR on R.id = rr.reserve_id where R.reserve_status_category_id = 1 or R.reserve_status_category_id = 2 group by R.project_id)
+		RRR on P.id = RRR.project_id)
+			<where>
+				<if test="rate != null">
+					<choose>
+						<when test="rate==1">
+							<![CDATA[and rate <= 75]]>
+						</when>
+						<when test="rate==2">
+							and rate between 75 and 100
+						</when>
+						<when test="rate==3">
+							<![CDATA[and rate >= 100]]>
+						</when>
+					</choose>
+				</if>
+				<if test="minRate!=null or maxRate!=null">
+					and
+					<choose>
+						<when test="minRate!=null and maxRate!=null">
+							rate between #{minRate} and #{maxRate}
+						</when>
+						<when test="minRate!=null">
+							<![CDATA[rate >= #{minRate}]]>
+						</when>
+						<otherwise>
+							<![CDATA[rate <= #{maxRate}]]>
+						</otherwise>
+					</choose>
+				</if>
+				<if test="collected != null">
+					<choose>
+						<when test="collected==1">
+							<![CDATA[and collected <= 1000000]]>
+						</when>
+						<when test="collected==2">
+							and collected between 1000000 and 10000000
+						</when>
+						<when test="collected==3">
+							and collected between 10000000 and 50000000
+						</when>
+						<when test="collected==4">
+							<![CDATA[and collected >= 50000000]]>
+						</when>
+					</choose>
+				</if>
+				<if test="minCollected!=null or maxCollected!=null">
+					and
+					<choose>
+						<when test="minCollected!=null and maxCollected!=null">
+							collected between #{minCollected} and #{maxCollected}
+						</when>
+						<when test="minCollected!=null">
+							<![CDATA[collected >= #{minCollected}]]>
+						</when>
+						<otherwise>
+							<![CDATA[collected <= #{maxCollected}]]>
+						</otherwise>
+					</choose>
+				</if>
+			</where>
+			<if test="sort != null">
+				<choose>
+					<when test="sort==1">
+						order by id desc
+					</when>
+					<when test="sort==2">
+						order by sponsor desc nulls last
+					</when>
+					<when test="sort==3">
+						order by collected desc nulls last
+					</when>
+					<when test="sort==4">
+						order by date_project_closed asc
+					</when>
+				</choose>
+			</if>
+			<if test="sort == null">
+				order by id desc
+			</if>
+		) T )
+		<where>
+			<if test="page != null">
+				and rn between #{page}*18-17 and #{page}*18
+			</if>
+			<if test="page == null">
+				and rn between 1 and 18
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTotalCount" resultType="int" parameterType="ProjectFilteringVo">
+		select count(*) from (
+		    select P.*, C.name project_category, nvl(RRR.sponsor, 0) sponsor, nvl(RRR.collected, 0) collected, nvl(round(collected/P.target_amount*100), 0) rate from (
+		        select * from project
+		        <where>
+					<if test="category != null and category != ''">
+		    			and project_category_id = #{category}
+					</if>		    
+					<if test="status != null and status != ''">
+						and project_status_category_id = #{status}
+					</if>
+				</where>
+		    ) P 
+	    left outer join project_category C on P.project_category_id = C.id
+	    left outer join (select R.project_id, count(R.id) sponsor, sum(RR.reward_sum) collected from reserve R 
+	    left outer join reserve_reward RR on R.id = rr.reserve_id where R.reserve_status_category_id = 1 or R.reserve_status_category_id = 2 group by R.project_id)
+	    RRR on P.id = RRR.project_id) 
+		<where>
+				<if test="rate != null">
+					<choose>
+						<when test="rate==1">
+							<![CDATA[and rate <= 75]]>
+						</when>
+						<when test="rate==2">
+							and rate between 75 and 100
+						</when>
+						<when test="rate==3">
+							<![CDATA[and rate >= 100]]>
+						</when>
+					</choose>
+				</if>
+				<if test="minRate!=null or maxRate!=null">
+					and
+					<choose>
+						<when test="minRate!=null and maxRate!=null">
+							rate between #{minRate} and #{maxRate}
+						</when>
+						<when test="minRate!=null">
+							<![CDATA[rate >= #{minRate}]]>
+						</when>
+						<otherwise>
+							<![CDATA[rate <= #{maxRate}]]>
+						</otherwise>
+					</choose>
+				</if>
+				<if test="collected != null">
+					<choose>
+						<when test="collected==1">
+							<![CDATA[and collected <= 1000000]]>
+						</when>
+						<when test="collected==2">
+							and collected between 1000000 and 10000000
+						</when>
+						<when test="collected==3">
+							and collected between 10000000 and 50000000
+						</when>
+						<when test="collected==4">
+							<![CDATA[and collected >= 50000000]]>
+						</when>
+					</choose>
+				</if>
+				<if test="minCollected!=null or maxCollected!=null">
+					and
+					<choose>
+						<when test="minCollected!=null and maxCollected!=null">
+							collected between #{minCollected} and #{maxCollected}
+						</when>
+						<when test="minCollected!=null">
+							<![CDATA[collected >= #{minCollected}]]>
+						</when>
+						<otherwise>
+							<![CDATA[collected <= #{maxCollected}]]>
+						</otherwise>
+					</choose>
+				</if>
+			</where>
+	</select>
+	
+</mapper>
