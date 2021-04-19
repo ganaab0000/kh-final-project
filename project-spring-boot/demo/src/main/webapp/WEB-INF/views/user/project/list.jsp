@@ -88,6 +88,15 @@
 		.bi-heart-fill{
 			color: #ff4b4b;
 		}
+		button.like.btn:hover {
+		    background: rgb(0 0 0 / 25%);
+		}
+		button.like.btn {
+		    border-radius: 100%;
+		    width: 30px;
+		    height: 30px;
+		    padding: 0;
+		}
 	</style>
 </head>
 <body>
@@ -95,21 +104,21 @@
 	<div class="main">
 		<div class="dropdown filterWrapper">
 			<button class="btn filter" type="button" id="keyword"></button>
-			<button class="btn dropdown-toggle filter" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false"></button>
+			<button class="btn dropdown-toggle filter" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">카테고리</button>
 			<ul class="dropdown-menu" aria-labelledby="category">
 				<li><button class="dropdown-item" name="category" value="">전체 보기</button></li>
 				<c:forEach var="category" items="${category}">
 					<li><button class="dropdown-item" name="category" value="${category.id}">${category.name}</button></li>
 				</c:forEach>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false"></button>
+			<button class="btn dropdown-toggle filter" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">상태</button>
 			<ul class="dropdown-menu" aria-labelledby="status">
 				<li><button class="dropdown-item" name="status" value="">전체 보기</button></li>
 				<c:forEach var="status" items="${status}">
 					<li><button class="dropdown-item" name="status" value="${status.id}">${status.detail}</button></li>
 				</c:forEach>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false"></button>
+			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
 			<ul class="dropdown-menu" aria-labelledby="rate">
 				<li><button class="dropdown-item" name="rate" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="rate" value="1">75% 이하</button></li>
@@ -133,7 +142,7 @@
 					</div>
 				</li>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false"></button>
+			<button class="btn dropdown-toggle filter" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">모인 금액</button>
 			<ul class="dropdown-menu" aria-labelledby="collected">
 				<li><button class="dropdown-item" name="collected" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="collected" value="1">1백만원 이하</button></li>
@@ -173,7 +182,7 @@
 		</div>
 		
 		<div class="row row-cols-1 row-cols-md-3 g-4 cardContainer"></div>
-		<div class="noList">
+		<div class="noList" style="display: none;">
 			발견된 프로젝트가 없습니다.
 		</div>
 	</div>
@@ -255,7 +264,6 @@
 		var paramSetter = new setParam();
 		var max;
 		
-		var a;
 		//리스트 비동기 로딩
 		function loadingList(){
 			$(".cardContainer").append($($("#spinner").html()));
@@ -331,6 +339,11 @@
 										} else{
 											btn.html('<i class="bi bi-heart"></i>');
 										}
+									},
+									error: function(){
+										if(confirm("로그인 페이지로 이동합니다.")){
+											location.href = "/member/signin";
+										}
 									}
 								});
 							})
@@ -363,6 +376,7 @@
 							newParams += key + "=" + value;
 							
 							$("#"+key).text($("button[name="+key+"][value="+value+"]").text());
+							$("button[name="+key+"][value="+value+"]").addClass("active");
 							$("#keyword").show();
 							if(key=='keyword') $("#keyword").show().text(value);
 							index++;
@@ -417,6 +431,7 @@
 		//필터 초기화
 		$(".filterReset").on("click", function(){
 			removeAllChild(document.querySelector(".cardContainer"));
+			$(".dropdown-item").removeClass("active");
 			keyword = "";
 			category = "";
 			pStatus = "";
@@ -428,6 +443,7 @@
 			maxCollected = "";
 			sort = "";
 			page = 1;
+			$(".noList").hide();
 			loadingList();
 		})
 
