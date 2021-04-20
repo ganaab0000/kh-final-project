@@ -1,11 +1,12 @@
 package com.example.demo.controller.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,21 +34,33 @@ public class CommunityRestController {
 	
 	//프로젝트 커뮤니티 로드
 	@GetMapping("/{id}/community")
-	public List<CommunityVo> getCommunity(@PathVariable("id") Integer id, @RequestParam("category") Integer category, @RequestParam("page") Integer page) {
+	public Map<String, Object> getCommunity(@PathVariable("id") Integer id, @RequestParam("category") Integer category, @RequestParam("page") Integer page) {
 		log.info("project community : " + id);
 		log.info("category : " + category);
 		
-		return communityService.findByProjectId(id, category, page);
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("projectId", id);
+		params.put("category", category);
+		params.put("page", page);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		if(page==1) {
+			result.put("count", communityService.getCountByCategory(params));
+		}
+		result.put("list", communityService.findByProjectId(params));
+		return result;
+//		return communityService.findByProjectId(params);
 	}
 	
 	//프로젝트 커뮤니티 작성
 	@PostMapping("/{id}/community")
 	public void writeCommunity(@PathVariable("id") Integer id, CommunityDto communityDto, HttpSession session, Integer writerId, Integer parentId) {
 		SessionMember member = (SessionMember) session.getAttribute("member");
+		
 		communityDto.setMemberId(member.getId());
 		communityDto.setProjectId(id);
 		communityDto.setCommunityCategoryId(writerId == communityDto.getMemberId() ? 2 : 1);
-		System.out.println(communityDto.getContent());
+		
 		if(parentId==null) {
 			communityService.save(communityDto);
 		} else {
@@ -67,10 +80,14 @@ public class CommunityRestController {
 	
 	//프로젝트 커뮤니티 포스트 댓글 로드
 	@GetMapping("/{projectId}/community/{postId}/reply")
-	public List<CommunityVo> getPostReply(@PathVariable("postId") Integer parentId) {
+	public List<CommunityVo> getPostReply(@PathVariable("postId") Integer parentId, @RequestParam("page") Integer page) {
 		log.info("getPostReply()");
 		
-		return communityService.findReply(parentId);
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("parentId", parentId);
+		params.put("page", page);
+		
+		return communityService.findReply(params);
 	}
 	
 	//프로젝트 커뮤니티 포스트 개수 로드
