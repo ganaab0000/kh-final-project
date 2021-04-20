@@ -1,0 +1,1524 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+.thumb-box {
+    height: 420px;
+    width: 430px;
+    position: relative;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thumb-box .wrapper {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px dashed #c2cdda;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.wrapper.active {
+    border: none;
+}
+
+.wrapper .image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.wrapper .icon {
+    font-size: 100px;
+    color: #9658fe;
+    margin-left: 130px;
+}
+
+.wrapper .text-info {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #5B5B7B;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.wrapper #cancel-btn i {
+    position: absolute;
+    font-size: 20px;
+    right: 15px;
+    top: 15px;
+    color: #9658fe;
+    cursor: pointer;
+    display: none;
+}
+
+.wrapper.active:hover #cancel-btn i {
+    display: block;
+}
+
+.wrapper #cancel-btn i:hover {
+    color: #e74c3c;
+}
+
+.thumb-box #custom-btn {
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    height: 40px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: "Nanum Gothic", sans-serif;
+    background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+}
+
+/* 테이블 및 tr, td 디자인 */
+
+.formbox {
+    
+    width: 1180px;
+    height: auto;
+    margin: 30px auto;
+}
+
+/* sapn 디자인 */
+
+.thumb-image {
+    color: #7E7E7E;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+/* 아티스트 아이콘 */
+
+#okimage {
+    height: 100%;
+    width: 100%;
+}
+
+.artistFacebook, .artistinstagram {
+    margin-right: 20px;
+    width: 150px;
+    font-size: 17px;
+    font-family: "Nanum Gothic", sans-serif;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+.artistFacebook:focus,
+.artistinstagram:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.material-icons.phone {
+    color: black;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* 메뉴바 */
+
+#menubar {
+    border: 1px solid black;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40px;
+    margin-bottom: 12px;
+    padding: 10px;
+}
+
+#menu1, #menu2, #menu3, #menu4 {
+    color: white;
+    float: left;
+    white-space: pre;
+    padding: 0.4rem;
+    width: 120px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0s ease-out;
+    user-select: none;
+    font-weight: bold;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+#menubar span#menu1, #menubar span#menu2, #menubar span#menu3, #menubar span#menu4 {
+    background-color: #e1306c;
+    border-right: 2px solid #c91d56;
+    box-shadow: 1px 5px 5px 0px #c91d56;
+}
+
+#menubar span#menu1:active, #menubar span#menu2:active, #menubar span#menu3:active, #menubar span#menu4:active {
+    box-shadow: 0px 2px 2px 0px #c91d56;
+}
+
+#menu1:active {
+    color: rgb(243, 152, 49);
+    font-weight: bold;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.summaryForm {
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    border: 1px solid rgba(213, 213, 213, 1);
+    box-shadow: 1px 5px 5px 0px rgba(90, 90, 90, 0.7);
+}
+
+.summary, .projectstory {
+    margin-left: 40px;
+    margin-top: 20px;
+}
+.reward-info {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.header-info {
+    color: #363636;
+    font-weight: bold;
+    font-size: 26px;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.summary-info1, .summary-info2, .summary-info3 {
+    width: 1050px;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-info4 {
+    width: 1050px;
+    height: auto;
+    margin-top: 40px;
+}
+
+.summary-info5 {
+    width: 1050px;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.summary-info6, .summary-info7 {
+    width: 1050px;
+    height: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.artist-info1, .artist-info2, .artist-info3, .artist-info4, .artist-info5, .artist-info6 {
+    width: 1050px;
+    height: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.summary-leftbox, .artist-leftbox, .story-leftbox {
+    width: 220px;
+    vertical-align: top;
+    display: inline-block;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.summary-rightbox, .artist-rightbox, .story-rightbox {
+    width: 740px;
+    display: inline-block;
+    margin-left: 50px;
+}
+
+.vimg-rightbox {
+    width: 740px;
+    height: 530px;
+    display: inline-block;
+}
+
+.marginform {
+    margin-left: 50px;
+}
+
+.summary-title-info, .summary-subtitle-info, .summary-thumb-info, .summary-text-info, .summary-category-info, .summary-hashtag-info, .artist-profile-info, .artist-email-info, .artist-name-info, .artist-intro-info, .artist-sns-info, .artist-phone-info, .project-date-info, .project-main-info, .project-story-info {
+    color: #7E7E7E;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.lengthchk, .lengthchk3 {
+    width: 40px;
+    text-align: right;
+}
+
+.lengthchk2 {
+    width: 40px;
+    text-align: right;
+}
+
+.lengthchk4 {
+    width: 40px;
+    margin-left: 480px;
+}
+
+.span-design {
+    font-size: 18px;
+    font-weight: bold;
+    color: gray;
+    opacity: 0.8;
+    line-height: 1.8;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.summary-title {
+    width: 600px;
+    height: 30px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding-left: 10px;
+    font-size: 16px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.summary-subtitle {
+    width: 600px;
+    height: 30px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-size: 16px;
+    padding-left: 10px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.summary-mount {
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 130px;
+    height: 25px;
+    font-size: 18px;
+    text-align: right;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.artist-email:focus, .artist-phone:focus, .summary-title:focus, .summary-subtitle:focus, .summary-mount:focus, .text-summary:focus, .select-category:focus, .summary-hashtag:focus, .artist-name:focus, .artist-intro:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.text-summary {
+    width: 500px;
+    height: 150px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    margin-left: 60px;
+    font-size: 18px;
+    padding-left: 10px;
+    padding-top: 10px;
+    resize: none;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.summary-category {
+    width: 300px;
+    height: 40px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 100px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    padding-left: 10px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.hash-form {
+    margin-left: 60px;
+}
+
+.summary-hashtag {
+    width: 500px;
+    height: 30px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    padding-left: 10px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.hash-edit {
+    background-color: #ffdab9;
+    width: 515px;
+    height: 150px;
+    border-radius: 8px;
+    margin-left: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    word-break: break-all;
+}
+
+.pform {
+    font-size: 15px;
+    font-weight: bold;
+    color: gray;
+    opacity: 0.7;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.hash-edit>span {
+    width: 90px;
+    height: 20px;
+    padding: 5px 8px 5px 8px;
+    display: inline-block;
+    background-color: white;
+    border-radius: 10px;
+    margin-left: 15px;
+    margin-top: 15px;
+    color: rgba(235, 101, 101, 0.884);
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 1px 2px 2px 1px #d0d1d4;
+}
+
+.artist {
+    margin-left: 40px;
+    margin-top: 30px;
+}
+
+.artistForm {
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(213, 213, 213, 1);
+    box-shadow: 1px 5px 5px 0px rgba(90, 90, 90, 0.7);
+}
+
+#artist-image-box {
+    margin-left: 140px;
+    width: 320px;
+    height: 240px;
+}
+
+/* 아티스트 아이콘 */
+
+#okimage {
+    height: 100%;
+    width: 100%;
+}
+
+#noimage {
+    text-align: center;
+    padding-top: 50px;
+}
+
+#noimage i {
+    display: inline;
+    font-size: 128px;
+    color: #489CFF;
+    cursor: pointer;
+}
+
+#noimage i:hover {
+    color: blue;
+    opacity: 0.8;
+}
+
+#noimage p {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    opacity: 0.7;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+#okimage {
+    height: 100%;
+    width: 100%;
+}
+
+.artimgdelete {
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+}
+
+.material-icons.upgrade {
+    font-size: 40px;
+}
+
+.artimage-font-change {
+    font-size: 24px;
+    color: #708090;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.font-label {
+    margin-left: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: "Nanum Gothic", sans-serif;
+    color: #7E7E7E;
+}
+
+.artist-name {
+    width: 200px;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    font-size: 16px;
+    padding-left: 10px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.artist-intro {
+    width: 500px;
+    height: 80px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 20px;
+    font-size: 12px;
+    padding-left: 10px;
+    padding-top: 10px;
+    resize: none;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+}
+
+.artistphone, .artistemail {
+    width: 400px;
+    height: 100px;
+    margin-left: 80px;
+    border: 1px solid rgb(0, 84, 255, 0.3);
+    box-shadow: 0px 0.5px 0.5px 0.2px #7E7E7E;
+    outline: none;
+    text-align: center;
+}
+
+.phone-info, .email-info1 {
+    font-size: 18px;
+    color: #7E7E7E;
+    font-weight: bold;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.artist-phone {
+    height: 20px;
+    width: 200px;
+    margin-top: 10px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.artist-email {
+    height: 20px;
+    width: 200px;
+    margin-top: 10px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.material-icons.email {
+    color: #1e90ff;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.story-info1 {
+    width: 1050px;
+    height: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.story-info2, .story-info3 {
+    width: 1050px;
+    height: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.stroyForm {
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(213, 213, 213, 1);
+    box-shadow: 1px 5px 5px 0px rgba(90, 90, 90, 0.7);
+}
+
+.project-text-info1 {
+    display: inline-block;
+    color: #7E7E7E;
+    margin-left: 30px;
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.text-pinfo {
+    margin-left: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: gray;
+    opacity: 0.8;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.story-opendate {
+    width: 600px;
+    height: 300px;
+    border: 1px solid rgba(213, 213, 213, 1);
+    box-shadow: 1px 2px 2px 1px rgba(90, 90, 90, 0.3);
+}
+
+.startForm {
+    width: 420px;
+    height: 60px;
+    margin-left: auto;
+    text-align: center;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.endForm {
+    width: 420px;
+    height: 60px;
+    margin-left: 112px;
+}
+
+.story-yeardesign {
+    width: 100px;
+    height: 40px;
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.story-yeardesign:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.story-monthdesign {
+    width: 80px;
+    height: 40px;
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.story-monthdesign:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.story-daydesign {
+    width: 80px;
+    height: 40px;
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.story-daydesign:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.openday-text, .day-text, .endday-text {
+    font-family: "Nanum Gothic", sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+    color: #ff6347;
+}
+
+#endday {
+    width: 60px;
+    text-align: center;
+    height: 20px;
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+#endday:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.start-text, .end-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #7e7e7e;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.material-icons.info {
+    color: #999;
+    margin-top: 80px;
+    font-size: 80px;
+    opacity: 0.6;
+    display: block;
+}
+
+.icon-info {
+    font-size: 20px;
+    font-weight: bold;
+    color: #7e7e7e;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+#noImage {
+    margin: auto;
+    padding: 0;
+    border: none;
+    height: 100%;
+}
+
+#onImage {
+    margin: auto;
+    padding: 0;
+    height: 100%;
+    border: none;
+}
+
+#pmainimg {
+    margin-top: 100px;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+}
+
+#video-url {
+    margin: auto;
+    padding: 0;
+    height: 100%;
+    border: none;
+}
+
+.video-container {
+    TEXT-ALIGN: center;
+    height: 100%;
+}
+
+.img-regist-btn {
+    font-family: "Nanum Gothic", sans-serif;
+    width: 120px;
+    height: 35px;
+    display: block;
+    margin-bottom: 15px;
+    font-size: 16px;
+    background-color: white;
+    border: 2px solid black;
+    cursor: pointer;
+    box-shadow: 1px 3px 3px 0px black;
+}
+
+.url-regist-btn {
+    font-family: "Nanum Gothic", sans-serif;
+    width: 140px;
+    height: 35px;
+    display: block;
+    margin-bottom: 15px;
+    font-size: 16px;
+    background-color: white;
+    border: 2px solid black;
+    margin-left: 15px;
+    cursor: pointer;
+    box-shadow: 1px 3px 3px 0px black;
+}
+
+.img-regist-btn:active {
+    background-color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    color: white;
+    opacity: 0.9;
+    border-color: white;
+    box-shadow: 0px 1px 1px 0px black;
+}
+
+.url-regist-btn:active {
+    background-color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    color: white;
+    opacity: 0.9;
+    border-color: white;
+    box-shadow: 0px 1px 1px 0px black;
+}
+
+#mimagetabarea {
+    width: 600px;
+    margin-top: 30px;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#mimagetabarea ul>li {
+    list-style: none;
+    float: left;
+    margin-left: 80px;
+    margin-right: 10px;
+    margin-bottom: 25px;
+}
+
+.edit-box {
+    width: 600px;
+    height: 480px;
+    margin-top: 20px;
+    margin-left: 50px;
+    border: 1px solid rgba(213, 213, 213, 1);
+    box-shadow: 1px 2px 2px 1px rgba(90, 90, 90, 0.3);
+}
+
+.box-img-area {
+    width: 500px;
+    height: 300px;
+    text-align: center;
+    border: 1px solid #dddddd;
+    border-right: 2px solid #dddddd;
+    border-bottom: 2px solid #dddddd;
+    margin-left: 30px;
+}
+
+.story {
+    margin: 0;
+    padding: 0;
+    margin-top: 60px;
+    margin-left: 50px;
+    width: 500px;
+    height: 300px;
+    display: inline-block;
+    text-align: center;
+}
+
+.regibtn {
+    width: 300px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-custom {
+    width: 120px;
+    border: 2px solid black;
+    background-color: white;
+    box-shadow: 1px 4px 4px 1px gray;
+    color: black;
+    border-radius: 5px;
+    margin: 20px 0px;
+    margin-left: 75px;
+    padding: 7px 13px;
+    font-size: 20px;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+    outline: 0px;
+    cursor: pointer;
+}
+
+.btn-custom:hover {
+    width: 120px;
+    border: 1px solid rgba(250, 250, 250, 0.5);
+    background-color: #ff6347;
+    box-shadow: 1px 4px 4px 1px gray;
+    color: white;
+    border-radius: 5px;
+    margin: 20px 0px;
+    margin-left: 75px;
+    padding: 7px 13px;
+    font-size: 20px;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+    outline: 0px;
+    cursor: pointer;
+}
+
+.material-icons.outbox {
+    font-size: 60px;
+    opacity: 0.7;
+    width: 200px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.btn-custom2 {
+    width: 100px;
+    border: 2px solid black;
+    background-color: white;
+    box-shadow: 1px 4px 4px 1px gray;
+    color: black;
+    border-radius: 5px;
+    margin: 20px 0px;
+    margin-left: 20px;
+    padding: 7px 13px;
+    font-size: 16px;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+    outline: 0px;
+    cursor: pointer;
+}
+
+.url-design {
+    width: 240px;
+    height: 18px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.url-design:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.swal-form {
+    width: 700px;
+}
+
+.storyForm {
+    margin-top: 20px;
+}
+
+.story-custom {
+    width: 700px;
+    height: 500px;
+    resize: none;
+    overflow-y: auto;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.story-custom:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.input-form {
+    width: 200px;
+}
+
+#rewardbox {
+    margin-right: auto;
+    margin-left: auto;
+    width: 1000px;
+    height: 200px;
+    border: 1px solid gray;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.rewardbox-textinfo1 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 24px;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+}
+
+.rewardbox-textinfo2 {
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal 400;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#reward {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    height: auto;
+    border: 1px solid #778899;
+    border-radius: 10px;
+    box-shadow: 2px 6px 6px 2px #2f4f4f;
+}
+
+.reward-add-textinfo1 {
+    display: inline-block;
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #7e7e7e;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.reward-add-textinfo2 {
+    margin-left: 20px;
+    font-size: 18px;
+    color: gray;
+    font-weight: bold;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.text-pinfo {
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: gray;
+    opacity: 0.8;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.itembox-add {
+    border: 1px solid rgba(213, 213, 213, 1);
+    box-shadow: 1px 5px 5px 0px rgba(90, 90, 90, 0.7);
+    width: 900px;
+    height: auto;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+.option-info1 {
+    font-size: 14px;
+    font-weight: bold;
+    color: gray;
+    opacity: 0.8;
+    line-height: 1.8;
+    padding: 0.6rem;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.itembox-countinfo {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.reward-sapn {
+    font-size: 36px;
+    color: #fa8072;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+}
+
+.itembox-add-info1 {
+    margin-top: 40px;
+    margin-left: 72px;
+    width: 800px;
+    height: 20px;
+}
+
+.itembox-add-name {
+    width: 600px;
+    height: 15px;
+    padding: 0.4rem;
+    margin-bottom: 10px;
+    margin-left: 40px;
+    border-radius: 4px 4px 4px 4px;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    outline: none;
+    cursor: pointer;
+}
+
+.itembox-add-name:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.itembox-add-info2 {
+    margin-top: 50px;
+    margin-left: 68px;
+    width: 800px;
+    height: auto;
+}
+
+.itembox-add-info2 input {
+    margin-left: 42px;
+    width: 130px;
+    height: 25px;
+    font-size: 18px;
+    text-align: right;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.itembox-add-info2 input:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.itembox-add-info3 {
+    margin-top: 50px;
+    margin-left: 30px;
+    width: 800px;
+    height: auto;
+}
+
+.itembox-leftbox {
+    vertical-align: top;
+    display: inline-block;
+}
+
+.itembox-rightbox {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+.itembox-add-info3 textarea {
+    width: 500px;
+    height: 100px;
+    resize: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    padding: 0.5rem;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.itembox-add-info3 textarea:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.itembox-add-info4 {
+    margin-top: 50px;
+    margin-left: 82px;
+    width: 900px;
+    height: auto;
+}
+
+.itembox-label {
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(87, 86, 86);
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.option-tarea textarea {
+    width: 400px;
+    height: 100px;
+    resize: none;
+    border-radius: 6px;
+    margin-right: 10px;
+    padding: 0.5rem;
+    cursor: pointer;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    outline: none;
+}
+
+.option-tarea textarea:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.item-option {
+    width: 300px;
+    height: 140px;
+    resize: none;
+    border-radius: 4px;
+    padding: 0.3rem;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    outline: none;
+}
+
+.item-option:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.privew-design {
+    width: 300px;
+    height: 140px;
+    resize: none;
+    overflow-y: auto;
+    border-radius: 4px;
+    padding: 0.2rem;
+    border: 2px solid rgb(0, 84, 255, 0.4);
+    outline: none;
+    margin-left: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(87, 86, 86);
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.option-mul-span {
+    font-size: 18px;
+    font-weight: bold;
+    color: gray;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.itembox-add-span-design {
+    font-size: 14px;
+    font-weight: bold;
+    color: gray;
+    opacity: 0.8;
+    line-height: 1.8;
+    padding: 0.6rem;
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.itembox-add-info5 {
+    margin-top: 50px;
+    margin-left: 50px;
+    width: 900px;
+    height: auto;
+}
+
+.itembox-add-info6 {
+    margin-top: 50px;
+    margin-left: 82px;
+    width: 900px;
+    height: auto;
+}
+
+.reward-count {
+    margin-left: 18px;
+    width: 50px;
+    height: 20px;
+    font-size: 16px;
+    text-align: right;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.count-span {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(87, 86, 86);
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.itembox-add-info7 {
+    margin-top: 50px;
+    margin-left: 50px;
+    width: 900px;
+    height: auto;
+}
+
+.countform {
+    margin-left: 18px;
+    width: 50px;
+    height: 20px;
+    font-size: 16px;
+    text-align: right;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.countform:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.limit-span {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(87, 86, 86);
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+.itembox-add-info8 {
+    margin-top: 50px;
+    margin-left: 38px;
+    width: 900px;
+    height: auto;
+}
+
+.year-design {
+    width: 100px;
+    height: 40px;
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.year-design:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.month-design {
+    width: 80px;
+    height: 40px;
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.month-design:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.day-design {
+    width: 180px;
+    height: 40px;
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    font-family: "Nanum Gothic", sans-serif;
+    border: 2px solid rgb(0, 84, 255, 0.3);
+    cursor: pointer;
+    outline: none;
+}
+
+.day-design:focus {
+    border: 2px solid rgb(0, 84, 255, 1);
+    outline: none;
+}
+
+.itembox-add-info9 {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    width: 900px;
+    height: auto;
+}
+
+.savebtn-design, .del-design {
+    border: 1px solid white;
+    background-color: rgba(255, 99, 71, 0.8);
+    color: white;
+    border-radius: 8px;
+    margin: 10px 0;
+    margin-left: 10px;
+    padding: 7px 13px;
+    font-size: 16px;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+    outline: 0px;
+    cursor: pointer;
+}
+
+.modify-design {
+    border: 1px solid white;
+    background-color: rgba(255, 99, 71, 0.8);
+    color: white;
+    border-radius: 8px;
+    margin: 10px 0;
+    margin-left: 10px;
+    padding: 7px 13px;
+    font-size: 16px;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+    outline: 0px;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+.savebtn-design:hover, .del-design:hover, .modify-design:hover {
+    border: 1px solid white;
+    background-color: rgba(255, 99, 71, 1);
+    color: white;
+    border-radius: 8px;
+    margin: 10px 0;
+    margin-left: 10px;
+    padding: 7px 13px;
+    font-size: 16px;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.addbtn-design {
+    text-align: center;
+    width: 300px;
+    height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.items-add-button {
+    background-color: white;
+    cursor: pointer;
+    border: 0px;
+    outline: 0px;
+    width: 300px;
+    height: 150px;
+}
+
+.add-circle {
+    cursor: pointer;
+    font-size: 150px;
+    color: #ff6347;
+    opacity: 0.5;
+}
+
+.add-circle:hover {
+    color: #ff6347;
+    opacity: 1;
+}
+
+.buttons {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    width: 500px;
+    height: 100px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.buttons .row {
+    display: block;
+    margin-left: 60px;
+}
+
+.buttons .row button {
+    position: relative;
+    display: block;
+    height: 45px;
+    width: 100px;
+    margin: 40px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 0 5px 5px 0;
+    transition: all 0s ease-out;
+}
+
+.row button:active {
+    top: 3px;
+}
+
+.row button.facebook, .row button.facebook span {
+    background: #3B5999;
+    border-left: 1px solid #2E4476;
+    box-shadow: 0px 5px 0px 0px #2E4476;
+}
+
+.row button.facebook:active {
+    box-shadow: 0px 2px 0px 0px #2E4476;
+}
+
+.row button.instagram, .row button.instagram span {
+    background: #e1306c;
+    border-left: 1px solid #c91d56;
+    box-shadow: 0px 5px 0px 0px #c91d56;
+}
+
+.row button.instagram:active {
+    box-shadow: 0px 2px 0px 0px #c91d56;
+}
+
+.row button span {
+    position: absolute;
+    height: 45px;
+    width: 60px;
+    top: 0;
+    left: -60px;
+    line-height: 55px;
+    font-size: 25px;
+    display: block;
+    font-weight: normal;
+    border-radius: 5px 0 0 5px;
+}
+
+.row button:active span {
+    top: -3px;
+}
+
+.row button.facebook span {
+    border-right: 1px solid #2E4476;
+}
+
+.row button.instagram span {
+    border-right: 1px solid #c91d56;
+}
+
+.row button.facebook:active span {
+    box-shadow: 0px 5px 0px 0px #2E4476, 6px 4px 2px rgba(0, 0, 0, 0.3);
+}
+
+.row button.instagram:active span {
+    box-shadow: 0px 5px 0px 0px #c91d56, 6px 4px 2px rgba(0, 0, 0, 0.3);
+}

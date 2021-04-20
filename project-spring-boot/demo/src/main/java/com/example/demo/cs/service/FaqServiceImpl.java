@@ -31,6 +31,12 @@ public class FaqServiceImpl implements FaqService{
 	}
 	
 	@Override
+	public List<FaqDto> answerList() throws Exception {
+		// TODO Auto-generated method stub
+		return repository.answerList();
+	}
+	
+	@Override
 	public int countFaq() throws Exception {
 		// TODO Auto-generated method stub
 		return repository.countFaq();
@@ -60,6 +66,8 @@ public class FaqServiceImpl implements FaqService{
 		// TODO Auto-generated method stub
 		return repository.FaqResult(search);
 	}
+
+	
 
 	
 	
