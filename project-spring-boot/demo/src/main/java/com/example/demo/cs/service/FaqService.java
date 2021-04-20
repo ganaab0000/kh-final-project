@@ -16,6 +16,8 @@ public interface FaqService {
 		
 	public List<FaqDto> list() throws Exception;
 	
+	public List<FaqDto> answerList() throws Exception;
+	
 	// 게시물 총 갯수
 	public int countFaq() throws Exception;
 
