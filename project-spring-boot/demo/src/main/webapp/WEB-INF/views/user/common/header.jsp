@@ -28,9 +28,9 @@
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li>
 
-	        <a href="#" class="nav-link px-2 link-dark fw-bold" >
-	       		 프로젝트 둘러보기
-	        </a>
+	        <a href="" class="nav-link px-2 link-dark fw-bold" data-bs-toggle="modal" data-bs-target="#navModal">
+				프로젝트 둘러보기
+			</a>
         </li>
         <li><a href="#" class="nav-link px-2 link-dark fw-bold">프로젝트 올리기</a></li>
       </ul>
@@ -38,8 +38,8 @@
 
 
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-        <input type="search" class="form-control" placeholder="Search...">
+      <form action="/project/list" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+        <input type="search" name="keyword" class="form-control" placeholder="Search...">
       </form>
 
       <security:authorize access="isAuthenticated()">
@@ -59,11 +59,14 @@
 	        <security:authorize access="hasRole('ROLE_ADMIN')">
 	          <li><a class="dropdown-item" href="/admin">관리자</a></li>
 	        </security:authorize>
-            <li><a class="dropdown-item" href="#">메세지</a></li>
+            <li><a class="dropdown-item" href="#">메시지</a></li>
             <li><a class="dropdown-item" href="#">후원현황</a></li>
-            <li><a class="dropdown-item" href="#">좋아하는 프로젝트</a></li>
+            <li><a class="dropdown-item" href="/project/liked">좋아하는 프로젝트</a></li>
             <li><a class="dropdown-item" href="#">내가 만든 프로젝트</a></li>
+            <!--
             <li><a class="dropdown-item" href="/member">내 정보</a></li>
+             -->
+
             <li><a class="dropdown-item" href="/member/edit/info">설정</a></li>
 
 
@@ -82,4 +85,40 @@
       </security:authorize>
     </div>
   </div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="navModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modalHeaderContainer">
+						<button type="button" class="btn-close modalClose" data-bs-dismiss="modal" aria-label="Close"></button>
+						<span>프로젝트 둘러보기</span>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="modalSearchContainer">
+						<div class="modalSearchTitle">프로젝트 검색</div>
+						<form action="/project/list" method="get" style="width: 100%;">
+							<div class="input-group mb-3">
+								<input type="text" name="keyword" class="form-control" placeholder="검색어를 입력해주세요" aria-label="Example text with button addon" aria-describedby="button-addon1">
+								<button class="btn btn-outline-secondary" type="submit" id="button-addon1">검색</button>
+							</div>
+						</form>
+					</div>
+					<div class="modalDivider"></div>
+					<div class="modelMenuItemContainer">
+						<div class="modelMenuItem"><a href="/project/list">모든 프로젝트</a></div>
+						<div class="modelMenuItem"><a href="/project/list">?</a></div>
+						<div class="modelMenuItem"><a href="/project/list">?</a></div>
+					</div>
+					<div class="modalDivider"></div>
+					<div class="modalCategoryContainer">
+						<div class="modalCategoryTitle">카테고리</div>
+						<div class="modalCategoryWrapper"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </header>

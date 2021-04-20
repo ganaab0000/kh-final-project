@@ -81,16 +81,16 @@
 	        style="font-size: 2rem; color: black;"></i>
 		    <h1 class="h3 mb-3 fw-normal">로그인</h1>
 
-			<c:if test="${empty MEMBER_OAUTH_EXCEPTION and not empty SPRING_SECURITY_LAST_EXCEPTION}">
+			<c:if test="${empty MEMBER_SIGNIN_EXCEPTION and not empty SPRING_SECURITY_LAST_EXCEPTION}">
 			    <font color="red">
 			        <p>${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</p>
 			        <c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
 			    </font>
 			</c:if>
-			<c:if test="${not empty MEMBER_OAUTH_EXCEPTION}">
+			<c:if test="${not empty MEMBER_SIGNIN_EXCEPTION}">
 			    <font color="red">
-			        <p>${MEMBER_OAUTH_EXCEPTION}</p>
-			        <c:remove var="MEMBER_OAUTH_EXCEPTION" scope="session"/>
+			        <p>${MEMBER_SIGNIN_EXCEPTION}</p>
+			        <c:remove var="MEMBER_SIGNIN_EXCEPTION" scope="session"/>
 			    </font>
 			</c:if>
 
@@ -106,15 +106,15 @@
 
 	       	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		    <div class="form-floating my-3">
-		      <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+		      <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
 		      <label for="floatingInput">이메일 주소 입력</label>
 		    </div>
 		    <div class="form-floating my-3">
-		      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+		      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
 		      <label for="floatingPassword">비밀번호 입력</label>
 		    </div>
 
-		    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+		    <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
 		    <div class="checkbox my-3">
 		      <label>
 		        <input type="checkbox" name="remember-me"> 자동 로그인

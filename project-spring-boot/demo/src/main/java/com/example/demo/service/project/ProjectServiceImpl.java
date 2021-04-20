@@ -5,7 +5,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,24 +12,25 @@ import org.springframework.stereotype.Service;
 import com.example.demo.domain.dto.ProjectCategoryDto;
 import com.example.demo.domain.dto.ProjectDto;
 import com.example.demo.domain.dto.ProjectStatusCategoryDto;
+import com.example.demo.domain.dto.VoteDto;
 import com.example.demo.domain.vo.ProjectFilteringVo;
 import com.example.demo.domain.vo.ProjectVo;
 import com.example.demo.repository.ProjectCategoryRepository;
 import com.example.demo.repository.ProjectRepository;
 import com.example.demo.repository.ProjectStatusCategoryRepository;
 import com.example.demo.repository.ReserveRepository;
+import com.example.demo.repository.VoteRepository;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
 	@Autowired
 	private ProjectRepository projectRepository;
 	@Autowired
-	private ReserveRepository reserveRepository;
-	@Autowired
 	private ProjectCategoryRepository projectCategoryRepository;
 	@Autowired
 	private ProjectStatusCategoryRepository projectStatusCategoryRepository;
-	
+	@Autowired
+	private VoteRepository voteRepository;
 	
 	@Override
 	public void getListForMain() {
@@ -57,17 +57,12 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		ProjectVo projectVo = projectRepository.findById(id);
 		
-		projectVo.setCollected(Optional.ofNullable(reserveRepository.getCollected(id)).orElse(0));
-		
 		//잔여일
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime closed = projectVo.getDateProjectClosed().toLocalDate().atStartOfDay();
 		projectVo.setRemainDay(ChronoUnit.DAYS.between(now, closed));
 		projectVo.setRemainHour(ChronoUnit.HOURS.between(now, closed));
 
-		projectVo.setSponsor(reserveRepository.getSponsorCount(id));
-
-		projectVo.setRate(Math.round(100.0*projectVo.getCollected()/projectVo.getTargetAmount()));
 		return projectVo;
 	}
 	
@@ -88,5 +83,39 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public String getStory(int id) {
 		return projectRepository.getStory(id);
+	}
+	
+	@Override
+	public int getLike(VoteDto voteDto) {
+		return voteRepository.get(voteDto);
+	}
+	
+	@Override
+	public int updateLike(VoteDto voteDto) {
+		int result = voteRepository.get(voteDto);
+		if(result == 0) {
+			voteRepository.save(voteDto);
+			return 1;
+		} else {
+			voteRepository.delete(voteDto);
+			return 0;
+		}
+	}
+	@Override
+	public List<ProjectVo> getLiked(ProjectFilteringVo filter) {
+		List<ProjectVo> list = projectRepository.findLiked(filter);
+		list.stream()
+			.forEach(vo->{
+				LocalDateTime now = LocalDateTime.now();
+				LocalDateTime closed = vo.getDateProjectClosed().toLocalDate().atStartOfDay();
+				vo.setRemainDay(ChronoUnit.DAYS.between(now, closed));
+				vo.setRemainHour(ChronoUnit.HOURS.between(now, closed));
+			});
+		return list;
+	}
+	
+	@Override
+	public int getLikedCount(ProjectFilteringVo filter) {
+		return projectRepository.getLikedCount(filter);
 	}
 }

@@ -18,7 +18,6 @@ public interface ProjectRepository {
 	@Select("select * from project")
 	public List<ProjectDto> findAll();
 	
-	@Select("select * from project where id = #{id}")
 	public ProjectVo findById(int id);
 	
 	public List<ProjectDto> findForMain(ProjectFilteringVo filter);
@@ -27,6 +26,10 @@ public interface ProjectRepository {
 	
 	public List<ProjectVo> findByFilter(ProjectFilteringVo filter);
 
+	public List<ProjectVo> findLiked(ProjectFilteringVo filter);
+
+	public int getLikedCount(ProjectFilteringVo filter);
+	
 	@Select("select story from project where id = #{id}")
 	public String getStory(int id);
 }
