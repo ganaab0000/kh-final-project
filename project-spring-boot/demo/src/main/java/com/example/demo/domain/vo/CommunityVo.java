@@ -24,4 +24,6 @@ public class CommunityVo {
 	
 	private String nickname;
 	private int profileImg;
+	
+	private String formattedDate;
 }

@@ -186,6 +186,7 @@
 		.header{
 			position: relative;
 			display: flex;
+			padding: 0.5rem;
 		}
 		span.manageBtnWrapper{
 			position: absolute;
@@ -267,12 +268,23 @@
 		    height: 40px;
 		    margin-right: 0.5rem;
 		}
+		span.writerMark {
+		    background-color: #2b2b2b;
+		    color: white;
+		    font-size: 10px;
+		    padding: 2px;
+		    font-weight: bold;
+		    margin-left: 0.25rem;
+		}
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
-	<c:set var="writerProfileImg" value="${writer.profileImg==0 ? '/img/default_profile_img.jpg' : 'http://127.0.0.1:9090/api/file/'+=writer.profileImg}"/>
+	
+	<c:set var="writerProfileImg" value="${writer.profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/'+=writer.profileImg}"/>
+	<c:set var="isLoggedIn" value="${member==null ? false : true}"/>
+	
 	<div class="main">
         <div class="main">
         <div class="projectInfo">
@@ -282,11 +294,11 @@
                 </div>
                 <div class="projectTitle"><h1>${project.title}</h1></div>
                 <div class="projectWriter">
-                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg"><a href="${project.memberId}">${project.writerName}</a>
+                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}">${project.writerName}</a>
                 </div>
             </div>
             <div class="projectMainImgWrapper">
-                <img height="490" class="mainImg" src="http://127.0.0.1:9090/api/file/${project.mainImg}" alt="">
+                <img height="490" class="mainImg" src="/api/file/${project.mainImg}" alt="">
             </div>
             <div class="projectFundingStatus">
                 <div class="collected statusItem">
@@ -343,7 +355,7 @@
                 <div class="subColumn">
                     <div class="writerWrapper contentBox">
                         <div class="writerInfoHeader">창작자 소개</div>
-                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg"><a href="${writer.id}">${writer.nickname}</a></div>
+                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${writer.id}">${writer.nickname}</a></div>
                         <div class="writerContent">작성자 소개입니다.</div>
                         <hr>
                         <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
@@ -407,7 +419,7 @@
     <script type="text/template" id="postTemplate">
         <div class="post contentBox">
             <div class="postHeader header">
-				<img src="" alt="프로필 이미지" class="profileImg">
+				<img src="" alt="프로필 이미지" class="profileImg rounded-circle">
 				<div style="display: inline-block;">
         		    <div class="postWriter"></div>
         		    <div class="postCreated"></div>
@@ -442,9 +454,11 @@
 	<script type="text/template" id="replyTemplate">
 		<div class="reply">
             <div class="replyHeader header">
-				<img src="" alt="프로필 이미지" class="profileImg">
-				<span class="replyWriter"></span>
-        		<span class="replyCreated"></span>			
+				<img src="" alt="프로필 이미지" class="profileImg rounded-circle">
+				<div style="display: inline-block;">
+        		    <div class="replyWriter"></div>
+        		    <div class="replyCreated"></div>
+				</div>
 			</div>
             <div class="replyContent"></div>
         </div>
@@ -471,7 +485,6 @@
     <script>
 	    
     	var loginUser = ${member.id == null ? 0 : member.id};
-    	var rootUrl = location.href;
     	
     	//리워드 엑스트라 
         $(".rewardInfo").on("click", function(){
@@ -502,7 +515,7 @@
         function loadingStory(){
         	$(".communityBtnWrapper").hide();
             $.ajax({
-                url: rootUrl + "/story",
+                url: location.href + "/story",
                 type: "get",
                 data: {},
                 success: function(data){
@@ -542,7 +555,7 @@
         //커뮤니티 로딩
         function loadingCommunity(){
         	$.ajax({
-                url: rootUrl + "/community",
+                url: location.href + "/community",
                 type: "get",
                 data: {
                 	category : category,
@@ -559,9 +572,10 @@
                     for(var i=0; i<list.length; i++){
                         var post = $($("#postTemplate").html());
                         post.attr("id", list[i].id);
-                        post.find(".profileImg").attr("src", list[i].profileImg==0 ? '/img/default_profile_img.jpg' : 'http://127.0.0.1:9090/api/file/' + list[i].profileImg);
+                        post.find(".profileImg").attr("src", list[i].profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + list[i].profileImg);
                         post.find(".postWriter").text(list[i].nickname);
-                        post.find(".postCreated").text(list[i].dateCreated);
+                        if(isProjectWriter(list[i].memberId)) post.find(".postWriter").append($("<span class='writerMark'>창작자</span>"));
+                		post.find(".postCreated").text(list[i].formattedDate);
                         post.find(".postContent").html(list[i].content);
                         post.find(".replyCount>span").text(list[i].replyCount);
                         $(".postWrapper").append(post);
@@ -593,39 +607,41 @@
         let editor;
         //커뮤니티 글 작성 폼 생성
         $(".communityWriteBtn").on("click", function(){
-            $(".communityWriteBtn").hide();
-            $(".backToCommunity").show();
-            $(".communityBtn").hide();
-            $(".content").children().remove();
-
-            $(".content").append($($("#postFormTemplate").html()));
-            
-
-    		ClassicEditor
-    			.create( document.querySelector( '#content' ) )
-    			.then( newEditor => {
-    				editor = newEditor;
-    			} )
-    			.catch( error => {
-    				console.error( error );
-    			} );
-            
-            //커뮤니티 글 작성 통신
-            $("#submitBtn").on("click", function(e){
-                e.preventDefault();
-                $.ajax({
-                    url: rootUrl + "/community",
-                    type: "post",
-                    data: {
-                    	writerId : ${writer.id},
-                    	content : editor.getData()
-                    },
-                    success: function(data){
-                    	$("#communityLink").trigger("click");
-                    	getCount();
-                    }
-                });
-            });
+        	if(checkLogin()){
+	            $(".communityWriteBtn").hide();
+	            $(".backToCommunity").show();
+	            $(".communityBtn").hide();
+	            $(".content").children().remove();
+	
+	            $(".content").append($($("#postFormTemplate").html()));
+	            
+	
+	    		ClassicEditor
+	    			.create( document.querySelector( '#content' ) )
+	    			.then( newEditor => {
+	    				editor = newEditor;
+	    			} )
+	    			.catch( error => {
+	    				console.error( error );
+	    			} );
+	            
+	            //커뮤니티 글 작성 통신
+	            $("#submitBtn").on("click", function(e){
+	                e.preventDefault();
+	                $.ajax({
+	                    url: location.href + "/community",
+	                    type: "post",
+	                    data: {
+	                    	writerId : ${writer.id},
+	                    	content : editor.getData()
+	                    },
+	                    success: function(data){
+	                    	$("#communityLink").trigger("click");
+	                    	getCount();
+	                    }
+	                });
+	            });
+        	}
         });
         $(".backToCommunity").on("click", function(){
             $("#communityLink").trigger("click");
@@ -639,7 +655,7 @@
             $(".content").children().remove();
             
             $.ajax({
-                url: rootUrl + "/community/" + id,
+                url: location.href + "/community/" + id,
                 type: "get",
                 data: {
                 },
@@ -648,9 +664,10 @@
                 	
                 	var post = $($("#postTemplate").html());
                     post.attr("id", data.id);
-                    post.find(".profileImg").attr("src", data.profileImg==0 ? '/img/default_profile_img.jpg' : 'http://127.0.0.1:9090/api/file/' + data.profileImg);
+                    post.find(".profileImg").attr("src", data.profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + data.profileImg);
                     post.find(".postWriter").text(data.nickname);
-                    post.find(".postCreated").text(data.dateCreated);
+                    if(isProjectWriter(data.memberId)) post.find(".postWriter").append($("<span class='writerMark'>창작자</span>"));
+            		post.find(".postCreated").text(data.formattedDate);
                     post.find(".postContent").html(data.content);
                     post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
 					post.find(".postReplyForm").append($($("#replyFormTemplate").html()));
@@ -661,19 +678,21 @@
                     if(loginUser == data.memberId) setManageBtn(post);
                     //댓글 작성 
                     post.find("#replyForm").on("submit", function(e){
-                        e.preventDefault();
-                        $.ajax({
-                            url: rootUrl + "/community",
-                            type: "post",
-                            data: {
-                            	parentId : id,
-                            	writerId : ${writer.id},
-                            	content : $("#replyContent").val()
-                            },
-                            success: function(data){
-								readPost(id);
-                            }
-                        });
+                    	if(checkLogin()){
+	                        e.preventDefault();
+	                        $.ajax({
+	                            url: location.href + "/community",
+	                            type: "post",
+	                            data: {
+	                            	parentId : id,
+	                            	writerId : ${writer.id},
+	                            	content : $("#replyContent").val()
+	                            },
+	                            success: function(data){
+									readPost(id);
+	                            }
+	                        });
+                    	}
                     });
                     $(".postWrapper").append(post);
                     
@@ -688,7 +707,7 @@
        	//댓글 불러오기
         function getReply(id, page){
             $.ajax({
-                url: rootUrl + "/community/" + id + "/reply",
+                url: location.href + "/community/" + id + "/reply",
                 type: "get",
                 data: {
 					page : page
@@ -699,9 +718,10 @@
                 	for(var i=0; i<data.length; i++){
                 		var reply = $($("#replyTemplate").html());
                 		reply.attr("id", data[i].id);
-                		reply.find(".profileImg").attr("src", data[i].profileImg==0 ? '/img/default_profile_img.jpg' : 'http://127.0.0.1:9090/api/file/' + data[i].profileImg);
+                		reply.find(".profileImg").attr("src", data[i].profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + data[i].profileImg);
                 		reply.find(".replyWriter").text(data[i].nickname);
-                		reply.find(".replyCreated").text("(" + data[i].dateCreated + ")");
+                		if(isProjectWriter(data[i].memberId)) reply.find(".replyWriter").append($("<span class='writerMark'>창작자</span>"));
+                		reply.find(".replyCreated").text("(" + data[i].formattedDate + ")");
                 		reply.find(".replyContent").text(data[i].content);
                 		replyWrapper.append(reply);
                 		
@@ -742,7 +762,7 @@
         //커뮤니티 포스트 개수 불러오기
         function getCount(){
         	$.ajax({
-                url: rootUrl + "/community/count",
+                url: location.href + "/community/count",
                 type: "get",
                 data: {},
                 success: function(data){
@@ -765,7 +785,7 @@
 				$(".id").val(ele.attr("id"));
 				//글 내용 가져오기
 				$.ajax({
-                    url: rootUrl + "/community/" + ele.attr("id"),
+                    url: location.href + "/community/" + ele.attr("id"),
                     type: "get",
                     success: function(data){
 						editor.setData(data.content);
@@ -814,7 +834,7 @@
         //좋아요 통신
         function getLike(){
         	$.ajax({
-				url: rootUrl + "/like",
+				url: location.href + "/like",
 				type: "get",
 				success: function(data){
 					if(data==1){
@@ -827,23 +847,40 @@
         }
         //좋아요 업데이트
         $(".like").on("click", function(){
-        	$.ajax({
-				url: rootUrl + "/like",
-				type: "post",
-				success: function(data){
-					if(data==1){
-						$(".like").html('<i class="bi bi-heart-fill"></i>');
-					} else{
-						$(".like").html('<i class="bi bi-heart"></i>');
+        	if(checkLogin()){
+	        	$.ajax({
+					url: location.href + "/like",
+					type: "post",
+					success: function(data){
+						if(data==1){
+							$(".like").html('<i class="bi bi-heart-fill"></i>');
+						} else{
+							$(".like").html('<i class="bi bi-heart"></i>');
+						}
 					}
-				},
-				error: function(){
-					if(confirm("로그인 페이지로 이동합니다.")){
-						location.href = "/member/signin";
-					}
-				}
-			});
+				});
+        	}
         })
+        
+        //프로젝트 밀어주기 클릭시 reward로 스크롤 이동
+        $(".join").click(function(){
+			document.querySelector(".rewardHeader").scrollIntoView();
+        })
+		
+		function checkLogin(){
+        	if(!${isLoggedIn}){
+	        	if(confirm("로그인 페이지로 이동합니다.")){
+					location.href = "/member/signin";
+				}
+        	} else{
+        		return true;
+        	}
+        }
+        
+        function isProjectWriter(id){
+        	var writerId = ${writer.id};
+        	return writerId == id;
+        }
         
         loadingStory();
         getCount();

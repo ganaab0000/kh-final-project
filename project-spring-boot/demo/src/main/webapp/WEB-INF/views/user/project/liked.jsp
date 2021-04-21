@@ -190,7 +190,7 @@
 							var cardWrapper = $($("#cardTemplate").html());
 							var card = cardWrapper.children(".card");
 	
-							card.find(".mainImg").attr("src", "http://127.0.0.1:9090/api/file/" + data.projectList[i].mainImg);
+							card.find(".mainImg").attr("src", "/api/file/" + data.projectList[i].mainImg);
 							card.find("a").attr("href", location.origin + "/project/" + data.projectList[i].id);
 							
 							var cardBody = card.children(".card-body");
