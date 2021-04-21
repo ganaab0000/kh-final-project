@@ -231,11 +231,11 @@
 									url: target,
 									type: "post",
 									success: function(){
+										removeAllChild(document.querySelector(".cardContainer"));
+										page = 1;
+										loadingList();
 									}
 								});
-								removeAllChild(document.querySelector(".cardContainer"));
-								page = 1;
-								loadingList();
 							})
 						}
 						$(".noList").hide();

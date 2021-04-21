@@ -185,6 +185,7 @@
 		}
 		.header{
 			position: relative;
+			display: flex;
 		}
 		span.manageBtnWrapper{
 			position: absolute;
@@ -261,11 +262,17 @@
 		.moreListBtn{
 			background-color: lightgray;
 		}
+		img.profileImg{
+			width: 40px;
+		    height: 40px;
+		    margin-right: 0.5rem;
+		}
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
+	<c:set var="writerProfileImg" value="${writer.profileImg==0 ? '/img/default_profile_img.jpg' : 'http://127.0.0.1:9090/api/file/'+=writer.profileImg}"/>
 	<div class="main">
         <div class="main">
         <div class="projectInfo">
@@ -275,7 +282,7 @@
                 </div>
                 <div class="projectTitle"><h1>${project.title}</h1></div>
                 <div class="projectWriter">
-                	<a href="${project.memberId}">${project.writerName}</a>
+                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg"><a href="${project.memberId}">${project.writerName}</a>
                 </div>
             </div>
             <div class="projectMainImgWrapper">
@@ -336,7 +343,7 @@
                 <div class="subColumn">
                     <div class="writerWrapper contentBox">
                         <div class="writerInfoHeader">창작자 소개</div>
-                        <div class="writerName">${writer.nickname}</div>
+                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg"><a href="${writer.id}">${writer.nickname}</a></div>
                         <div class="writerContent">작성자 소개입니다.</div>
                         <hr>
                         <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
@@ -400,7 +407,7 @@
     <script type="text/template" id="postTemplate">
         <div class="post contentBox">
             <div class="postHeader header">
-				<span class="postWriterImg"><i class="bi bi-person-circle" style="font-size: 40px;"></i></span>
+				<img src="" alt="프로필 이미지" class="profileImg">
 				<div style="display: inline-block;">
         		    <div class="postWriter"></div>
         		    <div class="postCreated"></div>
@@ -435,7 +442,7 @@
 	<script type="text/template" id="replyTemplate">
 		<div class="reply">
             <div class="replyHeader header">
-				<span class="replyWriterImg"><i class="bi bi-person-circle" style="font-size: 30px;"></i></span>
+				<img src="" alt="프로필 이미지" class="profileImg">
 				<span class="replyWriter"></span>
         		<span class="replyCreated"></span>			
 			</div>
@@ -552,6 +559,7 @@
                     for(var i=0; i<list.length; i++){
                         var post = $($("#postTemplate").html());
                         post.attr("id", list[i].id);
+                        post.find(".profileImg").attr("src", list[i].profileImg==0 ? '/img/default_profile_img.jpg' : 'http://127.0.0.1:9090/api/file/' + list[i].profileImg);
                         post.find(".postWriter").text(list[i].nickname);
                         post.find(".postCreated").text(list[i].dateCreated);
                         post.find(".postContent").html(list[i].content);
@@ -640,6 +648,7 @@
                 	
                 	var post = $($("#postTemplate").html());
                     post.attr("id", data.id);
+                    post.find(".profileImg").attr("src", data.profileImg==0 ? '/img/default_profile_img.jpg' : 'http://127.0.0.1:9090/api/file/' + data.profileImg);
                     post.find(".postWriter").text(data.nickname);
                     post.find(".postCreated").text(data.dateCreated);
                     post.find(".postContent").html(data.content);
@@ -690,6 +699,7 @@
                 	for(var i=0; i<data.length; i++){
                 		var reply = $($("#replyTemplate").html());
                 		reply.attr("id", data[i].id);
+                		reply.find(".profileImg").attr("src", data[i].profileImg==0 ? '/img/default_profile_img.jpg' : 'http://127.0.0.1:9090/api/file/' + data[i].profileImg);
                 		reply.find(".replyWriter").text(data[i].nickname);
                 		reply.find(".replyCreated").text("(" + data[i].dateCreated + ")");
                 		reply.find(".replyContent").text(data[i].content);
@@ -697,7 +707,7 @@
                 		
                         if(loginUser == data[i].memberId) setManageBtn(reply);
                 	}
-                	paintReplyPagination(id, page);
+                	if(data.length>0) paintReplyPagination(id, page);
                 }
             });
         }
