@@ -47,11 +47,16 @@ public interface MemberRepository {
 	@Update("update member set is_email_verified='Y' where id = #{id}")
 	public int updateAuthEmailById(int id);
 
-	@Update("update member set is_deleted='Y' where id = #{id}")
+	@Update("update member set is_deleted='Y', date_deleted=sysdate where id = #{id}")
 	public int updateIsDeleted(int id);
 
+	@Update("update member set is_blocked= "
+			+ "CASE WHEN is_blocked='N' THEN 'Y' "
+			+ "WHEN is_blocked='Y' THEN 'N' "
+			+ "END, date_blocked=sysdate "
+			+ "where id = #{id}")
+	public int updateIsBlocked(int id);
+
 	public int updateById(MemberDto memberDto);
-
-
 
 }
