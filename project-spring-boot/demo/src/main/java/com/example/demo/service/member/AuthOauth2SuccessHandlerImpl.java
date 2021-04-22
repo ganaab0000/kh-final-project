@@ -22,6 +22,7 @@ import com.example.demo.domain.vo.MemberDetailVo;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+
 @Slf4j
 @Component
 public class AuthOauth2SuccessHandlerImpl implements AuthenticationSuccessHandler {
@@ -29,43 +30,59 @@ public class AuthOauth2SuccessHandlerImpl implements AuthenticationSuccessHandle
 	private HttpSession httpSession;
 	@Autowired
 	private MemberServiceImpl memberServiceImpl;
+	@Autowired
+	private VisitorPerDayServiceImpl visitorPerDayServiceImpl;
+	@Autowired
+	private VisitorCountPerDayServiceImpl visitorCountPerDayServiceImpl;
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) throws IOException, ServletException {
 		log.info(String.format("%s : %s", request.getMethod(), request.getRequestURI()));
 		String email = (String) ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes().get("email");
 		Optional<MemberDetailVo> opMemberVo = memberServiceImpl.findMemberDetailByEmail(email);
 		MemberDetailVo memberVo = opMemberVo.get();
 		httpSession.setAttribute("member", new SessionMember(memberVo));
 
+		try {
+			visitorPerDayServiceImpl.save(memberVo.getId());
+			if (!visitorCountPerDayServiceImpl.findBySysdate().isPresent()) {
+				visitorCountPerDayServiceImpl.save();
+			} else {
+				visitorCountPerDayServiceImpl.update();
+			}
+		} catch (Exception e) {
+			log.info("visitor : SQLIntegrityConstraintViolationException");
+		}
+
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains("ROLE_MEMBER_BLOCK")) {
-			request.setAttribute("trueUrl", "/");
-			request.setAttribute("falseUrl", "/");
-			request.setAttribute("message", "차단된 멤버입니다. 자세한 사항은 고객센터로 문의 바랍니다.");
-	        String url = "/member/redirect/confirm";
-	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
-	        requestDispatcher.forward(request, response);
-            return;
-        }
-        if (roles.contains("ROLE_MEMBER_DEL")) {
-			request.setAttribute("trueUrl", "/");
-			request.setAttribute("falseUrl", "/");
-			request.setAttribute("message", "탈퇴한 멤버입니다. 자세한 사항은 고객센터로 문의 바랍니다.");
-	        String url = "/member/redirect/confirm";
-	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
-	        requestDispatcher.forward(request, response);
-            return;
-        }
-        if (roles.contains("ROLE_ADMIN")) {
+//        if (roles.contains("ROLE_MEMBER_BLOCK")) {
+//			request.setAttribute("trueUrl", "/");
+//			request.setAttribute("falseUrl", "/");
+//			request.setAttribute("message", "차단된 멤버입니다. 자세한 사항은 고객센터로 문의 바랍니다.");
+//	        String url = "/member/redirect/confirm";
+//	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
+//	        requestDispatcher.forward(request, response);
+//            return;
+//        }
+//        if (roles.contains("ROLE_MEMBER_DEL")) {
+//			request.setAttribute("trueUrl", "/");
+//			request.setAttribute("falseUrl", "/");
+//			request.setAttribute("message", "탈퇴한 멤버입니다. 자세한 사항은 고객센터로 문의 바랍니다.");
+//	        String url = "/member/redirect/confirm";
+//	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
+//	        requestDispatcher.forward(request, response);
+//            return;
+//        }
+		if (roles.contains("ROLE_ADMIN")) {
 			request.setAttribute("trueUrl", "/admin");
 			request.setAttribute("falseUrl", "/");
 			request.setAttribute("message", "관리자 페이지로 이동하겠습니까?");
-	        String url = "/member/redirect/confirm";
-	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
-	        requestDispatcher.forward(request, response);
-            return;
-        }
-    	response.sendRedirect("/");
+			String url = "/member/redirect/confirm";
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
+			requestDispatcher.forward(request, response);
+			return;
+		}
+		response.sendRedirect("/");
 	}
 }
