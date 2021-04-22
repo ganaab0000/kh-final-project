@@ -59,9 +59,9 @@
 	        <security:authorize access="hasRole('ROLE_ADMIN')">
 	          <li><a class="dropdown-item" href="/admin">관리자</a></li>
 	        </security:authorize>
-            <li><a class="dropdown-item" href="#">메시지</a></li>
+            <li><a class="dropdown-item" href="/member/notification">알림</a></li>
             <li><a class="dropdown-item" href="#">후원현황</a></li>
-            <li><a class="dropdown-item" href="#">좋아하는 프로젝트</a></li>
+            <li><a class="dropdown-item" href="/project/liked">좋아하는 프로젝트</a></li>
             <li><a class="dropdown-item" href="#">내가 만든 프로젝트</a></li>
             <!--
             <li><a class="dropdown-item" href="/member">내 정보</a></li>
@@ -108,9 +108,9 @@
 					</div>
 					<div class="modalDivider"></div>
 					<div class="modelMenuItemContainer">
-						<div class="modelMenuItem"><a href="">모든 프로젝트</a></div>
-						<div class="modelMenuItem"><a href="">성공 임박 프로젝트</a></div>
-						<div class="modelMenuItem"><a href="">공개예정 프로젝트</a></div>
+						<div class="modelMenuItem"><a href="/project/list">모든 프로젝트</a></div>
+						<div class="modelMenuItem"><a href="/project/list">?</a></div>
+						<div class="modelMenuItem"><a href="/project/list">?</a></div>
 					</div>
 					<div class="modalDivider"></div>
 					<div class="modalCategoryContainer">

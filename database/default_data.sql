@@ -21,6 +21,7 @@ insert into project_status_category values(project_status_category_id_seq.nextva
 insert into project_status_category values(project_status_category_id_seq.nextval, '성사');
 insert into project_status_category values(project_status_category_id_seq.nextval, '실패');
 insert into project_status_category values(project_status_category_id_seq.nextval, '차단');
+-- insert into project_status_category values(project_status_category_id_seq.nextval, '승인요청');
 
 -- COMMUNITY_CATEGORY
 -- 문의,,,...
@@ -33,6 +34,8 @@ insert into reserve_status_category values(1, '결제대기');
 insert into reserve_status_category values(2, '결제완료');
 insert into reserve_status_category values(3, '결제취소');
 insert into reserve_status_category values(4, '결제실패');
+-- insert into reserve_status_category values(5, '교환요청');
+-- insert into reserve_status_category values(6, '환불요청');
 
 -- ROLE_CATEGORY
 -- all, member, project, notice, faq, ...

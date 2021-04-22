@@ -22,4 +22,6 @@ public class ProjectFilteringVo {
 	
 	private Integer sort;
 	private Integer page;
+	
+	private Integer memberId;
 }

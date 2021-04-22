@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.AdminMemberRepository">
+
+<select id="getMemberDetailList" resultType="MemberDetailVo">
+	SELECT * FROM
+	(
+		SELECT a.*, rownum r__
+		FROM
+		(
+			SELECT * FROM member left join oauth
+			on member.id = oauth.member_id
+			WHERE 1=1
+			<if test="memberDto.email != null and memberDto.email != ''">
+				and email like #{memberDto.email} || '%'
+			</if>
+			<if test="memberDto.nickname != null and memberDto.nickname != ''">
+				and nickname like #{memberDto.nickname} || '%'
+			</if>
+			<if test="memberDto.phone != null and memberDto.phone != ''">
+				and phone like #{memberDto.phone} || '%'
+			</if>
+			<if test="memberDto.id != 0">
+				and id = #{memberDto.id}
+			</if>
+
+			ORDER BY date_created DESC, date_updated DESC
+		) a
+		<![CDATA[
+			WHERE rownum < ((#{pageNumber} * #{pageSize}) + 1)
+		]]>
+	)
+	<![CDATA[
+		WHERE r__ >= (((#{pageNumber}-1) * #{pageSize}) + 1)
+	]]>
+</select>
+
+<select id="getCountMemberDetailList" resultType="_int">
+
+			SELECT count(*) FROM member left join oauth
+			on member.id = oauth.member_id
+			WHERE 1=1
+			<if test="memberDto.email != null and memberDto.email != ''">
+				and email like #{memberDto.email} || '%'
+			</if>
+			<if test="memberDto.nickname != null and memberDto.nickname != ''">
+				and nickname like #{memberDto.nickname} || '%'
+			</if>
+			<if test="memberDto.phone != null and memberDto.phone != ''">
+				and phone like #{memberDto.phone} || '%'
+			</if>
+			<if test="memberDto.id != 0">
+				and id = #{memberDto.id}
+			</if>
+
+</select>
+
+</mapper>

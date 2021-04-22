@@ -18,7 +18,7 @@ public interface MemberService {
 	public int saveWithId(MemberDto memberDto);
 
 	public Optional<MemberDto> findByEmail(String email);
-	
+
 	public MemberDto findById(Integer memberId);
 
 	public Optional<MemberDetailVo> findMemberDetailByEmail(String email);
@@ -28,6 +28,8 @@ public interface MemberService {
 	public int updateAuthEmailById(int id);
 
 	public int updateIsDeleted(int id);
+
+	public int updateIsBlocked(int id);
 
 	public int updateById(MemberDto memberDto);
 }
