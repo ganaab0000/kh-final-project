@@ -116,7 +116,6 @@ $(function() {
 		var formTextArea = $('#form-send-message textarea');
 		var submitBtn = $('#form-send-message .submit-btn');
 		formTextArea.val('');
-
 		submitBtn.off();
 		submitBtn.bind("click", clickFunc );
 		function clickFunc(){
@@ -394,7 +393,7 @@ $(function() {
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-primary submit-btn">전송</button>
+								<button type="button" class="btn btn-primary submit-btn" data-bs-dismiss="modal">전송</button>
 							</div>
 						</div>
 					</div>
