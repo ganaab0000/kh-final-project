@@ -16,11 +16,11 @@ insert into project_category values(project_category_id_seq.nextval, '패션');
 
 -- PROJECT_STATUS_CATEGORY
 -- 미승인, 승인, 펀딩성공, 펀딩실패, 차단 등...
-insert into project_status_category values(project_status_category_id_seq.nextval, '미승인');
-insert into project_status_category values(project_status_category_id_seq.nextval, '승인');
-insert into project_status_category values(project_status_category_id_seq.nextval, '성사');
-insert into project_status_category values(project_status_category_id_seq.nextval, '실패');
-insert into project_status_category values(project_status_category_id_seq.nextval, '차단');
+insert into project_status_category values(1, '미승인');
+insert into project_status_category values(2, '승인');
+insert into project_status_category values(3, '성사');
+insert into project_status_category values(4, '실패');
+insert into project_status_category values(5, '차단');
 -- insert into project_status_category values(project_status_category_id_seq.nextval, '승인요청');
 
 -- COMMUNITY_CATEGORY

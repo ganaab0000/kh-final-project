@@ -254,6 +254,13 @@
 		.ck.ck-content{
 		    height: 400px;
 		}
+		.moreList {
+		    text-align: center;
+		    margin: 2rem 0;
+		}
+		.moreListBtn{
+			background-color: lightgray;
+		}
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
 </head>
@@ -343,6 +350,7 @@
                         <div class="rewardList">
                         	<div class="reward contentBox">
                                 <div class="rewardInfo">
+                                	<input type="hidden" name="rewardPrice" value="1000">
                                     <div class="rewardPrice">1000원 +</div>
                                     <div class="rewardDetail">선물을 선택하지 않고 밀어만 줍니다.</div>
                                 </div>
@@ -350,6 +358,7 @@
                         	<c:forEach items="${rewardList}" var="reward">
                         		<div class="reward contentBox">
 	                                <div class="rewardInfo">
+	                                	<input type="hidden" name="rewardPrice" value="${reward.price}">
 	                                    <div class="rewardSold">${reward.maxStock - reward.currentStock}명이 선택</div>
 	                                    <div class="rewardPrice">${reward.price}원 +</div>
 	                                    <div class="rewardName">${reward.name}</div>
@@ -371,24 +380,20 @@
 	<script type="text/template" id="extraSupport">
         <hr>
         <div class="extraSupport">
-            <div class="extraTitle">
-                추가 후원금(선택)
-            </div>
+            <div class="extraTitle">추가 후원금(선택)</div>
             <div class="input">
-                <input type="text" placeholder="0">
+                <input type="text" class="extraAmount" placeholder="0">
             </div>
-            <div class="extraComment">
-                *추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.
-            </div>
+            <div class="extraComment">*추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.</div>
             <div class="extraSupportBtnWrapper">
-                <button class="extraSupportBtn btn">+5천원</button>
-                <button class="extraSupportBtn btn">+1만원</button>
-                <button class="extraSupportBtn btn">+5만원</button>
-                <button class="extraSupportBtn btn">+10만원</button>
+                <button class="extraSupportBtn btn" value="5000">+5천원</button>
+                <button class="extraSupportBtn btn" value="10000">+1만원</button>
+                <button class="extraSupportBtn btn" value="50000">+5만원</button>
+                <button class="extraSupportBtn btn" value="100000">+10만원</button>
             </div>
         </div>
         <div class="projectJoin">
-            <button class="btn">프로젝트 후원하기</button>
+            <button class="btn"><span class="totalAmount"></span>원 후원하기</button>
         </div>
     </script>
 
@@ -404,18 +409,28 @@
             <div class="postContent"></div>
             <div class="postReply">
 				<div class="replyCount"><i class="bi bi-chat-dots-fill"></i><span></span></div>
-				<div class="postReplyForm">
-					<form id="replyForm">
-						<div class="input-group mb-3">
-  							<input type="text" name="content" id="replyContent" class="form-control" aria-describedby="button-addon2">
-  							<button class="btn btn-outline-secondary" type="submit" id="replySubmitBtn">등록</button>
-						</div>
-					</form>
-				</div>
+				<div class="postReplyForm"></div>
 				<div class="replyWrapper"></div>
+				<div class="replyPagination"></div>
 			</div>
         </div>
     </script>
+    
+    <script type="text/template" id="replyPaginationTemplate">
+		<nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+		  </ul>
+		</nav>
+    </script>
+    
+    <script type="text/template" id="replyFormTemplate">
+		<form id="replyForm">
+			<div class="input-group mb-3">
+				<input type="text" name="content" id="replyContent" class="form-control" aria-describedby="button-addon2">
+				<button class="btn btn-outline-secondary" type="submit" id="replySubmitBtn">등록</button>
+			</div>
+		</form>
+	</script>
 
 	<script type="text/template" id="replyTemplate">
 		<div class="reply">
@@ -450,10 +465,25 @@
 	    
     	var loginUser = ${member.id == null ? 0 : member.id};
     	var rootUrl = location.href;
-    	//리워드 클릭 시 엑스트라 인포 열고 닫기
+    	
+    	//리워드 엑스트라 
         $(".rewardInfo").on("click", function(){
         	$(".rewardInfo").nextAll().remove();
-            $(this).after($($("#extraSupport").html()));
+        	var extraSupport = $($("#extraSupport").html());
+            $(this).after(extraSupport);
+            
+            extraSupport.find(".extraSupportBtn").on("click", function(){
+            	var extraAmount = $(".extraAmount").val();
+            	extraAmount = extraAmount == "" ? 0 : extraAmount;
+            	$(".extraAmount").val(parseInt(extraAmount) + parseInt($(this).val()));
+            	$(".extraAmount").trigger("input");
+            })
+            $(".extraAmount").on("input", function(){
+            	var price = this.value;
+            	price = price == "" ? 0 : price;
+            	$(".totalAmount").text(parseInt(price) + parseInt($(this).parents(".reward").find("input[name=rewardPrice]").val()));
+            })
+            $(".extraAmount").trigger("input");
         });
 
         //스토리 불러오기
@@ -486,6 +516,9 @@
             $(".communityBtn.filter").first().trigger("click");
         });
         
+        var category;
+        var page;
+        var max;
         //커뮤니티 불러오기
         $(".communityBtn.filter").on("click", function(){
             $(".writeBtn").show();
@@ -493,36 +526,55 @@
             $(".content").append($($("#communityBtnWrapperTemplate").html()));
 
             $(".content").append($("<div class='postWrapper'></div>"));
-        	
-            loadingCommunity(this.value);
+        	category = this.value;
+        	page = 1;
+            loadingCommunity();
         });
+        
+        
         //커뮤니티 로딩
-        function loadingCommunity(category){
+        function loadingCommunity(){
         	$.ajax({
                 url: rootUrl + "/community",
                 type: "get",
                 data: {
                 	category : category,
-                	page : 1
+                	page : page
                 },
                 success: function(data){
-                    
-					if(data.length == 0) $(".postWrapper").append($("<div class='noList'>게시글이 없습니다.</div>"));
+					if(data.count == 0){
+						$(".postWrapper").append($("<div class='noList'>게시글이 없습니다.</div>"));
+						return;
+					}
+                	if(page==1) max = Math.ceil(data.count/5);
 					
-                    for(var i=0; i<data.length; i++){
+					var list = data.list;
+                    for(var i=0; i<list.length; i++){
                         var post = $($("#postTemplate").html());
-                        post.attr("id", data[i].id);
-                        post.find(".postWriter").text(data[i].nickname);
-                        post.find(".postCreated").text(data[i].dateCreated);
-                        post.find(".postContent").html(data[i].content);
-                        post.find(".replyCount>span").text(data[i].replyCount);
+                        post.attr("id", list[i].id);
+                        post.find(".postWriter").text(list[i].nickname);
+                        post.find(".postCreated").text(list[i].dateCreated);
+                        post.find(".postContent").html(list[i].content);
+                        post.find(".replyCount>span").text(list[i].replyCount);
                         $(".postWrapper").append(post);
                         
                         post.find(".postContent").on("click", function(){
 							readPost($(this).parent().attr("id"));
                         })
                         
-                        if(loginUser == data[i].memberId) setManageBtn(post);
+                        if(loginUser == list[i].memberId) setManageBtn(post);
+                    }
+                    
+                    if(page<max){
+	                    var moreList = $('<div class="moreList"><button class="moreListBtn btn">게시글 더 보기</button></div>');
+	                    $(".postWrapper").append(moreList);
+                    	
+	                  	//커뮤니티 다음 페이지
+	                    moreList.on("click", function(){
+		                  	page++;
+	           	        	loadingCommunity()
+	                    	this.remove();
+	                    })
                     }
                     
                     $(".postReplyForm").hide();
@@ -571,6 +623,7 @@
             $("#communityLink").trigger("click");
         });
         
+        var replyPageMax;
         //커뮤니티 글 읽기
         function readPost(id){
         	$(".backToCommunity").show();
@@ -591,7 +644,11 @@
                     post.find(".postCreated").text(data.dateCreated);
                     post.find(".postContent").html(data.content);
                     post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
-                    
+					post.find(".postReplyForm").append($($("#replyFormTemplate").html()));
+					post.find(".replyPagination").append($($("#replyPaginationTemplate").html()));
+					
+					replyPageMax = Math.ceil(data.replyCount/10);
+					
                     if(loginUser == data.memberId) setManageBtn(post);
                     //댓글 작성 
                     post.find("#replyForm").on("submit", function(e){
@@ -609,31 +666,68 @@
                             }
                         });
                     });
-                    
-                    //댓글 불러오기
-                    $.ajax({
-                        url: this.url + "/reply",
-                        type: "get",
-                        data: {},
-                        success: function(data){
-                        	var replyWrapper = post.find(".replyWrapper");
-                        	for(var i=0; i<data.length; i++){
-                        		var reply = $($("#replyTemplate").html());
-                        		reply.attr("id", data[i].id);
-                        		reply.find(".replyWriter").text(data[i].nickname);
-                        		reply.find(".replyCreated").text("(" + data[i].dateCreated + ")");
-                        		reply.find(".replyContent").text(data[i].content);
-                        		replyWrapper.append(reply);
-                        		
-		                        if(loginUser == data[i].memberId) setManageBtn(reply);
-                        	}
-                        }
-                    });
-                    
                     $(".postWrapper").append(post);
+                    
+                    getReply(id, 1);
+                    
+                	
+		            
                 }
             });
         }
+        
+       	//댓글 불러오기
+        function getReply(id, page){
+            $.ajax({
+                url: rootUrl + "/community/" + id + "/reply",
+                type: "get",
+                data: {
+					page : page
+                },
+                success: function(data){
+                	var replyWrapper = $(".post").find(".replyWrapper");
+                	replyWrapper.empty();
+                	for(var i=0; i<data.length; i++){
+                		var reply = $($("#replyTemplate").html());
+                		reply.attr("id", data[i].id);
+                		reply.find(".replyWriter").text(data[i].nickname);
+                		reply.find(".replyCreated").text("(" + data[i].dateCreated + ")");
+                		reply.find(".replyContent").text(data[i].content);
+                		replyWrapper.append(reply);
+                		
+                        if(loginUser == data[i].memberId) setManageBtn(reply);
+                	}
+                	paintReplyPagination(id, page);
+                }
+            });
+        }
+       	//댓글 페이지네이션
+       	function paintReplyPagination(id, page){
+       		$(".post").find(".pagination").empty();
+       		
+       		var size = 10;
+       		var end = Math.ceil(page/size)*size;
+       		var start = end - size + 1;
+       		if(end > replyPageMax) end = replyPageMax;
+       		
+       		var prev = $('<li class="page-item"><a class="page-link" href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+            prev.find("a").attr("href", (start-1 == 0 ? start : start-1));
+       		$(".post").find(".pagination").append(prev);
+            for(var i=start; i<=end; i++){
+            	var nav = $('<li class="page-item"><a class="page-link" href=""></a></li>');
+            	nav.find("a").attr("href", i).text(i);
+            	if(i==page) nav.addClass("active");
+            	$(".post").find(".pagination").append(nav);
+            }
+            var next = $('<li class="page-item"><a class="page-link" href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
+            next.find("a").attr("href", (end+1 > replyPageMax ? end : end+1));
+            
+            $(".post").find(".pagination").append(next);
+            $(".page-link").on("click", function(e){
+        		e.preventDefault();
+        		getReply(id, $(this).attr("href"));
+        	})
+       	}
         
         //커뮤니티 포스트 개수 불러오기
         function getCount(){

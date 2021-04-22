@@ -113,10 +113,9 @@
 			</ul>
 			<button class="btn dropdown-toggle filter" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">상태</button>
 			<ul class="dropdown-menu" aria-labelledby="status">
-				<li><button class="dropdown-item" name="status" value="">전체 보기</button></li>
-				<c:forEach var="status" items="${status}">
-					<li><button class="dropdown-item" name="status" value="${status.id}">${status.detail}</button></li>
-				</c:forEach>
+				<li><button class="dropdown-item" name="status" value="">전체 프로젝트</button></li>
+				<li><button class="dropdown-item" name="status" value="1">진행중인 프로젝트</button></li>
+				<li><button class="dropdown-item" name="status" value="2">성사된 프로젝트</button></li>
 			</ul>
 			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
 			<ul class="dropdown-menu" aria-labelledby="rate">
@@ -375,15 +374,14 @@
 							if(index!=0) newParams += "&";
 							newParams += key + "=" + value;
 							
-							$("#"+key).text($("button[name="+key+"][value="+value+"]").text());
-							$("button[name="+key+"][value="+value+"]").addClass("active");
-							$("#keyword").show();
+							if(key!="keyword") $("#"+key).text($("button[name="+key+"][value="+value+"]").text());
 							if(key=='keyword') $("#keyword").show().text(value);
 							index++;
 						} else{
 							$("#"+key).text($("#"+key).val());
 							if(key=='keyword') $("#keyword").hide();
 						}
+						$("button[name="+key+"][value='"+value+"']").addClass("active");
 					}
 					history.pushState(null, null, newParams);
 				}
