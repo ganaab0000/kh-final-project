@@ -97,10 +97,10 @@
 
 
 		   	<p>
-	        	<a href="/oauth2/authorization/google" class="w-100 btn btn-lg btn-outline-dark" role="button">구글 아이디로 로그인</a>
+	        	<a href="/oauth2/authorization/google" class="w-100 btn btn-lg btn-light" role="button">구글 아이디로 로그인</a>
 		   	</p>
 		   	<p>
-				<a href="/oauth2/authorization/naver" class="w-100 btn btn-lg btn-outline-dark" role="button">네이버 아이디로 로그인</a>
+				<a href="/oauth2/authorization/naver" class="w-100 btn btn-lg btn-light" role="button">네이버 아이디로 로그인</a>
 		   	</p>
 			<hr>
 
