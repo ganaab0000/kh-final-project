@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.NotificationRepository">
+
+<select id="getNotificationList" resultType="NotificationDto">
+	SELECT * FROM
+	(
+		SELECT a.*, rownum r__
+		FROM
+		(
+			SELECT * FROM notification
+			WHERE member_id = #{notificationDto.memberId}
+			<if test="notificationDto.content != null and notificationDto.content != ''">
+				<![CDATA[
+					and instr(content, #{notificationDto.content}) > 0
+				]]>
+			</if>
+			<if test="notificationDto.id != 0">
+				and id=#{notificationDto.id}
+			</if>
+
+			ORDER BY date_created DESC
+		) a
+		<![CDATA[
+			WHERE rownum < ((#{pageNumber} * #{pageSize}) + 1)
+		]]>
+	)
+	<![CDATA[
+		WHERE r__ >= (((#{pageNumber}-1) * #{pageSize}) + 1)
+	]]>
+</select>
+
+<select id="getCountNotificationList" resultType="_int">
+
+	SELECT count(*) FROM notification
+	WHERE member_id = #{notificationDto.memberId}
+	<if test="notificationDto.content != null and notificationDto.content != ''">
+		<![CDATA[
+			and instr(content, #{notificationDto.content}) > 0
+		]]>
+	</if>
+	<if test="notificationDto.id != 0">
+		and id=#{notificationDto.id}
+	</if>
+
+</select>
+
+</mapper>
