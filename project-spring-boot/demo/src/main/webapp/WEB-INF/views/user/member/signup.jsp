@@ -85,7 +85,7 @@
 			    <div class="form-floating my-3">
 			      <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
 			       value="${memberDto.email}"
-			      >
+			      required>
 			      <label for="floatingInput">이메일 주소 입력</label>
 		            <span>${valid_email}</span>
 		            <!--
@@ -94,7 +94,9 @@
 			    </div>
 
 			    <div class="form-floating my-3">
-			      <input name="nickname" type="text" class="form-control" id="floatingNickname" placeholder="nickname" required>
+			      <input name="nickname" type="text" class="form-control" id="floatingNickname" placeholder="nickname"
+			      value="${memberDto.nickname}"
+			      required>
 			      <label for="floatingNickname">닉네임 입력</label>
 		            <span>${valid_nickname}</span>
 		            <!--

@@ -1,10 +1,10 @@
-package com.example.demo.repository;
+package com.example.demo.service.member;
+
 
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
-public interface VisitorPerDayRepository {
+
+public interface VisitorPerDayService {
 
 	@Insert("insert into visitor_per_day (member_id, date_visited) values(#{memberId}, trunc(sysdate))")
 	public int save(int memberId);

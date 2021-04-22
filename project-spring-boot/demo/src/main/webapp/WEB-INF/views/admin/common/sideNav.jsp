@@ -3,6 +3,13 @@
 <%@ taglib prefix="security"
   uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
+<script type="text/javascript">
+function getPrevDate(day){
+	var prev = new Date();
+	prev.setDate(new Date().getDate() - day);
+	return prev.toJSON().slice(0,10);
+}
+</script>
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse bg-white">
 
   <div class="position-sticky pt-3">
@@ -20,9 +27,9 @@
 	      <div class="collapse collapse-el" id="collapse-el-1" style="">
 	        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 	          <li><a href="/admin" class="link-dark rounded d-block px-4 d-block px-4">전체</a></li>
-	          <li><a href="/admin" class="link-dark rounded d-block px-4">주간</a></li>
-	          <li><a href="/admin" class="link-dark rounded d-block px-4">월간</a></li>
-	          <li><a href="/admin" class="link-dark rounded d-block px-4">연간</a></li>
+	          <li><a onclick="location.href='/admin?dateType=week&startDate='+getPrevDate(7)" href="#" class="link-dark rounded d-block px-4">주간</a></li>
+	          <li><a onclick="location.href='/admin?dateType=month&startDate='+getPrevDate(30)" href="#" class="link-dark rounded d-block px-4">월간</a></li>
+	          <li><a onclick="location.href='/admin?dateType=year&startDate='+getPrevDate(365)" href="#" class="link-dark rounded d-block px-4">연간</a></li>
 	        </ul>
 	      </div>
 	    </li>

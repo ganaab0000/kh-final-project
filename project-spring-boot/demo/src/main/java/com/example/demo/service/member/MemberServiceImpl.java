@@ -56,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDto findById(Integer memberId) {
 		return memberRepository.findById(memberId);
 	}
-	
+
 	public int updateAuthEmailById(int id) {
 		return memberRepository.updateAuthEmailById(id);
 	}
@@ -65,6 +65,12 @@ public class MemberServiceImpl implements MemberService {
 	public int updateIsDeleted(int id) {
 		return memberRepository.updateIsDeleted(id);
 	}
+
+	@Override
+	public int updateIsBlocked(int id) {
+		return memberRepository.updateIsBlocked(id);
+	}
+
 
 	@Override
 	public int updateById(MemberDto memberDto) {

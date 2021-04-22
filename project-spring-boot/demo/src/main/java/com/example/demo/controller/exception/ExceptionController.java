@@ -73,12 +73,12 @@ public class ExceptionController {
     }
 
     // All
-    @ExceptionHandler({ Exception.class })
-    public String handleAll(final Exception ex, Model model) {
-        log.warn("error", ex);
-        model.addAttribute("url", "/");
-        model.addAttribute("message", "오류가 발생하였습니다. 다시 시도해주세요.");
-        return REDIRECT_PATH;
-    }
+//    @ExceptionHandler({ Exception.class })
+//    public String handleAll(final Exception ex, Model model) {
+//        log.warn("error", ex);
+//        model.addAttribute("url", "/");
+//        model.addAttribute("message", "오류가 발생하였습니다. 다시 시도해주세요.");
+//        return REDIRECT_PATH;
+//    }
 
 }
