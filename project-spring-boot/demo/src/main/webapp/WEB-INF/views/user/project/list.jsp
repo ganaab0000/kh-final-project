@@ -318,19 +318,12 @@
 							$(".cardContainer").append(cardWrapper);
 							
 							var like = card.find(".like");
-							//프로젝트 좋아요 로딩
-							$.ajax({
-								url: location.origin + "/project/" + data.projectList[i].id + "/like",
-								type: "get",
-								async: false,
-								success: function(data){
-									if(data==1){
-										like.html('<i class="bi bi-heart-fill"></i>');
-									} else{
-										like.html('<i class="bi bi-heart"></i>');
-									}
-								}
-							});
+							if(data.projectList[i].vote!=null){
+								like.html('<i class="bi bi-heart-fill"></i>');
+							} else{
+								like.html('<i class="bi bi-heart"></i>');
+							}
+							
 							//좋아요 버튼 이벤트
 							like.on("click", function(){
 								var target = $(this).next().attr("href") + "/like";

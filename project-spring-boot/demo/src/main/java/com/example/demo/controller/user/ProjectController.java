@@ -89,8 +89,12 @@ public class ProjectController {
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
 	@GetMapping("/listajax")
-	public ProejctAjaxListVo getListAjax(ProjectFilteringVo filter){
+	public ProejctAjaxListVo getListAjax(ProjectFilteringVo filter, HttpSession session){
 		log.info("project list : category = " + filter.getCategory() + " , status = " + filter.getStatus());
+		SessionMember member = (SessionMember) session.getAttribute("member");
+		if(member != null) {
+			filter.setMemberId(member.getId());
+		}
 		
 		ProejctAjaxListVo proejctAjaxListVo = new ProejctAjaxListVo();
 		
@@ -120,21 +124,6 @@ public class ProjectController {
 		proejctAjaxListVo.setProjectList(projectService.getLiked(filter));
 		
 		return proejctAjaxListVo;
-	}
-	
-	//프로젝트 좋아요 가져오기
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@ResponseBody
-	@GetMapping("/{projectId}/like")
-	public Integer getLike(@PathVariable("projectId") Integer projectId, HttpSession session) {
-		SessionMember member = (SessionMember) session.getAttribute("member");
-		if(member==null) return null;
-		VoteDto voteDto = new VoteDto();
-		
-		voteDto.setMemberId(member.getId());
-		voteDto.setProjectId(projectId);
-		
-		return projectService.getLike(voteDto);
 	}
 	
 	//좋아요 업데이트

@@ -39,7 +39,12 @@
 		select rownum rn, T.* from (
 		select * from (
 		    select P.*, C.name project_category, nvl(RRR.sponsor, 0) sponsor, nvl(RRR.collected, 0) collected, nvl(round(collected/P.target_amount*100), 0) rate from (
-		        select * from project where project_status_category_id != 1 and project_status_category_id != 5
+		    	<if test="memberId == null">
+		    		select * from project where project_status_category_id != 1 and project_status_category_id != 5
+		    	</if>
+		    	<if test="memberId != null">
+			        select project.*, V.member_id vote from project left outer join vote V on project.id = V.project_id where V.member_id = #{memberId} or V.member_id is null and project_status_category_id != 1 and project_status_category_id != 5
+		    	</if>
 				<if test="keyword != null and keyword !=''">
 					<![CDATA[and (instr(title, #{keyword}) > 0 or instr(sub_title, #{keyword}) > 0)]]>
 				</if>
@@ -151,7 +156,12 @@
 	<select id="getTotalCount" resultType="int" parameterType="ProjectFilteringVo">
 		select count(*) from (
 		    select P.*, C.name project_category, nvl(RRR.sponsor, 0) sponsor, nvl(RRR.collected, 0) collected, nvl(round(collected/P.target_amount*100), 0) rate from (
-		        select * from project where project_status_category_id != 1 and project_status_category_id != 5
+		        <if test="memberId == null">
+		    		select * from project where project_status_category_id != 1 and project_status_category_id != 5
+		    	</if>
+		    	<if test="memberId != null">
+			        select project.*, V.member_id vote from project left outer join vote V on project.id = V.project_id where V.member_id = #{memberId} or V.member_id is null and project_status_category_id != 1 and project_status_category_id != 5
+		    	</if>
 				<if test="keyword != null and keyword !=''">
 					<![CDATA[and (instr(title, #{keyword}) > 0 or instr(sub_title, #{keyword}) > 0)]]>
 				</if>
@@ -235,9 +245,9 @@
 	<select id="findLiked" resultType="ProjectVo" parameterType="ProjectFilteringVo">
 		select * from (
 			select rownum rn, T.* from (
-				select P.* from vote V inner join (
+				select P.*, V.member_id vote from vote V inner join (
 				select P.*, C.name project_category, nvl(RRR.sponsor, 0) sponsor, nvl(RRR.collected, 0) collected, nvl(round(collected/P.target_amount*100), 0) rate from (
-				        select * from project
+				        select * from project where project_status_category_id != 1 and project_status_category_id != 5
 				    ) P 
 				    left outer join project_category C on P.project_category_id = C.id
 				    left outer join (select R.project_id, count(R.id) sponsor, sum(RR.reward_sum) collected from reserve R 
@@ -257,9 +267,9 @@
 	
 	<select id="getLikedCount" resultType="int" parameterType="ProjectFilteringVo">
 		select count(*) from (
-			select P.* from vote V inner join (
+			select P.*, V.member_id vote from vote V inner join (
 			select P.*, C.name project_category, nvl(RRR.sponsor, 0) sponsor, nvl(RRR.collected, 0) collected, nvl(round(collected/P.target_amount*100), 0) rate from (
-			        select * from project
+			        select * from project where project_status_category_id != 1 and project_status_category_id != 5
 			    ) P 
 			    left outer join project_category C on P.project_category_id = C.id
 			    left outer join (select R.project_id, count(R.id) sponsor, sum(RR.reward_sum) collected from reserve R 
