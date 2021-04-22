@@ -13,16 +13,37 @@
 			min-width: 320px;
 			margin: 0 auto;
 			padding: 10px;
+			margin-bottom: 50px;
 		}
 		.cardWrapper{
 			margin: 2rem 0;
 		}
 		.card{
 			padding: 10px;
+			border: 1px solid #f080803d;
 		}
 		.mainImgWrapper{
 			height: 240px;
 			position: relative;
+		}
+		img.card-img-top.mainImg {
+		    width: 100%;
+		    height: 100%;
+		}
+		.card-body {
+		    flex: 1 1 auto;
+		    padding: 1rem 0;
+		}
+		a.card-title.cardTitle {
+		    font-size: 1.5rem;
+		    font-weight: bold;
+		}
+		.linkBtn {
+		    margin: 0.5rem 0;
+		}
+		.linkBtn>*{
+			font-size: 0.8rem;
+			color: #545454;
 		}
 		.like{
 			position: absolute;
@@ -64,8 +85,11 @@
 		}
 		.remainTime{
 			float: right;
+			font-size: 0.8rem;
+   			color: #545454;
 		}
 		.rate{
+			font-size: 0.8rem;
 		}
 		.filterWrapper{
 			position: relative;
@@ -103,6 +127,22 @@
 		    padding: 0;
 		    margin-left: 0.25rem;
 		}
+		input.min, input.max{
+			width: 120px;
+		}
+		div.customFilterWrapper{
+			padding: 0.5rem;
+		}
+		button.customFilter {
+		    width: 100%;
+		    margin-top: 0.5rem;
+		}
+		button.btn.comingSoon {
+		    width: 100%;
+		    color: white;
+		    background: lightcoral;
+		    font-weight: bold;
+		}
 	</style>
 </head>
 <body>
@@ -122,6 +162,7 @@
 				<li><button class="dropdown-item" name="status" value="">전체 프로젝트</button></li>
 				<li><button class="dropdown-item" name="status" value="1">진행중인 프로젝트</button></li>
 				<li><button class="dropdown-item" name="status" value="2">성사된 프로젝트</button></li>
+				<li><button class="dropdown-item" name="status" value="3">공개 예정 프로젝트</button></li>
 			</ul>
 			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
 			<ul class="dropdown-menu" aria-labelledby="rate">
@@ -131,9 +172,9 @@
 				<li><button class="dropdown-item" name="rate" value="3">100% 이상</button></li>
 				<li><hr class="dropdown-divider"></li>
 				<li>
-					<div class="">
-						<div class="">직접 입력</div>
-						<div class="">
+					<div class="customFilterWrapper">
+						<div class="customFilterHeader">직접 입력</div>
+						<div class=customFilterInput>
 							<span class="">
 							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="minRate" class="min" value="">
 							<span class="">%</span>
@@ -141,7 +182,7 @@
 							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="maxRate" class="max" value="">
 							<span class="">%</span></span>
 						</div>
-						<button class="customFilter">
+						<button class="customFilter btn">
 							<span>입력값 적용</span>
 						</button>
 					</div>
@@ -156,9 +197,9 @@
 				<li><button class="dropdown-item" name="collected" value="4">5천만원 이상</button></li>
 				<li><hr class="dropdown-divider"></li>
 				<li>
-					<div class="">
-						<div class="">직접 입력</div>
-						<div class="">
+					<div class="customFilterWrapper">
+						<div class=customFilterHeader>직접 입력</div>
+						<div class="customFilterInput">
 							<span class="">
 							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="minCollected" class="min" value="">
 							<span class="">원</span>
@@ -166,7 +207,7 @@
 							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="maxCollected" class="max" value="">
 							<span class="">원</span></span>
 						</div>
-						<button class="customFilter">
+						<button class="customFilter btn">
 							<span>입력값 적용</span>
 						</button>
 					</div>
@@ -308,12 +349,22 @@
 							cardBody.find(".cardSubTitle").text(data.projectList[i].subTitle);
 	
 							var cardFooter = card.children(".card-footer");
-							cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
-							cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
-							var rate = data.projectList[i].rate;
-							rate = rate==null ? 0 : rate;
-							cardFooter.find(".rate").text(rate + "%");
-							cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
+							if(data.projectList[i].isOpen == 'Y'){
+								cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
+								cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
+								var rate = data.projectList[i].rate;
+								rate = rate==null ? 0 : rate;
+								cardFooter.find(".rate").text(rate + "%");
+								cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
+							} else{
+								cardFooter.empty();
+								let btn = $("<button class='btn comingSoon'></button>");
+								btn.text("공개 예정");
+								btn.click(function(){
+									location.href = $(this).parents(".card").find(".card-title").attr("href");
+								})
+								cardFooter.append(btn);
+							}
 							
 							$(".cardContainer").append(cardWrapper);
 							

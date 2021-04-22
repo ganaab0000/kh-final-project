@@ -20,4 +20,6 @@ public interface ProjectService {
 	public int getLike(VoteDto voteDto);
 	public List<ProjectVo> getLiked(ProjectFilteringVo filter);
 	public int getLikedCount(ProjectFilteringVo filter);
+	public int joinedProjectCount(int memberId);
+	public int createdProjectCount(int memberId);
 }

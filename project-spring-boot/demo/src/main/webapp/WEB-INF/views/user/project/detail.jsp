@@ -17,11 +17,15 @@
         .main{
             width: 1080px;
             margin: 0 auto;
+            margin-bottom: 100px;
         }
         .projectInfo{
             display: flex;
             flex-wrap: wrap;
         }
+        .projectInfo.notOpen {
+		    margin-top: 100px;
+		}
         .projectHeader{
             width: 100%;
             text-align: center;
@@ -30,6 +34,10 @@
         .projectTitle{
             margin: 1rem 0;
         }
+        .subTitle {
+		    margin: 1.5rem 0;
+		    font-size: 1.5rem;
+		}
         .projectMainImgWrapper{
             width: 660px;
             height: auto;
@@ -43,6 +51,11 @@
             margin: 0 0 0 28px;
             flex-grow: 1;
         }
+        .projectFundingStatus.notOpen {
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		}
         .projectCategory a{
             font-size: 0.9rem;
             font-weight: 600;
@@ -269,12 +282,22 @@
 		    margin-right: 0.5rem;
 		}
 		span.writerMark {
-		    background-color: #2b2b2b;
+	        background-color: lightcoral;
 		    color: white;
 		    font-size: 10px;
-		    padding: 2px;
+		    padding: 2px 4px;
 		    font-weight: bold;
 		    margin-left: 0.25rem;
+		    border-radius: 20px;
+		}
+		span.projectCount {
+		    font-weight: bold;
+		}
+		button.btn.comingSoon {
+		    width: 100%;
+		    color: white;
+		    background: lightcoral;
+		    font-weight: bold;
 		}
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
@@ -284,56 +307,73 @@
 	
 	<c:set var="writerProfileImg" value="${writer.profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/'+=writer.profileImg}"/>
 	<c:set var="isLoggedIn" value="${member==null ? false : true}"/>
+	<c:set var="isOpen" value="${project.isOpen eq 'Y'}" />
 	
 	<div class="main">
-        <div class="main">
-        <div class="projectInfo">
-            <div class="projectHeader">
-                <div class="projectCategory">
-                    <a href="list?category=${project.projectCategoryId}"><span>${project.projectCategory}</span></a>
-                </div>
-                <div class="projectTitle"><h1>${project.title}</h1></div>
-                <div class="projectWriter">
-                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}">${project.writerName}</a>
-                </div>
-            </div>
+        <div class="projectInfo ${isOpen ? '' : 'notOpen'}">
+        	<c:if test="${isOpen}">
+	            <div class="projectHeader">
+	                <div class="projectCategory">
+	                    <a href="list?category=${project.projectCategoryId}"><span>${project.projectCategory}</span></a>
+	                </div>
+	                <div class="projectTitle"><h1>${project.title}</h1></div>
+	                <div class="projectWriter">
+	                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}">${project.writerName}</a>
+	                </div>
+	            </div>
+        	</c:if>
             <div class="projectMainImgWrapper">
                 <img height="490" class="mainImg" src="/api/file/${project.mainImg}" alt="">
             </div>
-            <div class="projectFundingStatus">
-                <div class="collected statusItem">
-                    <div class="statusTitle">모인 금액</div>
-                    <div class="statusValue">
-                    	<fmt:formatNumber value="${project.collected}" pattern="#,###"/>원
-                    	<span class="statusRate"><fmt:formatNumber value="${project.rate}" pattern="#,###"/>%</span>
-                    </div>
-                </div>
-                <div class="remainTime statusItem">
-                    <div class="statusTitle">남은 시간</div>
-                    <div class="statusValue">
-                    	<c:if test="${project.remainDay > 0}">
-				        	${project.remainDay}일
-			        	</c:if>
-			        	<c:if test="${project.remainDay == 0}">
-				        	${project.remainHour}시간
-			        	</c:if>
-                    </div>
-                </div>
-                <div class="sponsor statusItem">
-                    <div class="statusTitle">후원자</div>
-                    <div class="statusValue">${project.sponsor }명</div>
-                </div>
-                <div class="fundingInfo">
-                    <div class="fundingInfoHeader">펀딩 진행중</div>
-                    <div class="fundingInfoContent">
-			                      목표 금액인 <fmt:formatNumber value="${project.targetAmount}" pattern="#,###"/>원이 모여야만 결제됩니다.<br>
-			                      결제는 <fmt:formatDate value="${project.dateProjectClosed}" pattern="yyyy년 MM월 dd일"/>에 다함께 진행됩니다.
-                    </div>
-                </div>
-                <div class="projectBtnWrapper">
-                    <button class="join btn">프로젝트 밀어주기</button>
-                    <button class="like btn"><i class="bi bi-heart-fill"></i></button>
-                </div>
+            <div class="projectFundingStatus ${isOpen ? '' : 'notOpen'}">
+            	<c:if test="${isOpen}">
+	                <div class="collected statusItem">
+	                    <div class="statusTitle">모인 금액</div>
+	                    <div class="statusValue">
+	                    	<fmt:formatNumber value="${project.collected}" pattern="#,###"/>원
+	                    	<span class="statusRate"><fmt:formatNumber value="${project.rate}" pattern="#,###"/>%</span>
+	                    </div>
+	                </div>
+	                <div class="remainTime statusItem">
+	                    <div class="statusTitle">남은 시간</div>
+	                    <div class="statusValue">
+	                    	<c:if test="${project.remainDay > 0}">
+					        	${project.remainDay}일
+				        	</c:if>
+				        	<c:if test="${project.remainDay == 0}">
+					        	${project.remainHour}시간
+				        	</c:if>
+	                    </div>
+	                </div>
+	                <div class="sponsor statusItem">
+	                    <div class="statusTitle">후원자</div>
+	                    <div class="statusValue">${project.sponsor }명</div>
+	                </div>
+	                <div class="fundingInfo">
+	                    <div class="fundingInfoHeader">펀딩 진행중</div>
+	                    <div class="fundingInfoContent">
+				                      목표 금액인 <fmt:formatNumber value="${project.targetAmount}" pattern="#,###"/>원이 모여야만 결제됩니다.<br>
+				                      결제는 <fmt:formatDate value="${project.dateProjectClosed}" pattern="yyyy년 MM월 dd일"/>에 다함께 진행됩니다.
+	                    </div>
+	                </div>
+	                <div class="projectBtnWrapper">
+	                    <button class="join btn">프로젝트 밀어주기</button>
+	                    <button class="like btn"><i class="bi bi-heart-fill"></i></button>
+	                </div>
+            	</c:if>
+            	<c:if test="${!isOpen}">
+            		<div class="projectCategory">
+	                    <a href="list?category=${project.projectCategoryId}"><span>${project.projectCategory}</span></a>
+	                </div>
+	                <div class="projectTitle"><h1>${project.title}</h1></div>
+	                <div class="projectWriter">
+	                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}">${project.writerName}</a>
+	                </div>
+            		<div class="subTitle">${project.subTitle}</div>
+            		<div><button class='btn comingSoon'>
+            			<fmt:formatDate value="${project.dateProjectStarted}" pattern="yyyy년 MM월 dd일 HH시 mm분"/> 공개 예정
+            		</button></div>
+            	</c:if>
             </div>
         </div>
         <div class="projectContent">
@@ -360,8 +400,8 @@
                         <hr>
                         <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
                         <div class="writerProject">
-                            <span class="createdProject">진행한 프로젝트 ?</span> / 
-                            <span class="joinedProject">밀어준 프로젝트 ?</span>
+                            <span class="createdProject">진행한 프로젝트 <span class="projectCount">${createdProjectCount}</span></span> / 
+                            <span class="joinedProject">밀어준 프로젝트 <span class="projectCount">${joinedProjectCount}</span></span>
                         </div>
                     </div>
                     <div class="rewardWrapper">
@@ -391,8 +431,7 @@
                 </div>
             </div>
         </div>
-    	</div>
-    </div>
+   	</div>
 	
 	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 	
@@ -697,9 +736,6 @@
                     $(".postWrapper").append(post);
                     
                     getReply(id, 1);
-                    
-                	
-		            
                 }
             });
         }
@@ -885,6 +921,8 @@
         loadingStory();
         getCount();
         getLike();
+        
+        if(${!isOpen}) $(".projectContent").remove();
     </script>
 </body>
 </html>

@@ -35,6 +35,8 @@ public class ProjectVo {
 	
 	private Integer vote;
 	
+	private String isOpen;
+	
 	private String projectCategory;
 	private Integer sponsor;
 	private Integer collected;

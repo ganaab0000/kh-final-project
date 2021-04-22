@@ -118,4 +118,14 @@ public class ProjectServiceImpl implements ProjectService{
 	public int getLikedCount(ProjectFilteringVo filter) {
 		return projectRepository.getLikedCount(filter);
 	}
+	
+	@Override
+	public int joinedProjectCount(int memberId) {
+		return projectRepository.joinedProjectCount(memberId);
+	}
+	
+	@Override
+	public int createdProjectCount(int memberId) {
+		return projectRepository.createdProjectCount(memberId);
+	}
 }

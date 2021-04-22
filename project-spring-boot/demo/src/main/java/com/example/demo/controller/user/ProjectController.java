@@ -59,6 +59,8 @@ public class ProjectController {
 		model.addAttribute("project", projectVo);
 		model.addAttribute("writer", memberService.findById(projectVo.getMemberId()));
 		model.addAttribute("rewardList", rewardService.findByProjectId(projectVo.getId()));
+		model.addAttribute("joinedProjectCount", projectService.joinedProjectCount(projectVo.getMemberId()));
+		model.addAttribute("createdProjectCount", projectService.createdProjectCount(projectVo.getMemberId()));
 		
 		return "/user/project/detail";
 	}
@@ -75,15 +77,15 @@ public class ProjectController {
 	}
 	
 	//프로젝트 좋아요 리스트 페이지
-		@GetMapping("/liked")
-		public String liked(Model model) {
-			log.info("project list");
-			
-			model.addAttribute("category", projectService.getCategory());
-			model.addAttribute("status", projectService.getStatus());
-			
-			return "/user/project/liked";
-		}
+	@GetMapping("/liked")
+	public String liked(Model model) {
+		log.info("project list");
+		
+		model.addAttribute("category", projectService.getCategory());
+		model.addAttribute("status", projectService.getStatus());
+		
+		return "/user/project/liked";
+	}
 	
 	//프로젝트 리스트 로드
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -124,6 +126,21 @@ public class ProjectController {
 		proejctAjaxListVo.setProjectList(projectService.getLiked(filter));
 		
 		return proejctAjaxListVo;
+	}
+	
+	//프로젝트 좋아요 가져오기
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@ResponseBody
+	@GetMapping("/{projectId}/like")
+	public Integer getLike(@PathVariable("projectId") Integer projectId, HttpSession session) {
+		SessionMember member = (SessionMember) session.getAttribute("member");
+		if(member==null) return null;
+		VoteDto voteDto = new VoteDto();
+		
+		voteDto.setMemberId(member.getId());
+		voteDto.setProjectId(projectId);
+		
+		return projectService.getLike(voteDto);
 	}
 	
 	//좋아요 업데이트
