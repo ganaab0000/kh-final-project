@@ -51,6 +51,7 @@ $(function() {
 	$('#button-search').click(function(){
 		var searchKeywordType = $('.form-select-search-keyword-type').val();
 		var searchKeyword = $('.form-input-search-keyword').val();
+		url.searchParams.set("pageNumber", 1);
 		searchTypeList.forEach(function(el){
 			url.searchParams.delete(el);
 		});
