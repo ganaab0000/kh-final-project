@@ -1,48 +1,55 @@
 package com.example.demo.controller.exception;
 
+import java.time.LocalDate;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+
+import lombok.extern.slf4j.Slf4j;
+
+@ControllerAdvice
+@ResponseBody
+@Slf4j
 public class ExceptionRestController {
-//  @Override
-//  protected ResponseEntity<Object> handleMethodArgumentNotValid(
-//      MethodArgumentNotValidException ex, HttpHeaders headers,
-//      HttpStatus status, WebRequest request) {
-//
-//      Map<String, Object> body = new LinkedHashMap<>();
-//      body.put("timestamp", LocalDate.now());
-//      body.put("status", status.value());
-//
-//      List<String> errors = ex.getBindingResult()
-//              .getFieldErrors()
-//              .stream()
-//              .map(x -> x.getDefaultMessage())
-//              .collect(Collectors.toList());
-//
-//      body.put("errors", errors);
-//
-//      return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-//  }
-//  // 400
-//  @ExceptionHandler({
-////          MemberJoinException.class,
-//          RuntimeException.class
-//  })
-//  public ResponseEntity<Object> BadRequestException(final RuntimeException ex) {
-//      log.warn("error", ex);
-//      return ResponseEntity.badRequest().body(ex.getMessage());
-//  }
-//
-//  // 401
-//  @ExceptionHandler({ AccessDeniedException.class })
-//  public ResponseEntity handleAccessDeniedException(final AccessDeniedException ex) {
-//      log.warn("error", ex);
-//      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
-//  }
-//
-//  // 500
-//  @ExceptionHandler({ Exception.class })
-//  public ResponseEntity<Object> handleAll(final Exception ex) {
-//      log.info(ex.getClass().getName());
-//      log.error("error", ex);
-//      return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//  }
+
+	@ExceptionHandler({ RestInternalErrorCodeException.class })
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> handleRestException(final RuntimeException ex, Model model) {
+        log.warn("error");
+        String errCode = ex.getMessage() == null ? "500" : ex.getMessage();
+
+        String msg;
+        switch (errCode) {
+        case "101":
+            msg = "오류가 발생하였습니다. 다시 시도해주세요.";
+            break;
+        case "400": case "401": case "402":
+        case "403":
+            msg = "해당 자원에 대한 권한이 없습니다.";
+            break;
+        default:
+            msg = "오류가 발생하였습니다. 다시 시도해주세요.";
+            break;
+        }
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("isSuccess", false);
+		body.put("errCode", errCode);
+		body.put("errMsg", msg);
+
+		return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 
 }
