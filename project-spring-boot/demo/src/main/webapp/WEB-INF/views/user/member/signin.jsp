@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<style>
 		html,

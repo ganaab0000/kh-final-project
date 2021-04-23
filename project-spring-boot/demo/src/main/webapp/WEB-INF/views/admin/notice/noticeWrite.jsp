@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/summernote/summernote-lite.css">
 
-<title>Insert title here</title>
+<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 
 </head>
 <style>
