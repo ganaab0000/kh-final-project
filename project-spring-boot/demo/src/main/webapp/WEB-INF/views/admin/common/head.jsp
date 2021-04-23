@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/css/js-snackbar.css">
 <script src="/js/js-snackbar.js"></script>
 
-<link rel="icon" href="/favicon.ico">
+<link rel="icon" href="/img/logo/favicon.ico">
 
 	<style type="text/css">
 	body {

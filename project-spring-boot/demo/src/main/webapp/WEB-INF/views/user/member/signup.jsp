@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<style>
 		html,
@@ -76,8 +76,8 @@
 		<div class="form-signin-border">
 
 		    <form action="/member/signup" method="post">
-		        <i class="bi-github" role="img" aria-label="GitHub"
-		        style="font-size: 2rem; color: black;"></i>
+		        <img class="my-2" src="/img/logo/favicon-32x32.png" />
+		        
 			    <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
 

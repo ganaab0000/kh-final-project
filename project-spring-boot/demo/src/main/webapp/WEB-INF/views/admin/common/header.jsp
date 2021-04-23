@@ -21,8 +21,8 @@
 
 				<a href="/admin"
 					class="">
-					<i class="bi-github" role="img" aria-label="GitHub"
-					style="font-size: 2rem; color: black;"></i>
+					<img class="my-2" src="/img/logo/favicon-32x32.png" />
+					
 				</a>
 
 			</div>
