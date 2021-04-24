@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<style>
 		html,
@@ -76,8 +76,8 @@
 		<div class="form-signin-border">
 
 		    <form action="/member/signup" method="post">
-		        <i class="bi-github" role="img" aria-label="GitHub"
-		        style="font-size: 2rem; color: black;"></i>
+		        <img class="my-2" src="/img/logo/favicon-32x32.png" />
+		        
 			    <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
 
@@ -85,7 +85,7 @@
 			    <div class="form-floating my-3">
 			      <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
 			       value="${memberDto.email}"
-			      >
+			      required>
 			      <label for="floatingInput">이메일 주소 입력</label>
 		            <span>${valid_email}</span>
 		            <!--
@@ -94,7 +94,9 @@
 			    </div>
 
 			    <div class="form-floating my-3">
-			      <input name="nickname" type="text" class="form-control" id="floatingNickname" placeholder="nickname" required>
+			      <input name="nickname" type="text" class="form-control" id="floatingNickname" placeholder="nickname"
+			      value="${memberDto.nickname}"
+			      required>
 			      <label for="floatingNickname">닉네임 입력</label>
 		            <span>${valid_nickname}</span>
 		            <!--

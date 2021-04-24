@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface VisitorPerDayRepository {
 
-	@Insert("insert into VISITOR_PER_DAY (memberId) values(#{memberId})")
+	@Insert("insert into visitor_per_day (member_id, date_visited) values(#{memberId}, trunc(sysdate))")
 	public int save(int memberId);
 
 }

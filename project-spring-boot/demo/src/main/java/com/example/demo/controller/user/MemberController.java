@@ -34,6 +34,7 @@ import com.example.demo.domain.Role;
 import com.example.demo.domain.dto.ConfirmEmailDto;
 import com.example.demo.domain.dto.MemberDto;
 import com.example.demo.service.EmailServiceImpl;
+import com.example.demo.service.NotificationServiceImpl;
 import com.example.demo.service.member.ConfirmEmailServiceImpl;
 import com.example.demo.service.member.MemberServiceImpl;
 import com.example.demo.service.member.UserDetailsServiceImpl;
@@ -48,11 +49,12 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	private final static String REDIRECT_PATH = "user/member/redirectWithMessage";
 	private final static String REDIRECT_CONFIRM_PATH = "user/member/redirectWithConfirm";
+	private LogUtil logUtil;
 	private MemberServiceImpl memberServiceImpl;
 	private UserDetailsServiceImpl userServiceimpl;
 	private EmailServiceImpl emailServiceImpl;
 	private ConfirmEmailServiceImpl confirmEmailServiceImpl;
-	private LogUtil logUtil;
+	private NotificationServiceImpl notificationServiceImpl;
 
 	// 메인 페이지
 	@GetMapping("/member")
@@ -185,6 +187,8 @@ public class MemberController {
 		}
 		MemberDto joinMember = userServiceimpl.joinUser(memberDto);
 		model.addAttribute("url", "/member/signin");
+		String greetings = "회원가입을 축하드립니다! 안녕하세요. " + joinMember.getNickname() + "님. 텀블업 가입을 환영합니다.";
+		notificationServiceImpl.save(joinMember.getId(), greetings);
 		try {
 			sendAuthMail(joinMember);
 		} catch (MailSendException e) {
