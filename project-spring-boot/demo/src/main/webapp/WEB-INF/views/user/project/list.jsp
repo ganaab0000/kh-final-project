@@ -45,10 +45,6 @@
 			font-size: 0.8rem;
 			color: #545454;
 		}
-		.like{
-			position: absolute;
-			right: 0;
-		}
 		a{
 			color: black;
 			text-decoration: none;
@@ -108,6 +104,10 @@
 		    font-size: 3rem;
 		    font-weight: bold;
 		    color: darkgray;
+		}
+		.like{
+			position: absolute;
+			right: 0;
 		}
 		.bi-heart-fill{
 			color: #ff4b4b;

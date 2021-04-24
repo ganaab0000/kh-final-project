@@ -151,10 +151,10 @@
 		) T )
 		<where>
 			<if test="page != null">
-				and rn between #{page}*18-17 and #{page}*18
+				and rn between #{page}*#{length}-#{length}+1 and #{page}*#{length}
 			</if>
 			<if test="page == null">
-				and rn between 1 and 18
+				and rn between 1 and #{length}
 			</if>
 		</where>
 	</select>
@@ -297,5 +297,11 @@
 	
 	<select id="createdProjectCount" resultType="int" parameterType="int">
 		select count(*) from project where member_id = #{memberId} and project_status_category_id != 1 and project_status_category_id != 5
+	</select>
+	
+	<select id="carousel" resultType="projectVo">
+		select P.*, T.count vote_count from (
+			select * from (select project_id, count(*) count from vote group by project_id order by count desc) where rownum between 1 and 3
+		)T inner join project P on T.project_id = P.id
 	</select>
 </mapper>

@@ -93,10 +93,13 @@ public class ProjectController {
 	@GetMapping("/listajax")
 	public ProejctAjaxListVo getListAjax(ProjectFilteringVo filter, HttpSession session){
 		log.info("project list : category = " + filter.getCategory() + " , status = " + filter.getStatus());
+		
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if(member != null) {
 			filter.setMemberId(member.getId());
 		}
+		
+		filter.setLength(18);
 		
 		ProejctAjaxListVo proejctAjaxListVo = new ProejctAjaxListVo();
 		

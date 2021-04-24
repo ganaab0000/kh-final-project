@@ -396,7 +396,7 @@
                     <div class="writerWrapper contentBox">
                         <div class="writerInfoHeader">창작자 소개</div>
                         <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${writer.id}">${writer.nickname}</a></div>
-                        <div class="writerContent">작성자 소개입니다.</div>
+                        <div class="writerContent">${writer.profileDetail}</div>
                         <hr>
                         <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
                         <div class="writerProject">
@@ -440,7 +440,7 @@
         <div class="extraSupport">
             <div class="extraTitle">추가 후원금(선택)</div>
             <div class="input">
-                <input type="text" class="extraAmount" placeholder="0">
+                <input type="text" class="extraAmount form-control" placeholder="0">
             </div>
             <div class="extraComment">*추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.</div>
             <div class="extraSupportBtnWrapper">
@@ -717,8 +717,8 @@
                     if(loginUser == data.memberId) setManageBtn(post);
                     //댓글 작성 
                     post.find("#replyForm").on("submit", function(e){
+                        e.preventDefault();
                     	if(checkLogin()){
-	                        e.preventDefault();
 	                        $.ajax({
 	                            url: location.href + "/community",
 	                            type: "post",

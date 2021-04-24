@@ -36,4 +36,6 @@ public interface ProjectRepository {
 	public int joinedProjectCount(int memberId);
 	
 	public int createdProjectCount(int memberId);
+
+	public List<ProjectVo> carousel();
 }

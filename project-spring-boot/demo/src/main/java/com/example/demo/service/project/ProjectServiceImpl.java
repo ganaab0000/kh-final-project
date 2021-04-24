@@ -128,4 +128,9 @@ public class ProjectServiceImpl implements ProjectService{
 	public int createdProjectCount(int memberId) {
 		return projectRepository.createdProjectCount(memberId);
 	}
+	
+	@Override
+	public List<ProjectVo> carousel() {
+		return projectRepository.carousel();
+	}
 }

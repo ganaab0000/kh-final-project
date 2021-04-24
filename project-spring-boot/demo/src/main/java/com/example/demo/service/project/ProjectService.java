@@ -22,4 +22,5 @@ public interface ProjectService {
 	public int getLikedCount(ProjectFilteringVo filter);
 	public int joinedProjectCount(int memberId);
 	public int createdProjectCount(int memberId);
+	public List<ProjectVo> carousel();
 }
