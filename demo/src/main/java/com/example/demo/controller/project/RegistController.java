@@ -34,6 +34,11 @@ public class RegistController {
 	@Autowired
 	private RegistService registService;
 	
+	@RequestMapping("/success")
+	public ModelAndView success(HttpServletRequest req, HttpServletResponse reqs, ModelAndView mv) {
+		mv.setViewName("/user/project/success");
+		return mv;
+	}
 	
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest req, HttpServletResponse reqs, ModelAndView mv) {
@@ -45,8 +50,7 @@ public class RegistController {
 	public ModelAndView registproject(ModelAndView mv, String finishModel) {
 		int result = registService.createProject();
 		int id;
-		
-		log.info("프로젝트 생성");
+
 		ProjectVo project = new ProjectVo();
 		
 		if(finishModel != null) {
@@ -81,14 +85,9 @@ public class RegistController {
 	@PostMapping("/project") 
 	public String registProject(ProjectVo project, RewardListVo itemList, MultipartFile uploadfile1, MultipartFile uploadfile2, MultipartFile uploadfile3, HttpServletRequest req) {
 		
-		int statusNum = project.getProjectStatusCategoryId();
-		int user = project.getMemberId();
+		int projectStatusCategoryId = project.getProjectStatusCategoryId();
 		
-		String summaryText = project.getSummary().replace("\n",	"<br>");
-		String storyText = project.getStory().replace("\n",	"<br>");
 		
-		project.setSummary(summaryText);
-		project.setStory(storyText);
 		
 		//파일 등록
 		
@@ -118,18 +117,14 @@ public class RegistController {
 		for(RewardVo reward : rewardList) {
 			reward.setProjectId(project.getId());
 			
-			String detail = reward.getDetail().replaceAll("\n", "<br");
-			reward.setDetail(detail);
 			
-			String optionForm = reward.getOptionForm().replaceAll("\n", "<br>");
-			reward.setOptionForm(optionForm);
 			
 			String addresscheck = "Y";
 			
-			if(reward.getIsAddressRequired() == null) {
+			if(reward.getDelichk() == null) {
 				addresscheck = "N";
 			}
-			reward.setIsAddressRequired(addresscheck);
+			reward.setDelichk(addresscheck);
 			
 			result = registService.insertReward(reward);
 			System.out.println(reward);
@@ -140,11 +135,11 @@ public class RegistController {
 			}
 			
 		}
-		if(statusNum == 1) {
+		if(projectStatusCategoryId == 1) {
 			return result + "";
 		}
-		else if(statusNum == 2) {
-			return "/user/project/success";
+		else if(projectStatusCategoryId == 2) {
+			return "/success";
 		}
 		else {
 			return "error";
@@ -152,6 +147,8 @@ public class RegistController {
 		
 	}
 	
+	
+
 	@ResponseBody
 	@PostMapping("uploadthumbimg.dr")
 	public String uploadThumbImg(HttpServletRequest req, MultipartFile uploadFile) {
@@ -160,33 +157,25 @@ public class RegistController {
 		return uploadFile+"";
 	}
 	
-//	@RequestMapping("selectCurrentProject.dr")
-//	public ModelAndView selectCurrentProject(int id, HttpServletRequest req, ModelAndView mv) {
-//		ProjectVo project = registService.selectCurrentProject(id);
-//		MemberDto loginUser = (MemberDto)req.getSession().getAttribute("loginUser");
-//		
+	@RequestMapping("selectCurrentProject.dr")
+	public ModelAndView selectCurrentProject(int id, HttpServletRequest req, ModelAndView mv) {
+		ProjectVo project = registService.selectCurrentProject(id);
+		MemberDto loginUser = (MemberDto)req.getSession().getAttribute("loginUser");
+		
 //		if(loginUser == null || loginUser.getId() != project.getMemberId() || project.getProjectStatusCategoryId() != 1) {
 //			mv.addObject("msg", "비정상적인 접근입니다.").setViewName("/user/common/errorpage");
 //		}
-//		ArrayList<RewardVo> rewardList = registService.selectCurrentReward(id);
-//		int size = rewardList.size();
-//		
-//		try {
-//			String summary = project.getSummary();
-//			if(summary != null && !summary.equals("")) {
-//				summary = summary.replace("<br>", "\n");
-//				project.setSummary(summary);
-//			}
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//		mv.addObject("size", size);
-//		mv.addObject("project", project);
-//		mv.addObject("rewardList", rewardList);
-//		mv.addObject("isUpdate", "true");
-//		
-//		mv.setViewName("/user/project/registproject");
-//		return mv;
-//	}
+		ArrayList<RewardVo> rewardList = registService.selectCurrentReward(id);
+		int size = rewardList.size();
+		String userId = (String) req.getSession().getAttribute( "userId" );
+		
+		mv.addObject("size", size);
+		mv.addObject("project", project);
+		mv.addObject("rewardList", rewardList);
+		mv.addObject("isUpdate", "true");
+		
+		mv.setViewName("/user/project/registproject");
+		return mv;
+	}
 	
 }

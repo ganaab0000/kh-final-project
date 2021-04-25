@@ -64,11 +64,11 @@ public class RegistServiceImpl implements RegistService {
 		}
 		if (uploadfile2 != null && !uploadfile2.getOriginalFilename().equals("")) {
 			artistImageName = renameFile(project, uploadfile2, 2);
-			project.setThumbImg((artistImageName));
+			project.setWriterProfileImg((artistImageName));
 		}
 		if (uploadfile1 != null && !uploadfile1.getOriginalFilename().equals("")) {
 			mainImageName = renameFile(project, uploadfile1, 3);
-			project.setThumbImg((mainImageName));
+			project.setMainImg((mainImageName));
 		}
 		int result = projectDao.insertProject(project);
 		if(result > 0) {
@@ -187,4 +187,6 @@ public class RegistServiceImpl implements RegistService {
 	public ArrayList<RewardVo> selectCurrentReward(int id) {
 		return projectDao.selectCurrentReward(id);
 	}
+
+	
 }

@@ -36,11 +36,11 @@
 		<id property="id" column="ID" />
 		<result property="price" column="PRICE" />
 		<result property="name" column="NAME" />
-		<result property="detail" column="DETAIL" />
-		<result property="maxStock" column="MAX_STOCK" />
-		<result property="currentStock" column="CURRENT_STOCK" />
-		<result property="isAddressRequired" column="IS_ADDRESS_REQUIRED" />
-		<result property="dateDeliveryEstimated" column="DATE_DELIVERY_ESTIMATED" />
+		<result property="ex" column="DETAIL" />
+		<result property="limit" column="MAX_STOCK" />
+		<result property="count" column="CURRENT_STOCK" />
+		<result property="delichk" column="IS_ADDRESS_REQUIRED" />
+		<result property="deliveryDate" column="DATE_DELIVERY_ESTIMATED" />
 		<result property="projectId" column="PROJECT_ID" />
 		<result property="optionForm" column="OPTION_FORM" />
 	</resultMap>
@@ -72,7 +72,7 @@
 			MEMBER_ID = #{memberId},
 			PROJECT_CATEGORY_ID = #{projectCategoryId},
 			PROJECT_STATUS_CATEGORY_ID = #{projectStatusCategoryId}
-		WHERE PROJECT_NO = #{pNo} 
+		WHERE ID = #{id} 
 	</insert>
 	
 	<!-- 프로젝트 선택 -->
@@ -86,12 +86,12 @@
 	
 	<select id="selectCurrentProject" parameterType="_int" resultMap="projectResultSet">
 		SELECT * FROM PROJECT 
-		WHERE ID = #{ id } 
+		WHERE ID = #{ id }
 	</select>
 	<!-- 리워드 삽입 -->
 	
 	<insert id="insertReward" parameterType="com.example.demo.domain.vo.RewardVo">
-		INSERT INTO REWARD VALUES(REWARD_ID_SEQ.NEXTVAL, #{price}, #{name}, #{detail}, #{maxStock}, #{currentStock}, #{isAddressRequired}, #{dateDeliveryEstimated}, #{projectId}, #{optionForm})
+		INSERT INTO REWARD VALUES(REWARD_ID_SEQ.NEXTVAL, #{price}, #{name}, #{ex}, #{limit}, #{count}, #{delichk}, #{deliveryDate}, #{projectId}, #{optionForm})
 	</insert>
 	<!-- 리워드 리스트 -->
 	<select id="selectRewardList" parameterType="hashmap" resultMap="rewardResultSet">
@@ -105,7 +105,7 @@
 	
 	<delete id="deleteRewards" parameterType="_int">
 		DELETE FROM REWARD 
-		WHERE projectId = #{id}
+		WHERE PROJECT_ID = #{id}
 	</delete>
 	
 	<select id="selectCurrentReward" parameterType="_int" resultMap="rewardResultSet">

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>프로젝트 등록</title>
-<link rel="stylesheet" type="text/css"
-	href="/static/css/registForm.css">
+<link rel="stylesheet" type="text/css" href="/static/css/registForm.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <link rel="stylesheet"
@@ -31,10 +31,12 @@
 				id="menu3">리워드</span> <span id="menu4">프로젝트</span>
 		</div>
 		<div class="formbox">
-			<form id="insertfrm" method="POST" enctype="multipart/form-data" action="/user/project/success">
-			<input type="hidden" name="id" value="${projectVo.id }">
-            <input type="hidden" name="projectStatusCategoryId" id="statusNum" value="${projectVo.projectStatusCategoryId}">
-			<input type="submit" value="전송" id="submitbtn">
+			<form id="insertfrm" method="POST" enctype="multipart/form-data"
+				action="/user/project/success">
+				<input type="hidden" name="id" value="${project.id }"> <input
+					type="hidden" name="projectStatusCategoryId" id="statusNum"
+					value="${project.projectStatusCategoryId}">
+				<button type="button" id="submitbtn" onclick="submitBtn();">전송</button>
 				<div id="menu1work">
 					<div class="summary">
 						<span class="header-info">프로젝트 개요</span>
@@ -69,9 +71,11 @@
 								<span class="summary-subtitle-info">목표금액</span>
 							</div>
 							<div class="summary-rightbox">
-								<input class="summary-mount" name="TargetAmount" type="text" value="0"
-									autocomplete="off" onkeyup="pricecomma2(0);"> <span
-									class="span-design" style="color: black;">원</span>
+								<input class="summary-mount" type="text" min="0" maxlength="13"
+									value="0" autocomplete="off" onkeyup="pricecomma2(0);">
+								<input class="targetmount" type="hidden" value="0" min="0"
+									name="targetAmount"> <span class="span-design"
+									style="color: black;">원</span>
 							</div>
 						</div>
 						<hr style="width: 1000px; opacity: 0.5" />
@@ -102,9 +106,10 @@
 											<i class="fas fa-times"></i>
 										</div>
 									</div>
-									<button type="button" onclick="defaultBtnActive()" id="custom-btn">사진을
-										선택해주세요</button>
-									<input id="default-btn" multiple="multiple" name="uploadfile1" type="file" hidden>
+									<button type="button" onclick="defaultBtnActive()"
+										id="custom-btn">사진을 선택해주세요</button>
+									<input id="default-btn" multiple="multiple" name="uploadfile1"
+										type="file" hidden>
 								</div>
 							</div>
 						</div>
@@ -155,7 +160,7 @@
 							</div>
 							<div class="summary-rightbox">
 								<div class="hash-form">
-									<input class="summary-hashtag" id="hashtag" name="hashtag"
+									<input class="summary-hashtag" id="hashtag" name="hashTag"
 										value="해시태그는, 다음과같이, 적어주세요" autocomplete="off">
 								</div>
 								<div class="hash-edit" id="hash-info"></div>
@@ -176,6 +181,7 @@
 							</div>
 							<div class="artist-rightbox">
 								<div id="artist-image-box">
+								<input type="hidden" name="writerProfileImg" id="writerProfileImg" value="${project.writerProfileImg}">
 									<div id="noimage">
 										<i class="material-icons" name="WRITER_PROFILE_IMG"
 											id="ArtimgUpload">person</i>
@@ -209,18 +215,7 @@
 									maxlength="10" autocomplete="off">
 							</div>
 						</div>
-						<hr style="width: 1000px; opacity: 0.5" />
-						<!-- <div class="artist-info3">
-							<div class="artist-leftbox">
-								<span class="artist-intro-info">아티스트 소개</span>
-								<p class="pform">자신을 소개해주세요</p>
-							</div>
-							<div class="artist-rightbox">
-								<textarea class="artist-intro" name="writer_intro" rows="3"
-									placeholder="자신을 소개해주세요"></textarea>
-								<span class="lengthchk4">0</span>/120
-							</div>
-						</div> -->
+											
 						<hr style="width: 1000px; opacity: 0.5" />
 						<div class="artist-info4">
 							<div class="artist-leftbox">
@@ -328,9 +323,10 @@
 							</div>
 							<div class="itembox-add-info2">
 								<span class="itembox-add-span-design" style="margin-left: 15px;">금액</span>
-								<input class="itembox-add-price0" id="item-price0"
-									name="itemList[0].Price" type="text" value="0"
-									onkeyup="pricecomma(0)"> <span
+								<input class="itembox-add-price0" id="item-price0" min="0"
+									maxlength="13" type="text" placeholder="0"
+									onkeyup="pricecomma(0)" autocomplete="off"> <input
+									class="pricechange0" type="hidden" name="itemList[0].Price"><span
 									class="itembox-add-span-design" style="color: black;">원</span>
 							</div>
 							<div class="itembox-add-info3">
@@ -348,39 +344,11 @@
 									<span class="itembox-add-span-design">옵션</span>
 								</div>
 								<div class="itembox-rightbox" style="line-height: 40px;">
-									<div>
-										<input class="optioncheck" name="itemList[0].Option"
-											id="itembox-option0-1" type="radio" value="1" checked>
-										<label class="itembox-label" for="itembox-option0-1">
-											옵션 입력이 필요 없는 리워드입니다. </label>
-									</div>
-									<div>
-										<input class="optioncheck" name="itemList[0].Option"
-											id="itembox-option0-2" type="radio" value="2"> <label
-											class="itembox-label" for="itembox-option0-2"> 주관식
-											옵션이 필요한 리워드입니다.<span
-											style="margin-left: 10px; font-size: 13px; opacity: 0.8;">(각인,
-												메시지 등)</span>
-										</label>
-									</div>
-									<div class="option-tarea" style="display: none">
-										<textarea name="itemList[0]-optarea"
-											class="option0-2-desc tarea"></textarea>
-									</div>
-									<div>
-										<input class="optioncheck" name="itemList[0].Option"
-											id="itembox-option0-3" type="radio" value="3"> <label
-											class="itembox-label" for="itembox-option0-3"> 객관식
-											옵션이 필요한 리워드입니다.<span
-											style="margin-left: 10px; font-size: 13px; opacity: 0.8;">(사이즈,
-												색상 등)</span>
-										</label>
-									</div>
-									<div class="option-multarea"
-										style="width: 780px; display: none;">
+
+									<div class="option-multarea" style="width: 780px;">
 										<div class="itembox-leftbox"
 											style="margin-left: 10px; margin-top: 37px;">
-											<textarea id="itemonkey0" name="itemList[0]-opmultarea"
+											<textarea id="itemonkey0" name="itemList[0].optionForm"
 												class="item-option" onkeyup="mulpriview(0)"></textarea>
 										</div>
 										<div class="itembox-rightbox" style="margin-left: 0px;">
@@ -389,8 +357,9 @@
 											<div class="item-option-priview0 privew-design"
 												style="margin-bottom: 10px; margin-right: 10px; line-height: 23px;"
 												readonly>
-												※ Enter를 통해 줄바꿈이 됩니다.<br> ex) 사이즈 또는 색상을 적어주세요<br>
-												ex.1)<br> 블랙 - 240mm 5개<br> 화이트 - 240mm 5개
+												※ Enter를 통해 줄바꿈이 됩니다.<br> 1. 각인이나 메시지를 적어주세요<br>
+												2. 사이즈 또는 색상을 적어주세요<br> ex.1)<br> 블랙 - 240mm 5개<br>
+												화이트 - 240mm 5개
 											</div>
 										</div>
 									</div>
@@ -480,14 +449,14 @@
 								<div class="itembox-leftbox" style="margin-left: 30px;">
 									<button type="button" class="del-design" id="reward-deletebtn0">리워드
 										삭제</button>
-									<button type="button" class="modify-design" id="reward-modifybtn0">리워드
-										수정</button>
+									<button type="button" class="modify-design"
+										id="reward-modifybtn0">리워드 수정</button>
 								</div>
 								<div class="itembox-rightbox">
 									<span class="itembox-label" style="font-size: 24px;">※
 										작성이 완료되면 반드시 <span style="color: red;">저장</span>해주세요!
-										<button type="button" class="savebtn-design" id="reward-savebtn"
-											onclick="itemSave(0)">리워드 저장</button>
+										<button type="button" class="savebtn-design"
+											id="reward-savebtn" onclick="itemSave(0)">리워드 저장</button>
 								</div>
 							</div>
 						</div>
@@ -595,7 +564,7 @@
 									<input type="file" name="uploadfile3" id="mainfile"
 										multiple="multiple" onchange="loadPImg(this);"
 										style="display: none;"> <input type="hidden"
-										name="mainImg" id="videoURL" value=""> <a
+										name="mainImg" id="videoURL" value="${project.mainImg}"> <a
 										href="javascript:void(0)" id="pmainimgdelete"
 										style="display: inline-block; vertical-align: top; margin-top: 60px;">
 										<i class="material-icons">highlight_off</i>
@@ -616,7 +585,7 @@
 							</div>
 							<div class="story-rightbox">
 								<div class="storyForm">
-									<textarea class="story-custom" name="project_story"></textarea>
+									<textarea class="story-custom" name="story"></textarea>
 								</div>
 							</div>
 						</div>
@@ -768,6 +737,8 @@
 				price = price.replace(/,/g, '');
 				$(".summary-mount").val(
 						price.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+				$(".targetmount").val(
+						price.replace(/\B(?=(\d{3})+(?!\d))/g, ""));
 			};
 			//해시태그
 			$(function() {
@@ -969,18 +940,7 @@
 								});
 			});
 		</script>
-		<script>
-		//제출버튼 클릭시
-		$(function () {
-			$("#submitbtn").on("click", function () {
-				$("#statusNum").val(2);
-				
-				var formDate = new FormDate(document.getElementById("insertfrm"));
-				
-				
-			});
-		});
-		</script>
+
 		<script>
 			const wrapper = document.querySelector(".wrapper");
 			const defaultBtn = document.querySelector("#default-btn");
@@ -1019,27 +979,25 @@
 							function() {
 								var additembox = '<div class="itembox-add" id="item-add' + index + '"><div class="itembox-countinfo"><span class="reward-sapn">리워드 #'
 										+ (index + 1)
-										+ '</span></div><div class="itembox-add-info1"><span class="itembox-add-span-design">상품명</span><input class="itembox-add-name" id="item-name' + index + '" name="itembox[ ' + index + '].Name" type="text"></div><div class="itembox-add-info2"><span class="itembox-add-span-design" style="margin-left: 15px;">금액</span><input class="itembox-add-price'
+										+ '</span></div><input type="hidden" class="rewarddong" name="itemList['+index+'].Save"	id="itemisSave'+index+'" value="false"><div class="itembox-add-info1"><span class="itembox-add-span-design">상품명</span><input class="itembox-add-name" id="item-name' + index + '" name="itemList[' + index + '].Name" type="text"></div><div class="itembox-add-info2"><span class="itembox-add-span-design" style="margin-left: 15px;">금액</span><input class="itembox-add-price'
 										+ index
 										+ '" id="item-price'
 										+ index
-										+ '" name="itembox['
+										+ '" min="0" maxlength="13" placeholder="0" autocomplete="off" type="text" onkeyup="pricecomma('
 										+ index
-										+ '].Price" type="text" value="0" onkeyup="pricecomma('
+										+ ')"><input class="pricechange'+index+'" type="hidden" name="itemList['+index+'].Price"><span class="itembox-add-span-design" style="color: black;">원</span></div><div class="itembox-add-info3"><div class="itembox-leftbox"><span class="itembox-add-span-design" style="margin-left: 11px;">상품명 설명</span></div><div class="itembox-rightbox"><textarea id="item-ex' + index + '" name="itemList[' + index + '].Ex" class="itembox-add-desc"></textarea></div></div><div class="itembox-add-info4"><div class="itembox-leftbox"><span class="itembox-add-span-design">옵션</span></div><div class="itembox-rightbox" style="line-height: 40px;"><div class="option-multarea" style="width: 780px;"><div class="itembox-leftbox" style="margin-left: 10px; margin-top: 37px;"><textarea id="itemonkey'
 										+ index
-										+ ')"><span class="itembox-add-span-design" style="color: black;">원</span></div><div class="itembox-add-info3"><div class="itembox-leftbox"><span class="itembox-add-span-design" style="margin-left: 11px;">상품명 설명</span></div><div class="itembox-rightbox"><textarea id="item-ex' + index + '" name="itembox[' + index + '].Ex" class="itembox-add-desc"></textarea></div></div><div class="itembox-add-info4"><div class="itembox-leftbox"><span class="itembox-add-span-design">옵션</span></div><div class="itembox-rightbox" style="line-height: 40px;"><div><input class="optioncheck" name="itemList[' + index + '].Option" id="itembox-option' + index + '-1" type="radio" value="1" checked><label class="itembox-label" for="itembox-option' + index + '-1">옵션 입력이 필요 없는 리워드입니다.</label></div><div><input class="optioncheck"name="itemList[' + index + '].Option" id="itembox-option' + index + '-2" type="radio" value="2"><label class="itembox-label" for="itembox-option' + index + '-2">주관식 옵션이 필요한 리워드입니다.<span style="margin-left: 10px; font-size: 13px; opacity: 0.8; ">(각인, 메시지 등)</span></label></div><div class="option-tarea" style="display:none"><textarea name="item-optarea[' + index + ']" class="option' + index + '-2-desc tarea"></textarea></div><div><input class="optioncheck" name="itemList[' + index + '].Option" id="itembox-option' + index + '-3" type="radio" value="3"><label class="itembox-label" for="itembox-option' + index + '-3">객관식 옵션이 필요한 리워드입니다.<span style="margin-left: 10px; font-size: 13px; opacity: 0.8; ">(사이즈, 색상 등)</span></label></div><div class="option-multarea" style="width: 780px; display:none"><div class="itembox-leftbox" style="margin-left: 10px; margin-top: 37px;"><textarea id="itemonkey'
+										+ '" name="itemList['
 										+ index
-										+ '" name="item-opmultarea['
+										+ '].optionForm" class="item-option" onkeyup="mulpriview('
 										+ index
-										+ ']" class="item-option" onkeyup="mulpriview('
-										+ index
-										+ ')"></textarea></div><div class="itembox-rightbox" style="margin-left: 0px;"><span class="option-mul-span" style="margin-left: 20px;">옵션 미리보기</span><div class="item-option-priview' + index + ' privew-design" style="margin-bottom: 10px; margin-right: 10px; line-height: 23px;"readonly>※ Enter를 통해 줄바꿈이 됩니다.<br>ex)사이즈 또는 색상을 적어주세요<br>ex.1)<br>블랙 - 240mm 5개<br>화이트 - 240mm 5개</div></div></div></div></div><div class="itembox-add-info5"><div class="itembox-leftbox"><span class="itembox-add-span-design">배송 조건</span></div><div class="itembox-rightbox"><input type="checkbox" id="delivery-check' + index + '" name="itemList[' + index + '].delichk" style="margin-left: 7px;"><label class="itembox-label" for="delivery-check' + index + '">배송을 위한 주소지가 필요하면 체크해주세요!</label></div></div><div class="itembox-add-info6"><div class="itembox-leftbox"><span class="itembox-add-span-design">수량</span></div><div class="itembox-rightbox"><div class="limit-number"><span class="count-span">상품의 수량은</span><input type="number" class="reward-count" name="itemList[' + index + '].count" min="1" value="1"><span class="count-span">개입니다.</span></div></div></div><div class="itembox-add-info7"><div class="itembox-leftbox"><span class="itembox-add-span-design">제한 수량</span></div><div class="itembox-rightbox"><div class="limit-number"><span class="limit-span">리워드를</span><input type="number" class="countlimit' + index + ' countform" name="itemList[' + index + '].limit" min="1" value="1"><span class="limit-span">개로 제한합니다.</span></div><div style="margin-top: 5px;"><input class="limitCheck'
+										+ ')"></textarea></div><div class="itembox-rightbox" style="margin-left: 0px;"><span class="option-mul-span" style="margin-left: 20px;">옵션 미리보기</span><div class="item-option-priview' + index + ' privew-design" style="margin-bottom: 10px; margin-right: 10px; line-height: 23px;"readonly>※ Enter를 통해 줄바꿈이 됩니다.<br>1. 각인이나 메시지를 적어주세요<br>2. 사이즈 또는 색상을 적어주세요<br>ex.1)<br>블랙 - 240mm 5개<br>화이트 - 240mm 5개</div></div></div></div></div><div class="itembox-add-info5"><div class="itembox-leftbox"><span class="itembox-add-span-design">배송 조건</span></div><div class="itembox-rightbox"><input type="checkbox" id="delivery-check' + index + '" name="itemList[' + index + '].delichk" style="margin-left: 7px;"><label class="itembox-label" for="delivery-check' + index + '">배송을 위한 주소지가 필요하면 체크해주세요!</label></div></div><div class="itembox-add-info6"><div class="itembox-leftbox"><span class="itembox-add-span-design">수량</span></div><div class="itembox-rightbox"><div class="limit-number"><span class="count-span">상품의 수량은</span><input type="number" class="reward-count" name="itemList[' + index + '].count" min="1" value="1"><span class="count-span">개입니다.</span></div></div></div><div class="itembox-add-info7"><div class="itembox-leftbox"><span class="itembox-add-span-design">제한 수량</span></div><div class="itembox-rightbox"><div class="limit-number"><span class="limit-span">리워드를</span><input type="number" class="countlimit' + index + ' countform" name="itemList[' + index + '].limit" min="1" value="1"><span class="limit-span">개로 제한합니다.</span></div><div style="margin-top: 5px;"><input class="limitCheck'
 										+ index
 										+ '" type="checkbox" id="limit-check'
 										+ index
 										+ '" style="margin-left: 7px;" onchange="limitnumber('
 										+ index
-										+ ')"><label class="itembox-label" for="limit-check' + index + '">수량에 제한이 없으면 체크해주세요!</label></div></div></div><div class="itembox-add-info8"><div class="itembox-leftbox"><span class="itembox-add-span-design">발송시작일</span></div><div class="itembox-rightbox"><select class="year-design cal" name="itemList[' + index + '].Year"><option value="2021" selected>2021년</option><option value="2022">2022년</option><option value="2023">2023년</option></select><select class="month-design cal" name="itemList[' + index + '].Month" style="margin-left: 10px;"><option value="01">1월</option><option value="02">2월</option><option value="03">3월</option><option value="04">4월</option><option value="05">5월</option><option value="06">6월</option><option value="07">7월</option><option value="08">8월</option><option value="09">9월</option><option value="10">10월</option><option value="11">11월</option><option value="12">12월</option></select><select class="day-design cal" name="itemList[' + index + '].day" style="margin-left: 10px;"><option value="05">초(1일~10일)</option><option value="15">중순(11일~20일)</option><option value="25">3월</option></select><input type="hidden" name="itemList[' + index + '].deliveryDate" value="2021-01-01"></div></div><div class="itembox-add-info9"><div class="itembox-leftbox" style="margin-left: 30px;"><button class="del-design" id="reward-deletebtn' + index + '">리워드 삭제</button><button class="modify-design" id="reward-modifybtn' + index + '">리워드 수정</button></div><div class="itembox-rightbox"><span class="itembox-label" style="font-size: 24px;">※ 작성이 완료되면 반드시<span style="color: red;">저장</span>해주세요!<button class="savebtn-design" id="reward-savebtn" onclick="itemSave('
+										+ ')"><label class="itembox-label" for="limit-check' + index + '">수량에 제한이 없으면 체크해주세요!</label></div></div></div><div class="itembox-add-info8"><div class="itembox-leftbox"><span class="itembox-add-span-design">발송시작일</span></div><div class="itembox-rightbox"><select class="year-design cal" name="itemList[' + index + '].Year"><option value="2021" selected>2021년</option><option value="2022">2022년</option><option value="2023">2023년</option></select><select class="month-design cal" name="itemList[' + index + '].Month" style="margin-left: 10px;"><option value="01">1월</option><option value="02">2월</option><option value="03">3월</option><option value="04">4월</option><option value="05">5월</option><option value="06">6월</option><option value="07">7월</option><option value="08">8월</option><option value="09">9월</option><option value="10">10월</option><option value="11">11월</option><option value="12">12월</option></select><select class="day-design cal" name="itemList[' + index + '].day" style="margin-left: 10px;"><option value="05">초(1일~10일)</option><option value="15">중순(11일~20일)</option><option value="25">3월</option></select><input type="hidden" name="itemList[' + index + '].deliveryDate" value="2021-01-01"></div></div><div class="itembox-add-info9"><div class="itembox-leftbox" style="margin-left: 30px;"><button type="button" class="del-design" id="reward-deletebtn' + index + '">리워드 삭제</button><button type="button" class="modify-design" id="reward-modifybtn' + index + '">리워드 수정</button></div><div class="itembox-rightbox"><span class="itembox-label" style="font-size: 24px;">※ 작성이 완료되면 반드시<span style="color: red;">저장</span>해주세요!<button type="button" class="savebtn-design" id="reward-savebtn" onclick="itemSave('
 										+ index
 										+ ')">리워드 저장</button></div></div></div>';
 
@@ -1052,7 +1010,7 @@
 
 								index = index + 1;
 								count = count + 1;
-								
+
 								if (count == 10) {
 									$(".items-add-button").css(
 											"pointer-events", "none");
@@ -1093,7 +1051,7 @@
 			function mulpriview(num) {
 				var getText = $("#itemonkey" + num).val();
 				getText = getText.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-				
+
 				if (getText == "") {
 					$(".item-option-priview" + num).text(getText) = "";
 				} else {
@@ -1107,6 +1065,8 @@
 				price = price.replace(/,/g, '');
 				$(".itembox-add-price" + number).val(
 						price.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+				$(".pricechange" + number).val(
+						price.replace(/\B(?=(\d{3})+(?!\d))/g, ""));
 			};
 
 			//리워드 (상품명, 가격, 설명, 수량) 체크
@@ -1136,7 +1096,7 @@
 				var currentDate = currentYear + "" + currentMonth + ""
 						+ currentDay;
 				var checkDate = Number(currentDate - date5.replace(/-/gi, ""));
-				
+
 				//날짜 체크
 				if (checkDate > 0) {
 					Swal.fire({
@@ -1196,37 +1156,36 @@
 			}
 
 			function itemSave(index) {
-				
-				if (itemdate(index)) {
-					Swal.fire({
-						text : "리워드가 저장되었습니다.",
-						position : "center",
-						confirmButtonText : "닫기"
-					})
 
-					$("#item-add" + index).css("pointer-events", "none");
-					$("#reward-modifybtn" + index)
-							.css("pointer-events", "auto");
-					$("#reward-deletebtn" + index)
-							.css("pointer-events", "auto");
+                if (itemdate(index)) {
+                    Swal.fire({
+                        text: "리워드가 저장되었습니다.",
+                        position: "center",
+                        confirmButtonText: "닫기",
+                        willClose: function() {
+                            $("#itemisSave" + index).val("true");
+                        }
+                    })
 
-					$("#reward-modifybtn" + index).click(
-							function() {
-								$("#item-add" + index).css("pointer-events",
-										"auto");
-								$("#reward-modifybtn" + index).css(
-										"pointer-events", "none");
-								Swal.fire({
-									text : "원하시는 리워드를 수정해주세요",
-									position : "center",
-									confirmButtonText : "닫기"
-								})
-							})
+                    $("#item-add" + index).css("pointer-events", "none");
+                    $("#reward-modifybtn" + index).css("pointer-events", "auto");
+                    $("#reward-deletebtn" + index).css("pointer-events", "auto");
 
-					var test = $("#itemisSave" + index).val("true");
+                    $("#reward-modifybtn" + index).click(function () {
+                        $("#item-add" + index).css("pointer-events", "auto");
+                        $("#reward-modifybtn" + index).css("pointer-events", "none");
+                        Swal.fire({
+                            text: "원하시는 리워드를 수정해주세요",
+                            position: "center",
+                            confirmButtonText: "닫기"
+                        })
+                    })
 
-				}
-			}
+                    
+
+
+                }
+            }
 		</script>
 		<script>
 			// 리워드에서 옵션 선택 시
@@ -1236,7 +1195,6 @@
 					".optioncheck",
 					function() {
 						var value = $(this).val();
-						
 
 						if (value == 2) {
 							$(this).parent().next().show();
@@ -1627,5 +1585,89 @@
 				;
 			});
 		</script>
+		<script>
+
+             $(function () {
+                 $("#submitbtn").on("click", function() {
+                     submitBtn();
+                 });
+             });
+             function submitBtn() {
+                 $("#statusNum").val(2);
+
+                 var formData = new FormData(document.getElementById("insertfrm"));
+					console.log(formData);
+                 Swal.fire({
+                     title: "검토하기를 요청하셨습니다.<br><br>",
+                     html: "한 번 제출하시면 더 이상 수정이 불가능합니다. <br> 신중하게 제출해주세요",
+                     type: "warning",
+                     customClass: 'warning',
+                     backdrop: "rgba(0,0,123,0.4)",
+                     showCancelButton: true,
+                     cancelButtonText: "계속 작성하기",
+                     cancelButtonColor: "blue",
+                     confirmButtonText: "제출하겠습니다.",
+                     reverseButtons: true,
+                     showLoaderOnConfirm: true,
+
+                     preConfirm: function () {
+                         $.ajax({
+                             url: "project",
+                             type: "post",
+                             data: formData,
+                             encType: "multipart/form-data",
+                             processData: false,
+                             contentType: false,
+                             success: function (result) {
+                                 var page = result;
+                                 console.log(page);
+
+                                 if (page != "error") {
+                                     Swal.fire({
+                                         title: '<h1>제출에 성공하셨습니다.</h1>',
+                                         type: 'success',
+                                         html: "검토가 완료된 후 프로젝트가 오픈됩니다. <br> 검토사항에 문제가 있으면 텀블업으로 문의해주세요",
+                                         focusConfirm: false,
+                                         confirmButtonText: "확인",
+                                         willClose: function () {
+                                             location.href = page;
+                                         }
+                                     })
+                                 } else {
+                                     Swal.fire({
+                                         type: 'error',
+                                         title: "제출에 실패하셨습니다",
+                                         showConfirmButton: false,
+                                         timer: 1500
+                                     });
+                                 }
+                             }, error: function (request,status,error) {
+                            	 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+                            	 
+                                 Swal.fire({
+                                     type: 'error',
+                                     title: "제출에 실패하셨습니다",
+                                     showConfirmButton: false,
+                                     timer: 1500
+                                 });
+                             }
+                         });
+                     }
+                 })
+             }
+         
+     </script>
+     <script>
+     $(function () {
+    	 var pArtistImg = '${project.writerProfileImg}';
+         if (pArtistImg != "") {
+             $("#artistimg").attr("src", "resources/images/projectImg/artistImg/" + pArtistImg);
+             $("#noimage").hide();
+             $("#okimage").show();
+             $("#artimgdelete").show();
+         };
+     });
+     </script>
 </body>
 </html>

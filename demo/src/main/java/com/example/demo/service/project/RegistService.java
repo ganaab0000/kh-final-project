@@ -42,6 +42,7 @@ public interface RegistService {
 	
 	public ProjectVo selectCurrentProject(int id);
 	
+	
 	public int deleteRewards(int id);
 	
 	public ArrayList<RewardVo> selectCurrentReward(int id);
