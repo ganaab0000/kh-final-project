@@ -36,6 +36,7 @@ public class ProjectVo {
 	private Integer vote;
 	
 	private String isOpen;
+	private String isClose;
 	
 	private String projectCategory;
 	private Integer sponsor;

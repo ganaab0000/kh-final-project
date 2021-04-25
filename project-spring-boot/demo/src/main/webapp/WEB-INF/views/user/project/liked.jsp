@@ -21,8 +21,15 @@
 			padding: 10px;
 		}
 		.mainImgWrapper{
-			height: 240px;
-			position: relative;
+			height: 220px;
+		    position: relative;
+		    overflow: hidden;
+		    display: flex;
+		    justify-content: center;
+		}
+		img.card-img-top.mainImg {
+		    width: auto;
+		    height: 220px;
 		}
 		.like{
 			position: absolute;

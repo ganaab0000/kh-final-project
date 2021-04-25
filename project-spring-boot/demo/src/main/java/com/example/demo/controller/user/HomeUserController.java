@@ -31,8 +31,10 @@ public class HomeUserController {
 		if(member != null) {
 			filter.setMemberId(member.getId());
 		}
+		filter.setSort(2);
 		model.addAttribute("newProject", projectService.getList(filter));
-
+		filter.setSort(null);
+		
 		filter.setStatus(3);
 		model.addAttribute("coming", projectService.getList(filter));
 		

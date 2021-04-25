@@ -20,8 +20,6 @@ public interface ProjectRepository {
 	
 	public ProjectVo findById(int id);
 	
-	public List<ProjectDto> findForMain(ProjectFilteringVo filter);
-
 	public int getTotalCount(ProjectFilteringVo filter);
 	
 	public List<ProjectVo> findByFilter(ProjectFilteringVo filter);

@@ -23,12 +23,15 @@
 			border: 1px solid #f080803d;
 		}
 		.mainImgWrapper{
-			height: 240px;
-			position: relative;
+			height: 220px;
+		    position: relative;
+		    overflow: hidden;
+		    display: flex;
+		    justify-content: center;
 		}
 		img.card-img-top.mainImg {
-		    width: 100%;
-		    height: 100%;
+		    width: auto;
+		    height: 220px;
 		}
 		.card-body {
 		    flex: 1 1 auto;
@@ -217,13 +220,14 @@
 		</div>
 		<div class="filterWrapper">
 			<span id="projectCount"></span>개의 프로젝트가 있습니다.
-			<button class="btn dropdown-toggle filter" value="최신순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
+			<button class="btn dropdown-toggle filter" value="인기순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="sort">
-				<li><button class="dropdown-item" name="sort" value="1">최신순</button></li>
-				<li><button class="dropdown-item" name="sort" value="2">최다 후원수</button></li>
-				<li><button class="dropdown-item" name="sort" value="3">최다 금액순</button></li>
-				<li><button class="dropdown-item" name="sort" value="4">마감 임박순</button></li>
+				<li><button class="dropdown-item" name="sort" value="1">인기순</button></li>
+				<li><button class="dropdown-item" name="sort" value="2">최신순</button></li>
+				<li><button class="dropdown-item" name="sort" value="3">최다 후원수</button></li>
+				<li><button class="dropdown-item" name="sort" value="4">최다 금액순</button></li>
+				<li><button class="dropdown-item" name="sort" value="5">마감 임박순</button></li>
 			</ul>
 		</div>
 		
@@ -349,14 +353,15 @@
 							cardBody.find(".cardSubTitle").text(data.projectList[i].subTitle);
 	
 							var cardFooter = card.children(".card-footer");
-							if(data.projectList[i].isOpen == 'Y'){
-								cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
+							
+							cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
+							let rate = data.projectList[i].rate;
+							rate = rate==null ? 0 : rate;
+							cardFooter.find(".rate").text(rate + "%");
+							cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
+							if(data.projectList[i].isOpen == 'Y' && data.projectList[i].isClose == 'N'){
 								cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
-								var rate = data.projectList[i].rate;
-								rate = rate==null ? 0 : rate;
-								cardFooter.find(".rate").text(rate + "%");
-								cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
-							} else{
+							} else if(data.projectList[i].isOpen == 'N'){
 								cardFooter.empty();
 								let btn = $("<button class='btn comingSoon'></button>");
 								btn.text("공개 예정");
@@ -364,6 +369,12 @@
 									location.href = $(this).parents(".card").find(".card-title").attr("href");
 								})
 								cardFooter.append(btn);
+							} else{
+								if(data.projectList[i].collected >= data.projectList[i].targetAmount){
+									cardFooter.find(".remainTime").text(data.projectList[i].sponsor + "명의 후원으로 펀딩 성공");
+								} else{
+									cardFooter.find(".remainTime").text("펀딩 실패");
+								}
 							}
 							
 							$(".cardContainer").append(cardWrapper);
