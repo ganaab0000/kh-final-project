@@ -20,8 +20,6 @@ public interface ProjectRepository {
 	
 	public ProjectVo findById(int id);
 	
-	public List<ProjectDto> findForMain(ProjectFilteringVo filter);
-
 	public int getTotalCount(ProjectFilteringVo filter);
 	
 	public List<ProjectVo> findByFilter(ProjectFilteringVo filter);
@@ -32,4 +30,10 @@ public interface ProjectRepository {
 	
 	@Select("select story from project where id = #{id}")
 	public String getStory(int id);
+	
+	public int joinedProjectCount(int memberId);
+	
+	public int createdProjectCount(int memberId);
+
+	public List<ProjectVo> carousel();
 }

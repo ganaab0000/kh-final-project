@@ -23,4 +23,7 @@ public class CommunityVo {
 	private Integer replyCount;
 	
 	private String nickname;
+	private int profileImg;
+	
+	private String formattedDate;
 }

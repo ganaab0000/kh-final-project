@@ -5,7 +5,7 @@
 	<select id="findByProjectId" resultType="CommunityVo" parameterType="HashMap">
 		select * from (
 		select rownum rn, T.* from (
-			select C.*, M.nickname from (
+			select C.*, M.nickname, M.profile_img, to_char(C.date_created, 'yyyy-mm-dd hh24:mi:ss') formattedDate from (
 				select L.*, nvl(R.replyCount, 0) replyCount from community L left outer join (
 					select parent_community_id, count(parent_community_id) replyCount from community where project_id = #{projectId} and is_deleted = 'N' group by parent_community_id
 				) R on L.id = r.parent_community_id where project_id = #{projectId} and l.parent_community_id is null
@@ -26,7 +26,7 @@
 	
 	<select id="getCountByCategory" resultType="int" parameterType="HashMap">
 		select count(*) from (
-			select C.*, M.nickname from (
+			select C.*, M.nickname, M.profile_img, to_char(C.date_created, 'yyyy-mm-dd hh24:mi:ss') formattedDate from (
 				select L.*, nvl(R.replyCount, 0) replyCount from community L left outer join (
 					select parent_community_id, count(parent_community_id) replyCount from community where project_id = #{projectId} and is_deleted = 'N' group by parent_community_id
 				) R on L.id = r.parent_community_id where project_id = #{projectId} and l.parent_community_id is null
@@ -39,7 +39,7 @@
 	<select id="findReply" resultType="CommunityVo" parameterType="HashMap">
 		select * from (
 			select rownum rn, T.* from (
-			select C.*, M.nickname from community C left outer join member M on C.member_id = M.id 
+			select C.*, M.nickname, M.profile_img, to_char(C.date_created, 'yyyy-mm-dd hh24:mi:ss') formattedDate from community C left outer join member M on C.member_id = M.id 
 				where C.parent_community_id = #{parentId} and C.is_deleted = 'N' order by C.id desc
 		) T )
 			<where>
@@ -53,7 +53,7 @@
 	</select>
 	
 	<select id="findById"  resultType="CommunityVo" parameterType="int">
-		select C.*, M.nickname from (
+		select C.*, M.nickname, M.profile_img, to_char(C.date_created, 'yyyy-mm-dd hh24:mi:ss') formattedDate from (
 			select L.*, nvl(R.replyCount, 0) replyCount from community L left outer join (
 				select parent_community_id, count(parent_community_id) replyCount from community where parent_community_id = #{id} and is_deleted = 'N' group by parent_community_id
 			) R on L.id = r.parent_community_id where id = #{id}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
 	.shadow-txt {
   		font-weight: 900 !important;
 	    color: white !important;
-	    text-shadow: 2px 2px 5px black !important;
+	    text-shadow: 2px 2px 5px #000000a1 !important;
 	}
 
 	.img-txt-centered {
@@ -34,7 +35,7 @@
 	    color: white;
 	}
 	.carousel-item img {
-		width:100%;
+		width:60%;
 		float:left;
 		height:400px;
 		object-fit:cover;
@@ -46,16 +47,65 @@
 		margine-top: 20px;
 		margine-bottom: 20px;
 	}
-
+	.contentWrapper {
+        width: 40%;
+	    height: 400px;
+	    float: right;
+	    background-color: #ff9494;
+	    display: flex;
+	    flex-direction: column;
+	    justify-content: center;
+	    padding-left: 30px;
+    	padding-right: 10%;
+	    word-break: break-all;
+	}
+	h2.shadow-txt {
+	    margin-bottom: 1rem;
+	}
+	.carousel-control-next, .carousel-control-prev {
+		width: 5%;
+	}
+	.carousel-control-prev{
+		left: auto;
+		right: 5%;
+	}
 	.card {
 		padding: 10px;
 		border: none;
+		max-width: 420px;
 	}
 	.card-body {
 		padding: 0px;
 	}
-
-
+	.noList{
+	    margin-top: 200px;
+	    text-align: center;
+	    height: 300px;
+	    font-size: 3rem;
+	    font-weight: bold;
+	    color: darkgray;
+	}
+	div.mainImgWrapper{
+		position: relative;
+	}
+	.like{
+		position: absolute;
+		right: 0;
+		border-radius: 100%;
+		width: 30px;
+		height: 30px;
+		padding: 0;
+	}
+	.bi-heart-fill{
+		color: #ff4b4b;
+	}
+	button.like.btn:hover {
+	    background: rgb(0 0 0 / 25%);
+	}
+	.contentWrapper a{
+		color: white;
+		text-decoration: none;
+	}
 	</style>
 </head>
 <body>
@@ -71,28 +121,19 @@
 			  </div>
 
 			  <div class="carousel-inner">
-			    <div class="carousel-item active" data-bs-interval="10000">
-			      <img class="" src="https://placeimg.com/600/360/1" alt="First slide">
-			      <div class="carousel-caption d-none d-md-block">
-			        <h2 class="shadow-txt">아이디어가 잠시 머무르는 정류장</h2>
-			        <p class="shadow-txt">서류와 책, 작은 소품까지 보관하는 메모 오거나이저</p>
-			      </div>
-			    </div>
-			    <div class="carousel-item" data-bs-interval="2000">
-			      <img class="d-block" src="https://placeimg.com/600/360/2" alt="First slide">
-			      <div class="carousel-caption d-none d-md-block">
-			        <h2 class="shadow-txt">아이디어가 잠시 머무르는 정류장</h2>
-			        <p class="shadow-txt">서류와 책, 작은 소품까지 보관하는 메모 오거나이저</p>
-			      </div>
-			    </div>
-			    <div class="carousel-item">
-			      <img class="d-block" src="https://placeimg.com/600/360/3" alt="First slide">
-			      <div class="carousel-caption d-none d-md-block">
-			        <h2 class="shadow-txt">아이디어가 잠시 머무르는 정류장</h2>
-			        <p class="shadow-txt">서류와 책, 작은 소품까지 보관하는 메모 오거나이저</p>
-			      </div>
-			    </div>
-
+			  	<c:forEach var="project" items="${carousel}">
+				    <div class="carousel-item" data-bs-interval="5000">
+				    	<div class="imgWrapper">
+				    		<a href="/project/${project.id}">
+						    	<img class="carouselImg" src="/api/file/${project.mainImg}" alt="First slide">
+				    		</a>
+				    	</div>
+					    <div class="contentWrapper">
+						    <h2 class="shadow-txt"><a href="/project/${project.id}">${project.title}</a></h2>
+					        <p class="shadow-txt">${project.subTitle}</p>
+					    </div>
+				    </div>
+			  	</c:forEach>
 			  </div>
 			  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
 			    <h1 class="shadow-txt">&lt;</h1>
@@ -104,642 +145,146 @@
 			  </button>
 			</div>
 
-			<h5 class="py-3 fw-bold">주목할만한 프로젝트 &gt;</h5>
-				<div class="container mb-5 px-0">
-			      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-			        <div class="col">
-			          <div class="card">
-			      		<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-			            <div class="card-body mt-3">
-						  <p class="card-text" style="color:#afafaf; font-size:0.8rem;">
-					    	카테고리 | 작성자
-				          </p>
-			              <p class="card-text">
-			             	 내면의 평화를 위한 플레이리스트 가이드북 &lt;뮤직포이너피스&gt;
-			              </p>
-			              <div class="d-flex justify-content-between align-items-center">
-			              	<p class="text-danger fw-bold">249% 달성</p>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body mt-3">
-						  <p class="card-text" style="color:#afafaf; font-size:0.8rem;">
-					    	카테고리 | 작성자
-				          </p>
-			              <p class="card-text">
-			             	 내면의 평화를 위한 플레이리스트 가이드북 &lt;뮤직포이너피스&gt;
-			              </p>
-			              <div class="d-flex justify-content-between align-items-center">
-			              	<p class="text-danger fw-bold">249% 달성</p>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-			            <div class="card-body mt-3">
-						  <p class="card-text" style="color:#afafaf; font-size:0.8rem;">
-					    	카테고리 | 작성자
-				          </p>
-			              <p class="card-text">
-			             	 내면의 평화를 위한 플레이리스트 가이드북 &lt;뮤직포이너피스&gt;
-			              </p>
-			              <div class="d-flex justify-content-between align-items-center">
-			              	<p class="text-danger fw-bold">249% 달성</p>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			        <div class="col">
-			          <div class="card">
-			      		<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-			            <div class="card-body mt-3">
-						  <p class="card-text" style="color:#afafaf; font-size:0.8rem;">
-					    	카테고리 | 작성자
-				          </p>
-			              <p class="card-text">
-			             	 내면의 평화를 위한 플레이리스트 가이드북 &lt;뮤직포이너피스&gt;
-			              </p>
-			              <div class="d-flex justify-content-between align-items-center">
-			              	<p class="text-danger fw-bold">249% 달성</p>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body mt-3">
-						  <p class="card-text" style="color:#afafaf; font-size:0.8rem;">
-					    	카테고리 | 작성자
-				          </p>
-			              <p class="card-text">
-			             	 내면의 평화를 위한 플레이리스트 가이드북 &lt;뮤직포이너피스&gt;
-			              </p>
-			              <div class="d-flex justify-content-between align-items-center">
-			              	<p class="text-danger fw-bold">249% 달성</p>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-			            <div class="card-body mt-3">
-						  <p class="card-text" style="color:#afafaf; font-size:0.8rem;">
-					    	카테고리 | 작성자
-				          </p>
-			              <p class="card-text">
-			             	 내면의 평화를 위한 플레이리스트 가이드북 &lt;뮤직포이너피스&gt;
-			              </p>
-			              <div class="d-flex justify-content-between align-items-center">
-			              	<p class="text-danger fw-bold">249% 달성</p>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-
-			      </div>
-			    </div>
-
-			<h5 class="py-3 fw-bold">공개예정 프로젝트 &gt;</h5>
-
-				<div class="container mb-5 px-0">
-			      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			      </div>
-			    </div>
-
-			<h5 class="py-3 fw-bold">진행중인 기획전 &gt;</h5>
-
-				<div class="container mb-5 px-0">
-			      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			      </div>
-			    </div>
-
-			<h5 class="py-3 fw-bold">인기추천 프로젝트 &gt;</h5>
-
-				<div class="container mb-5 px-0">
-			      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			      </div>
-			    </div>
+			
 
 			<h5 class="py-3 fw-bold">성공임박 프로젝트 &gt;</h5>
+			
+			<div class="container mb-5 px-0">
+				<c:if test="${attainment.size()!=0}">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<c:forEach var="project" items="${attainment}">
+						<div class="col">
+						    <div class="card">
+						    	<div class="mainImgWrapper">
+							    	<button class="like btn"><i class="bi ${project.vote eq null ? 'bi-heart' : 'bi-heart-fill'}"></i></button>
+							      	<a href="/project/${project.id}">
+								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/api/file/${project.mainImg}" alt="First slide">
+							    	</a>
+						    	</div>
+						      	<div class="card-body mt-3">
+								<p class="card-text" style="color:#afafaf; font-size:0.8rem;">
+									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
+									<a href="#">${project.writerName}</a>
+								</p>
+								<p class="card-text"><a href="/project/${project.id}">${project.title}</a></p>
+								<div class="d-flex justify-content-between align-items-center">
+									<p class="text-danger fw-bold">${project.rate}% 달성</p>
+								</div>
+								</div>
+						    </div>
+					  	</div>
+					</c:forEach>
+				</div>
+				</c:if>
+				<c:if test="${attainment.size()==0}">
+					<div class="noList">
+						발견된 프로젝트가 없습니다.
+					</div>
+				</c:if>
+		    </div>
 
-				<div class="container mb-5 px-0">
-			      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			      </div>
-			    </div>
 
 			<h5 class="py-3 fw-bold">신규추천 프로젝트 &gt;</h5>
 
-				<div class="container mb-5 px-0">
-			      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
+			<div class="container mb-5 px-0">
+				<c:if test="${newProject.size()!=0}">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<c:forEach var="project" items="${newProject}">
+					  	<div class="col">
+						    <div class="card">
+						    	<div class="mainImgWrapper">
+							    	<button class="like btn"><i class="bi ${project.vote eq null ? 'bi-heart' : 'bi-heart-fill'}"></i></button>
+							      	<a href="/project/${project.id}">
+								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/api/file/${project.mainImg}" alt="First slide">
+							    	</a>
+						    	</div>
+						      	<div class="card-body mt-3">
+								<p class="card-text" style="color:#afafaf; font-size:0.8rem;">
+									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
+									<a href="#">${project.writerName}</a>
+								</p>
+								<p class="card-text"><a href="/project/${project.id}">${project.title}</a></p>
+								<div class="d-flex justify-content-between align-items-center">
+									<p class="text-danger fw-bold">${project.rate}% 달성</p>
+								</div>
+								</div>
+						    </div>
+					  	</div>
+					</c:forEach>
+				</div>
+				</c:if>
+				<c:if test="${newProject.size()==0}">
+					<div class="noList">
+						발견된 프로젝트가 없습니다.
+					</div>
+				</c:if>
+		    </div>
 
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			        <div class="col">
-			          <div class="card">
-			            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/blank" alt="First slide">
-
-			            <div class="card-body">
-			              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			              <div class="d-flex justify-content-between align-items-center">
-			                <div class="btn-group">
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                </div>
-			                <small class="text-muted">9 mins</small>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-
-			      </div>
-			    </div>
+			<h5 class="py-3 fw-bold">공개예정 프로젝트 &gt;</h5>
+			<div class="container mb-5 px-0">
+				<c:if test="${coming.size()!=0}">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<c:forEach var="project" items="${coming}">
+						 <div class="col">
+						    <div class="card">
+						    	<div class="mainImgWrapper">
+							    	<button class="like btn"><i class="bi ${project.vote eq null ? 'bi-heart' : 'bi-heart-fill'}"></i></button>
+							      	<a href="/project/${project.id}">
+								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/api/file/${project.mainImg}" alt="First slide">
+							    	</a>
+						    	</div>
+						      	<div class="card-body mt-3">
+								<p class="card-text" style="color:#afafaf; font-size:0.8rem;">
+									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
+									<a href="#">${project.writerName}</a>
+								</p>
+								<p class="card-text"><a href="/project/${project.id}">${project.title}</a></p>
+								<div class="d-flex justify-content-between align-items-center">
+								</div>
+								</div>
+						    </div>
+					  	</div>
+					</c:forEach>
+				</div>
+				</c:if>
+				<c:if test="${coming.size()==0}">
+					<div class="noList">
+						발견된 프로젝트가 없습니다.
+					</div>
+				</c:if>
+		    </div>
 
 
 		</div>
 	</main>
 	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
+	<script>
+		//좋아요 버튼 이벤트
+		$(".like").on("click", function(){
+			var target = $(this).next().attr("href") + "/like";
+			var btn = $(this);
+			$.ajax({
+				url: target,
+				type: "post",
+				success: function(data){
+					if(data==1){
+						btn.html('<i class="bi bi-heart-fill"></i>');
+					} else{
+						btn.html('<i class="bi bi-heart"></i>');
+					}
+				},
+				error: function(){
+					if(confirm("로그인 페이지로 이동합니다.")){
+						location.href = "/member/signin";
+					}
+				}
+			});
+		})
+		
+		$(".carousel-item").eq(0).addClass("active");
+		$(".contentWrapper").eq(0).css("background-color", "#ff9494");
+		$(".contentWrapper").eq(1).css("background-color", "#939597");
+		$(".contentWrapper").eq(2).css("background-color", "#F5dF4D");
+	</script>
 </body>
 </html>

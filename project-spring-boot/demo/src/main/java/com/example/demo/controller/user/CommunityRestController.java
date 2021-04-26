@@ -48,8 +48,8 @@ public class CommunityRestController {
 			result.put("count", communityService.getCountByCategory(params));
 		}
 		result.put("list", communityService.findByProjectId(params));
+		
 		return result;
-//		return communityService.findByProjectId(params);
 	}
 	
 	//프로젝트 커뮤니티 작성

@@ -10,26 +10,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.config.auth.dto.SessionMember;
-import com.example.demo.domain.dto.CommunityDto;
 import com.example.demo.domain.dto.ProjectCategoryDto;
 import com.example.demo.domain.dto.VoteDto;
-import com.example.demo.domain.vo.CommunityVo;
 import com.example.demo.domain.vo.ProejctAjaxListVo;
 import com.example.demo.domain.vo.ProjectFilteringVo;
 import com.example.demo.domain.vo.ProjectVo;
 import com.example.demo.service.RewardService;
 import com.example.demo.service.member.MemberService;
-import com.example.demo.service.project.CommunityService;
 import com.example.demo.service.project.ProjectService;
 
 import lombok.extern.java.Log;
@@ -65,6 +59,8 @@ public class ProjectController {
 		model.addAttribute("project", projectVo);
 		model.addAttribute("writer", memberService.findById(projectVo.getMemberId()));
 		model.addAttribute("rewardList", rewardService.findByProjectId(projectVo.getId()));
+		model.addAttribute("joinedProjectCount", projectService.joinedProjectCount(projectVo.getMemberId()));
+		model.addAttribute("createdProjectCount", projectService.createdProjectCount(projectVo.getMemberId()));
 		
 		return "/user/project/detail";
 	}
@@ -81,22 +77,29 @@ public class ProjectController {
 	}
 	
 	//프로젝트 좋아요 리스트 페이지
-		@GetMapping("/liked")
-		public String liked(Model model) {
-			log.info("project list");
-			
-			model.addAttribute("category", projectService.getCategory());
-			model.addAttribute("status", projectService.getStatus());
-			
-			return "/user/project/liked";
-		}
+	@GetMapping("/liked")
+	public String liked(Model model) {
+		log.info("project list");
+		
+		model.addAttribute("category", projectService.getCategory());
+		model.addAttribute("status", projectService.getStatus());
+		
+		return "/user/project/liked";
+	}
 	
 	//프로젝트 리스트 로드
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@ResponseBody
 	@GetMapping("/listajax")
-	public ProejctAjaxListVo getListAjax(ProjectFilteringVo filter){
+	public ProejctAjaxListVo getListAjax(ProjectFilteringVo filter, HttpSession session){
 		log.info("project list : category = " + filter.getCategory() + " , status = " + filter.getStatus());
+		
+		SessionMember member = (SessionMember) session.getAttribute("member");
+		if(member != null) {
+			filter.setMemberId(member.getId());
+		}
+		
+		filter.setLength(18);
 		
 		ProejctAjaxListVo proejctAjaxListVo = new ProejctAjaxListVo();
 		
