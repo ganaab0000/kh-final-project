@@ -1,6 +1,7 @@
-# 파이널 프로젝트
+# Tumbleup
 ## 주제
 * 크라우드 펀딩
+    * 아티스트와 후원자를 매칭하기 위한 플랫폼으로서 기획/제작 되었습니다.
 ## 팀원
 * 공주희 (jamjam306)
 * 노정권 (kwon6837)
@@ -9,13 +10,21 @@
 * 안승철 (graeen3)
 * 함든솔 (non093)
 ## 개발환경
-* OS : 
-* FW : Spring Framework
-* Front-end : javascript / jQuery / AJAX / JSON / HTML5 / CSS3
-* Back-end : 
-* WAS : 
-* DB : 
-* Developer Tools : 
-* 사용 API : 
+* OS
+    * Window 10
+* DevTools
+    * Spring Tool Suite 3, Sqldeveloper
+* DBMS
+    * Oracle 11g
+* Server
+    * Pivotal tc Server Developer Edtion v4.0
+* Language
+    * JAVA
+* Framework
+    * Spring Boot
+* Frontend 
+    * HTML5, CSS3, Javascript, Jquery, Bootstrap5, Chart.js(차트), Snackbar.js(알림창), Ckeditor5.js, Summernote.js
+* Backend
+    * Maven, Mybatis, JSTL, Spring Security, Iamport(결제모듈), Google SMTP(메일 인증), Oauth2(Google, Naver), Lombok
 ## 프로젝트 화면
 
