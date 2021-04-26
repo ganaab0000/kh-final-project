@@ -20,7 +20,7 @@
         * Iamport
         * Google Oauth2
         * Naver Oauth2
-    * ```application-user-api-key.properties``` 설정
+    * application-user-api-key.properties 설정
       ```properties
       #Google SMTP ID, PWD 설정
       spring.mail.username=id@gmail.com
@@ -29,7 +29,7 @@
       user.iamport.key=key
       user.iamport.secret=id
       ```
-    * ```application-oauth.properties``` 설정
+    * application-oauth.properties 설정
       ```properties
       # Google Oauth2 Key, Secret 설정
       spring.security.oauth2.client.registration.google.client-id=id
@@ -41,7 +41,7 @@
       spring.security.oauth2.client.registration.renaver.client-id=id
       spring.security.oauth2.client.registration.renaver.client-secret=key
       ```
-    * ```application-user.properties``` 설정
+    * application-user.properties 설정
       ```properties
       # 파일 업로드 폴더 설정
       user.file.upload.dir=C:/uploadfile
