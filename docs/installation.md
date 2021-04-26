@@ -14,11 +14,8 @@ https://github.com/ganaab0000/kh-final-project.git
     * test_data.sql
 
 ## STS
-
-### 개발 툴 설정
-* lombok eclipse 설정
+### lombok eclipse 설정
     * https://countryxide.tistory.com/16
-
 
 ### 파일 설정
 * 다음의 키를 발급
@@ -49,7 +46,6 @@ spring.security.oauth2.client.registration.naver.client-secret=key
 # 파일 업로드 폴더 설정
 user.file.upload.dir=C:/uploadfile
 ```
-
 
 
 ## Web Browser
