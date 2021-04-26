@@ -58,8 +58,8 @@
 #### 메인화면
 #### 회원 (송하준)
 
- <img src="/docs/img/hajun/image4.png"> | <img src="/docs/img/hajun/image2.png"> | <img src="/docs/img/hajun/image6.png"> | <img src="/docs/img/hajun/image10.png"><img src="/docs/img/hajun/image11.png">
-:-:|:-:|:-:|:-:
+ <img src="/docs/img/hajun/image4.png"  width="900px"> | <img src="/docs/img/hajun/image2.png"><img src="/docs/img/hajun/image6.png"> | <img src="/docs/img/hajun/image10.png"><img src="/docs/img/hajun/image11.png">
+:-:|:-:|:-:
  
  
  <img src="/docs/img/hajun/image5.png"> | <img src="/docs/img/hajun/image12.png"> | <img src="/docs/img/hajun/image1.png"> | <img src="/docs/img/hajun/image7.png"> | <img src="/docs/img/hajun/image13.png">  | <img src="/docs/img/hajun/image3.png"> 
