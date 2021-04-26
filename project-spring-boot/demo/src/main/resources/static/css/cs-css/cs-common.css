@@ -23,6 +23,7 @@ ul{
 	    padding: 1rem;
 		border: 1px solid rgb(230, 230, 230);
 	}
+
 .search-row{
 	    font-size:15px;
 	    font-weight: normal;
@@ -73,6 +74,17 @@ a:visited {
 	    letter-spacing: -0.2px;	    
 	    margin: 0px 0px 4px;	    
 	}
+.sPin{
+		display: flex;
+	    -webkit-box-align: center;
+	    align-items: center;
+	    font-size: 11px;
+	    font-weight: bold;
+	    color: #B1210E;
+	    line-height: 1.54;
+	    letter-spacing: -0.2px;	    
+	    margin: 0px 0px 4px;	    
+}	
 
 .title{
 		display: -webkit-box;

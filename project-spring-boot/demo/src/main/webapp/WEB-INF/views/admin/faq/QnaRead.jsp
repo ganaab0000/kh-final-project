@@ -10,8 +10,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/admin/common/head.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 
 <style>
 body {
@@ -184,45 +185,170 @@ input {
 	padding: 0px 0px 16px;
 	border-bottom: 1px solid rgb(230, 230, 230);
 }
+.date{
+	font-size: 13px;
+    line-height: 20px;
+    letter-spacing: -0.015em;
+}
+.cate{
+	float: right;
+}
+.cate>a{
+		text-decoration: none
+	}	
+	
+.cate > a:link{
+	color: rgb(39, 163, 255);
+	cursor: pointer;
+}
+.cate > a:visited {
+	text-decoration: none; 
+	 color: rgb(39, 163, 255);
+	}
+.dateCreated{
+	float: right;	
+}
+.pin{
+		display: flex;
+	    -webkit-box-align: center;
+	    align-items: center;
+	    font-size: 15px;
+	    font-weight: 400;
+	    color: rgb(158, 158, 158);
+	    line-height: 1.54;
+	    letter-spacing: -0.2px;	    
+	    margin: 0px 0px 4px;	    
+	}
+.pathPin{
+		display: flex;
+	    -webkit-box-align: center;
+	    align-items: center;
+	    font-size: 15px;
+	    font-weight: 400;
+	    color: black;
+	    line-height: 1.54;
+	    letter-spacing: -0.2px;	    
+	    margin: 0px 0px 4px;	    
+	}
+.button-large, input[type="button"] {
+    background-color: rgba(0, 0, 0, 1);
+    border: 0;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 2.72;
+    min-width: 190px;
+    padding: 0 1.9286em;
+    width: 100%;
+    margin-top: 1rem;
+}
+.isState{
+	padding: 25px 30px;
+	float: right;
+}
+.footer>p{
+	font-size: 12px;
+	color: rgb(158, 158, 158);
+}
+.footer>pathPin,
+.footer>filePin{
+	font-size: 12px;
+}
+.isState>button{
+	border: 1px solid rgb(230, 230, 230);
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #999;
+    height: 40px;   
+    -webkit-appearance: none;
+	
+}
 
 </style>
 </head>
+<script type="text/javascript">
+/* 	$(document).ready(function(){
+		$('#sendBtn').on('click' , function() {
+			location.href = '';
+		});
+		
+	}); */
 
-<body>
- 	
- 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
- 	
+</script>
+<body>     
+
+	<jsp:include page="/WEB-INF/views/admin/common/header.jsp"></jsp:include>
+	
 	<div class="container">
 		
 		<nav class="sub-nav">
 			<ol class="sub-menu">
-				<li title="FAQ">
-					<a href="${pageContext.request.contextPath}/cs/noticePage">공지사항</a>	
+				<li title="Q&A">
+					<a href="${pageContext.request.contextPath}/admin/qnaList">Q&A</a>	
 				</li>
 				<li title="상세페이지">
 					상세페이지
 				</li>
-			</ol>			
+			</ol>
+			<form class="search" action="/admin/nAdminSeach"  name="searchForm"  method="GET">
+				<input type="hidden" value="${search.searchType}"> 
+				<input type="search"  name="keyword"  value="${search.keyword}" placeholder="검색">
+				<button class="searchBtn" type="submit">검색</button>
+			</form>		
 		</nav>
 		
+		<jsp:include page="/WEB-INF/views/admin/common/sideNav.jsp"></jsp:include>
 		
 			<div class="article-container">
-					<form action="noticeDetail" method="get">
-							<input type="hidden" value="${notice.id }">
+					<form action="qRead" method="get" >
+							<input type="hidden" value="${qna.id }">
 							<div class="article-main">
-								<header>
-									<span>공지사항</span>
-									<h3>${notice.title}</h3>
-									<span>${notice.dateUpdated }</span>
-								</header>							
+								<header>									
+									<h3>${qna.title}</h3>
+									<span class="pin">${qna.email }</span>																		
+									<span class="date dateCreated"><fmt:formatDate  value="${qna.dateCreated }"  type="date"  pattern="yyyy.MM.dd"/></span>										
+								</header>
+														
 								<div class="content">
-									<c:out value="${notice.content}"  escapeXml = "false"/>
-								</div>		
-							</div>
+								<!--escapeXml = "false"  html 태그를 해석해서 보여줌  -->									
+									<c:out value="${qna.content}"  escapeXml = "false"/>
+								</div>
+								<div class="footer">
+									<hr>
+									<p>경로/후원번호:</p>
+									<span class="pathPin">${qna.path }</span>										
+									
+								</div>	
+								<div class="footer">
+									<p>첨부파일:</p>
+									<span  class="filePin">파일자리</span>
+								</div>	
+							</div>						
 					</form>
-			</div>
-			
+					<!-- <button type="button" id="sendBtn" class="button-large">문의답변</button>  -->
+					<form action="/admin/isState" method="post">					
+						<div class="isState ">
+							<input type="hidden" name="id" value="${qna.id }">
+							<c:choose>
+								<c:when test="${qna.isState eq 'Y' }">
+									<span>완료</span>
+									<input type="radio" name="isState"  value="Y" checked="checked">
+									<span>보류</span>
+									<input type="radio"  name="isState"  value="N" >
+									<button type="submit">확인</button>
+								</c:when>
+								<c:when test="${qna.isState eq 'N' }">
+									<span>완료</span>
+									<input type="radio" name="isState"  value="Y" >
+									<span>보류</span>
+									<input type="radio" name="isState"  value="N"  checked="checked">
+									<button type="submit" class="isStateBtn">확인</button>
+								</c:when>
+							</c:choose>
+						</div>	
+					</form>
+			</div>			
 		</div>
-		<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 </body>
 </html>

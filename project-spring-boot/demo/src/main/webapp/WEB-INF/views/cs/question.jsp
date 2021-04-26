@@ -191,53 +191,53 @@ ul {
 				</p>
 			</div>
 			
-		
+		<form action="/cs/QWrite"  method="post">
 			<div class="form-group">
 			    <label for="exampleInputEmail1">문의 유형</label>
-			    <select class="form-control" id="selectBox" name="selectBox">
+			    <select class="form-control" id="selectBox" name="header">
 			        <option value="" selected="selected">도움이 필요한 주제를 골라주세요</option>
-						  <option value="option1">[후원자]밀어주기(후원), 결제</option>
-						  <option value="option2">[후원자]후원내역관리, 선물수령</option>
-						  <option value="option3">[창작자]프로젝트올리기, 공개검토</option>
-						  <option value="option1">[창작자]정산, 후원자관리, 선물실행</option>
-						  <option value="option2">[일반]가입, 로그인, 계정관리</option>
-						  <option value="option3">[일반]사용상의 불편, 버그, 기타문의 </option>
-						  <option value="option3">[일반]탈퇴요청(계정삭제)</option>
+						  <option value="후원자">[후원자]밀어주기(후원), 결제</option>
+						  <option value="후원자">[후원자]후원내역관리, 선물수령</option>
+						  <option value="창작자">[창작자]프로젝트올리기, 공개검토</option>
+						  <option value="창작자">[창작자]정산, 후원자관리, 선물실행</option>
+						  <option value="일반">[일반]가입, 로그인, 계정관리</option>
+						  <option value="일반">[일반]사용상의 불편, 버그, 기타문의 </option>
+						  <option value="일반">[일반]탈퇴요청(계정삭제)</option>
 			    </select>
 		  	</div>
 
 		<div class="showList">
-			<form>
+		
 			  <div class="form-group">
 			    <label for="exampleInputEmail1">텀블업에 가입된 이메일 주소</label>
-			    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  required="required">
+			    <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp"  required="required">
 			    <small id="emailHelp" class="form-text text-muted">이 이메일 주소로 답변을 보내드립니다. 이 이메일을 확인하시기 어려우신 경우 문의 내용에 연락처를 남겨주세요. 비회원이시면 사용하시는 이메일을 적어주세요.</small>
 			  </div>
 			   <div class="form-group">
 			    <label for="exampleInputEmail1">문의 제목</label>
-			    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  required="required">   
+			    <input type="text" class="form-control" name="title" id="exampleInputEmail1" aria-describedby="emailHelp"  required="required">   
 			  </div>
 			
 			
 			  <div class="form-group">
 			    <label for="exampleTextarea">문의 내용</label>
-			    <textarea class="form-control" id="exampleTextarea" rows="3" required="required"></textarea>
+			    <textarea class="form-control" id="exampleTextarea" name="content" rows="3" required="required"></textarea>
 			  </div>
 			  <div class="form-group">
-			    <label for="exampleInputEmail1">후원번호</label>
-			    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
-			    <small id="emailHelp" class="form-text text-muted">이미 후원을 하셨다면 후원번호를 알려주세요. 내 후원 현황에서 확인할 수 있습니다.</small>
+			    <label for="exampleInputEmail1">프로젝트 제목 또는 고유주소</label>
+			    <input type="text" class="form-control" name="path"  id="exampleInputEmail1" aria-describedby="emailHelp" >
+			    <small id="emailHelp" class="form-text text-muted">고유주소란 프로젝트 페이지 주소 중 뒷부분을 말합니다. (예: /project의 경우 'project')</small>
 			  </div>
 			   <div class="form-check">
 			    <label class="form-check-label">
-			      <input type="checkbox" class="form-check-input" required="required">
+			      <input type="checkbox" class="form-check-input" value="Y" name="isConsent" required="required">
 			      개인정보 수집·이용에 동의합니다.
 			    </label>
 			     <small id="fileHelp" class="form-text text-muted">목적: 이용자 식별 및 문의 답변 / 제공 항목: 이메일 주소, 문의 내용 / 보유기간: 문의 해결 후 30일까지</small>
 			  </div>
 			  <div class="form-group">
 			    <label for="exampleInputFile">첨부 파일</label>
-			    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">   
+			    <input type="file" class="form-control-file" name="file" id="exampleInputFile" aria-describedby="fileHelp">   
 			  </div>
 			 
 			  <button type="submit" class="btn btn-primary button-large">제출</button>

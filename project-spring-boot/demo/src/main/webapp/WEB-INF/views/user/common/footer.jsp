@@ -22,7 +22,7 @@
 	    </ul>
 	    <ul class="nav">
 	      <li class="nav-item">
-	      <a href="#" class="nav-link px-2 btn btn-light">문의하기</a>
+	      <a href="${pageContext.request.contextPath}/cs/question" class="nav-link px-2 btn btn-light">문의하기</a>
 	      </li>
 	    </ul>
 	  </div>

@@ -56,21 +56,7 @@
 			<span><a class="active" href="${pageContext.request.contextPath}/admin/faqList">FAQ</a></span>
 			<span class="write"><a href="${pageContext.request.contextPath}/admin/faqWrite">FAQ등록</a></span>
 		</div>
-		<!-- 옵션선택 끝 -->
-		<!-- 
-		<div style="float: right;">
-			<select id="cntPerPage" name="sel" onchange="selChange()">
-				<option value="5"
-					<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
-				<option value="10"
-					<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
-				<option value="15"
-					<c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
-				<option value="20"
-					<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
-			</select>
-		</div> 
-		 -->
+	
 		 
 		   <div class="search-row">		 		
 			 	<form class="search" action="/admin/fAdminSeach"  name="searchForm" method="GET">		
