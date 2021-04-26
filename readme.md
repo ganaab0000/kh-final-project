@@ -99,7 +99,7 @@
 
 #### 계정관리 (송하준)
 
-<img src="/docs/img/hajun/image22.png"> | <img src="/docs/img/hajun/image15.png"> | <img src="/docs/img/hajun/image16.png">  | <img src="/docs/img/hajun/image17.png">  | <img src="/docs/img/hajun/image18.png"> 
+<img src="/docs/img/hajun/image22.png"> | <img src="/docs/img/hajun/image23.png"> | <img src="/docs/img/hajun/image24.png">  | <img src="/docs/img/hajun/image25.png">  | <img src="/docs/img/hajun/image26.png"> 
 :-:|:-:|:-:|:-:|:-:
 
 #### 프로젝트 관리
