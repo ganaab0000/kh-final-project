@@ -95,7 +95,7 @@
 
 <img src="/docs/img/hajun/image21.png">
 
-#### 계정관리 (송하준)
+#### 계정 관리 (송하준)
 
 <img src="/docs/img/hajun/image22.png"> | <img src="/docs/img/hajun/image23.png"> | <img src="/docs/img/hajun/image24.png">  | <img src="/docs/img/hajun/image25.png">  | <img src="/docs/img/hajun/image26.png"> 
 :-:|:-:|:-:|:-:|:-:
