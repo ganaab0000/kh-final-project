@@ -15,8 +15,8 @@ https://github.com/ganaab0000/kh-final-project.git
 
 ## STS
 * STS 설치
-### 개발 툴 설정 필수
-* lombok eclipse 설정 방법
+### 개발 툴 설정
+* lombok eclipse 설정
     * https://countryxide.tistory.com/16
 
 
