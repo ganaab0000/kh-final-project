@@ -12,7 +12,7 @@
 
 ## STS
 ### lombok eclipse 설정
-    * https://countryxide.tistory.com/16
+* [참고](https://countryxide.tistory.com/16)
 
 ### 파일 설정
 * 다음의 키를 발급
@@ -46,4 +46,4 @@ user.file.upload.dir=C:/uploadfile
 
 
 ## Web Browser
-http://localhost:9090 접속.
+* http://localhost:9090 접속
