@@ -2,7 +2,8 @@
 ## Githup
 [저장소](https://github.com/ganaab0000/kh-final-project)에서 프로젝트 다운로드.
 
-## Oralce 11g
+## 데이터베이스
+* Oralce 11g 설치
 * 데이터베이스에서 ```/database``` 폴더의 다음 파일들 실행
     * db_user.sql
     * ddl.sql
