@@ -7,8 +7,8 @@
 , [안승철](https://github.com/graeen3)
 , [함든솔](https://github.com/non093) 총 6명이 참가하였습니다.
 ## 목차
-0. [개발환경](#개발환경)
-0. [ERD](#ERD)
+1. [개발환경](#개발환경)
+2. [ERD](#ERD)
 
 ## 개발환경
 * OS
