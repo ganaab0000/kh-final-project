@@ -1,7 +1,7 @@
 
 <div align="center">
 
-<img src="/docs/img/android-chrome-192x192.png" alt="logo"  />
+<img src="/docs/img/android-chrome-192x192.png" alt="logo" width="100" />
 
 ##### 아티스트와 후원자를 연결해주는 플랫폼
 
