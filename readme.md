@@ -58,30 +58,28 @@
 #### 메인화면
 #### 회원 (송하준)
 
+* 로그인
+    * 자동 로그인, 소셜 로그인
+
  <img src="/docs/img/hajun/image4.png"  width="900px"> | <img src="/docs/img/hajun/image2.png"><img src="/docs/img/hajun/image6.png"> | <img src="/docs/img/hajun/image10.png"><img src="/docs/img/hajun/image11.png">
 :-:|:-:|:-:
- 
- 
+
+* 회원가입
+
  <img src="/docs/img/hajun/image5.png"> | <img src="/docs/img/hajun/image12.png"> | <img src="/docs/img/hajun/image1.png">
 :-:|:-:|:-:
  
+*  비밀번호 찾기
+
 <img src="/docs/img/hajun/image7.png"> | <img src="/docs/img/hajun/image13.png">  | <img src="/docs/img/hajun/image3.png"> 
 :-:|:-:|:-:
+
+* 회원정보 변경, 비밀번호 변경, 회원탈퇴
 
 <img src="/docs/img/hajun/image8.png"> | <img src="/docs/img/hajun/image15.png"> | <img src="/docs/img/hajun/image16.png">  | <img src="/docs/img/hajun/image17.png">  | <img src="/docs/img/hajun/image18.png"> 
 :-:|:-:|:-:|:-:|:-:
 
 
- 
-
-* 로그인
-* 회원가입
-* 자동 로그인
-* 소셜 로그인
-* 비밀번호 찾기
-* 회원정보 변경
-* 비밀번호 변경
-* 회원탈퇴
 #### 프로젝트 상세
 #### 프로젝트 목록
 #### 프로젝트 작성
