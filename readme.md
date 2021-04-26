@@ -58,24 +58,16 @@
 #### 메인화면
 #### 회원 (송하준)
 
-
-<div align="center">
-
-<img src="/docs/img/hajun/image4.png" width="32%">
-
-</div>
-
-
-
- <img src="/docs/img/hajun/image4.png" width="100%"> | <img src="/docs/img/hajun/image2.png" width="100%"> | <img src="/docs/img/hajun/image6.png" width="100%"> | <img src="/docs/img/hajun/image10.png" width="100%"><img src="/docs/img/hajun/image11.png" width="100%">
+ <img src="/docs/img/hajun/image4.png"> | <img src="/docs/img/hajun/image2.png"> | <img src="/docs/img/hajun/image6.png"> | <img src="/docs/img/hajun/image10.png"><img src="/docs/img/hajun/image11.png">
 :-:|:-:|:-:|:-:
  
  
- <img src="/docs/img/hajun/image5.png" width="100%"> | <img src="/docs/img/hajun/image12.png" width="100%"> | <img src="/docs/img/hajun/image1.png" width="100%"> | <img src="/docs/img/hajun/image7.png" width="100%"> | <img src="/docs/img/hajun/image13.png" width="100%">  | <img src="/docs/img/hajun/image3.png" width="100%"> 
+ <img src="/docs/img/hajun/image5.png"> | <img src="/docs/img/hajun/image12.png"> | <img src="/docs/img/hajun/image1.png"> | <img src="/docs/img/hajun/image7.png"> | <img src="/docs/img/hajun/image13.png">  | <img src="/docs/img/hajun/image3.png"> 
 :-:|:-:|:-:|:-:|:-:|:-:
 
-<img src="/docs/img/hajun/image8.png" width="100%"> | <img src="/docs/img/hajun/image15.png" width="100%"> | <img src="/docs/img/hajun/image16.png" width="100%">  | <img src="/docs/img/hajun/image17.png" width="100%">  | <img src="/docs/img/hajun/image18.png" width="100%"> 
+<img src="/docs/img/hajun/image8.png"> | <img src="/docs/img/hajun/image15.png"> | <img src="/docs/img/hajun/image16.png">  | <img src="/docs/img/hajun/image17.png">  | <img src="/docs/img/hajun/image18.png"> 
 :-:|:-:|:-:|:-:|:-:
+
 
  
 
