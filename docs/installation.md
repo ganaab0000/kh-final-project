@@ -11,7 +11,7 @@
     * test_data.sql
 
 ## STS
-### Lombok Eclipse 설정
+### Lombok 설정(Eclipse)
 * [참고](https://countryxide.tistory.com/16)
 
 ### 파일 설정
