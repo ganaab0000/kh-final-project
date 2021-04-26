@@ -88,12 +88,20 @@
 
 
 #### 알림 (송하준)
+<img src="/docs/img/hajun/image19.png">
+
 #### Header / Footer (송하준)
 
 ### 관리자
 #### 대시보드 (송하준)
-* 차트
+
+<img src="/docs/img/hajun/image21.png">
+
 #### 계정관리 (송하준)
+
+<img src="/docs/img/hajun/image22.png"> | <img src="/docs/img/hajun/image15.png"> | <img src="/docs/img/hajun/image16.png">  | <img src="/docs/img/hajun/image17.png">  | <img src="/docs/img/hajun/image18.png"> 
+:-:|:-:|:-:|:-:|:-:
+
 #### 프로젝트 관리
 #### 예약 관리
 #### 고객 관리
