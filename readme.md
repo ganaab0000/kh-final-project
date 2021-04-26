@@ -27,7 +27,7 @@
 * Backend
     * Maven, Mybatis, JSTL, Spring Security, Iamport(결제모듈), Google SMTP(메일 인증), Oauth2(Google, Naver), Lombok
 ## ERD
-* [dbdiagram.io에서 보기](https://dbdiagram.io/d/605840deecb54e10c33c9058)
+[dbdiagram.io에서 보기](https://dbdiagram.io/d/605840deecb54e10c33c9058)
 ![tumbleup_erd](/docs/img/tumbleup_erd.png)
 ## 유스 케이스
 
