@@ -57,6 +57,18 @@
 ### 회원
 #### 메인화면
 #### 회원 (송하준)
+
+ ![project example img](/docs/img/hajun/image4.png){:class="img-responsive"} | ![project example img](/docs/img/hajun/image6.png) ![project example img](/docs/img/hajun/image2.png) 
+:-:|:-:
+
+ ![project example img](/docs/img/hajun/image7.png) | ![project example img](/docs/img/hajun/image1.png)  ![project example img](/docs/img/hajun/image7.png) 
+
+
+
+ a | b | b | b 
+:-:|:-:|:-:|:-:
+ a | b | b | b 
+
 * 로그인
 * 회원가입
 * 자동 로그인
