@@ -42,6 +42,5 @@ public class ProjectVo {
 	private Integer sponsor;
 	private Integer collected;
 	private Long rate;
-	private Long remainDay;
-	private Long remainHour;
+	private String remainTime;
 }

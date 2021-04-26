@@ -40,10 +40,13 @@
 		}
         .projectMainImgWrapper{
             width: 660px;
-            height: auto;
+		    height: 490px;
+		    overflow: hidden;
+		    display: flex;
+		    justify-content: center;
         }
         .mainImg{
-            width: 100%;
+            width: auto;
         }
         .projectFundingStatus{
             width: auto;
@@ -129,6 +132,14 @@
         .reward{
             padding: 0.5rem;
         }
+        .reward .btn{
+        	border: 3px solid #00000087;
+		    border-radius: 15px;
+		    padding: 0.25rem 0.5rem;
+		    margin: 0 0.2rem;
+        }
+        .reward .btn:hover{
+        }
         .rewardSold {
 		    font-size: 0.75rem;
 		}
@@ -157,6 +168,9 @@
             text-align: center;
 		    display: flex;
 		    flex-grow: 1;
+        }
+        .submitBtn{
+        	width: 100%;
         }
         .projectJoin{
             text-align: center;
@@ -337,12 +351,7 @@
 	                <div class="remainTime statusItem">
 	                    <div class="statusTitle">남은 시간</div>
 	                    <div class="statusValue">
-	                    	<c:if test="${project.remainDay > 0}">
-					        	${project.remainDay}일
-				        	</c:if>
-				        	<c:if test="${project.remainDay == 0}">
-					        	${project.remainHour}시간
-				        	</c:if>
+				        	${project.remainTime}
 	                    </div>
 	                </div>
 	                <div class="sponsor statusItem">
@@ -380,7 +389,6 @@
             <div class="contentNav">
                 <a href="" id="storyLink">스토리</a>
                 <a href="" id="communityLink">커뮤니티 <span class="count"></span></a>
-                <a href="" id="">펀딩 안내</a>
             </div>
             <div class="contentWrapper">
                 <div class="mainColumn">
@@ -451,7 +459,7 @@
             </div>
         </div>
         <div class="projectJoin">
-            <button class="btn"><span class="totalAmount"></span>원 후원하기</button>
+            <button class="btn submitBtn"><span class="totalAmount"></span>원 후원하기</button>
         </div>
     </script>
 

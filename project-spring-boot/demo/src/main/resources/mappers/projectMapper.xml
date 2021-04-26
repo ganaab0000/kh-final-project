@@ -208,6 +208,7 @@
 		select rownum rn, T.* from (
 			select PV.*, V.member_id vote from vote V inner join project_view PV
 			on V.project_id = PV.id where V.member_id = #{memberId}
+			order by is_close asc, is_open desc, vote_count desc nulls last
 		) T )
 		<where>
 			<if test="page != null">

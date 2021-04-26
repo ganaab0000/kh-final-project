@@ -340,28 +340,30 @@
 						var listTable = document.querySelector("#listTable>tbody");
 						
 						for(var i=0; i<data.projectList.length; i++){
+							var project = data.projectList[i];
+							
 							var cardWrapper = $($("#cardTemplate").html());
 							var card = cardWrapper.children(".card");
 	
-							card.find(".mainImg").attr("src", "/api/file/" + data.projectList[i].mainImg);
-							card.find("a").attr("href", location.origin + "/project/" + data.projectList[i].id);
+							card.find(".mainImg").attr("src", "/api/file/" + project.mainImg);
+							card.find("a").attr("href", location.origin + "/project/" + project.id);
 							
 							var cardBody = card.children(".card-body");
-							cardBody.find(".cardTitle").text(data.projectList[i].title);
-							cardBody.find(".cardCategory").text(data.projectList[i].projectCategory).attr("href", location.origin + "/project/list?category=" + data.projectList[i].projectCategoryId);
-							cardBody.find(".cardWriter").text(data.projectList[i].writerName).attr("href", location.origin + "/member/" + data.projectList[i].memberId);
-							cardBody.find(".cardSubTitle").text(data.projectList[i].subTitle);
+							cardBody.find(".cardTitle").text(project.title);
+							cardBody.find(".cardCategory").text(project.projectCategory).attr("href", location.origin + "/project/list?category=" + project.projectCategoryId);
+							cardBody.find(".cardWriter").text(project.writerName).attr("href", location.origin + "/member/" + project.memberId);
+							cardBody.find(".cardSubTitle").text(project.subTitle);
 	
 							var cardFooter = card.children(".card-footer");
 							
-							cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
-							let rate = data.projectList[i].rate;
+							cardFooter.find(".collected").text((project.collected == null ? 0 : project.collected) + "원");
+							let rate = project.rate;
 							rate = rate==null ? 0 : rate;
 							cardFooter.find(".rate").text(rate + "%");
 							cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
-							if(data.projectList[i].isOpen == 'Y' && data.projectList[i].isClose == 'N'){
-								cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
-							} else if(data.projectList[i].isOpen == 'N'){
+							if(project.isOpen == 'Y' && project.isClose == 'N'){
+								cardFooter.find(".remainTime").text(project.remainTime + " 남음");
+							} else if(project.isOpen == 'N'){
 								cardFooter.empty();
 								let btn = $("<button class='btn comingSoon'></button>");
 								btn.text("공개 예정");
@@ -370,17 +372,17 @@
 								})
 								cardFooter.append(btn);
 							} else{
-								if(data.projectList[i].collected >= data.projectList[i].targetAmount){
-									cardFooter.find(".remainTime").text(data.projectList[i].sponsor + "명의 후원으로 펀딩 성공");
+								if(project.collected >= project.targetAmount){
+									cardFooter.find(".remainTime").text(project.sponsor + "명의 후원으로 펀딩 성공");
 								} else{
-									cardFooter.find(".remainTime").text("펀딩 실패");
+									cardFooter.find(".remainTime").text("펀딩 무산");
 								}
 							}
 							
 							$(".cardContainer").append(cardWrapper);
 							
 							var like = card.find(".like");
-							if(data.projectList[i].vote!=null){
+							if(project.vote!=null){
 								like.html('<i class="bi bi-heart-fill"></i>');
 							} else{
 								like.html('<i class="bi bi-heart"></i>');

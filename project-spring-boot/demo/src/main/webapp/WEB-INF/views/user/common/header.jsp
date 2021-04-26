@@ -118,6 +118,7 @@
 					<div class="modelMenuItemContainer">
 						<div class="modelMenuItem"><a href="/project/list">모든 프로젝트</a></div>
 						<div class="modelMenuItem"><a href="/project/list?status=1&minRate=75&maxRate=99">성공 임박 프로젝트</a></div>
+						<div class="modelMenuItem"><a href="/project/list?status=1&sort=2">신규 추천 프로젝트</a></div>
 						<div class="modelMenuItem"><a href="/project/list?status=3">공개 예정 프로젝트</a></div>
 					</div>
 					<div class="modalDivider"></div>

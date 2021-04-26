@@ -1,6 +1,8 @@
 package com.example.demo.service.project;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +20,6 @@ import com.example.demo.domain.vo.ProjectVo;
 import com.example.demo.repository.ProjectCategoryRepository;
 import com.example.demo.repository.ProjectRepository;
 import com.example.demo.repository.ProjectStatusCategoryRepository;
-import com.example.demo.repository.ReserveRepository;
 import com.example.demo.repository.VoteRepository;
 
 @Service
@@ -45,9 +46,22 @@ public class ProjectServiceImpl implements ProjectService{
 		list.stream()
 			.forEach(vo->{
 				LocalDateTime now = LocalDateTime.now();
-				LocalDateTime closed = vo.getDateProjectClosed().toLocalDate().atStartOfDay();
-				vo.setRemainDay(ChronoUnit.DAYS.between(now, closed));
-				vo.setRemainHour(ChronoUnit.HOURS.between(now, closed));
+				LocalDateTime closed = Instant.ofEpochMilli( vo.getDateProjectClosed().getTime() )
+                        .atZone( ZoneId.systemDefault() )
+                        .toLocalDateTime();
+				
+				Long remainTime = ChronoUnit.DAYS.between(now, closed);
+				String suffix = "일";
+				if(remainTime==0) {
+					remainTime = ChronoUnit.HOURS.between(now, closed);
+					suffix = "시간";
+				}
+				if(remainTime==0) {
+					remainTime = ChronoUnit.MINUTES.between(now, closed);
+					suffix = "분";
+				}
+				vo.setRemainTime(remainTime + suffix);
+				
 			});
 		return list;
 	}
@@ -59,9 +73,20 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		//잔여일
 		LocalDateTime now = LocalDateTime.now();
-		LocalDateTime closed = projectVo.getDateProjectClosed().toLocalDate().atStartOfDay();
-		projectVo.setRemainDay(ChronoUnit.DAYS.between(now, closed));
-		projectVo.setRemainHour(ChronoUnit.HOURS.between(now, closed));
+		LocalDateTime closed = Instant.ofEpochMilli( projectVo.getDateProjectClosed().getTime() )
+		                            .atZone( ZoneId.systemDefault() )
+		                            .toLocalDateTime();
+		Long remainTime = ChronoUnit.DAYS.between(now, closed);
+		String suffix = "일";
+		if(remainTime==0) {
+			remainTime = ChronoUnit.HOURS.between(now, closed);
+			suffix = "시간";
+		}
+		if(remainTime==0) {
+			remainTime = ChronoUnit.MINUTES.between(now, closed);
+			suffix = "분";
+		}
+		projectVo.setRemainTime(remainTime + suffix);
 
 		return projectVo;
 	}
@@ -107,9 +132,21 @@ public class ProjectServiceImpl implements ProjectService{
 		list.stream()
 			.forEach(vo->{
 				LocalDateTime now = LocalDateTime.now();
-				LocalDateTime closed = vo.getDateProjectClosed().toLocalDate().atStartOfDay();
-				vo.setRemainDay(ChronoUnit.DAYS.between(now, closed));
-				vo.setRemainHour(ChronoUnit.HOURS.between(now, closed));
+				LocalDateTime closed = Instant.ofEpochMilli( vo.getDateProjectClosed().getTime() )
+                        .atZone( ZoneId.systemDefault() )
+                        .toLocalDateTime();
+				
+				Long remainTime = ChronoUnit.DAYS.between(now, closed);
+				String suffix = "일";
+				if(remainTime==0) {
+					remainTime = ChronoUnit.HOURS.between(now, closed);
+					suffix = "시간";
+				}
+				if(remainTime==0) {
+					remainTime = ChronoUnit.MINUTES.between(now, closed);
+					suffix = "분";
+				}
+				vo.setRemainTime(remainTime + suffix);
 			});
 		return list;
 	}
