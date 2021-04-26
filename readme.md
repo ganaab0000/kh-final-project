@@ -58,6 +58,7 @@
 #### 메인화면
 #### 회원 (송하준)
 
+<img src="/docs/img/hajun/image4.png" width="100" height="100">
  ![project example img](/docs/img/hajun/image4.png){:class="img-responsive"} | ![project example img](/docs/img/hajun/image6.png) ![project example img](/docs/img/hajun/image2.png) 
 :-:|:-:
 
