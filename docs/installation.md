@@ -1,20 +1,25 @@
-# 실행
-
-## 데이터베이스 구성
-Oralce 11g
-* db_user.sql
-* ddl.sql
-* default_data.sql
-* test_data.sql
-
-## 개발 툴 설정 필수
-* lombok eclipse 설정 방법
-    * https://countryxide.tistory.com/16
-## 다운로드
+# 설치
+## Githup
 Githup에서 프로젝트 다운로드.
 ```txt
 https://github.com/ganaab0000/kh-final-project.git
 ```
+
+## 데이터베이스 구성
+* Oralce 11g 설치
+* 데이터베이스에서 ```/database``` 폴더의 다음 파일들 실행
+    * db_user.sql
+    * ddl.sql
+    * default_data.sql
+    * test_data.sql
+
+## STS
+* STS 설치
+## 개발 툴 설정 필수
+* lombok eclipse 설정 방법
+    * https://countryxide.tistory.com/16
+
+
 ## 키 발급
 * 다음의 키를 발급
     * Google SMTP
