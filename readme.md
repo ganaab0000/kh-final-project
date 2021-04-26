@@ -20,7 +20,7 @@
 * Framework
     * Spring Boot
 * Frontend 
-    * HTML5, CSS3, Javascript, Jquery, Bootstrap5, Chart.js(차트), Snackbar.js(알림창), Ckeditor5.js, Summernote.js
+    * HTML5, CSS3, Javascript, Jquery, Bootstrap5, Chart.js(차트), Snackbar.js(알림창), Summernote.js
 * Backend
     * Maven, Mybatis, JSTL, Spring Security, Iamport(결제모듈), Google SMTP(메일 인증), Oauth2(Google, Naver), Lombok
 ## ERD
