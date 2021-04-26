@@ -62,8 +62,11 @@
 :-:|:-:|:-:
  
  
- <img src="/docs/img/hajun/image5.png"> | <img src="/docs/img/hajun/image12.png"> | <img src="/docs/img/hajun/image1.png"> | <img src="/docs/img/hajun/image7.png"> | <img src="/docs/img/hajun/image13.png">  | <img src="/docs/img/hajun/image3.png"> 
-:-:|:-:|:-:|:-:|:-:|:-:
+ <img src="/docs/img/hajun/image5.png"> | <img src="/docs/img/hajun/image12.png"> | <img src="/docs/img/hajun/image1.png">
+:-:|:-:|:-:
+ 
+<img src="/docs/img/hajun/image7.png"> | <img src="/docs/img/hajun/image13.png">  | <img src="/docs/img/hajun/image3.png"> 
+:-:|:-:|:-:
 
 <img src="/docs/img/hajun/image8.png"> | <img src="/docs/img/hajun/image15.png"> | <img src="/docs/img/hajun/image16.png">  | <img src="/docs/img/hajun/image17.png">  | <img src="/docs/img/hajun/image18.png"> 
 :-:|:-:|:-:|:-:|:-:
