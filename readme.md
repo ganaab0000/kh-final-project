@@ -1,14 +1,11 @@
 # TUMBLEUP
-## 주제
-* 크라우드 펀딩
-    * 아티스트와 후원자를 매칭하기 위한 플랫폼으로서 기획/제작 되었습니다.
-## 팀원
-* 공주희 (jamjam306)
-* 노정권 (kwon6837)
-* 박효길 (hg19910)
-* 송하준 (ganaab0000)
-* 안승철 (graeen3)
-* 함든솔 (non093)
+'아티스트와 후원자를 연결해주는 플랫폼'을 주제로 기획 / 제작된 웹 서비스입니다. KH정보교육원 - 스마트 콘텐츠융합 응용SW 엔지니어 양성과정 'TUMBLEUP'의 파이널 프로젝트로 기획되었으며
+[공주희](https://github.com/jamjam306)
+, [노정권](https://github.com/kwon6837)
+, [박효길](https://github.com/hg19910)
+, [송하준](https://github.com/ganaab0000)
+, [안승철](https://github.com/graeen3)
+, [함든솔](https://github.com/non093) 총 6명이 참가하였습니다.
 ## 개발환경
 * OS
     * Window 10
