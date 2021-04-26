@@ -32,7 +32,7 @@
 
 ## 유스 케이스
 
- ![tumbleup_erd](/docs/img/usecase_1.jpg) | ![tumbleup_erd](/docs/img/usecase_2.jpg)
+ ![tumbleup_erd](/docs/img/usecase_2.jpg) | ![tumbleup_erd](/docs/img/usecase_1.jpg)
 :-------------------------:|:-------------------------:
 
 
