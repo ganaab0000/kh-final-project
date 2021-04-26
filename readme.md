@@ -37,7 +37,7 @@
 * [DB Diagram IO에서 보기](https://dbdiagram.io/d/605840deecb54e10c33c9058)
 
 ![tumbleup_erd](/docs/img/tumbleup_erd.png)
-## 유스 케이스
+## 유스케이스
 
  ![tumbleup_erd](/docs/img/usecase_2.jpg) | ![tumbleup_erd](/docs/img/usecase_1.jpg)
 :-------------------------:|:-------------------------:
