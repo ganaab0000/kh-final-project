@@ -37,7 +37,7 @@ spring.security.oauth2.client.registration.google.client-secret=key
 # Naver Oauth2 Key, Secret 설정
 spring.security.oauth2.client.registration.naver.client-id=id
 spring.security.oauth2.client.registration.naver.client-secret=key
-# Naver(추가 권한 페이지) Oauth2 Key, Secret 설정
+# Naver Oauth2 Key, Secret 설정 (추가 권한 페이지)
 spring.security.oauth2.client.registration.renaver.client-id=id
 spring.security.oauth2.client.registration.renaver.client-secret=key
 ```
