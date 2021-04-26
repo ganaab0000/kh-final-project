@@ -1,9 +1,6 @@
 # 설치
 ## Githup
-Githup에서 프로젝트 다운로드.
-```txt
-https://github.com/ganaab0000/kh-final-project.git
-```
+[Githup](https://github.com/ganaab0000/kh-final-project)에서 프로젝트 다운로드.
 
 ## 데이터베이스 구성
 * Oralce 11g 설치
