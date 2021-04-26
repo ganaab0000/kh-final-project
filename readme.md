@@ -1,5 +1,14 @@
-# TUMBLEUP
+
+<div align="center">
+
+<img src="/docs/img/favicon-32x32.png" alt="logo"  />
+
+
+</div>
+
+# TUMBLEUP 
 > 아티스트와 후원자를 연결해주는 플랫폼
+
 
 '아티스트와 후원자를 연결해주는 플랫폼'을 주제로 기획 / 제작된 프로젝트입니다. KH정보교육원 - 스마트 콘텐츠융합 응용SW 엔지니어 양성과정 'TUMBLEUP'의 파이널 프로젝트로 기획되었으며
 [공주희](https://github.com/jamjam306)
