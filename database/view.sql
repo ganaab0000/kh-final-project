@@ -9,5 +9,3 @@ left outer join (select R.project_id, count(R.id) sponsor, sum(RR.reward_sum) co
     left outer join reserve_reward RR on R.id = rr.reserve_id where R.reserve_status_category_id = 1 or R.reserve_status_category_id = 2 group by R.project_id
 )RRR on P.id = RRR.project_id
 left outer join (select project_id, count(*) vote_count from vote group by project_id) VC on P.id = VC.project_id;
-
-select * from project_view order by id;
