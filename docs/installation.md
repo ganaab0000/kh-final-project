@@ -14,13 +14,13 @@ https://github.com/ganaab0000/kh-final-project.git
     * test_data.sql
 
 ## STS
-* STS 설치
+
 ### 개발 툴 설정
 * lombok eclipse 설정
     * https://countryxide.tistory.com/16
 
 
-### 키 발급
+### 파일 설정
 * 다음의 키를 발급
     * Google SMTP
     * Iamport
