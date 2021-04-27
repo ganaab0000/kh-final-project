@@ -68,8 +68,9 @@
 ##### 로그인
  <img src="/docs/img/hajun/image4.png"  width="900px"> | <img src="/docs/img/hajun/image2.png"><img src="/docs/img/hajun/image6.png"> | <img src="/docs/img/hajun/image10.png"><img src="/docs/img/hajun/image11.png">
 :-:|:-:|:-:
-* 자동 로그인
+* 자동 로그인 (Remember-me)
 * 소셜 로그인 (Google, Naver)
+* Spring Security 기반 구현
 
 ##### 회원가입
  <img src="/docs/img/hajun/image5.png"> | <img src="/docs/img/hajun/image12.png"> | <img src="/docs/img/hajun/image1.png">
