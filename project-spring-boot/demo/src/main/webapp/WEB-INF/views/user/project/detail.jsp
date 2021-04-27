@@ -100,6 +100,9 @@
             width: 240px;
             height: 50px;
             margin-right: 1rem;
+            background-color: lightcoral;
+		   color: white;
+		   font-weight: bold;
         }
         .like{
             width: 50px;
@@ -133,8 +136,6 @@
             padding: 0.5rem;
         }
         .reward .btn{
-        	border: 3px solid #00000087;
-		    border-radius: 15px;
 		    padding: 0.25rem 0.5rem;
 		    margin: 0 0.2rem;
         }
@@ -168,6 +169,7 @@
             text-align: center;
 		    display: flex;
 		    flex-grow: 1;
+  			justify-content: center;
         }
         .submitBtn{
         	width: 100%;
@@ -199,9 +201,13 @@
             float: right;
         }
         
-        .like{
+        button.like{
         	padding: 0;
+        	border: 1px solid lightcoral;
         }
+		button.like.btn:hover {
+		    background: #f0808042;
+		}
         .noList{
 		    margin-top: 200px;
 		    text-align: center;
@@ -224,9 +230,6 @@
 		.communityBtnWrapper{
 			position: relative;
 			border: none;
-		}
-		.communityBtnWrapper>button{
-			background-color: lightgray;
 		}
 		.story{
 			padding: 2rem 1.5rem;
@@ -277,9 +280,6 @@
 		.bi-heart-fill{
 			color: #ff4b4b;
 		}
-		button.like.btn:hover {
-		    background: rgb(0 0 0 / 25%);
-		}
 		.ck.ck-content{
 		    height: 400px;
 		}
@@ -313,6 +313,14 @@
 		    background: lightcoral;
 		    font-weight: bold;
 		}
+		.disabled{
+			pointer-events: none;
+    		opacity: .65;
+		}
+		.formHeader {
+		    text-align: center;
+		    margin: 1rem 0;
+		}
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
 </head>
@@ -322,6 +330,7 @@
 	<c:set var="writerProfileImg" value="${writer.profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/'+=writer.profileImg}"/>
 	<c:set var="isLoggedIn" value="${member==null ? false : true}"/>
 	<c:set var="isOpen" value="${project.isOpen eq 'Y'}" />
+	<c:set var="isClose" value="${project.isClose eq 'Y'}" />
 	
 	<div class="main">
         <div class="projectInfo ${isOpen ? '' : 'notOpen'}">
@@ -340,36 +349,6 @@
                 <img height="490" class="mainImg" src="/api/file/${project.mainImg}" alt="">
             </div>
             <div class="projectFundingStatus ${isOpen ? '' : 'notOpen'}">
-            	<c:if test="${isOpen}">
-	                <div class="collected statusItem">
-	                    <div class="statusTitle">모인 금액</div>
-	                    <div class="statusValue">
-	                    	<fmt:formatNumber value="${project.collected}" pattern="#,###"/>원
-	                    	<span class="statusRate"><fmt:formatNumber value="${project.rate}" pattern="#,###"/>%</span>
-	                    </div>
-	                </div>
-	                <div class="remainTime statusItem">
-	                    <div class="statusTitle">남은 시간</div>
-	                    <div class="statusValue">
-				        	${project.remainTime}
-	                    </div>
-	                </div>
-	                <div class="sponsor statusItem">
-	                    <div class="statusTitle">후원자</div>
-	                    <div class="statusValue">${project.sponsor }명</div>
-	                </div>
-	                <div class="fundingInfo">
-	                    <div class="fundingInfoHeader">펀딩 진행중</div>
-	                    <div class="fundingInfoContent">
-				                      목표 금액인 <fmt:formatNumber value="${project.targetAmount}" pattern="#,###"/>원이 모여야만 결제됩니다.<br>
-				                      결제는 <fmt:formatDate value="${project.dateProjectClosed}" pattern="yyyy년 MM월 dd일"/>에 다함께 진행됩니다.
-	                    </div>
-	                </div>
-	                <div class="projectBtnWrapper">
-	                    <button class="join btn">프로젝트 밀어주기</button>
-	                    <button class="like btn"><i class="bi bi-heart-fill"></i></button>
-	                </div>
-            	</c:if>
             	<c:if test="${!isOpen}">
             		<div class="projectCategory">
 	                    <a href="list?category=${project.projectCategoryId}"><span>${project.projectCategory}</span></a>
@@ -383,6 +362,50 @@
             			<fmt:formatDate value="${project.dateProjectStarted}" pattern="yyyy년 MM월 dd일 HH시 mm분"/> 공개 예정
             		</button></div>
             	</c:if>
+            	<c:if test="${isOpen}">
+	                <div class="collected statusItem">
+	                    <div class="statusTitle">모인 금액</div>
+	                    <div class="statusValue">
+	                    	<fmt:formatNumber value="${project.collected}" pattern="#,###"/>원
+	                    	<span class="statusRate"><fmt:formatNumber value="${project.rate}" pattern="#,###"/>%</span>
+	                    </div>
+	                </div>
+	                <div class="remainTime statusItem">
+	                    <div class="statusTitle">남은 시간</div>
+	                    <div class="statusValue">
+				        	${isClose ? '종료' : project.remainTime}
+	                    </div>
+	                </div>
+	                <div class="sponsor statusItem">
+	                    <div class="statusTitle">후원자</div>
+	                    <div class="statusValue">${project.sponsor}명</div>
+	                </div>
+	                <div class="fundingInfo">
+	                    <div class="fundingInfoHeader">${isClose ? '펀딩 종료' : '펀딩 진행중'}</div>
+	                    <div class="fundingInfoContent">
+	                    	<c:if test="${isClose }">
+	                    		<c:if test="${project.collected >= project.targetAmount }">
+						                      목표 금액인 <fmt:formatNumber value="${project.targetAmount}" pattern="#,###"/>원을 달성했습니다.<br>
+						                      결제는 <fmt:formatDate value="${project.dateProjectClosed}" pattern="yyyy년 MM월 dd일"/>에 다함께 진행됩니다.
+		                    	</c:if>
+	                    		<c:if test="${project.collected < project.targetAmount }">
+		                    		목표 금액을 달성하지 못했습니다.<br>
+									결제가 진행되지 않습니다.
+		                    	</c:if>
+	                    	</c:if>
+	                    	<c:if test="${!isClose }">
+					                      목표 금액인 <fmt:formatNumber value="${project.targetAmount}" pattern="#,###"/>원이 모여야만 결제됩니다.<br>
+					                      결제는 <fmt:formatDate value="${project.dateProjectClosed}" pattern="yyyy년 MM월 dd일"/>에 다함께 진행됩니다.
+	                    	</c:if>
+	                    </div>
+	                </div>
+	                <div class="projectBtnWrapper">
+                    	<c:if test="${isClose }"><button class="join btn disabled">프로젝트가 종료되었습니다</button></c:if>
+                    	<c:if test="${!isClose }"><button class="join btn">프로젝트 밀어주기</button></c:if>
+	                    <button class="like btn"><i class="bi bi-heart-fill"></i></button>
+	                </div>
+            	</c:if>
+            	
             </div>
         </div>
         <div class="projectContent">
@@ -393,10 +416,10 @@
             <div class="contentWrapper">
                 <div class="mainColumn">
                     <div class="contentBox communityBtnWrapper">
-                        <button class="filter communityBtn btn" value="1">모든 게시글</button>
-                        <button class="filter communityBtn btn" value="2">창작자 업데이트</button>
-                        <button class="communityBtn communityWriteBtn btn">글쓰기</button>
-                        <button class="backToCommunity btn">커뮤니티로 돌아가기</button>
+                        <button class="filter communityBtn btn btn-outline-primary" value="1">모든 게시글</button>
+                        <button class="filter communityBtn btn btn-outline-primary" value="2">창작자 업데이트</button>
+                        <button class="communityBtn communityWriteBtn btn btn-outline-primary">글쓰기</button>
+                        <button class="backToCommunity btn btn-outline-primary">커뮤니티로 돌아가기</button>
                     </div>
                     <div class="content"></div>
                 </div>
@@ -414,7 +437,7 @@
                     </div>
                     <div class="rewardWrapper">
                         <div class="rewardHeader">선물 목록</div>
-                        <div class="rewardList">
+                        <div class="rewardList ${isClose ? 'disabled' : '' }">
                         	<div class="reward contentBox">
                                 <div class="rewardInfo">
                                 	<input type="hidden" name="rewardPrice" value="1000">
@@ -452,14 +475,14 @@
             </div>
             <div class="extraComment">*추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.</div>
             <div class="extraSupportBtnWrapper">
-                <button class="extraSupportBtn btn" value="5000">+5천원</button>
-                <button class="extraSupportBtn btn" value="10000">+1만원</button>
-                <button class="extraSupportBtn btn" value="50000">+5만원</button>
-                <button class="extraSupportBtn btn" value="100000">+10만원</button>
+                <button class="extraSupportBtn btn btn-outline-primary" value="5000">+5천원</button>
+                <button class="extraSupportBtn btn btn-outline-primary" value="10000">+1만원</button>
+                <button class="extraSupportBtn btn btn-outline-primary" value="50000">+5만원</button>
+                <button class="extraSupportBtn btn btn-outline-primary" value="100000">+10만원</button>
             </div>
         </div>
         <div class="projectJoin">
-            <button class="btn submitBtn"><span class="totalAmount"></span>원 후원하기</button>
+            <button class="btn submitBtn btn-outline-primary"><span class="totalAmount"></span>원 후원하기</button>
         </div>
     </script>
 
@@ -492,7 +515,7 @@
     <script type="text/template" id="replyFormTemplate">
 		<form id="replyForm">
 			<div class="input-group mb-3">
-				<input type="text" name="content" id="replyContent" class="form-control" aria-describedby="button-addon2">
+				<textarea class="form-control" placeholder="Leave a comment here" name="content" id="replyContent"></textarea>
 				<button class="btn btn-outline-secondary" type="submit" id="replySubmitBtn">등록</button>
 			</div>
 		</form>
@@ -511,13 +534,13 @@
         </div>
 	</script>
     <script type="text/template" id="postFormTemplate">
-        <div class="communityPostForm contentBox">
+        <div class="communityPostForm">
             <div class="formHeader">게시글 작성하기</div>
             <form action="" id="postForm">
 				<input type="hidden" name="id" class="id">
                 <textarea name="content" id="content"></textarea>
-                <div>
-                    <button id="submitBtn" class="btn">올리기</button>
+                <div style="text-align: right;">
+                    <button id="submitBtn" class="btn btn-outline-primary">올리기</button>
                 </div>
             </form>
         </div>
@@ -588,6 +611,8 @@
         var max;
         //커뮤니티 불러오기
         $(".communityBtn.filter").on("click", function(){
+        	$(".communityBtn.filter").removeClass("active");
+        	$(this).addClass("active");
             $(".writeBtn").show();
             $(".content").children().remove();
             $(".content").append($($("#communityBtnWrapperTemplate").html()));

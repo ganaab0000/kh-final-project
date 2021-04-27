@@ -13,12 +13,14 @@
 			min-width: 320px;
 			margin: 0 auto;
 			padding: 10px;
+			margin-bottom: 50px;
 		}
 		.cardWrapper{
 			margin: 2rem 0;
 		}
 		.card{
 			padding: 10px;
+			border: none;
 		}
 		.mainImgWrapper{
 			height: 220px;
@@ -29,11 +31,22 @@
 		}
 		img.card-img-top.mainImg {
 		    width: auto;
-		    height: 220px;
+		    height: 240px;
 		}
-		.like{
-			position: absolute;
-			right: 0;
+		.card-body {
+		    flex: 1 1 auto;
+		    padding: 1rem 0;
+		}
+		a.card-title.cardTitle {
+		    font-size: 20px;
+		    font-weight: bold;
+		}
+		.linkBtn {
+		    margin: 0.5rem 0;
+		}
+		.linkBtn>*{
+			font-size: 0.8rem;
+			color: #545454;
 		}
 		a{
 			color: black;
@@ -67,12 +80,15 @@
 		.collectedBar{
 			position: absolute;
 			height: 100%;
-			background-color: #F5dF4D;
+			background-color: lightcoral;
 		}
 		.remainTime{
 			float: right;
+			font-size: 0.8rem;
+   			color: #545454;
 		}
 		.rate{
+			font-size: 0.8rem;
 		}
 		.filterWrapper{
 			position: relative;
@@ -92,11 +108,15 @@
 		    font-weight: bold;
 		    color: darkgray;
 		}
+		.like{
+			position: absolute;
+			right: 0;
+		}
 		.bi-heart-fill{
 			color: #ff4b4b;
 		}
 		button.like.btn:hover {
-		    background: rgb(0 0 0 / 25%);
+		    background: #f0808042;
 		}
 		button.like.btn {
 		    border-radius: 100%;
@@ -104,17 +124,36 @@
 		    height: 30px;
 		    padding: 0;
 		}
-		.likedTitle{
-		    font-size: 3rem;
-		    margin-bottom: 2rem;
-		    padding: 2rem 0;
-		    border-bottom: 1px solid lightgray;
+		#keyword>button.btn-close {
+		    width: 14px;
+		    height: 14px;
+		    padding: 0;
+		    margin-left: 0.25rem;
+		}
+		input.min, input.max{
+			width: 120px;
+		}
+		div.customFilterWrapper{
+			padding: 0.5rem;
+		}
+		button.customFilter {
+		    width: 100%;
+		    margin-top: 0.5rem;
 		}
 		button.btn.comingSoon {
 		    width: 100%;
 		    color: white;
 		    background: lightcoral;
 		    font-weight: bold;
+		}
+		.likedTitle{
+		    font-size: 3rem;
+		    margin-bottom: 2rem;
+		    padding: 2rem 0;
+		    border-bottom: 1px solid lightgray;
+		}
+		p.card-text.cardSubTitle {
+			font-size: 14px;
 		}
 	</style>
 </head>

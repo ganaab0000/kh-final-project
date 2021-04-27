@@ -106,6 +106,20 @@
 		color: white;
 		text-decoration: none;
 	}
+	.linkBtn>* {
+	    font-size: 0.8rem;
+	    color: #545454;
+	    text-decoration: none;
+	}
+	.card .title>a{
+	    text-decoration: none;
+	    color: black;
+		font-size: 20px;	
+		font-weight: bold;	
+	}
+	.card a:hover{
+	    text-decoration: underline;
+	}
 	</style>
 </head>
 <body>
@@ -162,11 +176,11 @@
 							    	</a>
 						    	</div>
 						      	<div class="card-body mt-3">
-								<p class="card-text" style="color:#afafaf; font-size:0.8rem;">
+								<p class="card-text linkBtn" style="color:#afafaf; font-size:0.8rem;">
 									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
 									<a href="#">${project.writerName}</a>
 								</p>
-								<p class="card-text"><a href="/project/${project.id}">${project.title}</a></p>
+								<p class="card-text title"><a href="/project/${project.id}">${project.title}</a></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<p class="text-danger fw-bold">${project.rate}% 달성</p>
 								</div>
@@ -199,11 +213,11 @@
 							    	</a>
 						    	</div>
 						      	<div class="card-body mt-3">
-								<p class="card-text" style="color:#afafaf; font-size:0.8rem;">
+								<p class="card-text linkBtn" style="color:#afafaf; font-size:0.8rem;">
 									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
 									<a href="#">${project.writerName}</a>
 								</p>
-								<p class="card-text"><a href="/project/${project.id}">${project.title}</a></p>
+								<p class="card-text title"><a href="/project/${project.id}">${project.title}</a></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<p class="text-danger fw-bold">${project.rate}% 달성</p>
 								</div>
@@ -234,11 +248,11 @@
 							    	</a>
 						    	</div>
 						      	<div class="card-body mt-3">
-								<p class="card-text" style="color:#afafaf; font-size:0.8rem;">
+								<p class="card-text linkBtn" style="color:#afafaf; font-size:0.8rem;">
 									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
 									<a href="#">${project.writerName}</a>
 								</p>
-								<p class="card-text"><a href="/project/${project.id}">${project.title}</a></p>
+								<p class="card-text title"><a href="/project/${project.id}">${project.title}</a></p>
 								<div class="d-flex justify-content-between align-items-center">
 								</div>
 								</div>

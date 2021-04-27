@@ -20,7 +20,7 @@
 		}
 		.card{
 			padding: 10px;
-			border: 1px solid #f080803d;
+			border: none;
 		}
 		.mainImgWrapper{
 			height: 220px;
@@ -31,14 +31,14 @@
 		}
 		img.card-img-top.mainImg {
 		    width: auto;
-		    height: 220px;
+		    height: 240px;
 		}
 		.card-body {
 		    flex: 1 1 auto;
 		    padding: 1rem 0;
 		}
 		a.card-title.cardTitle {
-		    font-size: 1.5rem;
+		    font-size: 20px;
 		    font-weight: bold;
 		}
 		.linkBtn {
@@ -80,7 +80,7 @@
 		.collectedBar{
 			position: absolute;
 			height: 100%;
-			background-color: #F5dF4D;
+			background-color: lightcoral;
 		}
 		.remainTime{
 			float: right;
@@ -116,7 +116,7 @@
 			color: #ff4b4b;
 		}
 		button.like.btn:hover {
-		    background: rgb(0 0 0 / 25%);
+		    background: #f0808042;
 		}
 		button.like.btn {
 		    border-radius: 100%;
@@ -146,28 +146,34 @@
 		    background: lightcoral;
 		    font-weight: bold;
 		}
+		.filterWrapper:nth-child(1)>button.filter{
+			margin-right: 0.5rem;
+		}
+		p.card-text.cardSubTitle {
+			font-size: 14px;
+		}
 	</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 	<div class="main">
 		<div class="dropdown filterWrapper">
-			<button class="btn filter" type="button" id="keyword"></button>
-			<button class="btn dropdown-toggle filter" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">카테고리</button>
+			<button class="btn filter btn-outline-primary" type="button" id="keyword"></button>
+			<button class="btn dropdown-toggle filter btn-outline-primary" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">카테고리</button>
 			<ul class="dropdown-menu" aria-labelledby="category">
 				<li><button class="dropdown-item" name="category" value="">전체 보기</button></li>
 				<c:forEach var="category" items="${category}">
 					<li><button class="dropdown-item" name="category" value="${category.id}">${category.name}</button></li>
 				</c:forEach>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">상태</button>
+			<button class="btn dropdown-toggle filter btn-outline-primary" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">상태</button>
 			<ul class="dropdown-menu" aria-labelledby="status">
 				<li><button class="dropdown-item" name="status" value="">전체 프로젝트</button></li>
 				<li><button class="dropdown-item" name="status" value="1">진행중인 프로젝트</button></li>
 				<li><button class="dropdown-item" name="status" value="2">성사된 프로젝트</button></li>
 				<li><button class="dropdown-item" name="status" value="3">공개 예정 프로젝트</button></li>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
+			<button class="btn dropdown-toggle filter btn-outline-primary" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
 			<ul class="dropdown-menu" aria-labelledby="rate">
 				<li><button class="dropdown-item" name="rate" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="rate" value="1">75% 이하</button></li>
@@ -191,7 +197,7 @@
 					</div>
 				</li>
 			</ul>
-			<button class="btn dropdown-toggle filter" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">모인 금액</button>
+			<button class="btn dropdown-toggle filter btn-outline-primary" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">모인 금액</button>
 			<ul class="dropdown-menu" aria-labelledby="collected">
 				<li><button class="dropdown-item" name="collected" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="collected" value="1">1백만원 이하</button></li>
@@ -216,11 +222,11 @@
 					</div>
 				</li>
 			</ul>
-			<button class="btn filterReset">필터 초기화</button>
+			<button class="btn filterReset btn-outline-primary">필터 초기화</button>
 		</div>
 		<div class="filterWrapper">
 			<span id="projectCount"></span>개의 프로젝트가 있습니다.
-			<button class="btn dropdown-toggle filter" value="인기순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
+			<button class="btn dropdown-toggle filter btn-outline-primary" value="인기순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="sort">
 				<li><button class="dropdown-item" name="sort" value="1">인기순</button></li>
