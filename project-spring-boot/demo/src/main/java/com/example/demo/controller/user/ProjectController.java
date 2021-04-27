@@ -148,7 +148,6 @@ public class ProjectController {
 	
 	//좋아요 업데이트
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@ResponseBody
 	@PostMapping("/{projectId}/like")
 	public ResponseEntity<Integer> updateLike(@PathVariable("projectId") Integer projectId, HttpSession session) {
 		SessionMember member = (SessionMember) session.getAttribute("member");

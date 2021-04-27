@@ -15,7 +15,7 @@
 	    	</if>
 	    	<if test="memberId != null">
 	    		select PV.*, V.member_id vote from project_view PV
-   				left outer join (select * from vote where member_id = 1) V on PV.id = V.project_id
+   				left outer join (select * from vote where member_id = #{memberId}) V on PV.id = V.project_id
 	    	</if>
 		)
 		<where>
@@ -30,7 +30,7 @@
 					and is_open = 'Y' and is_close = 'N'
 				</if>
 				<if test="status == 2">
-					and is_close = 'Y' and project_status_category_id = 3
+					and is_close = 'Y' and collected >= target_amount
 				</if>
 				<if test="status == 3">
 					and is_open = 'N'
@@ -94,24 +94,25 @@
 				</choose>
 			</if>
 		</where>
-		order by is_close asc, is_open desc,
+		order by 
 		<choose>
 			<when test="sort == null or sort==1">
-				vote_count desc nulls last
+				is_close asc, is_open desc, vote_count desc nulls last
 			</when>
 			<when test="sort==2">
-				id desc
+				is_close asc, is_open desc, id desc
 			</when>
 			<when test="sort==3">
-				sponsor desc nulls last
+				is_open desc, sponsor desc nulls last
 			</when>
 			<when test="sort==4">
-				collected desc nulls last
+				is_open desc, collected desc nulls last
 			</when>
 			<when test="sort==5">
-				date_project_closed asc
+				is_close asc, is_open desc, date_project_closed asc
 			</when>
 		</choose>
+		, id asc
 		) T )
 		<where>
 			<if test="page != null">
@@ -137,7 +138,7 @@
 					and is_open = 'Y' and is_close = 'N'
 				</if>
 				<if test="status == 2">
-					and is_close = 'Y' and project_status_category_id = 3
+					and is_close = 'Y' and collected >= target_amount
 				</if>
 				<if test="status == 3">
 					and is_open = 'N'
