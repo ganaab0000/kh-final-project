@@ -141,7 +141,7 @@ body {
 	</div>
 	
 	<div class="container-container">
-		<form id="writeForm" method="post" action="/admin/notice/noticeWrite">
+		<form id="writeForm" method="post" action="/admin/noticeWrite">
 			<button id="resetBtn" type="reset">취소</button>
 			<button id="writeBtn" type="button">저장</button>
 			

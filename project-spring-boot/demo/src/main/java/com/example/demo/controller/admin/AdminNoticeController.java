@@ -16,6 +16,7 @@ import com.example.demo.admin.service.AdminNoticeService;
 import com.example.demo.cs.entity.FaqDto;
 import com.example.demo.cs.entity.NoticeDto;
 import com.example.demo.cs.entity.PagingVO;
+import com.example.demo.cs.entity.QnaDto;
 import com.example.demo.cs.entity.Search;
 import com.example.demo.cs.service.NoticeService;
 
@@ -79,7 +80,7 @@ public class AdminNoticeController {
 		
 		model.addAttribute("msg", "등록!");
 		
-		return "redirect:cs/noticePage";			
+		return "redirect:noticeList";			
 	}
 	
 	@GetMapping("/admin/nModify")
@@ -115,6 +116,19 @@ public class AdminNoticeController {
 		
 		return "admin/notice/nAdminSeach";
 		
-	}
+	}	
+
+	 @PostMapping("/admin/NDelete")
+		public String noticeDelete(NoticeDto noticeDto, Model model) throws Exception{
+		
+		 log.info("noticeDelete()");
+		 
+		 adminNoticeService.Ndelete(noticeDto);		 
+		 
+		 model.addAttribute("msg", "삭제완료");
+		 
+		return "redirect:/admin/noticeList";	
+		 
+	 }
 	
 }

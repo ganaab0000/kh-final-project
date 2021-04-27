@@ -28,6 +28,12 @@ public class AdminNoticeServiceImpl implements AdminNoticeService{
 		repository.update(noticeDto);
 	}
 
+	@Override
+	public void Ndelete(NoticeDto noticeDto) throws Exception {
+		// TODO Auto-generated method stub
+		repository.Ndelete(noticeDto);
+	}
+
 	
 	
 	
