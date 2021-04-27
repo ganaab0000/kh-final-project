@@ -9,6 +9,7 @@
     * ddl.sql
     * default_data.sql
     * test_data.sql
+    * view.sql
 
 ## STS
 * Lombok 설정(Eclipse)
