@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 <jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/cs-css/cs-common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

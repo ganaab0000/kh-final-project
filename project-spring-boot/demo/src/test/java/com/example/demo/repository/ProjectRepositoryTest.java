@@ -37,15 +37,6 @@ public class ProjectRepositoryTest {
 		System.out.println("list size : " + list.size());
 	}
 	
-//	@Test
-	public void findForMain() {
-		ProjectFilteringVo vo = new ProjectFilteringVo();
-		List<ProjectDto> list = projectRepository.findForMain(vo);
-		Stream<ProjectDto> stream = list.stream();
-		
-		stream.forEach(p->System.out.println(p.getTitle()));
-	}
-	
 	@Test
 	public void findByFilter() {
 		ProjectFilteringVo filter = new ProjectFilteringVo();

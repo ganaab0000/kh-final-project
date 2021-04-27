@@ -17,7 +17,9 @@ public interface CommunityRepository {
 
 	public List<CommunityVo> findByProjectId(HashMap<String, Object> params);
 
-	public List<CommunityVo> findReply(Integer parentId);
+	public int getCountByCategory(HashMap<String, Object> params);
+	
+	public List<CommunityVo> findReply(HashMap<String, Object> params);
 	
 	public CommunityVo findById(Integer id);
 

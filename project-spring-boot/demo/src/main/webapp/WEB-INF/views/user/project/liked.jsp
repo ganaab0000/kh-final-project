@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<style>
 		.main{
@@ -21,8 +21,15 @@
 			padding: 10px;
 		}
 		.mainImgWrapper{
-			height: 240px;
-			position: relative;
+			height: 220px;
+		    position: relative;
+		    overflow: hidden;
+		    display: flex;
+		    justify-content: center;
+		}
+		img.card-img-top.mainImg {
+		    width: auto;
+		    height: 220px;
 		}
 		.like{
 			position: absolute;
@@ -102,6 +109,12 @@
 		    margin-bottom: 2rem;
 		    padding: 2rem 0;
 		    border-bottom: 1px solid lightgray;
+		}
+		button.btn.comingSoon {
+		    width: 100%;
+		    color: white;
+		    background: lightcoral;
+		    font-weight: bold;
 		}
 	</style>
 </head>
@@ -187,42 +200,54 @@
 						var listTable = document.querySelector("#listTable>tbody");
 						
 						for(var i=0; i<data.projectList.length; i++){
+							var project = data.projectList[i];
+							
 							var cardWrapper = $($("#cardTemplate").html());
 							var card = cardWrapper.children(".card");
 	
-							card.find(".mainImg").attr("src", "http://127.0.0.1:9090/api/file/" + data.projectList[i].mainImg);
-							card.find("a").attr("href", location.origin + "/project/" + data.projectList[i].id);
+							card.find(".mainImg").attr("src", "/api/file/" + project.mainImg);
+							card.find("a").attr("href", location.origin + "/project/" + project.id);
 							
 							var cardBody = card.children(".card-body");
-							cardBody.find(".cardTitle").text(data.projectList[i].title);
-							cardBody.find(".cardCategory").text(data.projectList[i].projectCategory).attr("href", location.origin + "/project/list?category=" + data.projectList[i].projectCategoryId);
-							cardBody.find(".cardWriter").text(data.projectList[i].writerName).attr("href", location.origin + "/member/" + data.projectList[i].memberId);
-							cardBody.find(".cardSubTitle").text(data.projectList[i].subTitle);
+							cardBody.find(".cardTitle").text(project.title);
+							cardBody.find(".cardCategory").text(project.projectCategory).attr("href", location.origin + "/project/list?category=" + project.projectCategoryId);
+							cardBody.find(".cardWriter").text(project.writerName).attr("href", location.origin + "/member/" + project.memberId);
+							cardBody.find(".cardSubTitle").text(project.subTitle);
 	
 							var cardFooter = card.children(".card-footer");
-							cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
-							cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
-							var rate = data.projectList[i].rate;
+							
+							cardFooter.find(".collected").text((project.collected == null ? 0 : project.collected) + "원");
+							let rate = project.rate;
 							rate = rate==null ? 0 : rate;
 							cardFooter.find(".rate").text(rate + "%");
 							cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
+							if(project.isOpen == 'Y' && project.isClose == 'N'){
+								cardFooter.find(".remainTime").text(project.remainTime + " 남음");
+							} else if(project.isOpen == 'N'){
+								cardFooter.empty();
+								let btn = $("<button class='btn comingSoon'></button>");
+								btn.text("공개 예정");
+								btn.click(function(){
+									location.href = $(this).parents(".card").find(".card-title").attr("href");
+								})
+								cardFooter.append(btn);
+							} else{
+								if(project.collected >= project.targetAmount){
+									cardFooter.find(".remainTime").text(project.sponsor + "명의 후원으로 펀딩 성공");
+								} else{
+									cardFooter.find(".remainTime").text("펀딩 무산");
+								}
+							}
 							
 							$(".cardContainer").append(cardWrapper);
 							
 							var like = card.find(".like");
-							//프로젝트 좋아요 로딩
-							$.ajax({
-								url: location.origin + "/project/" + data.projectList[i].id + "/like",
-								type: "get",
-								async: false,
-								success: function(data){
-									if(data==1){
-										like.html('<i class="bi bi-heart-fill"></i>');
-									} else{
-										like.html('<i class="bi bi-heart"></i>');
-									}
-								}
-							});
+							if(project.vote!=null){
+								like.html('<i class="bi bi-heart-fill"></i>');
+							} else{
+								like.html('<i class="bi bi-heart"></i>');
+							}
+							
 							//좋아요 버튼 이벤트
 							like.on("click", function(){
 								var target = $(this).next().attr("href") + "/like";
@@ -231,11 +256,11 @@
 									url: target,
 									type: "post",
 									success: function(){
+										removeAllChild(document.querySelector(".cardContainer"));
+										page = 1;
+										loadingList();
 									}
 								});
-								removeAllChild(document.querySelector(".cardContainer"));
-								page = 1;
-								loadingList();
 							})
 						}
 						$(".noList").hide();

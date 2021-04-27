@@ -33,10 +33,14 @@ public class ProjectVo {
 	private Integer projectCategoryId;
 	private Integer projectStatusCategoryId;
 	
+	private Integer vote;
+	
+	private String isOpen;
+	private String isClose;
+	
 	private String projectCategory;
 	private Integer sponsor;
 	private Integer collected;
 	private Long rate;
-	private Long remainDay;
-	private Long remainHour;
+	private String remainTime;
 }

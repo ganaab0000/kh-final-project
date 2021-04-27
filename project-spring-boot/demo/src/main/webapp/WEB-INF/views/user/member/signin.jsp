@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<style>
 		html,
@@ -77,8 +77,8 @@
 		<div class="form-signin-border">
 
 	    <form action="/member/signin" method="post">
-	        <i class="bi-github" role="img" aria-label="GitHub"
-	        style="font-size: 2rem; color: black;"></i>
+	        <img class="my-2" src="/img/logo/favicon-32x32.png" />
+	        
 		    <h1 class="h3 mb-3 fw-normal">로그인</h1>
 
 			<c:if test="${empty MEMBER_SIGNIN_EXCEPTION and not empty SPRING_SECURITY_LAST_EXCEPTION}">
@@ -97,10 +97,10 @@
 
 
 		   	<p>
-	        	<a href="/oauth2/authorization/google" class="w-100 btn btn-lg btn-outline-dark" role="button">구글 아이디로 로그인</a>
+	        	<a href="/oauth2/authorization/google" class="w-100 btn btn-lg btn-light" role="button">구글 아이디로 로그인</a>
 		   	</p>
 		   	<p>
-				<a href="/oauth2/authorization/naver" class="w-100 btn btn-lg btn-outline-dark" role="button">네이버 아이디로 로그인</a>
+				<a href="/oauth2/authorization/naver" class="w-100 btn btn-lg btn-light" role="button">네이버 아이디로 로그인</a>
 		   	</p>
 			<hr>
 

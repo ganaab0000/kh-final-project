@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<style>
 		.main{
@@ -13,20 +13,40 @@
 			min-width: 320px;
 			margin: 0 auto;
 			padding: 10px;
+			margin-bottom: 50px;
 		}
 		.cardWrapper{
 			margin: 2rem 0;
 		}
 		.card{
 			padding: 10px;
+			border: 1px solid #f080803d;
 		}
 		.mainImgWrapper{
-			height: 240px;
-			position: relative;
+			height: 220px;
+		    position: relative;
+		    overflow: hidden;
+		    display: flex;
+		    justify-content: center;
 		}
-		.like{
-			position: absolute;
-			right: 0;
+		img.card-img-top.mainImg {
+		    width: auto;
+		    height: 220px;
+		}
+		.card-body {
+		    flex: 1 1 auto;
+		    padding: 1rem 0;
+		}
+		a.card-title.cardTitle {
+		    font-size: 1.5rem;
+		    font-weight: bold;
+		}
+		.linkBtn {
+		    margin: 0.5rem 0;
+		}
+		.linkBtn>*{
+			font-size: 0.8rem;
+			color: #545454;
 		}
 		a{
 			color: black;
@@ -64,8 +84,11 @@
 		}
 		.remainTime{
 			float: right;
+			font-size: 0.8rem;
+   			color: #545454;
 		}
 		.rate{
+			font-size: 0.8rem;
 		}
 		.filterWrapper{
 			position: relative;
@@ -85,6 +108,10 @@
 		    font-weight: bold;
 		    color: darkgray;
 		}
+		.like{
+			position: absolute;
+			right: 0;
+		}
 		.bi-heart-fill{
 			color: #ff4b4b;
 		}
@@ -96,6 +123,28 @@
 		    width: 30px;
 		    height: 30px;
 		    padding: 0;
+		}
+		#keyword>button.btn-close {
+		    width: 14px;
+		    height: 14px;
+		    padding: 0;
+		    margin-left: 0.25rem;
+		}
+		input.min, input.max{
+			width: 120px;
+		}
+		div.customFilterWrapper{
+			padding: 0.5rem;
+		}
+		button.customFilter {
+		    width: 100%;
+		    margin-top: 0.5rem;
+		}
+		button.btn.comingSoon {
+		    width: 100%;
+		    color: white;
+		    background: lightcoral;
+		    font-weight: bold;
 		}
 	</style>
 </head>
@@ -113,10 +162,10 @@
 			</ul>
 			<button class="btn dropdown-toggle filter" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">상태</button>
 			<ul class="dropdown-menu" aria-labelledby="status">
-				<li><button class="dropdown-item" name="status" value="">전체 보기</button></li>
-				<c:forEach var="status" items="${status}">
-					<li><button class="dropdown-item" name="status" value="${status.id}">${status.detail}</button></li>
-				</c:forEach>
+				<li><button class="dropdown-item" name="status" value="">전체 프로젝트</button></li>
+				<li><button class="dropdown-item" name="status" value="1">진행중인 프로젝트</button></li>
+				<li><button class="dropdown-item" name="status" value="2">성사된 프로젝트</button></li>
+				<li><button class="dropdown-item" name="status" value="3">공개 예정 프로젝트</button></li>
 			</ul>
 			<button class="btn dropdown-toggle filter" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
 			<ul class="dropdown-menu" aria-labelledby="rate">
@@ -126,9 +175,9 @@
 				<li><button class="dropdown-item" name="rate" value="3">100% 이상</button></li>
 				<li><hr class="dropdown-divider"></li>
 				<li>
-					<div class="">
-						<div class="">직접 입력</div>
-						<div class="">
+					<div class="customFilterWrapper">
+						<div class="customFilterHeader">직접 입력</div>
+						<div class=customFilterInput>
 							<span class="">
 							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="minRate" class="min" value="">
 							<span class="">%</span>
@@ -136,7 +185,7 @@
 							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="5" name="maxRate" class="max" value="">
 							<span class="">%</span></span>
 						</div>
-						<button class="customFilter">
+						<button class="customFilter btn">
 							<span>입력값 적용</span>
 						</button>
 					</div>
@@ -151,9 +200,9 @@
 				<li><button class="dropdown-item" name="collected" value="4">5천만원 이상</button></li>
 				<li><hr class="dropdown-divider"></li>
 				<li>
-					<div class="">
-						<div class="">직접 입력</div>
-						<div class="">
+					<div class="customFilterWrapper">
+						<div class=customFilterHeader>직접 입력</div>
+						<div class="customFilterInput">
 							<span class="">
 							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="minCollected" class="min" value="">
 							<span class="">원</span>
@@ -161,7 +210,7 @@
 							<input type="text" pattern="[0-9]*" min="0" max="9999" placeholder="" maxlength="13" name="maxCollected" class="max" value="">
 							<span class="">원</span></span>
 						</div>
-						<button class="customFilter">
+						<button class="customFilter btn">
 							<span>입력값 적용</span>
 						</button>
 					</div>
@@ -171,13 +220,14 @@
 		</div>
 		<div class="filterWrapper">
 			<span id="projectCount"></span>개의 프로젝트가 있습니다.
-			<button class="btn dropdown-toggle filter" value="최신순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
+			<button class="btn dropdown-toggle filter" value="인기순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="sort">
-				<li><button class="dropdown-item" name="sort" value="1">최신순</button></li>
-				<li><button class="dropdown-item" name="sort" value="2">최다 후원수</button></li>
-				<li><button class="dropdown-item" name="sort" value="3">최다 금액순</button></li>
-				<li><button class="dropdown-item" name="sort" value="4">마감 임박순</button></li>
+				<li><button class="dropdown-item" name="sort" value="1">인기순</button></li>
+				<li><button class="dropdown-item" name="sort" value="2">최신순</button></li>
+				<li><button class="dropdown-item" name="sort" value="3">최다 후원수</button></li>
+				<li><button class="dropdown-item" name="sort" value="4">최다 금액순</button></li>
+				<li><button class="dropdown-item" name="sort" value="5">마감 임박순</button></li>
 			</ul>
 		</div>
 		
@@ -290,42 +340,54 @@
 						var listTable = document.querySelector("#listTable>tbody");
 						
 						for(var i=0; i<data.projectList.length; i++){
+							var project = data.projectList[i];
+							
 							var cardWrapper = $($("#cardTemplate").html());
 							var card = cardWrapper.children(".card");
 	
-							card.find(".mainImg").attr("src", "http://127.0.0.1:9090/api/file/" + data.projectList[i].mainImg);
-							card.find("a").attr("href", location.origin + "/project/" + data.projectList[i].id);
+							card.find(".mainImg").attr("src", "/api/file/" + project.mainImg);
+							card.find("a").attr("href", location.origin + "/project/" + project.id);
 							
 							var cardBody = card.children(".card-body");
-							cardBody.find(".cardTitle").text(data.projectList[i].title);
-							cardBody.find(".cardCategory").text(data.projectList[i].projectCategory).attr("href", location.origin + "/project/list?category=" + data.projectList[i].projectCategoryId);
-							cardBody.find(".cardWriter").text(data.projectList[i].writerName).attr("href", location.origin + "/member/" + data.projectList[i].memberId);
-							cardBody.find(".cardSubTitle").text(data.projectList[i].subTitle);
+							cardBody.find(".cardTitle").text(project.title);
+							cardBody.find(".cardCategory").text(project.projectCategory).attr("href", location.origin + "/project/list?category=" + project.projectCategoryId);
+							cardBody.find(".cardWriter").text(project.writerName).attr("href", location.origin + "/member/" + project.memberId);
+							cardBody.find(".cardSubTitle").text(project.subTitle);
 	
 							var cardFooter = card.children(".card-footer");
-							cardFooter.find(".collected").text((data.projectList[i].collected == null ? 0 : data.projectList[i].collected) + "원");
-							cardFooter.find(".remainTime").text((data.projectList[i].remainDay > 0 ? data.projectList[i].remainDay + "일" : data.projectList[i].remainHour + "시간")+" 남음");
-							var rate = data.projectList[i].rate;
+							
+							cardFooter.find(".collected").text((project.collected == null ? 0 : project.collected) + "원");
+							let rate = project.rate;
 							rate = rate==null ? 0 : rate;
 							cardFooter.find(".rate").text(rate + "%");
 							cardFooter.find(".collectedBar").width((rate > 100 ? 100 : rate) + "%");
+							if(project.isOpen == 'Y' && project.isClose == 'N'){
+								cardFooter.find(".remainTime").text(project.remainTime + " 남음");
+							} else if(project.isOpen == 'N'){
+								cardFooter.empty();
+								let btn = $("<button class='btn comingSoon'></button>");
+								btn.text("공개 예정");
+								btn.click(function(){
+									location.href = $(this).parents(".card").find(".card-title").attr("href");
+								})
+								cardFooter.append(btn);
+							} else{
+								if(project.collected >= project.targetAmount){
+									cardFooter.find(".remainTime").text(project.sponsor + "명의 후원으로 펀딩 성공");
+								} else{
+									cardFooter.find(".remainTime").text("펀딩 무산");
+								}
+							}
 							
 							$(".cardContainer").append(cardWrapper);
 							
 							var like = card.find(".like");
-							//프로젝트 좋아요 로딩
-							$.ajax({
-								url: location.origin + "/project/" + data.projectList[i].id + "/like",
-								type: "get",
-								async: false,
-								success: function(data){
-									if(data==1){
-										like.html('<i class="bi bi-heart-fill"></i>');
-									} else{
-										like.html('<i class="bi bi-heart"></i>');
-									}
-								}
-							});
+							if(project.vote!=null){
+								like.html('<i class="bi bi-heart-fill"></i>');
+							} else{
+								like.html('<i class="bi bi-heart"></i>');
+							}
+							
 							//좋아요 버튼 이벤트
 							like.on("click", function(){
 								var target = $(this).next().attr("href") + "/like";
@@ -375,15 +437,22 @@
 							if(index!=0) newParams += "&";
 							newParams += key + "=" + value;
 							
-							$("#"+key).text($("button[name="+key+"][value="+value+"]").text());
-							$("button[name="+key+"][value="+value+"]").addClass("active");
-							$("#keyword").show();
-							if(key=='keyword') $("#keyword").show().text(value);
+							if(key!="keyword") $("#"+key).text($("button[name="+key+"][value="+value+"]").text());
+							if(key=='keyword'){
+								$("#keyword").show().text(value);
+								var closeBtn = $('<button type="button" class="btn-close" aria-label="Close"></button>');
+								$("#keyword").append(closeBtn);
+								closeBtn.on("click", function(){
+									keyword = "";
+									loadingList();
+								})
+							}
 							index++;
 						} else{
 							$("#"+key).text($("#"+key).val());
 							if(key=='keyword') $("#keyword").hide();
 						}
+						$("button[name="+key+"][value='"+value+"']").addClass("active");
 					}
 					history.pushState(null, null, newParams);
 				}
