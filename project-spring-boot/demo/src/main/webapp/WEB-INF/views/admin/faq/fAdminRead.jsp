@@ -204,10 +204,42 @@ input {
 	text-decoration: none; 
 	 color: rgb(39, 163, 255);
 	}
+.isState{
+	padding: 25px 10px;
+	float: right;
+}
+.footer>p{
+	font-size: 12px;
+	color: rgb(158, 158, 158);
+}
+.footer>pathPin,
+.footer>filePin{
+	font-size: 12px;
+}
+.isState>button{
+	border: 1px solid rgb(230, 230, 230);
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #999;
+    height: 40px;   
+    -webkit-appearance: none;
+	width: 80px;
+}	
 
 </style>
 </head>
-
+<script>
+	$(function(){
+		$("#deleteBtn").on("click", function(){
+ 			if(confirm("삭제하시겠습니까?")){
+ 				self.location.href="/admin/FDelete";
+ 			}
+ 			else{
+ 				return false;
+ 			}
+ 		});
+	});
+</script>
 <body>     
 
 	<jsp:include page="/WEB-INF/views/admin/common/header.jsp"></jsp:include>
@@ -248,7 +280,15 @@ input {
 								</div>		
 							</div>
 					</form>
-			</div>			
+			</div>	
+			
+			 <form action="/admin/FDelete" method="post"> 
+					<div class="isState ">
+						<input type="hidden" name="id"  value="${faq.id }">
+						<input type="hidden" name="isDeleted" value="Y">
+						<button type="submit" id="deleteBtn" class="isStateBtn">삭제</button>
+					</div>
+			</form>			
 		</div>
 </body>
 </html>

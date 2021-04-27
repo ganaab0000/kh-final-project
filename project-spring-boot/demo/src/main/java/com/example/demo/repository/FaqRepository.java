@@ -15,6 +15,7 @@ import com.example.demo.cs.entity.PagingVO;
 import com.example.demo.cs.entity.QnaDto;
 import com.example.demo.cs.entity.Search;
 
+
 @Mapper
 @Repository
 public interface FaqRepository {
@@ -64,7 +65,7 @@ public interface FaqRepository {
 			+ "WHERE RN BETWEEN #{start} AND #{end}")
 	public List<QnaDto> selectQna(PagingVO vo);
 	
-	@Select("select id, header, email, title, content, path, date_created, is_state from qna where id= #{id} ")
+	@Select("select id, header, email, title, content, path, date_created, is_state,is_Deleted from qna where id= #{id} ")
 	public QnaDto qRead(Integer id) throws Exception;
 	
 	
@@ -75,4 +76,13 @@ public interface FaqRepository {
 	
 	@Update("update QNA set IS_STATE=#{isState} where id=#{id}")
 	public void confirmState(QnaDto qnaDto) throws Exception;
+	
+	@Update("update QNA set IS_DELETED=#{isDeleted} where id=#{id}")
+	public void delete(QnaDto qnaDto) throws Exception;	
+	/*
+	 * @Insert("insert into QNA_FILE (id, upload_name, save_name, file_size, file_type, qna_id) "
+	 * +
+	 * "values(upload_file_id_seq.nextVal, #{uploadName}, #{saveName}, #{fileSize}, #{fileType}, #{qnaId})"
+	 * ) public int saveFile(QnaFileVO file);
+	 */
 }

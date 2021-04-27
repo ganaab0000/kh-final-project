@@ -7,4 +7,6 @@ public interface AdminFaqService {
 	public void resister(FaqDto faqDto) throws Exception;
 	
 	public void update(FaqDto faqDto) throws Exception;
+	
+	public void Fdelete(FaqDto faqDto) throws Exception;
 }

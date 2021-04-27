@@ -21,4 +21,7 @@ public interface QnaService {
 	public List<QnaDto> QnaResult(Search search) throws Exception;
 	
 	public void confirmState(QnaDto qnaDto) throws Exception;
+	
+	public void delete(QnaDto qnaDto) throws Exception;
+//	 public int saveFile(QnaFileVO file) throws Exception;
 }

@@ -56,7 +56,7 @@ public class AdminQnaController {
 			return "admin/faq/QnaRead";
 		}	
 	 	 
-	 @PostMapping("/admin/isState")
+	 @PostMapping("/admin/QisState")
 	 public String confirmState(QnaDto qnaDto, Model model) throws Exception{
 		 
 		 log.info("confirmState()");
@@ -66,6 +66,18 @@ public class AdminQnaController {
 		 model.addAttribute("msg", "수정완료");
 		 
 		return "redirect:/admin/qnaList";		 
+	 }
+	 @PostMapping("/admin/QDelete")
+		public String qnaDelete(QnaDto qnaDto, Model model) throws Exception{
+		
+		 log.info("qnaDelete()");
+		 
+		 qnaService.delete(qnaDto);		 
+		 
+		 model.addAttribute("msg", "삭제완료");
+		 
+		return "redirect:/admin/qnaList";	
+		 
 	 }
 
 }

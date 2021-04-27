@@ -39,11 +39,11 @@
 	 		 <span>Q&A</span>
 		</div>
 
-		<div class="menubar">
+		<%-- <div class="menubar">
 			<span><a href="${pageContext.request.contextPath}/cs/noticePage">공지사항</a></span>
 			<span><a href="${pageContext.request.contextPath}/cs/tos">이용약관</a></span>
 			<span><a href="${pageContext.request.contextPath}/cs/faqPage">FAQ</a></span>
-		</div>
+		</div> --%>
 
 	 	<jsp:include page="/WEB-INF/views/admin/common/sideNav.jsp"></jsp:include>
 				 	

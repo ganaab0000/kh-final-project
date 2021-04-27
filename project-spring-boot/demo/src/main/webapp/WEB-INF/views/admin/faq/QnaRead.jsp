@@ -244,7 +244,7 @@ input {
     margin-top: 1rem;
 }
 .isState{
-	padding: 25px 30px;
+	padding: 25px 10px;
 	float: right;
 }
 .footer>p{
@@ -262,20 +262,24 @@ input {
     color: #999;
     height: 40px;   
     -webkit-appearance: none;
-	
+	width: 80px;
 }
 
 </style>
-</head>
-<script type="text/javascript">
-/* 	$(document).ready(function(){
-		$('#sendBtn').on('click' , function() {
-			location.href = '';
-		});
-		
-	}); */
-
+<script>
+	$(function(){
+		$("#deleteBtn").on("click", function(){
+ 			if(confirm("삭제하시겠습니까?")){
+ 				self.location.href="/admin/QDelete";
+ 			}
+ 			else{
+ 				return false;
+ 			}
+ 		});
+	});
 </script>
+</head>
+
 <body>     
 
 	<jsp:include page="/WEB-INF/views/admin/common/header.jsp"></jsp:include>
@@ -291,7 +295,7 @@ input {
 					상세페이지
 				</li>
 			</ol>
-			<form class="search" action="/admin/nAdminSeach"  name="searchForm"  method="GET">
+			<form class="search" action="/admin/qAdminSeach"  name="searchForm"  method="GET">
 				<input type="hidden" value="${search.searchType}"> 
 				<input type="search"  name="keyword"  value="${search.keyword}" placeholder="검색">
 				<button class="searchBtn" type="submit">검색</button>
@@ -302,10 +306,10 @@ input {
 		
 			<div class="article-container">
 					<form action="qRead" method="get" >
-							<input type="hidden" value="${qna.id }">
+							<input type="hidden" name="id" value="${qna.id }">
 							<div class="article-main">
 								<header>									
-									<h3>${qna.title}</h3>
+									<h3>${qna.title}</h3>								
 									<span class="pin">${qna.email }</span>																		
 									<span class="date dateCreated"><fmt:formatDate  value="${qna.dateCreated }"  type="date"  pattern="yyyy.MM.dd"/></span>										
 								</header>
@@ -320,14 +324,21 @@ input {
 									<span class="pathPin">${qna.path }</span>										
 									
 								</div>	
-								<div class="footer">
-									<p>첨부파일:</p>
-									<span  class="filePin">파일자리</span>
-								</div>	
+							
 							</div>						
 					</form>
+					
+					 <form action="/admin/QDelete" method="post"> 
+								<div class="isState ">
+									<input type="hidden" name="id"  value="${qna.id }">
+									<input type="hidden" name="isDeleted" value="Y">
+									<button type="submit" id="deleteBtn" class="isStateBtn">삭제</button>
+								</div>
+						</form>
+					
+					
 					<!-- <button type="button" id="sendBtn" class="button-large">문의답변</button>  -->
-					<form action="/admin/isState" method="post">					
+					<form action="/admin/QisState" method="post">					
 						<div class="isState ">
 							<input type="hidden" name="id" value="${qna.id }">
 							<c:choose>
@@ -345,9 +356,13 @@ input {
 									<input type="radio" name="isState"  value="N"  checked="checked">
 									<button type="submit" class="isStateBtn">확인</button>
 								</c:when>
-							</c:choose>
+							</c:choose>								
 						</div>	
 					</form>
+						
+						
+						
+									
 			</div>			
 		</div>
 </body>

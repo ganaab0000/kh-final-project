@@ -224,7 +224,7 @@ a:visited {
 												<input type="hidden" value="${notice.id }">
 											</div>
 											<div>
-											<a href="${pageContext.request.contextPath}/nRead?id=${notice.id}">
+											<a href="${pageContext.request.contextPath}/admin/nRead?id=${notice.id}">
 													${notice.title}		
 											</a>												
 											</div>

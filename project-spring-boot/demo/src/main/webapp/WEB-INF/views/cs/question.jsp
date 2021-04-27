@@ -13,10 +13,26 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script src="/js/summernote/summernote-lite.js"></script>
+<script src="/js/summernote/lang/summernote-ko-KR.js"></script>
+
+<link rel="stylesheet" href="/css/summernote/summernote-lite.css">
 <script>
 
 $(document).ready(function() {
-		
+	
+	$('#summernote').summernote ({
+		  height: 300,                 // 에디터 높이
+		  minHeight: 300,             // 최소 높이
+		  maxHeight: null,             // 최대 높이
+		  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+		  lang: "ko-KR",					// 한글 설정			 
+        
+	});		
+	
+	
+	
 	 $('.showList').hide();
 	
 	  $('#selectBox').change(function() {
@@ -191,7 +207,7 @@ ul {
 				</p>
 			</div>
 			
-		<form action="/cs/QWrite"  method="post">
+		<form action="/cs/QWrite"  method="post" enctype="multipart/form-data">			
 			<div class="form-group">
 			    <label for="exampleInputEmail1">문의 유형</label>
 			    <select class="form-control" id="selectBox" name="header">
@@ -221,7 +237,7 @@ ul {
 			
 			  <div class="form-group">
 			    <label for="exampleTextarea">문의 내용</label>
-			    <textarea class="form-control" id="exampleTextarea" name="content" rows="3" required="required"></textarea>
+			    <textarea class="form-control" id="summernote"  name="content" rows="3" required="required"></textarea>
 			  </div>
 			  <div class="form-group">
 			    <label for="exampleInputEmail1">프로젝트 제목 또는 고유주소</label>
@@ -235,10 +251,10 @@ ul {
 			    </label>
 			     <small id="fileHelp" class="form-text text-muted">목적: 이용자 식별 및 문의 답변 / 제공 항목: 이메일 주소, 문의 내용 / 보유기간: 문의 해결 후 30일까지</small>
 			  </div>
-			  <div class="form-group">
+			<!--   <div class="form-group">
 			    <label for="exampleInputFile">첨부 파일</label>
-			    <input type="file" class="form-control-file" name="file" id="exampleInputFile" aria-describedby="fileHelp">   
-			  </div>
+			    <input type="file" class="form-control-file" name="file" id="exampleInputFile" aria-describedby="fileHelp" accept="image/png, image/jpeg">   
+			  </div> -->
 			 
 			  <button type="submit" class="btn btn-primary button-large">제출</button>
 			</form>

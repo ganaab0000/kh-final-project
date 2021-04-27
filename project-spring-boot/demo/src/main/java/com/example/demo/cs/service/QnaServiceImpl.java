@@ -59,4 +59,15 @@ public class QnaServiceImpl implements QnaService{
 		repository.confirmState(qnaDto);
 	}
 
+	@Override
+	public void delete(QnaDto qnaDto) throws Exception {
+		// TODO Auto-generated method stub
+		repository.delete(qnaDto);
+	}
+
+//	@Override
+//	public int saveFile(QnaFileVO file) throws Exception {
+//		return repository.saveFile(file);
+//	}
+
 }

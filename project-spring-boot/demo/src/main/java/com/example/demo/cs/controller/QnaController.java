@@ -1,6 +1,15 @@
 package com.example.demo.cs.controller;
 
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import com.example.demo.cs.entity.FaqDto;
 import com.example.demo.cs.entity.QnaDto;
@@ -28,6 +37,9 @@ public class QnaController {
 	
 	@Autowired
 	private QnaService qnaService; 
+	
+	
+
 	
 //	@GetMapping("/cs/answer")
 //	public String answer() throws Exception{
@@ -58,27 +70,33 @@ public class QnaController {
 		
 		return "cs/question";
 	}
-	
+		
 	@PostMapping("/cs/QWrite")
-	public String qnaWrite(QnaDto qnaDto, Model model, MultipartFile  uploadfile) throws Exception{
-		
-		qnaService.resister(qnaDto);
-		
-		model.addAttribute("msg", "등록!");
+	public String qnaWrite(QnaDto qnaDto, Model model) throws Exception{
 		
 		log.info("qnaWrite()");
-		
+					
+		model.addAttribute("msg", "등록!");
+				
+        qnaService.resister(qnaDto);	
+      
+				
 		return "redirect:/cs/question";			
-	}
+        }
 	
-	@GetMapping("/cs/answer")
-	public String mail() {
-		return "cs/answer";
-	}
+	
+	
+//	@GetMapping("/cs/answer")
+//	public String mail() {
+//		return "cs/answer";
+//	}
 	
 //	@PostMapping("/cs/answer")
 //	public void sendMail(MailDto mailDto) {
 //		qnaService.mailSend(mailDto);
-//	}
+//	}	
+		
+	
+	
 	
 }
