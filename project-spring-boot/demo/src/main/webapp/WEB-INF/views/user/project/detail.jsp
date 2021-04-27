@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
+	<link rel="stylesheet" href="/css/projectCommon.css">
     <style>
     	.pointer{
     		cursor: pointer;
@@ -169,7 +170,7 @@
             text-align: center;
 		    display: flex;
 		    flex-grow: 1;
-  			justify-content: center;
+  			justify-content: space-between;
         }
         .submitBtn{
         	width: 100%;
@@ -254,6 +255,9 @@
 		.postContent{
 			padding: 2rem;
 		}
+		.postContent img{
+			max-width: 100%;
+		}
 		.postReply{
 			border-top: 1px solid lightgray;
 			padding: 0.5rem 1rem;
@@ -322,7 +326,8 @@
 		    margin: 1rem 0;
 		}
     </style>
-    <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
+    <script src="/js/ck/UploadAdapter.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
@@ -341,7 +346,7 @@
 	                </div>
 	                <div class="projectTitle"><h1>${project.title}</h1></div>
 	                <div class="projectWriter">
-	                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}">${project.writerName}</a>
+	                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}" class="a">${project.writerName}</a>
 	                </div>
 	            </div>
         	</c:if>
@@ -416,17 +421,17 @@
             <div class="contentWrapper">
                 <div class="mainColumn">
                     <div class="contentBox communityBtnWrapper">
-                        <button class="filter communityBtn btn btn-outline-primary" value="1">모든 게시글</button>
-                        <button class="filter communityBtn btn btn-outline-primary" value="2">창작자 업데이트</button>
-                        <button class="communityBtn communityWriteBtn btn btn-outline-primary">글쓰기</button>
-                        <button class="backToCommunity btn btn-outline-primary">커뮤니티로 돌아가기</button>
+                        <button class="filter communityBtn btn btn-outline-dark" value="1">모든 게시글</button>
+                        <button class="filter communityBtn btn btn-outline-dark" value="2">창작자 업데이트</button>
+                        <button class="communityBtn communityWriteBtn btn btn-outline-dark">글쓰기</button>
+                        <button class="backToCommunity btn btn-outline-dark">커뮤니티로 돌아가기</button>
                     </div>
                     <div class="content"></div>
                 </div>
                 <div class="subColumn">
                     <div class="writerWrapper contentBox">
                         <div class="writerInfoHeader">창작자 소개</div>
-                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${writer.id}">${writer.nickname}</a></div>
+                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${writer.id}" class="a">${writer.nickname}</a></div>
                         <div class="writerContent">${writer.profileDetail}</div>
                         <hr>
                         <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
@@ -475,14 +480,14 @@
             </div>
             <div class="extraComment">*추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.</div>
             <div class="extraSupportBtnWrapper">
-                <button class="extraSupportBtn btn btn-outline-primary" value="5000">+5천원</button>
-                <button class="extraSupportBtn btn btn-outline-primary" value="10000">+1만원</button>
-                <button class="extraSupportBtn btn btn-outline-primary" value="50000">+5만원</button>
-                <button class="extraSupportBtn btn btn-outline-primary" value="100000">+10만원</button>
+                <button class="extraSupportBtn btn btn-outline-dark" value="5000">+5천원</button>
+                <button class="extraSupportBtn btn btn-outline-dark" value="10000">+1만원</button>
+                <button class="extraSupportBtn btn btn-outline-dark" value="50000">+5만원</button>
+                <button class="extraSupportBtn btn btn-outline-dark" value="100000">+10만원</button>
             </div>
         </div>
         <div class="projectJoin">
-            <button class="btn submitBtn btn-outline-primary"><span class="totalAmount"></span>원 후원하기</button>
+            <button class="btn submitBtn btn-outline-dark"><span class="totalAmount"></span>원 후원하기</button>
         </div>
     </script>
 
@@ -540,7 +545,7 @@
 				<input type="hidden" name="id" class="id">
                 <textarea name="content" id="content"></textarea>
                 <div style="text-align: right;">
-                    <button id="submitBtn" class="btn btn-outline-primary">올리기</button>
+                    <button id="submitBtn" class="btn btn-outline-dark">올리기</button>
                 </div>
             </form>
         </div>
@@ -591,7 +596,7 @@
                 success: function(data){
                     $(".content").children().remove();
                     var story = $("<div class='story contentBox'><div>");
-                    story.text(data);
+                    story.html(data);
                     $(".content").append(story);
                 }
             });
@@ -676,7 +681,6 @@
             });
         }
         
-        let editor;
         //커뮤니티 글 작성 폼 생성
         $(".communityWriteBtn").on("click", function(){
         	if(checkLogin()){
@@ -687,16 +691,7 @@
 	
 	            $(".content").append($($("#postFormTemplate").html()));
 	            
-	
-	    		ClassicEditor
-	    			.create( document.querySelector( '#content' ) )
-	    			.then( newEditor => {
-	    				editor = newEditor;
-	    			} )
-	    			.catch( error => {
-	    				console.error( error );
-	    			} );
-	            
+	            paintEditor("#content");
 	            //커뮤니티 글 작성 통신
 	            $("#submitBtn").on("click", function(e){
 	                e.preventDefault();
