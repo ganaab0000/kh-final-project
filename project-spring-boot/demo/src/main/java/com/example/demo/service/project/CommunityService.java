@@ -25,4 +25,6 @@ public interface CommunityService {
 	public void update(CommunityDto communityDto);
 
 	public void delete(Integer communityId);
+
+	public int getReplyCount(Integer parentId);
 }

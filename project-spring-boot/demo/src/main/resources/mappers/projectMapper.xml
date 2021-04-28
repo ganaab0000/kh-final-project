@@ -100,7 +100,7 @@
 				is_close asc, is_open desc, vote_count desc nulls last
 			</when>
 			<when test="sort==2">
-				is_close asc, is_open desc, id desc
+				is_close asc, is_open desc, date_project_started desc
 			</when>
 			<when test="sort==3">
 				is_open desc, sponsor desc nulls last
@@ -112,7 +112,7 @@
 				is_close asc, is_open desc, date_project_closed asc
 			</when>
 		</choose>
-		, id asc
+		, date_project_started
 		) T )
 		<where>
 			<if test="page != null">

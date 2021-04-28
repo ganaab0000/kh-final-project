@@ -80,14 +80,17 @@ public class CommunityRestController {
 	
 	//프로젝트 커뮤니티 포스트 댓글 로드
 	@GetMapping("/{projectId}/community/{postId}/reply")
-	public List<CommunityVo> getPostReply(@PathVariable("postId") Integer parentId, @RequestParam("page") Integer page) {
+	public HashMap<String, Object> getReply(@PathVariable("postId") Integer parentId, @RequestParam("page") Integer page) {
 		log.info("getPostReply()");
 		
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("parentId", parentId);
 		params.put("page", page);
 		
-		return communityService.findReply(params);
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("list", communityService.findReply(params));
+		result.put("count", communityService.getReplyCount(parentId));
+		return result;
 	}
 	
 	//프로젝트 커뮤니티 포스트 개수 로드
