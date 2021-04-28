@@ -16,4 +16,7 @@ public interface AdminFaqRepository {
 	
 	@Update("update faq set title=#{title}, content=#{content}, date_updated=sysdate where id=#{id}")
 	public void update(FaqDto faqDto) throws Exception;
+	
+	@Update("update faq set IS_DELETED=#{isDeleted} where id=#{id}")
+	public void Fdelete(FaqDto faqDto) throws Exception;	
 }

@@ -91,7 +91,7 @@
 						<li class="list-row" align="left">
 						    <span class="list">
 						    	<input type="hidden" value="${notice.id}">
-						    	<span class="pin">도움말</span>						    	
+						    	<span class="pin">공지사항</span>						    	
 								<span class="title">									
 									<a href="${pageContext.request.contextPath}/admin/nRead?id=${notice.id}">
 										${notice.title}									

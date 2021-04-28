@@ -216,7 +216,7 @@ input {
 									<span>${notice.dateUpdated }</span>
 								</header>							
 								<div class="content">
-									<c:out value="${notice.content}"/>
+									<c:out value="${notice.content}"  escapeXml = "false"/>
 								</div>		
 							</div>
 					</form>

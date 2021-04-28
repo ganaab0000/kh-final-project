@@ -80,7 +80,7 @@ public class AdminFaqController {
 		
 		model.addAttribute("msg", "등록!");
 		
-		return "redirect:/cs/faqPage";			
+		return "redirect:faqList";			
 	}
 	
 	@GetMapping("/admin/fModify")

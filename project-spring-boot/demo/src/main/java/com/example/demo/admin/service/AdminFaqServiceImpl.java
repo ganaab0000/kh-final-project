@@ -28,6 +28,12 @@ public class AdminFaqServiceImpl implements AdminFaqService{
 		repository.update(faqDto);
 	}
 
+	@Override
+	public void Fdelete(FaqDto faqDto) throws Exception {
+		// TODO Auto-generated method stub
+		repository.Fdelete(faqDto);
+	}
+
 	
 	
 	

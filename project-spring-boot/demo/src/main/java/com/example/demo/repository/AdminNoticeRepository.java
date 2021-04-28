@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.cs.entity.NoticeDto;
+import com.example.demo.cs.entity.QnaDto;
 
 @Mapper
 @Repository
@@ -15,5 +16,8 @@ public interface AdminNoticeRepository {
 	public void resister(NoticeDto noticeDto) throws Exception; 
 	
 	@Update("update notice set title=#{title}, content=#{content}, date_updated=sysdate where id=#{id}")
-	public void update(NoticeDto noticeDto) throws Exception;
+	public void update(NoticeDto noticeDto) throws Exception;	
+	
+	@Update("update NOTICE set IS_DELETED=#{isDeleted} where id=#{id}")
+	public void Ndelete(NoticeDto noticeDto) throws Exception;	
 }
