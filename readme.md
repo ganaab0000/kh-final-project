@@ -55,8 +55,10 @@
 
 ## 프로젝트 화면
 ### 일반 회원
+
 #### 메인화면 (박효길)
-<img src="/docs/img/hyogil/main.png">
+<img src="/docs/img/hyogil/main.png"> |
+:-:|
 * 좋아요(프로젝트 목록, 상세 공통)
 
 #### 프로젝트 목록 (박효길)
@@ -66,7 +68,8 @@
 
 #### 프로젝트 상세 (박효길)
 ##### 프로젝트 상세 화면
-<img src="/docs/img/hyogil/detail_story.png">
+<img src="/docs/img/hyogil/detail_story.png"> |
+:-:|
 
 ##### 커뮤니티
 <img src="/docs/img/hyogil/community_list.png"> | <img src="/docs/img/hyogil/community_detail.png">
