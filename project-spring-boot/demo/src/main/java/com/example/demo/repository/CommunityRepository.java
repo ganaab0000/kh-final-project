@@ -22,6 +22,8 @@ public interface CommunityRepository {
 	public List<CommunityVo> findReply(HashMap<String, Object> params);
 	
 	public CommunityVo findById(Integer id);
+	
+	public int getReplyCount(Integer parentId);
 
 	@Insert("insert into community values(community_id_seq.nextval, #{content}, 'N', sysdate, sysdate,#{projectId}, #{memberId}, #{communityCategoryId}, '')")
 	public void save(CommunityDto communityDto);
@@ -37,4 +39,6 @@ public interface CommunityRepository {
 
 	@Update("update community set is_deleted = 'Y' where id = #{communityId}")
 	public void delete(Integer communityId);
+	
+	
 }

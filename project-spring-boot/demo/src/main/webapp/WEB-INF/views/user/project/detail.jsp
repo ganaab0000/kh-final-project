@@ -12,9 +12,6 @@
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/projectCommon.css">
     <style>
-    	.pointer{
-    		cursor: pointer;
-    	}
         .main{
             width: 1080px;
             margin: 0 auto;
@@ -325,6 +322,10 @@
 		    text-align: center;
 		    margin: 1rem 0;
 		}
+		.list .postContent{
+			max-height: 600px;
+			overflow: hidden;
+		}
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
     <script src="/js/ck/UploadAdapter.js"></script>
@@ -558,7 +559,6 @@
     	</span>
     </script>
     <script>
-	    
     	var loginUser = ${member.id == null ? 0 : member.id};
     	
     	//리워드 엑스트라 
@@ -648,13 +648,16 @@
 					var list = data.list;
                     for(var i=0; i<list.length; i++){
                         var post = $($("#postTemplate").html());
+                        post.addClass("list");
                         post.attr("id", list[i].id);
                         post.find(".profileImg").attr("src", list[i].profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + list[i].profileImg);
                         post.find(".postWriter").text(list[i].nickname);
                         if(isProjectWriter(list[i].memberId)) post.find(".postWriter").append($("<span class='writerMark'>창작자</span>"));
                 		post.find(".postCreated").text(list[i].formattedDate);
                         post.find(".postContent").html(list[i].content);
+                        post.find(".postContent").addClass("pointer");
                         post.find(".replyCount>span").text(list[i].replyCount);
+                        
                         $(".postWrapper").append(post);
                         
                         post.find(".postContent").on("click", function(){
@@ -677,8 +680,17 @@
                     }
                     
                     $(".postReplyForm").hide();
+                    setTimeout(paintViewMore, 10)
                 }
             });
+        }
+        
+        function paintViewMore(){
+			$(".postContent").each(function(i, ele){
+				if(ele.offsetHeight == 600){
+					$(ele).after("<button>더보기</button>")
+				}
+			});
         }
         
         //커뮤니티 글 작성 폼 생성
@@ -736,11 +748,8 @@
                     if(isProjectWriter(data.memberId)) post.find(".postWriter").append($("<span class='writerMark'>창작자</span>"));
             		post.find(".postCreated").text(data.formattedDate);
                     post.find(".postContent").html(data.content);
-                    post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
 					post.find(".postReplyForm").append($($("#replyFormTemplate").html()));
 					post.find(".replyPagination").append($($("#replyPaginationTemplate").html()));
-					
-					replyPageMax = Math.ceil(data.replyCount/10);
 					
                     if(loginUser == data.memberId) setManageBtn(post);
                     //댓글 작성 
@@ -756,7 +765,8 @@
 	                            	content : $("#replyContent").val()
 	                            },
 	                            success: function(data){
-									readPost(id);
+			                        $("#replyContent").val("");
+	                            	getReply(id, 1);
 	                            }
 	                        });
                     	}
@@ -777,21 +787,25 @@
 					page : page
                 },
                 success: function(data){
+                	$(".replyCount").text(data.count + "개의 댓글이 있습니다.");
+                	replyPageMax = Math.ceil(data.count/10);
+                	
                 	var replyWrapper = $(".post").find(".replyWrapper");
                 	replyWrapper.empty();
-                	for(var i=0; i<data.length; i++){
-                		var reply = $($("#replyTemplate").html());
-                		reply.attr("id", data[i].id);
-                		reply.find(".profileImg").attr("src", data[i].profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + data[i].profileImg);
-                		reply.find(".replyWriter").text(data[i].nickname);
-                		if(isProjectWriter(data[i].memberId)) reply.find(".replyWriter").append($("<span class='writerMark'>창작자</span>"));
-                		reply.find(".replyCreated").text("(" + data[i].formattedDate + ")");
-                		reply.find(".replyContent").text(data[i].content);
+                	for(var i=0; i<data.list.length; i++){
+                		let replyData = data.list[i];
+                		let reply = $($("#replyTemplate").html());
+                		reply.attr("id", replyData.id);
+                		reply.find(".profileImg").attr("src", replyData.profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + replyData.profileImg);
+                		reply.find(".replyWriter").text(replyData.nickname);
+                		if(isProjectWriter(replyData.memberId)) reply.find(".replyWriter").append($("<span class='writerMark'>창작자</span>"));
+                		reply.find(".replyCreated").text("(" + replyData.formattedDate + ")");
+                		reply.find(".replyContent").text(replyData.content);
                 		replyWrapper.append(reply);
                 		
-                        if(loginUser == data[i].memberId) setManageBtn(reply);
+                        if(loginUser == replyData.memberId) setManageBtn(reply);
                 	}
-                	if(data.length>0) paintReplyPagination(id, page);
+                	if(data.list.length>0) paintReplyPagination(id, page);
                 }
             });
         }
@@ -888,7 +902,7 @@
 					if($(btn).parent().parent().parent().hasClass("post")){
 						$("#communityLink").trigger("click");
 					} else{
-						readPost($(btn).parents(".post").attr("id"));
+						getReply($(btn).parents(".post").attr("id"), 1);
 					}
 			        getCount();
 				}
