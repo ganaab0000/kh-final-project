@@ -249,10 +249,10 @@
 			font-size: 12px;
 			color: #616161;
 		}
-		.postContent, .storyContent{
+		.postContent, .story{
 			padding: 1rem;
 		}
-		.postContent img, .storyContent img{
+		.postContent img, .story img{
 			max-width: 100%;
 		}
 		.postReply{
