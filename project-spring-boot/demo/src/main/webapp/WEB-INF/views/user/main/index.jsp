@@ -136,6 +136,9 @@
 	    width: 233px;
     	margin: 0 auto 0px;
 	}
+	a.linkBtn:hover{
+		background-color: #b5b5b580;
+	}
 	</style>
 </head>
 <body>

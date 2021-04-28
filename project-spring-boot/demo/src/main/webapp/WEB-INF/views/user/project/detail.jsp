@@ -326,6 +326,28 @@
 			max-height: 600px;
 			overflow: hidden;
 		}
+		.viewMore {
+		    display: flex;
+		    justify-content: center;
+		    margin: 0.5rem 0;
+		}
+		.viewMoreBtn{
+			font-size: 16px;
+		    line-height: 27px;
+		    border: 1px solid rgb(230, 230, 230);
+		    text-align: center;
+		    color: rgb(109, 109, 109);
+		    display: flex;
+		    height: 44px;
+		    justify-content: center;
+		    align-items: center;
+		    border-radius: 22px;
+		    text-decoration: none;
+		    width: 233px;
+		}
+		.viewMoreBtn:hover{
+			background-color: #b5b5b580;
+		}
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
     <script src="/js/ck/UploadAdapter.js"></script>
@@ -688,7 +710,10 @@
         function paintViewMore(){
 			$(".postContent").each(function(i, ele){
 				if(ele.offsetHeight == 600){
-					$(ele).after("<button>더보기</button>")
+					$(ele).after("<div class='viewMore'><button class='viewMoreBtn btn'>더보기</button><div>");
+					$(ele).next().find(".viewMoreBtn").on("click", function(){
+						$(ele).trigger("click");
+					})
 				}
 			});
         }
