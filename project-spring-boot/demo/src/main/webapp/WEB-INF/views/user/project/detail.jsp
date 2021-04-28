@@ -249,10 +249,10 @@
 			font-size: 12px;
 			color: #616161;
 		}
-		.postContent{
-			padding: 2rem;
+		.postContent, .storyContent{
+			padding: 1rem;
 		}
-		.postContent img{
+		.postContent img, .storyContent img{
 			max-width: 100%;
 		}
 		.postReply{
@@ -457,7 +457,7 @@
                         <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${writer.id}" class="a">${writer.nickname}</a></div>
                         <div class="writerContent">${writer.profileDetail}</div>
                         <hr>
-                        <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
+                        <div class="lastLoggedIn">마지막 로그인 : <fmt:formatDate value="${writer.dateLoggedin}" pattern="yyyy년 MM월 dd일 HH시"/></div>
                         <div class="writerProject">
                             <span class="createdProject">진행한 프로젝트 <span class="projectCount">${createdProjectCount}</span></span> / 
                             <span class="joinedProject">밀어준 프로젝트 <span class="projectCount">${joinedProjectCount}</span></span>

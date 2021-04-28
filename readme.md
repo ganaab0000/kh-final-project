@@ -55,9 +55,33 @@
 
 ## 프로젝트 화면
 ### 일반 회원
-#### 메인화면
-#### 프로젝트 상세
-#### 프로젝트 목록
+#### 메인화면 (박효길)
+<img src="/docs/img/hyogil/main.png">
+:-:|:-:|:-:
+* 
+
+#### 프로젝트 목록 (박효길)
+<img src="/docs/img/hyogil/list.png"> |
+<img src="/docs/img/hyogil/like.png">
+:-:|:-:|:-:
+* 
+
+#### 프로젝트 상세 (박효길)
+##### 프로젝트 상세 화면
+<img src="/docs/img/hyogil/detail_story.png">
+:-:|:-:|:-:
+* 
+
+##### 커뮤니티 리스트
+<img src="/docs/img/hyogil/community_list.png">
+:-:|:-:|:-:
+* 
+
+##### 커뮤니티 상세
+<img src="/docs/img/hyogil/community_detail.png">
+:-:|:-:|:-:
+* 
+
 #### 프로젝트 작성
 #### 프로젝트 예약
 #### 공지사항
