@@ -258,7 +258,7 @@
 			var birth = $("#birth").val();
 			var pwd_2digit = $("#pwd_2digit").val();
 			var merchant_uid = <%= request.getAttribute("projectId") %>;
-			var customer_uid = <%= request.getAttribute("projectId") %> + "_" + <%= request.getAttribute("projectId") %> + "_"+ $("#cardNo4").val();
+			var customer_uid = <%= request.getAttribute("projectId") %> + "_" + <%= request.getAttribute("memberId") %> + "_"+ $("#cardNo4").val();
 			$.ajax({
 				url: "/api/billing/token",
 				type: "GET",
@@ -284,7 +284,7 @@
 		}
 		
 	  function ajaxReserve() {
-			var billingkey = <%= request.getAttribute("projectId") %> + "_" + <%= request.getAttribute("projectId") %> + "_"+ $("#cardNo4").val();
+			var billingkey = <%= request.getAttribute("projectId") %> + "_" + <%= request.getAttribute("memberId") %> + "_"+ $("#cardNo4").val();
 			var additionalBillings = <%= request.getAttribute("additionalBillings") %>;
 			var receiverName = $("#receiverName").val();
 			var receiverPhone = $("#receiverPhone").val();

@@ -30,6 +30,6 @@ public interface ReserveRepository {
 	public int insertReserve(String billingkey, int additionalBillings, String receiverName, int receiverPhone, String receiverAddress, String requestForDelivery, int memberId, int projectId);
 	
 	//예약 취소
-	@Delete("delete from reserve where member_id = #{memberId} and project_id = #{projectId}")
+	@Delete("delete from reserve where (reserve_status_category_id = 1) and member_id = #{memberId} and project_id = #{projectId}")
 	public int deleteReserve(int memberId, int projectId);
 }
