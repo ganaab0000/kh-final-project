@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.domain.vo.ProjectVo;
 import com.example.demo.domain.vo.RewardVo;
 
@@ -42,8 +43,11 @@ public interface RegistService {
 	
 	public ProjectVo selectCurrentProject(int id);
 	
+	
 	public int deleteRewards(int id);
 	
 	public ArrayList<RewardVo> selectCurrentReward(int id);
+
+	
 	
 }
