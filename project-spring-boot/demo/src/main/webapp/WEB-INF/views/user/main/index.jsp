@@ -115,8 +115,8 @@
 	.card .title>a, .a-tag{
 	    text-decoration: none;
 	    color: black;
-		font-size: 20px;	
-		font-weight: bold;	
+		font-size: 20px;
+		font-weight: bold;
 	}
 	.card a:hover, .a-tag:hover{
 	    text-decoration: underline;
@@ -158,7 +158,7 @@
 				    <div class="carousel-item" data-bs-interval="5000">
 				    	<div class="imgWrapper">
 				    		<a href="/project/${project.id}">
-						    	<img class="carouselImg" src="/api/file/${project.mainImg}" alt="First slide">
+						    	<img class="carouselImg" src="https://placeimg.com/600/360/${project.mainImg}" alt="First slide">
 				    		</a>
 				    	</div>
 					    <div class="contentWrapper">
@@ -179,7 +179,7 @@
 			</div>
 
 			<h5 class="py-3 fw-bold"><a href="/project/list?status=1" class="a-tag">인기 프로젝트 &gt;</a></h5>
-			
+
 			<div class="container mb-5 px-0">
 				<c:if test="${hot.size()!=0}">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -189,12 +189,12 @@
 						    	<div class="mainImgWrapper">
 							    	<button class="like btn"><i class="bi ${project.vote eq null ? 'bi-heart' : 'bi-heart-fill'}"></i></button>
 							      	<a href="/project/${project.id}">
-								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/api/file/${project.mainImg}" alt="First slide">
+								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/${project.mainImg}" alt="First slide">
 							    	</a>
 						    	</div>
 						      	<div class="card-body mt-3">
 								<p class="card-text linkBtn" style="color:#afafaf; font-size:0.8rem;">
-									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
+									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> |
 									<a href="#">${project.writerName}</a>
 								</p>
 								<p class="card-text title"><a href="/project/${project.id}">${project.title}</a></p>
@@ -215,10 +215,10 @@
 				</c:if>
 		    </div>
 
-			
+
 
 			<h5 class="py-3 fw-bold"><a href="/project/list?status=1&minRate=75&maxRate=99" class="a-tag">성공 임박 프로젝트 &gt;</a></h5>
-			
+
 			<div class="container mb-5 px-0">
 				<c:if test="${attainment.size()!=0}">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -228,12 +228,12 @@
 						    	<div class="mainImgWrapper">
 							    	<button class="like btn"><i class="bi ${project.vote eq null ? 'bi-heart' : 'bi-heart-fill'}"></i></button>
 							      	<a href="/project/${project.id}">
-								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/api/file/${project.mainImg}" alt="First slide">
+								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/${project.mainImg}" alt="First slide">
 							    	</a>
 						    	</div>
 						      	<div class="card-body mt-3">
 								<p class="card-text linkBtn" style="color:#afafaf; font-size:0.8rem;">
-									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
+									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> |
 									<a href="#">${project.writerName}</a>
 								</p>
 								<p class="card-text title"><a href="/project/${project.id}">${project.title}</a></p>
@@ -266,12 +266,12 @@
 						    	<div class="mainImgWrapper">
 							    	<button class="like btn"><i class="bi ${project.vote eq null ? 'bi-heart' : 'bi-heart-fill'}"></i></button>
 							      	<a href="/project/${project.id}">
-								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/api/file/${project.mainImg}" alt="First slide">
+								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/${project.mainImg}" alt="First slide">
 							    	</a>
 						    	</div>
 						      	<div class="card-body mt-3">
 								<p class="card-text linkBtn" style="color:#afafaf; font-size:0.8rem;">
-									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
+									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> |
 									<a href="#">${project.writerName}</a>
 								</p>
 								<p class="card-text title"><a href="/project/${project.id}">${project.title}</a></p>
@@ -293,7 +293,7 @@
 		    </div>
 
 			<h5 class="py-3 fw-bold"><a href="/project/list?status=3" class="a-tag">공개 예정 프로젝트 &gt;</a></h5>
-			
+
 			<div class="container mb-5 px-0">
 				<c:if test="${coming.size()!=0}">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -303,12 +303,12 @@
 						    	<div class="mainImgWrapper">
 							    	<button class="like btn"><i class="bi ${project.vote eq null ? 'bi-heart' : 'bi-heart-fill'}"></i></button>
 							      	<a href="/project/${project.id}">
-								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/api/file/${project.mainImg}" alt="First slide">
+								      	<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="https://placeimg.com/600/360/${project.mainImg}" alt="First slide">
 							    	</a>
 						    	</div>
 						      	<div class="card-body mt-3">
 								<p class="card-text linkBtn" style="color:#afafaf; font-size:0.8rem;">
-									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> | 
+									<a href="/project/list?category=${project.projectCategoryId}">${project.projectCategory}</a> |
 									<a href="#">${project.writerName}</a>
 								</p>
 								<p class="card-text title"><a href="/project/${project.id}">${project.title}</a></p>
@@ -354,7 +354,7 @@
 				}
 			});
 		})
-		
+
 		$(".carousel-item").eq(0).addClass("active");
 		$(".contentWrapper").eq(0).css("background-color", "#ff9494");
 		$(".contentWrapper").eq(1).css("background-color", "#939597");
