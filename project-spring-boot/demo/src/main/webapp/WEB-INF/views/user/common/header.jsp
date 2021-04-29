@@ -53,7 +53,7 @@
 									<li><a class="dropdown-item" href="/admin">관리자</a></li>
 								</security:authorize>
 								<li><a class="dropdown-item" href="/member/notification">알림</a></li>
-								<li><a class="dropdown-item" href="#">후원현황</a></li>
+								<li><a class="dropdown-item" href="reserve/find">후원현황</a></li>
 								<li><a class="dropdown-item" href="/project/liked">좋아하는
 										프로젝트</a></li>
 								<li><a class="dropdown-item" href="#">내가 만든 프로젝트</a></li>

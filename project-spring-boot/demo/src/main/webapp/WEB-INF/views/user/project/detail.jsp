@@ -463,12 +463,15 @@
                             <span class="joinedProject">밀어준 프로젝트 <span class="projectCount">${joinedProjectCount}</span></span>
                         </div>
                     </div>
+                    <form name="form" method="get">
                     <div class="rewardWrapper">
                         <div class="rewardHeader">선물 목록</div>
                         <div class="rewardList ${isClose ? 'disabled' : '' }">
                         	<div class="reward contentBox">
                                 <div class="rewardInfo">
-                                	<input type="hidden" name="rewardPrice" value="1000">
+                                	<input type="hidden" id="projectId" name="projectId" value="${project.id}">
+                                	<input type="hidden" id="rewardPrice" name="rewardPrice" value="1000">
+                                	<input type="hidden" id="rewardName" name="rewardName" value="선물을 선택하지 않고 밀어만 줍니다.">
                                     <div class="rewardPrice">1000원 +</div>
                                     <div class="rewardDetail">선물을 선택하지 않고 밀어만 줍니다.</div>
                                 </div>
@@ -476,7 +479,8 @@
                         	<c:forEach items="${rewardList}" var="reward">
                         		<div class="reward contentBox">
 	                                <div class="rewardInfo">
-	                                	<input type="hidden" name="rewardPrice" value="${reward.price}">
+	                                	<input type="hidden" id="rewardPrice" name="rewardPrice" value="${reward.price}">
+	                                	<input type="hidden" id="rewardName" name="rewardName" value="${reward.name}">
 	                                    <div class="rewardSold">${reward.maxStock - reward.currentStock}명이 선택</div>
 	                                    <div class="rewardPrice">${reward.price}원 +</div>
 	                                    <div class="rewardName">${reward.name}</div>
@@ -487,6 +491,7 @@
                         	</c:forEach>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -499,7 +504,7 @@
         <div class="extraSupport">
             <div class="extraTitle">추가 후원금(선택)</div>
             <div class="input">
-                <input type="text" class="extraAmount form-control" placeholder="0">
+                <input type="text" class="extraAmount form-control" id="additionalBilling" name="additionalBilling" placeholder="0">
             </div>
             <div class="extraComment">*추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.</div>
             <div class="extraSupportBtnWrapper">
@@ -636,6 +641,11 @@
         var category;
         var page;
         var max;
+        
+        $("#reserve").click(function () {
+ 	       $("form").attr("action", "/project/reserve/{id}");
+ 		});
+        
         //커뮤니티 불러오기
         $(".communityBtn.filter").on("click", function(){
         	$(".communityBtn.filter").removeClass("active");
