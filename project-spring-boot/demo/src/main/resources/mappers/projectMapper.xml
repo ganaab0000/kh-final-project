@@ -238,7 +238,7 @@
 	
 	<select id="carousel" resultType="projectVo">
 		select * from (select rownum rn, T.* from (
-			select * from project_view where is_open = 'Y' and is_close = 'N' order by vote_count desc, id asc
+			select * from project_view where is_open = 'Y' and is_close = 'N' order by is_close asc, is_open desc, rate desc, date_project_started
 		) T ) where rn between 1 and 3
 	</select>
 </mapper>
