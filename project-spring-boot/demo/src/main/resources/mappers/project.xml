@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.repository.RegistRepository">
+	
+	<!-- 프로젝트 등록 페이지 이동시에 프로젝트의 id(no값)를 생성해주는 쿼리 
+		PROJECT_STATUS_CATEGORY_ID의 0(임시)
+		
+		_int : int의 별칭
+	-->
+	<resultMap id="projectResultSet" type="com.example.demo.domain.vo.ProjectVo">
+		<id property="id" column="ID" />
+		<result property="title" column="TITLE" />
+		<result property="subTitle" column="SUB_TITLE" />
+		<result property="TargetAmount" column="TARGET_AMOUNT" />
+		<result property="dateProjectStarted" column="DATE_PROJECT_STARTED" />
+		<result property="dateProjectClosed" column="DATE_PROJECT_CLOSED" />
+		<result property="hashTag" column="HASHTAG" />
+		<result property="thumbImg" column="THUMB_IMG" />
+		<result property="mainImg" column="MAIN_IMG" />
+		<result property="summary" column="SUMMARY" />
+		<result property="story" column="STORY" />
+		<result property="writerName" column="WRITER_NAME" />
+		<result property="writerProfileImg" column="WRITER_PROFILE_IMG" />
+		<result property="writerSnsInstargram" column="WRITER_SNS_INSTAGRAM" />
+		<result property="writerSnsFacebook" column="WRITER_SNS_FACEBOOK" />
+		<result property="writerPhone" column="WRITER_PHONE" />
+		<result property="writerEmail" column="WRITER_EMAIL" />
+		<result property="dateCreated" column="DATE_CREATED" />
+		<result property="dateUpdated" column="DATE_UPDATED" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="projectCategoryId" column="PROJECT_CATEGORY_ID" />
+		<result property="projectStatusCategoryId" column="PROJECT_STATUS_CATEGORY_ID" />
+	</resultMap>
+	
+	<resultMap type="com.example.demo.domain.vo.RewardVo" id="rewardResultSet">
+		<id property="id" column="ID" />
+		<result property="price" column="PRICE" />
+		<result property="name" column="NAME" />
+		<result property="ex" column="DETAIL" />
+		<result property="limit" column="MAX_STOCK" />
+		<result property="count" column="CURRENT_STOCK" />
+		<result property="delichk" column="IS_ADDRESS_REQUIRED" />
+		<result property="deliveryDate" column="DATE_DELIVERY_ESTIMATED" />
+		<result property="projectId" column="PROJECT_ID" />
+		<result property="optionForm" column="OPTION_FORM" />
+	</resultMap>
+	<!-- 프로젝트 생성 -->
+	<insert id="createProject">
+		insert into PROJECT values(PROJECT_ID_SEQ.NEXTVAL,'temp','temp',0,sysdate, sysdate, 'temp','temp','temp','temp', 'temp','temp','temp','temp','temp','temp','temp', sysdate, sysdate,null,1,0 )
+	</insert>
+	<!-- 프로젝트 데이터 삽입 -->
+	<insert id="insertProject" parameterType="com.example.demo.domain.vo.ProjectVo">
+		UPDATE PROJECT SET 
+			TITLE = #{title}, 
+			SUB_TITLE = #{subTitle}, 
+			TARGET_AMOUNT = #{targetAmount}, 
+			DATE_PROJECT_STARTED = #{dateProjectStarted},
+			DATE_PROJECT_CLOSED = #{dateProjectClosed},
+			HASHTAG = #{hashTag},
+			THUMB_IMG = #{thumbImg},
+			MAIN_IMG = #{mainImg}, 
+			SUMMARY = #{summary},
+			STORY = #{story}, 
+			WRITER_NAME = #{writerName},
+			WRITER_PROFILE_IMG = #{writerProfileImg},
+			WRITER_SNS_INSTAGRAM = #{writerSnsInstargram}, 
+			WRITER_SNS_FACEBOOK = #{writerSnsFacebook},
+			WRITER_PHONE = #{writerPhone},
+			WRITER_EMAIL = #{writerEmail},
+			DATE_CREATED = SYSDATE,
+			DATE_UPDATED = SYSDATE,
+			MEMBER_ID = #{memberId},
+			PROJECT_CATEGORY_ID = #{projectCategoryId},
+			PROJECT_STATUS_CATEGORY_ID = #{projectStatusCategoryId}
+		WHERE ID = #{id} 
+	</insert>
+	
+	<!-- 프로젝트 선택 -->
+	<select id="selectThisProject" resultType="_int">
+		SELECT PROJECT_ID_SEQ.CURRVAL FROM DUAL
+	</select>
+	<!-- 파일 불러오기 -->
+	<select id="getOriginFile" parameterType="_int" resultMap="projectResultSet">
+		SELECT THUMB_IMG, MAIN_IMG, WRITER_PROFILE_IMG FROM PROJECT WHERE ID = #{id}
+	</select>
+	
+	<select id="selectCurrentProject" parameterType="_int" resultMap="projectResultSet">
+		SELECT * FROM PROJECT 
+		WHERE ID = #{ id }
+	</select>
+	<!-- 리워드 삽입 -->
+	
+	<insert id="insertReward" parameterType="com.example.demo.domain.vo.RewardVo">
+		INSERT INTO REWARD VALUES(REWARD_ID_SEQ.NEXTVAL, #{price}, #{name}, #{ex}, #{limit}, #{count}, #{delichk}, #{deliveryDate}, #{projectId}, #{optionForm})
+	</insert>
+	<!-- 리워드 리스트 -->
+	<select id="selectRewardList" parameterType="hashmap" resultMap="rewardResultSet">
+		SELECT * FROM REWARD WHERE id IN
+			<foreach collection="list" item="num" index="index" open="(" close=")" separator=",">
+				#{ num }
+			</foreach>
+			ORDER BY ID ASC
+	</select>
+	<!-- 리워드 삭제 -->
+	
+	<delete id="deleteRewards" parameterType="_int">
+		DELETE FROM REWARD 
+		WHERE PROJECT_ID = #{id}
+	</delete>
+	
+	<select id="selectCurrentReward" parameterType="_int" resultMap="rewardResultSet">
+		SELECT * FROM REWARD WHERE projectId = #{id} ORDER BY ID ASC
+	</select>
+	
+</mapper>
