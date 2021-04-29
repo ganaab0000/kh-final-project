@@ -442,8 +442,7 @@
 							if(index!=0) newParams += "&";
 							newParams += key + "=" + value;
 							
-							if(key!="keyword") $("#"+key).text($("button[name="+key+"][value="+value+"]").text());
-							if(key=='keyword'){
+							if(key=="keyword") {
 								$("#keyword").show().text(value);
 								var closeBtn = $('<button type="button" class="btn-close" aria-label="Close"></button>');
 								$("#keyword").append(closeBtn);
@@ -452,6 +451,8 @@
 									$(".cardContainer").empty();
 									loadingList();
 								})
+							} else{
+								$("#"+key).text($("button[name="+key+"][value="+value+"]").text());
 							}
 							index++;
 						} else{
@@ -460,6 +461,31 @@
 						}
 						$("button[name="+key+"][value='"+value+"']").addClass("active");
 					}
+					if(ajaxParams.get('minRate') || ajaxParams.get('maxRate')){
+						let str;
+						if(ajaxParams.get('minRate') && ajaxParams.get('maxRate')){
+							str = ajaxParams.get('minRate') + "% ~ " + ajaxParams.get('maxRate') + "%";
+						} else if(ajaxParams.get('minRate')){
+							str = ajaxParams.get('minRate') + "% 이상";
+						} else{
+							str = ajaxParams.get('maxRate') + "% 이하";
+						}
+						$("#rate").text(str);
+						$("button[name=rate]").removeClass("active");
+					}
+					if(ajaxParams.get('minCollected') || ajaxParams.get('maxCollected')){
+						let str;
+						if(ajaxParams.get('minCollected') && ajaxParams.get('maxCollected')){
+							str = ajaxParams.get('minCollected') + "원 ~ " + ajaxParams.get('maxCollected') + "원";
+						} else if(ajaxParams.get('minCollected')){
+							str = ajaxParams.get('minCollected') + "원 이상";
+						} else{
+							str = ajaxParams.get('maxCollected') + "원 이하";
+						}
+						$("#collected").text(str);
+						$("button[name=collected]").removeClass("active");
+					}
+					
 					history.pushState(null, null, newParams);
 				}
 			});
@@ -479,10 +505,14 @@
 			if(this.name=="rate"){
 				minRate = "";
 				maxRate = "";
+				$("input[name=minRate]").val(null);
+				$("input[name=maxRate]").val(null);
 			}
 			if(this.name=="collected"){
 				minCollected = "";
 				maxCollected = "";
+				$("input[name=minCollected]").val(null);
+				$("input[name=maxCollected]").val(null);
 			}
 			page = 1;
 			loadingList();
