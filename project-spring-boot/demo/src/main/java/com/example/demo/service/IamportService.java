@@ -35,8 +35,8 @@ public class IamportService {
 
 	public static final String API_URL = "https://api.iamport.kr";
 	public static final String STATIC_API_URL = "https://static-api.iamport.kr";
-	protected String apiKey = null;
-	protected String apiSecret = null;
+	protected String apiKey = "5200386542335369";
+	protected String apiSecret = "WaAlOG6jX7lkX2RqgcMNypJQqeaEGYdD9OZXu5hrdCLaFCBVPnIoNseeHpSon61xU1vp7MRkpCu4f605";
 	protected String tierCode = null;
 	protected Iamport iamport = null;
 
