@@ -10,10 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
+	<link rel="stylesheet" href="/css/projectCommon.css">
     <style>
-    	.pointer{
-    		cursor: pointer;
-    	}
         .main{
             width: 1080px;
             margin: 0 auto;
@@ -169,7 +167,7 @@
             text-align: center;
 		    display: flex;
 		    flex-grow: 1;
-  			justify-content: center;
+  			justify-content: space-between;
         }
         .submitBtn{
         	width: 100%;
@@ -251,8 +249,11 @@
 			font-size: 12px;
 			color: #616161;
 		}
-		.postContent{
-			padding: 2rem;
+		.postContent, .story{
+			padding: 1rem;
+		}
+		.postContent img, .story img{
+			max-width: 100%;
 		}
 		.postReply{
 			border-top: 1px solid lightgray;
@@ -321,8 +322,35 @@
 		    text-align: center;
 		    margin: 1rem 0;
 		}
+		.list .postContent{
+			max-height: 600px;
+			overflow: hidden;
+		}
+		.viewMore {
+		    display: flex;
+		    justify-content: center;
+		    margin: 0.5rem 0;
+		}
+		.viewMoreBtn{
+			font-size: 16px;
+		    line-height: 27px;
+		    border: 1px solid rgb(230, 230, 230);
+		    text-align: center;
+		    color: rgb(109, 109, 109);
+		    display: flex;
+		    height: 44px;
+		    justify-content: center;
+		    align-items: center;
+		    border-radius: 22px;
+		    text-decoration: none;
+		    width: 233px;
+		}
+		.viewMoreBtn:hover{
+			background-color: #b5b5b580;
+		}
     </style>
-    <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
+    <script src="/js/ck/UploadAdapter.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
@@ -341,7 +369,7 @@
 	                </div>
 	                <div class="projectTitle"><h1>${project.title}</h1></div>
 	                <div class="projectWriter">
-	                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}">${project.writerName}</a>
+	                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}" class="a">${project.writerName}</a>
 	                </div>
 	            </div>
         	</c:if>
@@ -416,20 +444,20 @@
             <div class="contentWrapper">
                 <div class="mainColumn">
                     <div class="contentBox communityBtnWrapper">
-                        <button class="filter communityBtn btn btn-outline-primary" value="1">모든 게시글</button>
-                        <button class="filter communityBtn btn btn-outline-primary" value="2">창작자 업데이트</button>
-                        <button class="communityBtn communityWriteBtn btn btn-outline-primary">글쓰기</button>
-                        <button class="backToCommunity btn btn-outline-primary">커뮤니티로 돌아가기</button>
+                        <button class="filter communityBtn btn btn-outline-dark" value="1">모든 게시글</button>
+                        <button class="filter communityBtn btn btn-outline-dark" value="2">창작자 업데이트</button>
+                        <button class="communityBtn communityWriteBtn btn btn-outline-dark">글쓰기</button>
+                        <button class="backToCommunity btn btn-outline-dark">커뮤니티로 돌아가기</button>
                     </div>
                     <div class="content"></div>
                 </div>
                 <div class="subColumn">
                     <div class="writerWrapper contentBox">
                         <div class="writerInfoHeader">창작자 소개</div>
-                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${writer.id}">${writer.nickname}</a></div>
+                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${writer.id}" class="a">${writer.nickname}</a></div>
                         <div class="writerContent">${writer.profileDetail}</div>
                         <hr>
-                        <div class="lastLoggedIn">마지막 로그인 : ${writer.dateLoggedin}</div>
+                        <div class="lastLoggedIn">마지막 로그인 : <fmt:formatDate value="${writer.dateLoggedin}" pattern="yyyy년 MM월 dd일 HH시"/></div>
                         <div class="writerProject">
                             <span class="createdProject">진행한 프로젝트 <span class="projectCount">${createdProjectCount}</span></span> / 
                             <span class="joinedProject">밀어준 프로젝트 <span class="projectCount">${joinedProjectCount}</span></span>
@@ -439,22 +467,30 @@
                         <div class="rewardHeader">선물 목록</div>
                         <div class="rewardList ${isClose ? 'disabled' : '' }">
                         	<div class="reward contentBox">
-                                <div class="rewardInfo">
-                                	<input type="hidden" name="rewardPrice" value="1000">
-                                    <div class="rewardPrice">1000원 +</div>
-                                    <div class="rewardDetail">선물을 선택하지 않고 밀어만 줍니다.</div>
-                                </div>
+			                    <form name="form" method="get">
+	                                <div class="rewardInfo">
+	                                	<input type="hidden" id="projectId" name="projectId" value="${project.id}">
+	                                	<input type="hidden" id="rewardPrice" name="rewardPrice" value="1000">
+	                                	<input type="hidden" id="rewardName" name="rewardName" value="선물을 선택하지 않고 밀어만 줍니다.">
+	                                    <div class="rewardPrice">1000원 +</div>
+	                                    <div class="rewardDetail">선물을 선택하지 않고 밀어만 줍니다.</div>
+	                                </div>
+			                    </form>
                             </div>
                         	<c:forEach items="${rewardList}" var="reward">
                         		<div class="reward contentBox">
-	                                <div class="rewardInfo">
-	                                	<input type="hidden" name="rewardPrice" value="${reward.price}">
-	                                    <div class="rewardSold">${reward.maxStock - reward.currentStock}명이 선택</div>
-	                                    <div class="rewardPrice">${reward.price}원 +</div>
-	                                    <div class="rewardName">${reward.name}</div>
-	                                    <div class="rewardDetail">${reward.detail}</div>
-	                                    <div class="rewardDeliveryDate">예상 전달일 : ${reward.dateDeliveryEstimated}</div>
-	                                </div>
+				                    <form name="form" method="get">
+		                                <div class="rewardInfo">
+		                                	<input type="hidden" id="projectId" name="projectId" value="${project.id}">
+		                                	<input type="hidden" id="rewardPrice" name="rewardPrice" value="${reward.price}">
+		                                	<input type="hidden" id="rewardName" name="rewardName" value="${reward.name}">
+		                                    <div class="rewardSold">${reward.maxStock - reward.currentStock}명이 선택</div>
+		                                    <div class="rewardPrice">${reward.price}원 +</div>
+		                                    <div class="rewardName">${reward.name}</div>
+		                                    <div class="rewardDetail">${reward.detail}</div>
+		                                    <div class="rewardDeliveryDate">예상 전달일 : ${reward.dateDeliveryEstimated}</div>
+		                                </div>
+				                    </form>
 	                            </div>
                         	</c:forEach>
                         </div>
@@ -471,18 +507,18 @@
         <div class="extraSupport">
             <div class="extraTitle">추가 후원금(선택)</div>
             <div class="input">
-                <input type="text" class="extraAmount form-control" placeholder="0">
+                <input type="text" class="extraAmount form-control" id="additionalBilling" name="additionalBilling" placeholder="0">
             </div>
             <div class="extraComment">*추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.</div>
             <div class="extraSupportBtnWrapper">
-                <button class="extraSupportBtn btn btn-outline-primary" value="5000">+5천원</button>
-                <button class="extraSupportBtn btn btn-outline-primary" value="10000">+1만원</button>
-                <button class="extraSupportBtn btn btn-outline-primary" value="50000">+5만원</button>
-                <button class="extraSupportBtn btn btn-outline-primary" value="100000">+10만원</button>
+                <button class="extraSupportBtn btn btn-outline-dark" value="5000">+5천원</button>
+                <button class="extraSupportBtn btn btn-outline-dark" value="10000">+1만원</button>
+                <button class="extraSupportBtn btn btn-outline-dark" value="50000">+5만원</button>
+                <button class="extraSupportBtn btn btn-outline-dark" value="100000">+10만원</button>
             </div>
         </div>
         <div class="projectJoin">
-            <button class="btn submitBtn btn-outline-primary"><span class="totalAmount"></span>원 후원하기</button>
+            <button class="btn submitBtn btn-outline-dark" id="reserve"><span class="totalAmount"></span>원 후원하기</button>
         </div>
     </script>
 
@@ -540,7 +576,7 @@
 				<input type="hidden" name="id" class="id">
                 <textarea name="content" id="content"></textarea>
                 <div style="text-align: right;">
-                    <button id="submitBtn" class="btn btn-outline-primary">올리기</button>
+                    <button id="submitBtn" class="btn btn-outline-dark">올리기</button>
                 </div>
             </form>
         </div>
@@ -553,7 +589,6 @@
     	</span>
     </script>
     <script>
-	    
     	var loginUser = ${member.id == null ? 0 : member.id};
     	
     	//리워드 엑스트라 
@@ -562,7 +597,8 @@
         	var extraSupport = $($("#extraSupport").html());
             $(this).after(extraSupport);
             
-            extraSupport.find(".extraSupportBtn").on("click", function(){
+            extraSupport.find(".extraSupportBtn").on("click", function(e){
+            	e.preventDefault();
             	var extraAmount = $(".extraAmount").val();
             	extraAmount = extraAmount == "" ? 0 : extraAmount;
             	$(".extraAmount").val(parseInt(extraAmount) + parseInt($(this).val()));
@@ -574,6 +610,10 @@
             	$(".totalAmount").text(parseInt(price) + parseInt($(this).parents(".reward").find("input[name=rewardPrice]").val()));
             })
             $(".extraAmount").trigger("input");
+            
+            $("#reserve").click(function () {
+     	       $(this).parents("form").attr("action", "/project/reserve/{id}");
+     		});
         });
 
         //스토리 불러오기
@@ -591,7 +631,7 @@
                 success: function(data){
                     $(".content").children().remove();
                     var story = $("<div class='story contentBox'><div>");
-                    story.text(data);
+                    story.html(data);
                     $(".content").append(story);
                 }
             });
@@ -609,6 +649,9 @@
         var category;
         var page;
         var max;
+        
+        
+        
         //커뮤니티 불러오기
         $(".communityBtn.filter").on("click", function(){
         	$(".communityBtn.filter").removeClass("active");
@@ -643,13 +686,16 @@
 					var list = data.list;
                     for(var i=0; i<list.length; i++){
                         var post = $($("#postTemplate").html());
+                        post.addClass("list");
                         post.attr("id", list[i].id);
                         post.find(".profileImg").attr("src", list[i].profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + list[i].profileImg);
                         post.find(".postWriter").text(list[i].nickname);
                         if(isProjectWriter(list[i].memberId)) post.find(".postWriter").append($("<span class='writerMark'>창작자</span>"));
                 		post.find(".postCreated").text(list[i].formattedDate);
                         post.find(".postContent").html(list[i].content);
+                        post.find(".postContent").addClass("pointer");
                         post.find(".replyCount>span").text(list[i].replyCount);
+                        
                         $(".postWrapper").append(post);
                         
                         post.find(".postContent").on("click", function(){
@@ -672,11 +718,22 @@
                     }
                     
                     $(".postReplyForm").hide();
+                    setTimeout(paintViewMore, 10)
                 }
             });
         }
         
-        let editor;
+        function paintViewMore(){
+			$(".postContent").each(function(i, ele){
+				if(ele.offsetHeight == 600){
+					$(ele).after("<div class='viewMore'><button class='viewMoreBtn btn'>더보기</button><div>");
+					$(ele).next().find(".viewMoreBtn").on("click", function(){
+						$(ele).trigger("click");
+					})
+				}
+			});
+        }
+        
         //커뮤니티 글 작성 폼 생성
         $(".communityWriteBtn").on("click", function(){
         	if(checkLogin()){
@@ -687,16 +744,7 @@
 	
 	            $(".content").append($($("#postFormTemplate").html()));
 	            
-	
-	    		ClassicEditor
-	    			.create( document.querySelector( '#content' ) )
-	    			.then( newEditor => {
-	    				editor = newEditor;
-	    			} )
-	    			.catch( error => {
-	    				console.error( error );
-	    			} );
-	            
+	            paintEditor("#content");
 	            //커뮤니티 글 작성 통신
 	            $("#submitBtn").on("click", function(e){
 	                e.preventDefault();
@@ -741,11 +789,8 @@
                     if(isProjectWriter(data.memberId)) post.find(".postWriter").append($("<span class='writerMark'>창작자</span>"));
             		post.find(".postCreated").text(data.formattedDate);
                     post.find(".postContent").html(data.content);
-                    post.find(".replyCount").text(data.replyCount + "개의 댓글이 있습니다.");
 					post.find(".postReplyForm").append($($("#replyFormTemplate").html()));
 					post.find(".replyPagination").append($($("#replyPaginationTemplate").html()));
-					
-					replyPageMax = Math.ceil(data.replyCount/10);
 					
                     if(loginUser == data.memberId) setManageBtn(post);
                     //댓글 작성 
@@ -761,7 +806,8 @@
 	                            	content : $("#replyContent").val()
 	                            },
 	                            success: function(data){
-									readPost(id);
+			                        $("#replyContent").val("");
+	                            	getReply(id, 1);
 	                            }
 	                        });
                     	}
@@ -782,21 +828,25 @@
 					page : page
                 },
                 success: function(data){
+                	$(".replyCount").text(data.count + "개의 댓글이 있습니다.");
+                	replyPageMax = Math.ceil(data.count/10);
+                	
                 	var replyWrapper = $(".post").find(".replyWrapper");
                 	replyWrapper.empty();
-                	for(var i=0; i<data.length; i++){
-                		var reply = $($("#replyTemplate").html());
-                		reply.attr("id", data[i].id);
-                		reply.find(".profileImg").attr("src", data[i].profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + data[i].profileImg);
-                		reply.find(".replyWriter").text(data[i].nickname);
-                		if(isProjectWriter(data[i].memberId)) reply.find(".replyWriter").append($("<span class='writerMark'>창작자</span>"));
-                		reply.find(".replyCreated").text("(" + data[i].formattedDate + ")");
-                		reply.find(".replyContent").text(data[i].content);
+                	for(var i=0; i<data.list.length; i++){
+                		let replyData = data.list[i];
+                		let reply = $($("#replyTemplate").html());
+                		reply.attr("id", replyData.id);
+                		reply.find(".profileImg").attr("src", replyData.profileImg==0 ? '/img/default_profile_img.jpg' : '/api/file/' + replyData.profileImg);
+                		reply.find(".replyWriter").text(replyData.nickname);
+                		if(isProjectWriter(replyData.memberId)) reply.find(".replyWriter").append($("<span class='writerMark'>창작자</span>"));
+                		reply.find(".replyCreated").text("(" + replyData.formattedDate + ")");
+                		reply.find(".replyContent").text(replyData.content);
                 		replyWrapper.append(reply);
                 		
-                        if(loginUser == data[i].memberId) setManageBtn(reply);
+                        if(loginUser == replyData.memberId) setManageBtn(reply);
                 	}
-                	if(data.length>0) paintReplyPagination(id, page);
+                	if(data.list.length>0) paintReplyPagination(id, page);
                 }
             });
         }
@@ -893,7 +943,7 @@
 					if($(btn).parent().parent().parent().hasClass("post")){
 						$("#communityLink").trigger("click");
 					} else{
-						readPost($(btn).parents(".post").attr("id"));
+						getReply($(btn).parents(".post").attr("id"), 1);
 					}
 			        getCount();
 				}

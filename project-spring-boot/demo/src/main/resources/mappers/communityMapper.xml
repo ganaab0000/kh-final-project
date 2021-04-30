@@ -54,9 +54,11 @@
 	
 	<select id="findById"  resultType="CommunityVo" parameterType="int">
 		select C.*, M.nickname, M.profile_img, to_char(C.date_created, 'yyyy-mm-dd hh24:mi:ss') formattedDate from (
-			select L.*, nvl(R.replyCount, 0) replyCount from community L left outer join (
-				select parent_community_id, count(parent_community_id) replyCount from community where parent_community_id = #{id} and is_deleted = 'N' group by parent_community_id
-			) R on L.id = r.parent_community_id where id = #{id}
+			select * from community where id = #{id}
 		) C left outer join member M on C.member_id = M.id order by C.id desc
+	</select>
+	
+	<select id="getReplyCount" resultType="int" parameterType="int">
+		select count(*) from community where parent_community_id = #{parentId} and is_deleted = 'N'
 	</select>
 </mapper>

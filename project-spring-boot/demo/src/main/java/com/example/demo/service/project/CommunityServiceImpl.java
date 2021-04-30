@@ -61,4 +61,9 @@ public class CommunityServiceImpl implements CommunityService{
 	public void delete(Integer communityId) {
 		communityRepository.delete(communityId);
 	}
+	
+	@Override
+	public int getReplyCount(Integer parentId) {
+		return communityRepository.getReplyCount(parentId);
+	}
 }

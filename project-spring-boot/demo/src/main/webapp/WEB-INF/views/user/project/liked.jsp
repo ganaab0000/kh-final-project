@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
+	<link rel="stylesheet" href="/css/projectCommon.css">
 	<style>
 		.main{
 			max-width: 1080px;
@@ -116,7 +117,7 @@
 			color: #ff4b4b;
 		}
 		button.like.btn:hover {
-		    background: #f0808042;
+		    background: #ffffffba;
 		}
 		button.like.btn {
 		    border-radius: 100%;
@@ -209,11 +210,6 @@
 	</script>
 	
 	<script>
-		function removeAllChild(parent) {
-			while (parent.firstChild) {
-				parent.removeChild(parent.firstChild);
-			}
-		}
 		//url 파라미터 가져오기
 		var url = new URL(location.href);
 		var urlParams = url.searchParams;
@@ -295,7 +291,7 @@
 									url: target,
 									type: "post",
 									success: function(){
-										removeAllChild(document.querySelector(".cardContainer"));
+										$(".cardContainer").empty();
 										page = 1;
 										loadingList();
 									}

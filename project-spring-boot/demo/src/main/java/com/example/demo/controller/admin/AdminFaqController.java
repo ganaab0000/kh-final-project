@@ -18,7 +18,7 @@ import com.example.demo.cs.entity.PagingVO;
 import com.example.demo.cs.entity.Search;
 import com.example.demo.cs.service.FaqService;
 
-import oracle.jdbc.proxy.annotation.Post;
+
 
 @Controller
 public class AdminFaqController {
@@ -117,4 +117,17 @@ public class AdminFaqController {
 		return "admin/faq/fAdminSeach";
 		
 	}
+	
+	 @PostMapping("/admin/FDelete")
+		public String faqDelete(FaqDto faqDto, Model model) throws Exception{
+		
+		 log.info("faqDelete()");
+		 
+		 adminFaqService.Fdelete(faqDto);		 
+		 
+		 model.addAttribute("msg", "삭제완료");
+		 
+		return "redirect:/admin/faqList";	
+		 
+	 }
 }

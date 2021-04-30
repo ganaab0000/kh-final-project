@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>텀블업 - 크리에이터를 위한 크라우드 펀딩</title>
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
+	<link rel="stylesheet" href="/css/projectCommon.css">
 	<style>
 		.main{
 			max-width: 1080px;
@@ -116,7 +117,7 @@
 			color: #ff4b4b;
 		}
 		button.like.btn:hover {
-		    background: #f0808042;
+		    background: #ffffffba;
 		}
 		button.like.btn {
 		    border-radius: 100%;
@@ -152,28 +153,31 @@
 		p.card-text.cardSubTitle {
 			font-size: 14px;
 		}
+		#projectCount{
+			font-weight: bold;
+		}
 	</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/user/common/header.jsp"></jsp:include>
 	<div class="main">
 		<div class="dropdown filterWrapper">
-			<button class="btn filter btn-outline-primary" type="button" id="keyword"></button>
-			<button class="btn dropdown-toggle filter btn-outline-primary" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">카테고리</button>
+			<button class="btn filter btn-outline-dark" type="button" id="keyword"></button>
+			<button class="btn dropdown-toggle filter btn-outline-dark" value="카테고리" type="button" id="category" data-bs-toggle="dropdown" aria-expanded="false">카테고리</button>
 			<ul class="dropdown-menu" aria-labelledby="category">
 				<li><button class="dropdown-item" name="category" value="">전체 보기</button></li>
 				<c:forEach var="category" items="${category}">
 					<li><button class="dropdown-item" name="category" value="${category.id}">${category.name}</button></li>
 				</c:forEach>
 			</ul>
-			<button class="btn dropdown-toggle filter btn-outline-primary" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">상태</button>
+			<button class="btn dropdown-toggle filter btn-outline-dark" value="상태" type="button" id="status" data-bs-toggle="dropdown" aria-expanded="false">상태</button>
 			<ul class="dropdown-menu" aria-labelledby="status">
 				<li><button class="dropdown-item" name="status" value="">전체 프로젝트</button></li>
 				<li><button class="dropdown-item" name="status" value="1">진행중인 프로젝트</button></li>
 				<li><button class="dropdown-item" name="status" value="2">성사된 프로젝트</button></li>
 				<li><button class="dropdown-item" name="status" value="3">공개 예정 프로젝트</button></li>
 			</ul>
-			<button class="btn dropdown-toggle filter btn-outline-primary" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
+			<button class="btn dropdown-toggle filter btn-outline-dark" value="달성률" type="button" id="rate" data-bs-toggle="dropdown" aria-expanded="false">달성률</button>
 			<ul class="dropdown-menu" aria-labelledby="rate">
 				<li><button class="dropdown-item" name="rate" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="rate" value="1">75% 이하</button></li>
@@ -197,7 +201,7 @@
 					</div>
 				</li>
 			</ul>
-			<button class="btn dropdown-toggle filter btn-outline-primary" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">모인 금액</button>
+			<button class="btn dropdown-toggle filter btn-outline-dark" value="모인 금액" type="button" id="collected" data-bs-toggle="dropdown" aria-expanded="false">모인 금액</button>
 			<ul class="dropdown-menu" aria-labelledby="collected">
 				<li><button class="dropdown-item" name="collected" value="">전체 보기</button></li>
 				<li><button class="dropdown-item" name="collected" value="1">1백만원 이하</button></li>
@@ -222,11 +226,11 @@
 					</div>
 				</li>
 			</ul>
-			<button class="btn filterReset btn-outline-primary">필터 초기화</button>
+			<button class="btn filterReset btn-outline-dark">필터 초기화</button>
 		</div>
 		<div class="filterWrapper">
 			<span id="projectCount"></span>개의 프로젝트가 있습니다.
-			<button class="btn dropdown-toggle filter btn-outline-primary" value="인기순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
+			<button class="btn dropdown-toggle filter btn-outline-dark" value="인기순" type="button" id="sort" data-bs-toggle="dropdown" aria-expanded="false">
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="sort">
 				<li><button class="dropdown-item" name="sort" value="1">인기순</button></li>
@@ -283,11 +287,6 @@
 	</script>
 	
 	<script>
-		function removeAllChild(parent) {
-			while (parent.firstChild) {
-				parent.removeChild(parent.firstChild);
-			}
-		}
 		//url 파라미터 가져오기
 		var url = new URL(location.href);
 		var urlParams = url.searchParams;
@@ -443,15 +442,17 @@
 							if(index!=0) newParams += "&";
 							newParams += key + "=" + value;
 							
-							if(key!="keyword") $("#"+key).text($("button[name="+key+"][value="+value+"]").text());
-							if(key=='keyword'){
+							if(key=="keyword") {
 								$("#keyword").show().text(value);
 								var closeBtn = $('<button type="button" class="btn-close" aria-label="Close"></button>');
 								$("#keyword").append(closeBtn);
 								closeBtn.on("click", function(){
 									keyword = "";
+									$(".cardContainer").empty();
 									loadingList();
 								})
+							} else{
+								$("#"+key).text($("button[name="+key+"][value="+value+"]").text());
 							}
 							index++;
 						} else{
@@ -460,6 +461,31 @@
 						}
 						$("button[name="+key+"][value='"+value+"']").addClass("active");
 					}
+					if(ajaxParams.get('minRate') || ajaxParams.get('maxRate')){
+						let str;
+						if(ajaxParams.get('minRate') && ajaxParams.get('maxRate')){
+							str = ajaxParams.get('minRate') + "% ~ " + ajaxParams.get('maxRate') + "%";
+						} else if(ajaxParams.get('minRate')){
+							str = ajaxParams.get('minRate') + "% 이상";
+						} else{
+							str = ajaxParams.get('maxRate') + "% 이하";
+						}
+						$("#rate").text(str);
+						$("button[name=rate]").removeClass("active");
+					}
+					if(ajaxParams.get('minCollected') || ajaxParams.get('maxCollected')){
+						let str;
+						if(ajaxParams.get('minCollected') && ajaxParams.get('maxCollected')){
+							str = ajaxParams.get('minCollected') + "원 ~ " + ajaxParams.get('maxCollected') + "원";
+						} else if(ajaxParams.get('minCollected')){
+							str = ajaxParams.get('minCollected') + "원 이상";
+						} else{
+							str = ajaxParams.get('maxCollected') + "원 이하";
+						}
+						$("#collected").text(str);
+						$("button[name=collected]").removeClass("active");
+					}
+					
 					history.pushState(null, null, newParams);
 				}
 			});
@@ -472,23 +498,27 @@
 
 		//필터 변경으로 리스트 호출
 		$(".dropdown-item").on("click", function(){
-			removeAllChild(document.querySelector(".cardContainer"));
+			$(".cardContainer").empty();
 			$(this).parents(".dropdown-menu").find(".dropdown-item").removeClass("active");
 			$(this).addClass("active");
 			paramSetter[this.name](this.value);
 			if(this.name=="rate"){
 				minRate = "";
 				maxRate = "";
+				$("input[name=minRate]").val(null);
+				$("input[name=maxRate]").val(null);
 			}
 			if(this.name=="collected"){
 				minCollected = "";
 				maxCollected = "";
+				$("input[name=minCollected]").val(null);
+				$("input[name=maxCollected]").val(null);
 			}
 			page = 1;
 			loadingList();
 		})
 		$(".customFilter").on("click", function(){
-			removeAllChild(document.querySelector(".cardContainer"));
+			$(".cardContainer").empty();
 			$(this).parents(".dropdown-menu").find(".dropdown-item").removeClass("active");
 			var minValue = $(this).parents(".dropdown-menu").find(".min");
 			var maxValue = $(this).parents(".dropdown-menu").find(".max");
@@ -505,7 +535,7 @@
 		
 		//필터 초기화
 		$(".filterReset").on("click", function(){
-			removeAllChild(document.querySelector(".cardContainer"));
+			$(".cardContainer").empty();
 			$(".dropdown-item").removeClass("active");
 			keyword = "";
 			category = "";

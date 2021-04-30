@@ -39,7 +39,7 @@
 * Framework
     * Spring Boot
 * Frontend 
-    * HTML5, CSS3, Javascript, Jquery, Bootstrap5, Chart.js(차트), Snackbar.js(알림창), Summernote.js
+    * HTML5, CSS3, Javascript, Jquery, Bootstrap5, Chart.js(차트), Snackbar.js(알림창), Summernote.js, CKEditor
 * Backend
     * Maven, Mybatis, JSTL, Spring Security, Iamport(결제모듈), Google SMTP(메일 인증), Oauth2(Google, Naver), Lombok
 ## ERD
@@ -55,14 +55,46 @@
 
 ## 프로젝트 화면
 ### 일반 회원
-#### 메인화면
-#### 프로젝트 목록
-#### 프로젝트 상세
+
+#### 메인화면 (박효길)
+<img src="/docs/img/hyogil/main.png"> |
+:-:|
+* 좋아요(프로젝트 목록, 상세 공통)
+
+#### 프로젝트 목록 (박효길)
+<img src="/docs/img/hyogil/list.png"> | <img src="/docs/img/hyogil/like.png">
+:-:|:-:
+* 필터링, 정렬, 검색 기능
+
+#### 프로젝트 상세 (박효길)
+##### 프로젝트 상세 화면
+<img src="/docs/img/hyogil/detail_story.png"> |
+:-:|
+
+##### 커뮤니티
+<img src="/docs/img/hyogil/community_list.png"> | <img src="/docs/img/hyogil/community_detail.png">
+:-:|:-:
+* 게시글, 댓글 기능
+
 #### 프로젝트 등록
 #### 프로젝트 예약
+
+### 고객센터(안승철)
 #### 공지사항
+<img src="/docs/img/cs/NOTICE.PNG" width="800px">
+* 쓰기/읽기/수정/삭제/검색 기능
+
 #### 이용약관
+<img src="/docs/img/cs/TOS.PNG" width="800px">
+
 #### FAQ
+<img src="/docs/img/cs/FAQ.PNG" width="800px">
+* 쓰기/읽기/수정/삭제/검색 기능
+
+#### Q&A
+<img src="/docs/img/cs/Q&A_SEND.PNG" width="400px"> | <img src="/docs/img/cs/Q&A_LIST.PNG" width="450px">
+:-:|:-:
+* 쓰기/읽기/삭제 기능
 
 #### 회원 기능 (송하준)
 ##### 로그인
