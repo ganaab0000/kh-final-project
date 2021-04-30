@@ -17,7 +17,7 @@ import com.example.demo.domain.vo.RewardVo;
 
 
 @Repository("projectDao")
-public class registRepository {
+public class RegistRepository {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
