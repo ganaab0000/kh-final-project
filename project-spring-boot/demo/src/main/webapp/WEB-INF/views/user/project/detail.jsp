@@ -369,7 +369,7 @@
 	                </div>
 	                <div class="projectTitle"><h1>${project.title}</h1></div>
 	                <div class="projectWriter">
-	                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${project.memberId}" class="a">${project.writerName}</a>
+	                	<img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle">${project.writerName}
 	                </div>
 	            </div>
         	</c:if>
@@ -454,7 +454,7 @@
                 <div class="subColumn">
                     <div class="writerWrapper contentBox">
                         <div class="writerInfoHeader">창작자 소개</div>
-                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle"><a href="${writer.id}" class="a">${writer.nickname}</a></div>
+                        <div class="writerName"><img src="${writerProfileImg}" alt="profileImg" class="profileImg rounded-circle">${writer.nickname}</div>
                         <div class="writerContent">${writer.profileDetail}</div>
                         <hr>
                         <div class="lastLoggedIn">마지막 로그인 : <fmt:formatDate value="${writer.dateLoggedin}" pattern="yyyy년 MM월 dd일 HH시"/></div>
