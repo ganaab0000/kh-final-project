@@ -1,5 +1,134 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+#agreeForm {
+            margin-top: 250px;
+        }
+
+        .agreeTitle {
+
+            width: 1080px;
+            margin: 0 auto;
+            padding: 5px 15px;
+        }
+
+        .project-disclosure {
+            border-top: 1px solid gray;
+            border-bottom: 1px solid gray;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+        }
+
+        .checklistborder {
+            border-bottom: 1px solid black;
+        }
+
+        li.list1 {
+            list-style: none;
+
+        }
+
+        .checklist {
+            margin: 0 auto;
+            padding: 0;
+
+        }
+
+        .checklistbox {
+            padding: 5px 0;
+        }
+
+        .continuebtn {
+            border: 1px solid white;
+            background-color: rgba(255, 99, 71, 0.7);
+            color: white;
+            border-radius: 8px;
+            margin: 10px 0;
+            margin-left: 10px;
+            padding: 7px 13px;
+            font-size: 24px;
+            outline: 0px;
+            cursor: pointer;
+            font-family: "Nanum Gothic", sans-serif;
+            font-weight: bold;
+        }
+
+        .continuebtn:hover {
+            border: 1px solid white;
+            background-color: rgba(255, 99, 71, 1);
+            color: white;
+            border-radius: 8px;
+            margin: 10px 0;
+            margin-left: 10px;
+            padding: 7px 13px;
+            font-size: 24px;
+            font-family: "Nanum Gothic", sans-serif;
+            font-weight: bold;
+        }
+
+        .backbtn {
+            border: 1px solid white;
+            background-color: rgba(255, 99, 71, 0.7);
+            color: white;
+            border-radius: 8px;
+            margin: 10px 0;
+            padding: 7px 13px;
+            font-size: 24px;
+            outline: 0px;
+            font-family: "Nanum Gothic", sans-serif;
+            font-weight: bold;
+        }
+
+        .backbtn:hover {
+            border: 1px solid white;
+            background-color: rgba(255, 99, 71, 1);
+            color: white;
+            border-radius: 8px;
+            margin: 10px 0;
+            padding: 7px 13px;
+            font-size: 24px;
+            font-family: "Nanum Gothic", sans-serif;
+            font-weight: bold;
+        }
+
+        .disstyle {
+            cursor: pointer;
+            font-weight: bold;
+            color: rgba(255, 60, 60, 0.8);
+        }
+
+        .disstyle:hover {
+            color: rgba(255, 0, 0, 1);
+        }
+
+        .agreeContent {
+            font-weight: lighter;
+            font-size: 26px;
+            line-height: 1.5;
+            font-weight: 600;
+            font-family: "Nanum Gothic", sans-serif;
+        }
+
+        .headertext {
+            font-size: 48px;
+            font-weight: bold;
+            line-height: 2;
+            font-family: "Nanum Gothic", sans-serif;
+        }
+
+        .labeltext {
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1.5;
+            font-family: "Nanum Gothic", sans-serif;
+            -ms-user-select: none;
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
 .thumb-box {
     height: 420px;
     width: 430px;
@@ -9,7 +138,7 @@
     margin-right: auto;
 }
 
-.thumb-box .wrapper {
+.thumb-box .wra {
     position: relative;
     height: 300px;
     width: 100%;
@@ -22,32 +151,62 @@
     overflow: hidden;
 }
 
-.wrapper.active {
+.wra.active {
     border: none;
 }
 
-.wrapper .image {
+.wra  {
     position: absolute;
     height: 100%;
     width: 100%;
-    display: flex;
+    display: inline-block;
     align-items: center;
     justify-content: center;
 }
+.img0 {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    
+    
+}
+#insertForm {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1400px;
+}
 
-.wrapper img {
+#submitbtn {
+    border: 1px solid rgba(255, 99, 71, 1);
+    color: red;
+    background-color: white;
+    border-radius: 8px;
+    margin: 10px 0;
+    margin-left: 10px;
+    padding: 7px 13px;
+    width: 150px;
+    height: 50px;
+    font-size: 24px;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+    outline: 0px;
+    cursor: pointer;
+}
+
+.wra img {
     height: 100%;
     width: 100%;
     object-fit: cover;
 }
 
-.wrapper .icon {
+.wra .icon {
     font-size: 100px;
     color: #9658fe;
     margin-left: 130px;
 }
 
-.wrapper .text-info {
+.wra .text-info {
     margin-top: 15px;
     text-align: center;
     font-size: 16px;
@@ -56,7 +215,7 @@
     font-family: "Nanum Gothic", sans-serif;
 }
 
-.wrapper #cancel-btn i {
+.wra #cancel-btn i {
     position: absolute;
     font-size: 20px;
     right: 15px;
@@ -66,11 +225,11 @@
     display: none;
 }
 
-.wrapper.active:hover #cancel-btn i {
+.wra.active:hover #cancel-btn i {
     display: block;
 }
 
-.wrapper #cancel-btn i:hover {
+.wra #cancel-btn i:hover {
     color: #e74c3c;
 }
 
@@ -140,7 +299,7 @@
 /* 메뉴바 */
 
 #menubar {
-    border: 1px solid black;
+    
     width: 800px;
     margin-left: auto;
     margin-right: auto;
@@ -754,7 +913,6 @@
 }
 
 #pmainimg {
-    margin-top: 100px;
     width: 100%;
     height: 100%;
     border-radius: 3px;
@@ -1521,4 +1679,13 @@
 
 .row button.instagram:active span {
     box-shadow: 0px 5px 0px 0px #c91d56, 6px 4px 2px rgba(0, 0, 0, 0.3);
+}
+
+.warning {
+    width: 800px;
+    height: 400px;
+    font-size: 36px;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: "Nanum Gothic", sans-serif;
 }

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +10,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>프로젝트 등록</title>
-<link rel="stylesheet" type="text/css"
-	href="/static/css/registForm.css">
+
+<link rel="stylesheet" type="text/css" href="/css/registForm.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <link rel="stylesheet"
@@ -18,18 +19,88 @@
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" />
 <link rel="preconnect" href="https://fonts.gstatic.com" />
+
+
+
 </head>
 <body>
+	<div id="agreeForm">
+
+			<div class="agreeTitle">
+				<span class="headertext">프로젝트를 등록하기 전에 꼭 <span
+					style="color: red;">확인</span>해주세요!
+				</span>
+				<div class="agreeContent">
+					텀블업은 공개 검토 절차를 통해 창작자님이 작성한 프로젝트가 텀블업의 정책을 준수하는지 <br>확인하고
+					있습니다. 아래 사항들을 확인한 후 프로젝트를 올려주세요
+				</div>
+				<!-- 약관으로 이동 -->
+				<hr>
+				<!-- 체크박스 이미지는 나중에 변경 -->
+				<div class="checklistborder">
+					<ul class="checklist">
+						<li class="list1">
+							<div class="checklistbox">
+								<input type="checkbox" id="reward-check1" required> <label
+									class="labeltext" for="reward-check1">새로운 꿈을 실현하기 위한
+									프로젝트입니다.</label>
+							</div>
+						</li>
+						<li class="list1">
+							<div class="checklistbox">
+								<input type="checkbox" id="reward-check2" required> <label
+									class="labeltext" for="reward-check2"> 이미 시판된 제품, 현금이나
+									지분 등 수익 제공, 선물 없는 단순 기부, 성인 인증이 필요한 컨텐츠 등 <br> <span
+									style="padding-left: 25px;">기준에 맞지 않는 리워드를 제공하지 않습니다!</span>
+								</label>
+							</div>
+						</li>
+						<li class="list1">
+							<div class="checklistbox">
+								<input type="checkbox" id="reward-check3" required> <label
+									class="labeltext" for="reward-check3">창작자의 신분증 혹은
+									사업자등록증, 국내 은행 계좌, 연락 가능한 본인 휴대폰 번호가 있습니다.</label>
+							</div>
+						</li>
+
+						<li class="list1">
+							<div class="checklistbox">
+								<input type="checkbox" id="reward-check4" required> <label
+									class="labeltext" for="reward-check4">창작자 대표자는 19세 이상
+									성인입니다.</label>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+				<div style="margin-top: 15px;">
+					<input type="button" class="backbtn"
+						onclick="javascript:history:back();" value="이전으로"> <input
+						type="button" class="continuebtn" value="계속하기">
+				</div>
+			</div>
+
+		</div>
+
 	<div id="insertForm">
-		<!-- 임시저장, 미리보기, 제출하기-->
-		<div></div>
+		<!-- 제출하기-->
+		<div style="float: right; margin-right: 150px;">
+			<button type="button" id="submitbtn" onclick="submitBtn();">전송</button>
+		</div>
 		<div id="menubar">
 			<span id="menu1">개요</span> <span id="menu2">아티스트</span> <span
 				id="menu3">리워드</span> <span id="menu4">프로젝트</span>
 		</div>
+		
 		<div class="formbox">
-			<form id="insertfrm" method="POST" enctype="multipart/form-data" action="/success">
-			<input type="submit" value="전송">
+			<form id="insertfrm" method="POST" enctype="multipart/form-data"
+				action="/user/project/success">
+				<input type="hidden" name="memberId" value="${member.id }"> <input
+					type="hidden" name="id" value="${project.id }"> <input
+					type="hidden" name="projectStatusCategoryId" id="statusNum"
+					value="${project.projectStatusCategoryId}"> <input
+					type="hidden" name="memberId" value="1">
+
 				<div id="menu1work">
 					<div class="summary">
 						<span class="header-info">프로젝트 개요</span>
@@ -64,9 +135,11 @@
 								<span class="summary-subtitle-info">목표금액</span>
 							</div>
 							<div class="summary-rightbox">
-								<input class="summary-mount" name="TargetAmount" type="text" value="0"
-									autocomplete="off" onkeyup="pricecomma2(0);"> <span
-									class="span-design" style="color: black;">원</span>
+								<input class="summary-mount" type="text" min="0" maxlength="13"
+									value="0" autocomplete="off" onkeyup="pricecomma2(0);">
+								<input class="targetmount" type="hidden" value="0" min="0"
+									name="targetAmount"> <span class="span-design"
+									style="color: black;">원</span>
 							</div>
 						</div>
 						<hr style="width: 1000px; opacity: 0.5" />
@@ -77,9 +150,9 @@
 							</div>
 							<div class="summary-rightbox" style="margin-left: 10px;">
 								<div class="thumb-box">
-									<div class="wrapper">
-										<div class="image">
-											<img class="image-info" src="" alt="">
+									<div class="wra">
+										<div class="img0">
+											<img class="img0-info" src="" alt="">
 										</div>
 										<div class="content">
 											<div class="icon">
@@ -97,9 +170,10 @@
 											<i class="fas fa-times"></i>
 										</div>
 									</div>
-									<button onclick="defaultBtnActive()" id="custom-btn">사진을
-										선택해주세요</button>
-									<input id="default-btn" multiple="multiple" name="uploadfile1" type="file" hidden>
+									<button type="button" onclick="defaultBtnActive()"
+										id="custom-btn">사진을 선택해주세요</button>
+									<input id="default-btn" multiple="multiple" name="uploadfile1"
+										type="file" hidden>
 								</div>
 							</div>
 						</div>
@@ -150,7 +224,7 @@
 							</div>
 							<div class="summary-rightbox">
 								<div class="hash-form">
-									<input class="summary-hashtag" id="hashtag" name="hashtag"
+									<input class="summary-hashtag" id="hashtag" name="hashTag"
 										value="해시태그는, 다음과같이, 적어주세요" autocomplete="off">
 								</div>
 								<div class="hash-edit" id="hash-info"></div>
@@ -171,6 +245,8 @@
 							</div>
 							<div class="artist-rightbox">
 								<div id="artist-image-box">
+									<input type="hidden" name="writerProfileImg"
+										id="writerProfileImg" value="${project.writerProfileImg}">
 									<div id="noimage">
 										<i class="material-icons" name="WRITER_PROFILE_IMG"
 											id="ArtimgUpload">person</i>
@@ -204,18 +280,7 @@
 									maxlength="10" autocomplete="off">
 							</div>
 						</div>
-						<hr style="width: 1000px; opacity: 0.5" />
-						<!-- <div class="artist-info3">
-							<div class="artist-leftbox">
-								<span class="artist-intro-info">아티스트 소개</span>
-								<p class="pform">자신을 소개해주세요</p>
-							</div>
-							<div class="artist-rightbox">
-								<textarea class="artist-intro" name="writer_intro" rows="3"
-									placeholder="자신을 소개해주세요"></textarea>
-								<span class="lengthchk4">0</span>/120
-							</div>
-						</div> -->
+
 						<hr style="width: 1000px; opacity: 0.5" />
 						<div class="artist-info4">
 							<div class="artist-leftbox">
@@ -323,9 +388,10 @@
 							</div>
 							<div class="itembox-add-info2">
 								<span class="itembox-add-span-design" style="margin-left: 15px;">금액</span>
-								<input class="itembox-add-price0" id="item-price0"
-									name="itemList[0].Price" type="text" value="0"
-									onkeyup="pricecomma(0)"> <span
+								<input class="itembox-add-price0" id="item-price0" min="0"
+									maxlength="13" type="text" placeholder="0"
+									onkeyup="pricecomma(0)" autocomplete="off"> <input
+									class="pricechange0" type="hidden" name="itemList[0].Price"><span
 									class="itembox-add-span-design" style="color: black;">원</span>
 							</div>
 							<div class="itembox-add-info3">
@@ -343,39 +409,11 @@
 									<span class="itembox-add-span-design">옵션</span>
 								</div>
 								<div class="itembox-rightbox" style="line-height: 40px;">
-									<div>
-										<input class="optioncheck" name="itemList[0].Option"
-											id="itembox-option0-1" type="radio" value="1" checked>
-										<label class="itembox-label" for="itembox-option0-1">
-											옵션 입력이 필요 없는 리워드입니다. </label>
-									</div>
-									<div>
-										<input class="optioncheck" name="itemList[0].Option"
-											id="itembox-option0-2" type="radio" value="2"> <label
-											class="itembox-label" for="itembox-option0-2"> 주관식
-											옵션이 필요한 리워드입니다.<span
-											style="margin-left: 10px; font-size: 13px; opacity: 0.8;">(각인,
-												메시지 등)</span>
-										</label>
-									</div>
-									<div class="option-tarea" style="display: none">
-										<textarea name="itemList[0]-optarea"
-											class="option0-2-desc tarea"></textarea>
-									</div>
-									<div>
-										<input class="optioncheck" name="itemList[0].Option"
-											id="itembox-option0-3" type="radio" value="3"> <label
-											class="itembox-label" for="itembox-option0-3"> 객관식
-											옵션이 필요한 리워드입니다.<span
-											style="margin-left: 10px; font-size: 13px; opacity: 0.8;">(사이즈,
-												색상 등)</span>
-										</label>
-									</div>
-									<div class="option-multarea"
-										style="width: 780px; display: none;">
+
+									<div class="option-multarea" style="width: 780px;">
 										<div class="itembox-leftbox"
 											style="margin-left: 10px; margin-top: 37px;">
-											<textarea id="itemonkey0" name="itemList[0]-opmultarea"
+											<textarea id="itemonkey0" name="itemList[0].optionForm"
 												class="item-option" onkeyup="mulpriview(0)"></textarea>
 										</div>
 										<div class="itembox-rightbox" style="margin-left: 0px;">
@@ -384,8 +422,9 @@
 											<div class="item-option-priview0 privew-design"
 												style="margin-bottom: 10px; margin-right: 10px; line-height: 23px;"
 												readonly>
-												※ Enter를 통해 줄바꿈이 됩니다.<br> ex) 사이즈 또는 색상을 적어주세요<br>
-												ex.1)<br> 블랙 - 240mm 5개<br> 화이트 - 240mm 5개
+												※ Enter를 통해 줄바꿈이 됩니다.<br> 1. 각인이나 메시지를 적어주세요<br>
+												2. 사이즈 또는 색상을 적어주세요<br> ex.1)<br> 블랙 - 240mm 5개<br>
+												화이트 - 240mm 5개
 											</div>
 										</div>
 									</div>
@@ -465,7 +504,7 @@
 										style="margin-left: 10px;">
 										<option value="05">초(1일 ~ 10일)</option>
 										<option value="15">중순(11일 ~ 20일)</option>
-										<option value="25">3월</option>
+										<option value="25">말(21~말일)</option>
 									</select> <input type="hidden" name="itemList[0].deliveryDate"
 										value="2021-01-01">
 								</div>
@@ -473,16 +512,17 @@
 							<!-- 취소하기와 저장버튼 -->
 							<div class="itembox-add-info9">
 								<div class="itembox-leftbox" style="margin-left: 30px;">
-									<button class="del-design" id="reward-deletebtn0">리워드
+									<button type="button" class="del-design" id="reward-deletebtn0">리워드
 										삭제</button>
-									<button class="modify-design" id="reward-modifybtn0">리워드
-										수정</button>
+									<button type="button" class="modify-design"
+										id="reward-modifybtn0">리워드 수정</button>
 								</div>
 								<div class="itembox-rightbox">
 									<span class="itembox-label" style="font-size: 24px;">※
 										작성이 완료되면 반드시 <span style="color: red;">저장</span>해주세요!
-										<button class="savebtn-design" id="reward-savebtn"
-											onclick="itemSave(0)">리워드 저장</button>
+									</span>
+									<button type="button" class="savebtn-design"
+										id="reward-savebtn" onclick="itemSave(0)">리워드 저장</button>
 								</div>
 							</div>
 						</div>
@@ -539,8 +579,8 @@
 							<div class="story-rightbox">
 								<div class="story-opendate">
 									<div class="startForm">
-										<sapn class="start-text">공개일 : &nbsp; </sapn>
-										<select id="startyear" class="story-yeardesign">
+										<span class="start-text">공개일 : &nbsp; </span> <select
+											id="startyear" class="story-yeardesign">
 										</select> <select id="startmonth" class="story-monthdesign"
 											style="margin-left: 10px;">
 										</select> <select id="startday" class="story-daydesign"
@@ -548,8 +588,8 @@
 										</select>
 									</div>
 									<div class="endForm">
-										<sapn class="end-text">종료일 : &nbsp; </sapn>
-										<input type="number" id="endday" min="10" max="100" value="10">
+										<span class="end-text">종료일 : &nbsp; </span> <input
+											type="number" id="endday" min="10" max="100" value="10">
 									</div>
 									<hr style="width: 450px; opacity: 0.5" />
 									<div
@@ -590,8 +630,8 @@
 									<input type="file" name="uploadfile3" id="mainfile"
 										multiple="multiple" onchange="loadPImg(this);"
 										style="display: none;"> <input type="hidden"
-										name="mainImg" id="videoURL" value=""> <a
-										href="javascript:void(0)" id="pmainimgdelete"
+										name="mainImg" id="videoURL" value="${project.mainImg}">
+									<a href="javascript:void(0)" id="pmainimgdelete"
 										style="display: inline-block; vertical-align: top; margin-top: 60px;">
 										<i class="material-icons">highlight_off</i>
 									</a>
@@ -607,11 +647,11 @@
 						<hr style="width: 1050px; opacity: 0.5" />
 						<div class="story-info3">
 							<div class="story-leftbox">
-								<span class="project-story-info">프로젝트 공개 / 종료일</span>
+								<span class="project-story-info">스토리</span>
 							</div>
 							<div class="story-rightbox">
 								<div class="storyForm">
-									<textarea class="story-custom" name="project_story"></textarea>
+									<textarea id="summernote" class="story-custom" name="story"></textarea>
 								</div>
 							</div>
 						</div>
@@ -621,336 +661,358 @@
 			</form>
 
 		</div>
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-		<script type="text/javascript">
-			// show hide
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	
+	<script>
+        $(function () {
+            //나중에 삭제합시다 일단은 이렇게
+            $("#insertForm").hide();
 
-			$(function() {
-				$("#menu1work").show();
+            $(".continuebtn").click(function () {
+            	var loginuser = ${member.id} + "";
+            	if (loginuser == "") {
+    				Swal.fire({
+    					type: 'info',
+    					title: "로그인이 필요합니다.",
+    					footer: '<a href="/member/signin">로그인 하러 가기</a>',
+    	                confirmButtonText: '닫기'
+    				})
+    			} else {
+                checklist();
+    			}
+            })
+        });
+        function checklist() {
+            var check1 = $("#reward-check1");
+            var check2 = $("#reward-check2");
+            var check3 = $("#reward-check3");
+            var check4 = $("#reward-check4");
+            
+            			
+            if (!check1.is(':checked') || !check2.is(':checked') || !check3.is(':checked') || !check4.is(':checked')) {
+                Swal.fire({
+                    html: "<h1>텀블업 이용약관에 모두 체크해주세요</h1>",
+                    width: 800
+                });
+            }
+            else {
+                $("#agreeForm").hide();
+                $("#insertForm").show();
+            }
+        }
+    </script>
+	<script type="text/javascript">
+		// show hide
+
+		$(function() {
+			$("#menu1work").show();
+			$("#menu2work").hide();
+			$("#menu3work").hide();
+			$("#menu4work").hide();
+
+			$("#menu1").click(function() {
+				// var scroll = $("#menu1").offset().top + 50;
+				// $("html").animate({
+				//     scrollTop: 100
+				// }, 700);
+				$("#menu1work").show(700);
 				$("#menu2work").hide();
 				$("#menu3work").hide();
 				$("#menu4work").hide();
 
-				$("#menu1").click(function() {
-					// var scroll = $("#menu1").offset().top + 50;
-					// $("html").animate({
-					//     scrollTop: 100
-					// }, 700);
-					$("#menu1work").show(700);
-					$("#menu2work").hide();
-					$("#menu3work").hide();
-					$("#menu4work").hide();
-
-				});
-
-				$("#menu2").click(function() {
-					$("#menu1work").hide();
-					$("#menu2work").show(700);
-					$("#menu3work").hide();
-					$("#menu4work").hide();
-				})
-
-				$("#menu3").click(function() {
-					$("#menu1work").hide();
-					$("#menu2work").hide();
-					$("#menu3work").show(700);
-					$("#menu4work").hide();
-				})
-
-				$("#menu4").click(function() {
-					$("#menu1work").hide();
-					$("#menu2work").hide();
-					$("#menu3work").hide();
-					$("#menu4work").show(700);
-				})
-			});
-			//글자수 체크 코드
-			$(function() {
-				$(".summary-title").keyup(function() {
-					titlehandle(this);
-				});
-				$(".summary-subtitle").keyup(function() {
-					subtitlehandle(this);
-				});
-				$(".text-summary").keyup(function() {
-					summaryhandle(this);
-				});
-				$(".artist-intro").keyup(function() {
-					introhandle(this);
-				});
-
-				//글자수 체크
-				function getTextLength(str) {
-					var len = 0;
-
-					for (var i = 0; i < str.length; i++) {
-						if (escape(str.charAt(i)).length == 6) {
-							len += 1;
-						} else {
-							len += 1;
-						}
-					}
-					return len;
-				}
-				//title 글자수 체크
-				function titlehandle(object) {
-					var text = $(object).val();
-					var len = text.length;
-					if (getTextLength($(".summary-title").val()) > 50) {
-						alert("제목은 50자 이하로 적어 주세요.");
-
-						while (getTextLength(text) > 50) {
-							len--;
-							text = text.substring(0, len);
-						}
-					}
-					$(object).val(text);
-					$(".lengthchk").text(getTextLength(text));
-				}
-				//sub_title 글자수 체크
-				function subtitlehandle(object) {
-					var text = $(object).val();
-					var len = text.length;
-					if (getTextLength($(".summary-subtitle").val()) > 50) {
-						alert("부제목은 100자 이하로 적어 주세요.");
-
-						while (getTextLength(text) > 50) {
-							len--;
-							text = text.substring(0, len);
-						}
-					}
-					$(object).val(text);
-					$(".lengthchk2").text(getTextLength(text));
-				}
-
-				//text-summary 글자수 체크
-				function summaryhandle(object) {
-					var text = $(object).val();
-					var len = text.length;
-					if (getTextLength($(".text-summary").val()) > 100) {
-						alert("내용은 400자 이하로 적어 주세요.");
-
-						while (getTextLength(text) > 100) {
-							len--;
-							text = text.substring(0, len);
-						}
-					}
-					$(object).val(text);
-					$(".lengthchk3").text(getTextLength(text));
-				}
-
-				function introhandle(object) {
-					var text = $(object).val();
-					var len = text.length;
-					if (getTextLength($(".artist-intro").val()) > 120) {
-						alert("소개는 120자 이하로 적어 주세요");
-
-						while (getTextLength(text) > 120) {
-							len--;
-							text = text.substring(0, len);
-						}
-					}
-					$(object).val(text);
-					$(".lengthchk4").text(getTextLength(text));
-				}
-
-			});
-			//목표금액
-			function pricecomma2(number) {
-				var price = $(".summary-mount").val();
-				price = price.replace(/[^0-9]/g, '');
-				price = price.replace(/,/g, '');
-				$(".summary-mount").val(
-						price.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-			};
-			//해시태그
-			$(function() {
-				var check = 0;
-
-				//해시태그가 10개가 넘어가면 무효화
-				function hashinvaild() {
-					var index = $("#hashtag").val().length;
-					var input = $("#hashtag").val().substring(0, index - 1);
-					$("#hashtag").val(input);
-				}
-				;
-
-				//해시태그 생성
-				function createhash() {
-					var input = $("#hashtag").val().split(',');
-					var len = input.length;
-
-					if (len > 10) {
-						hashinvaild();
-						return false;
-					}
-
-					$("#hash-info").empty();
-
-					for (var i = 0; i < len; i++) {
-						$("#hash-info").append(
-								"<span>#" + input[i].trim() + " </span>");
-					}
-
-				}
-				;
-
-				$("#hashtag").on("input", function() {
-					createhash();
-				});
-
-				$(function() {
-					createhash();
-				});
-
-				$("#hashtag").on("click", function() {
-					if (check == 0) {
-						$("#hashtag").val("");
-						check = 1;
-					}
-				});
-
-			});
-			//아티스트 이미지
-			$(function() {
-				ArtImgUpload();
-
-				$("#ArtimgUpload, #artimgdelete a")
-						.on(
-								"click",
-								function() {
-									var input = "";
-									input += '<div id="ArtImageArea"><div id="aimageinputarea"><div id="aimagecontentarea"><p>· JPG, JPEG, PNG, GIF, BMP만 업로드가능합니다.</p><p>· 이미지 용량은 10mb 이하로 첨부해주세요.</p><p>· 이미지의 가로 세로 사이즈는<br> 60px로 자동조정됩니다.</p><p>· 이미지의 사이즈를 고려하여 올려주세요.</p></div>';
-									input += '<div id="ArtImageShow"><div id="art-noimage" style="margin-top: 20px;"><a href="javascript:ArtImageClick();"><i class="material-icons upgrade">upgrade</i></a><span>프로필을 등록해주세요.</span></div><div id="art-image" style="display: none; width: 100%; height: 100%;"><a href="javascript:ArtImageClick();"><img src="" style="width: 100%; height: 100%;" id="aimg"></a></div></div><div style="clear: both; padding: 0; border: none; margin: 0;"></div></div></div>';
-									Swal
-											.fire({
-												title : '아티스트 프로필 등록',
-												html : input,
-												confirmButtonText : '닫기',
-												didClose : function() {
-													if ($("#aimg").attr("src") != "") {
-														$("#artistimg")
-																.attr(
-																		"src",
-																		$(
-																				"#aimg")
-																				.attr(
-																						"src"));
-													}
-													ArtImgUpload();
-												}
-											});
-								});
 			});
 
-			function ArtImageClick() {
-				var input = $("#artfile");
-				input.click();
-			}
+			$("#menu2").click(function() {
+				$("#menu1work").hide();
+				$("#menu2work").show(700);
+				$("#menu3work").hide();
+				$("#menu4work").hide();
+			})
 
-			function loadAImg(value) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					$("#art-noimage").hide();
-					$("#art-image").show();
-					$("#aimg").attr("src", e.target.result);
-				}
+			$("#menu3").click(function() {
+				$("#menu1work").hide();
+				$("#menu2work").hide();
+				$("#menu3work").show(700);
+				$("#menu4work").hide();
+			})
 
-				reader.readAsDataURL(value.files[0]);
-			}
-
-			function ArtImgUpload() {
-				var image = $("#artfile").val();
-				if (image != "") {
-					$("#noimage").hide();
-					$("#okimage").show();
-					$("#artimgdelete").show();
-				} else {
-					$("#okimage").hide();
-					$("#noimage").show();
-					$("#artimgdelete").hide();
-				}
-			}
-			//페이스북 + 인스타그램
-
-			$(function() {
-
-				$(".instagram").on("click", function(e) {
-					//나중에 input값 받아올 예정
-					e.preventDefault(); //form 전송 방지
-					var input = $(".artistinstagram").val();
-					var instragmOpen = "https://www.instagram.com/" + input;
-					window.open(instragmOpen);
-
-				});
-
-				$(".facebook").on("click", function(e) {
-					e.preventDefault(e); //form 전송 방지
-					var input = $(".artistFacebook").val();
-					var facebookOpen = "https://www.facebook.com/" + input;
-					window.open(facebookOpen);
-				});
+			$("#menu4").click(function() {
+				$("#menu1work").hide();
+				$("#menu2work").hide();
+				$("#menu3work").hide();
+				$("#menu4work").show(700);
+			})
+		});
+		//글자수 체크 코드
+		$(function() {
+			$(".summary-title").keyup(function() {
+				titlehandle(this);
 			});
-			function facebook() {
-				var getText = $(".sns1").text();
-				var getid = $(".artistFacebook").val();
+			$(".summary-subtitle").keyup(function() {
+				subtitlehandle(this);
+			});
+			$(".text-summary").keyup(function() {
+				summaryhandle(this);
+			});
+			$(".artist-intro").keyup(function() {
+				introhandle(this);
+			});
 
-				$("#sns-facebook").val(getText + getid);
-			}
-			function instagram() {
-				var getText = $(".sns2").text();
-				var getid = $(".artistinstagram").val();
+			//글자수 체크
+			function getTextLength(str) {
+				var len = 0;
 
-				$("#sns-instagram").val(getText + getid);
+				for (var i = 0; i < str.length; i++) {
+					if (escape(str.charAt(i)).length == 6) {
+						len += 1;
+					} else {
+						len += 1;
+					}
+				}
+				return len;
 			}
-			//휴대전화 검사식
+			//title 글자수 체크
+			function titlehandle(object) {
+				var text = $(object).val();
+				var len = text.length;
+				if (getTextLength($(".summary-title").val()) > 50) {
+					alert("제목은 50자 이하로 적어 주세요.");
+
+					while (getTextLength(text) > 50) {
+						len--;
+						text = text.substring(0, len);
+					}
+				}
+				$(object).val(text);
+				$(".lengthchk").text(getTextLength(text));
+			}
+			//sub_title 글자수 체크
+			function subtitlehandle(object) {
+				var text = $(object).val();
+				var len = text.length;
+				if (getTextLength($(".summary-subtitle").val()) > 50) {
+					alert("부제목은 100자 이하로 적어 주세요.");
+
+					while (getTextLength(text) > 50) {
+						len--;
+						text = text.substring(0, len);
+					}
+				}
+				$(object).val(text);
+				$(".lengthchk2").text(getTextLength(text));
+			}
+
+			//text-summary 글자수 체크
+			function summaryhandle(object) {
+				var text = $(object).val();
+				var len = text.length;
+				if (getTextLength($(".text-summary").val()) > 100) {
+					alert("내용은 400자 이하로 적어 주세요.");
+
+					while (getTextLength(text) > 100) {
+						len--;
+						text = text.substring(0, len);
+					}
+				}
+				$(object).val(text);
+				$(".lengthchk3").text(getTextLength(text));
+			}
+
+			function introhandle(object) {
+				var text = $(object).val();
+				var len = text.length;
+				if (getTextLength($(".artist-intro").val()) > 120) {
+					alert("소개는 120자 이하로 적어 주세요");
+
+					while (getTextLength(text) > 120) {
+						len--;
+						text = text.substring(0, len);
+					}
+				}
+				$(object).val(text);
+				$(".lengthchk4").text(getTextLength(text));
+			}
+
+		});
+		//목표금액
+		function pricecomma2(number) {
+			var price = $(".summary-mount").val();
+			price = price.replace(/[^0-9]/g, '');
+			price = price.replace(/,/g, '');
+			$(".summary-mount")
+					.val(price.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+			$(".targetmount").val(price.replace(/\B(?=(\d{3})+(?!\d))/g, ""));
+		};
+		//해시태그
+		$(function() {
+			var check = 0;
+
+			//해시태그가 10개가 넘어가면 무효화
+			function hashinvaild() {
+				var index = $("#hashtag").val().length;
+				var input = $("#hashtag").val().substring(0, index - 1);
+				$("#hashtag").val(input);
+			}
+			;
+
+			//해시태그 생성
+			function createhash() {
+				var input = $("#hashtag").val().split(',');
+				var len = input.length;
+
+				if (len > 10) {
+					hashinvaild();
+					return false;
+				}
+
+				$("#hash-info").empty();
+
+				for (var i = 0; i < len; i++) {
+					$("#hash-info").append(
+							"<span>#" + input[i].trim() + " </span>");
+				}
+
+			}
+			;
+
+			$("#hashtag").on("input", function() {
+				createhash();
+			});
+
 			$(function() {
+				createhash();
+			});
 
-				$(".artist-phone")
-						.on(
-								'keydown',
-								function(e) {
+			$("#hashtag").on("click", function() {
+				if (check == 0) {
+					$("#hashtag").val("");
+					check = 1;
+				}
+			});
 
-									var phone_number = $(this).val().replace(
-											/-/gi, '');
+		});
+		//아티스트 이미지
+		$(function() {
+			ArtImgUpload();
 
-									if (phone_number.length >= 11) {
-										e.preventDefault();
+			$("#ArtimgUpload, #artimgdelete a")
+					.on(
+							"click",
+							function() {
+								var input = "";
+								input += '<div id="ArtImageArea"><div id="aimageinputarea"><div id="aimagecontentarea"><p>· JPG, JPEG, PNG, GIF, BMP만 업로드가능합니다.</p><p>· 이미지 용량은 10mb 이하로 첨부해주세요.</p><p>· 이미지의 가로 세로 사이즈는<br> 60px로 자동조정됩니다.</p><p>· 이미지의 사이즈를 고려하여 올려주세요.</p></div>';
+								input += '<div id="ArtImageShow"><div id="art-noimage" style="margin-top: 20px;"><a href="javascript:ArtImageClick();"><i class="material-icons upgrade">upgrade</i></a><span>프로필을 등록해주세요.</span></div><div id="art-image" style="display: none; width: 100%; height: 100%;"><a href="javascript:ArtImageClick();"><img src="" style="width: 100%; height: 100%;" id="aimg"></a></div></div><div style="clear: both; padding: 0; border: none; margin: 0;"></div></div></div>';
+								Swal.fire({
+									title : '아티스트 프로필 등록',
+									html : input,
+									confirmButtonText : '닫기',
+									willClose : function() {
+										if ($("#aimg").attr("src") != "") {
+											$("#artistimg").attr("src",
+													$("#aimg").attr("src"));
+										}
+										ArtImgUpload();
 									}
-								})
-						.on(
-								'blur',
-								function() {
-									if ($(this).val() == '')
-										return;
+								});
+							});
+		});
 
-									var phone_number = $(this).val().replace(
-											/-/gi, '');
+		function ArtImageClick() {
+			var input = $("#artfile");
+			input.click();
+		}
 
-									if (phone_number != null
-											&& phone_number != '') {
+		function loadAImg(value) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#art-noimage").hide();
+				$("#art-image").show();
+				$("#aimg").attr("src", e.target.result);
+			}
 
-										if (phone_number.length == 11
-												|| phone_number.length == 10) {
+			reader.readAsDataURL(value.files[0]);
+		}
 
-											var regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
-											if (regExp_ctn.test(phone_number)) {
+		function ArtImgUpload() {
+			var image = $("#artfile").val();
+			if (image != "") {
+				$("#noimage").hide();
+				$("#okimage").show();
+				$("#artimgdelete").show();
+			} else {
+				$("#okimage").hide();
+				$("#noimage").show();
+				$("#artimgdelete").hide();
+			}
+		}
+		//페이스북 + 인스타그램
 
-												phone_number = phone_number
-														.replace(
-																/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?([0-9]{3,4})-?([0-9]{4})$/,
-																"$1-$2-$3");
-												$(this).val(phone_number);
-											} else {
-												Swal.fire({
-													text : "유효하지 않은 전화번호입니다.",
-													position : "center",
-													confirmButtonText : "닫기"
-												})
-												$(this).val("");
-												$(this).focus();
-											}
+		$(function() {
+
+			$(".instagram").on("click", function(e) {
+				//나중에 input값 받아올 예정
+				e.preventDefault(); //form 전송 방지
+				var input = $(".artistinstagram").val();
+				var instragmOpen = "https://www.instagram.com/" + input;
+				window.open(instragmOpen);
+
+			});
+
+			$(".facebook").on("click", function(e) {
+				e.preventDefault(e); //form 전송 방지
+				var input = $(".artistFacebook").val();
+				var facebookOpen = "https://www.facebook.com/" + input;
+				window.open(facebookOpen);
+			});
+		});
+		function facebook() {
+			var getText = $(".sns1").text();
+			var getid = $(".artistFacebook").val();
+
+			$("#sns-facebook").val(getText + getid);
+		}
+		function instagram() {
+			var getText = $(".sns2").text();
+			var getid = $(".artistinstagram").val();
+
+			$("#sns-instagram").val(getText + getid);
+		}
+		//휴대전화 검사식
+		$(function() {
+
+			$(".artist-phone")
+					.on('keydown', function(e) {
+
+						var phone_number = $(this).val().replace(/-/gi, '');
+
+						if (phone_number.length >= 11) {
+							e.preventDefault();
+						}
+					})
+					.on(
+							'blur',
+							function() {
+								if ($(this).val() == '')
+									return;
+
+								var phone_number = $(this).val().replace(/-/gi,
+										'');
+
+								if (phone_number != null && phone_number != '') {
+
+									if (phone_number.length == 11
+											|| phone_number.length == 10) {
+
+										var regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+										if (regExp_ctn.test(phone_number)) {
+
+											phone_number = phone_number
+													.replace(
+															/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?([0-9]{3,4})-?([0-9]{4})$/,
+															"$1-$2-$3");
+											$(this).val(phone_number);
 										} else {
 											Swal.fire({
 												text : "유효하지 않은 전화번호입니다.",
@@ -960,655 +1022,729 @@
 											$(this).val("");
 											$(this).focus();
 										}
+									} else {
+										Swal.fire({
+											text : "유효하지 않은 전화번호입니다.",
+											position : "center",
+											confirmButtonText : "닫기"
+										})
+										$(this).val("");
+										$(this).focus();
 									}
-								});
-			});
-		</script>
-		<script>
-			const wrapper = document.querySelector(".wrapper");
-			const defaultBtn = document.querySelector("#default-btn");
-			const customBtn = document.querySelector("#custom-btn");
-			const cancelBtn = document.querySelector("#cancel-btn i");
-			const img = document.querySelector("img");
-
-			function defaultBtnActive() {
-				defaultBtn.click();
-			}
-			defaultBtn.addEventListener("change", function() {
-				const file = this.files[0];
-				if (file) {
-					const reader = new FileReader();
-					reader.onload = function() {
-						const result = reader.result;
-						img.src = result;
-						wrapper.classList.add("active");
-					}
-					cancelBtn.addEventListener("click", function() {
-						img.src = "";
-						wrapper.classList.remove("active");
-					})
-					reader.readAsDataURL(file);
-				}
-
-			});
-		</script>
-		<script>
-			//리워드 버튼에 관련된 메소드
-			var index = 1;
-			var count = 1;
-
-			$(".items-add-button")
-					.click(
-							function() {
-								var additembox = '<div class="itembox-add" id="item-add' + index + '"><div class="itembox-countinfo"><span class="reward-sapn">리워드 #'
-										+ (index + 1)
-										+ '</span></div><div class="itembox-add-info1"><span class="itembox-add-span-design">상품명</span><input class="itembox-add-name" id="item-name' + index + '" name="itembox[ ' + index + '].Name" type="text"></div><div class="itembox-add-info2"><span class="itembox-add-span-design" style="margin-left: 15px;">금액</span><input class="itembox-add-price'
-										+ index
-										+ '" id="item-price'
-										+ index
-										+ '" name="itembox['
-										+ index
-										+ '].Price" type="text" value="0" onkeyup="pricecomma('
-										+ index
-										+ ')"><span class="itembox-add-span-design" style="color: black;">원</span></div><div class="itembox-add-info3"><div class="itembox-leftbox"><span class="itembox-add-span-design" style="margin-left: 11px;">상품명 설명</span></div><div class="itembox-rightbox"><textarea id="item-ex' + index + '" name="itembox[' + index + '].Ex" class="itembox-add-desc"></textarea></div></div><div class="itembox-add-info4"><div class="itembox-leftbox"><span class="itembox-add-span-design">옵션</span></div><div class="itembox-rightbox" style="line-height: 40px;"><div><input class="optioncheck" name="itemList[' + index + '].Option" id="itembox-option' + index + '-1" type="radio" value="1" checked><label class="itembox-label" for="itembox-option' + index + '-1">옵션 입력이 필요 없는 리워드입니다.</label></div><div><input class="optioncheck"name="itemList[' + index + '].Option" id="itembox-option' + index + '-2" type="radio" value="2"><label class="itembox-label" for="itembox-option' + index + '-2">주관식 옵션이 필요한 리워드입니다.<span style="margin-left: 10px; font-size: 13px; opacity: 0.8; ">(각인, 메시지 등)</span></label></div><div class="option-tarea" style="display:none"><textarea name="item-optarea[' + index + ']" class="option' + index + '-2-desc tarea"></textarea></div><div><input class="optioncheck" name="itemList[' + index + '].Option" id="itembox-option' + index + '-3" type="radio" value="3"><label class="itembox-label" for="itembox-option' + index + '-3">객관식 옵션이 필요한 리워드입니다.<span style="margin-left: 10px; font-size: 13px; opacity: 0.8; ">(사이즈, 색상 등)</span></label></div><div class="option-multarea" style="width: 780px; display:none"><div class="itembox-leftbox" style="margin-left: 10px; margin-top: 37px;"><textarea id="itemonkey'
-										+ index
-										+ '" name="item-opmultarea['
-										+ index
-										+ ']" class="item-option" onkeyup="mulpriview('
-										+ index
-										+ ')"></textarea></div><div class="itembox-rightbox" style="margin-left: 0px;"><span class="option-mul-span" style="margin-left: 20px;">옵션 미리보기</span><div class="item-option-priview' + index + ' privew-design" style="margin-bottom: 10px; margin-right: 10px; line-height: 23px;"readonly>※ Enter를 통해 줄바꿈이 됩니다.<br>ex)사이즈 또는 색상을 적어주세요<br>ex.1)<br>블랙 - 240mm 5개<br>화이트 - 240mm 5개</div></div></div></div></div><div class="itembox-add-info5"><div class="itembox-leftbox"><span class="itembox-add-span-design">배송 조건</span></div><div class="itembox-rightbox"><input type="checkbox" id="delivery-check' + index + '" name="itemList[' + index + '].delichk" style="margin-left: 7px;"><label class="itembox-label" for="delivery-check' + index + '">배송을 위한 주소지가 필요하면 체크해주세요!</label></div></div><div class="itembox-add-info6"><div class="itembox-leftbox"><span class="itembox-add-span-design">수량</span></div><div class="itembox-rightbox"><div class="limit-number"><span class="count-span">상품의 수량은</span><input type="number" class="reward-count" name="itemList[' + index + '].count" min="1" value="1"><span class="count-span">개입니다.</span></div></div></div><div class="itembox-add-info7"><div class="itembox-leftbox"><span class="itembox-add-span-design">제한 수량</span></div><div class="itembox-rightbox"><div class="limit-number"><span class="limit-span">리워드를</span><input type="number" class="countlimit' + index + ' countform" name="itemList[' + index + '].limit" min="1" value="1"><span class="limit-span">개로 제한합니다.</span></div><div style="margin-top: 5px;"><input class="limitCheck'
-										+ index
-										+ '" type="checkbox" id="limit-check'
-										+ index
-										+ '" style="margin-left: 7px;" onchange="limitnumber('
-										+ index
-										+ ')"><label class="itembox-label" for="limit-check' + index + '">수량에 제한이 없으면 체크해주세요!</label></div></div></div><div class="itembox-add-info8"><div class="itembox-leftbox"><span class="itembox-add-span-design">발송시작일</span></div><div class="itembox-rightbox"><select class="year-design cal" name="itemList[' + index + '].Year"><option value="2021" selected>2021년</option><option value="2022">2022년</option><option value="2023">2023년</option></select><select class="month-design cal" name="itemList[' + index + '].Month" style="margin-left: 10px;"><option value="01">1월</option><option value="02">2월</option><option value="03">3월</option><option value="04">4월</option><option value="05">5월</option><option value="06">6월</option><option value="07">7월</option><option value="08">8월</option><option value="09">9월</option><option value="10">10월</option><option value="11">11월</option><option value="12">12월</option></select><select class="day-design cal" name="itemList[' + index + '].day" style="margin-left: 10px;"><option value="05">초(1일~10일)</option><option value="15">중순(11일~20일)</option><option value="25">3월</option></select><input type="hidden" name="itemList[' + index + '].deliveryDate" value="2021-01-01"></div></div><div class="itembox-add-info9"><div class="itembox-leftbox" style="margin-left: 30px;"><button class="del-design" id="reward-deletebtn' + index + '">리워드 삭제</button><button class="modify-design" id="reward-modifybtn' + index + '">리워드 수정</button></div><div class="itembox-rightbox"><span class="itembox-label" style="font-size: 24px;">※ 작성이 완료되면 반드시<span style="color: red;">저장</span>해주세요!<button class="savebtn-design" id="reward-savebtn" onclick="itemSave('
-										+ index
-										+ ')">리워드 저장</button></div></div></div>';
-
-								$(".addbtn-design").before(additembox);
-
-								var scroll = $(".items-add-button").offset().top - 800;
-								$("html").animate({
-									scrollTop : scroll
-								}, 700);
-
-								index = index + 1;
-								count = count + 1;
-								
-								if (count == 10) {
-									$(".items-add-button").css(
-											"pointer-events", "none");
-									Swal.fire({
-										text : "상품 추가는 10개까지만 가능합니다.",
-										position : "center",
-										confirmButtonText : "닫기"
-									});
 								}
-
-								//삭제 버튼 후 index와 count 값 1 감소
-								$("#reward-deletebtn" + (index - 1)).click(
-										function() {
-
-											if (index > 0) {
-												$target = $("#item-add"
-														+ (index - 1));
-
-												$target.slideUp("normal",
-														function() {
-															$target.remove();
-
-														})
-												index = index - 1;
-												count = count - 1;
-											}
-											if (count < 10) {
-												$(".items-add-button").css(
-														"pointer-events",
-														"auto");
-											}
-										});
-
 							});
-		</script>
-		<script>
-			//멀티프리뷰 
-			function mulpriview(num) {
-				var getText = $("#itemonkey" + num).val();
-				getText = getText.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-				
-				if (getText == "") {
-					$(".item-option-priview" + num).text(getText) = "";
-				} else {
-					$(".item-option-priview" + num).html(getText);
-				}
-			};
-			//숫자 천단위로 콤마
-			function pricecomma(number) {
-				var price = $(".itembox-add-price" + number).val();
-				price = price.replace(/[^0-9]/g, '');
-				price = price.replace(/,/g, '');
-				$(".itembox-add-price" + number).val(
-						price.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-			};
+		});
+	</script>
 
-			//리워드 (상품명, 가격, 설명, 수량) 체크
-			function itemdate(index) {
+	<script>
+		const wrapper = document.querySelector(".wra");
+		const defaultBtn = document.querySelector("#default-btn");
+		const customBtn = document.querySelector("#custom-btn");
+		const cancelBtn = document.querySelector("#cancel-btn i");
+		const img = document.querySelector("img");
 
-				var date1 = $("#item-name" + index).val();
-				var date2 = $("#item-price" + index).val();
-				var date3 = $("#item-ex" + index).val();
-				var date4 = $("input[name='itemList[" + index + "].count']")
-						.val();
-				var date5 = $(
-						"input[name='itemList[" + index + "].deliveryDate']")
-						.val();
-
-				var calCheck = new Date();
-
-				var currentYear = calCheck.getFullYear();
-				var currentMonth = calCheck.getMonth() + 1;
-				var currentDay = calCheck.getDate();
-
-				if (currentMonth < 10) {
-					currentMonth = "0" + currentMonth;
+		function defaultBtnActive() {
+			defaultBtn.click();
+		}
+		defaultBtn.addEventListener("change", function() {
+			const file = this.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function() {
+					const result = reader.result;
+					img.src = result;
+					wrapper.classList.add("active");
 				}
-				if (currentDay < 10) {
-					currentDay = "0" + currentDay;
-				}
-				var currentDate = currentYear + "" + currentMonth + ""
-						+ currentDay;
-				var checkDate = Number(currentDate - date5.replace(/-/gi, ""));
-				
-				//날짜 체크
-				if (checkDate > 0) {
-					Swal.fire({
-						text : "유효한 발송일이 아닙니다.",
-						position : "center",
-						confirmButtonText : "닫기",
-					})
-					return false;
-				}
-
-				if (date1 <= 0) {
-					Swal.fire({
-						text : "상품명을 적어주세요",
-						position : "center",
-						confirmButtonText : "닫기",
-						didClose : function() {
-							$("#item-name" + index).focus();
-						}
-					})
-					return false;
-				}
-				if (date2 <= 0) {
-					Swal.fire({
-						text : "상품의 가격을 적어주세요",
-						position : "center",
-						confirmButtonText : "닫기",
-						didClose : function() {
-							$("#item-price" + index).focus();
-						}
-					})
-					return false;
-				}
-				if (date3 <= 0) {
-					Swal.fire({
-						text : "상품 설명을 적어주세요",
-						position : "center",
-						confirmButtonText : "닫기",
-						didClose : function() {
-							$("#item-ex" + index).focus();
-						}
-					})
-					return false;
-				}
-				if (date4 <= 0) {
-					Swal.fire({
-						text : "상품의 수량을 적어주세요",
-						position : "center",
-						confirmButtonText : "닫기",
-						didClose : function() {
-							$("input[name='itemList[" + index + "].count")
-									.focus();
-						}
-					})
-					return false;
-				}
-				return true;
+				cancelBtn.addEventListener("click", function() {
+					img.src = "";
+					wrapper.classList.remove("active");
+				})
+				reader.readAsDataURL(file);
 			}
 
-			function itemSave(index) {
-				
-				if (itemdate(index)) {
-					Swal.fire({
-						text : "리워드가 저장되었습니다.",
-						position : "center",
-						confirmButtonText : "닫기"
-					})
+		});
+	</script>
+	<script>
+		//리워드 버튼에 관련된 메소드
+		var index = 1;
+		var count = 1;
 
-					$("#item-add" + index).css("pointer-events", "none");
-					$("#reward-modifybtn" + index)
-							.css("pointer-events", "auto");
-					$("#reward-deletebtn" + index)
-							.css("pointer-events", "auto");
+		$(".items-add-button")
+				.click(
+						function() {
+							var additembox = '<div class="itembox-add" id="item-add' + index + '"><div class="itembox-countinfo"><span class="reward-sapn">리워드 #'
+									+ (index + 1)
+									+ '</span></div><input type="hidden" class="rewarddong" name="itemList['+index+'].Save"	id="itemisSave'+index+'" value="false"><div class="itembox-add-info1"><span class="itembox-add-span-design">상품명</span><input class="itembox-add-name" id="item-name' + index + '" name="itemList[' + index + '].Name" type="text"></div><div class="itembox-add-info2"><span class="itembox-add-span-design" style="margin-left: 15px;">금액</span><input class="itembox-add-price'
+									+ index
+									+ '" id="item-price'
+									+ index
+									+ '" min="0" maxlength="13" placeholder="0" autocomplete="off" type="text" onkeyup="pricecomma('
+									+ index
+									+ ')"><input class="pricechange'+index+'" type="hidden" name="itemList['+index+'].Price"><span class="itembox-add-span-design" style="color: black;">원</span></div><div class="itembox-add-info3"><div class="itembox-leftbox"><span class="itembox-add-span-design" style="margin-left: 11px;">상품명 설명</span></div><div class="itembox-rightbox"><textarea id="item-ex' + index + '" name="itemList[' + index + '].Ex" class="itembox-add-desc"></textarea></div></div><div class="itembox-add-info4"><div class="itembox-leftbox"><span class="itembox-add-span-design">옵션</span></div><div class="itembox-rightbox" style="line-height: 40px;"><div class="option-multarea" style="width: 780px;"><div class="itembox-leftbox" style="margin-left: 10px; margin-top: 37px;"><textarea id="itemonkey'
+									+ index
+									+ '" name="itemList['
+									+ index
+									+ '].optionForm" class="item-option" onkeyup="mulpriview('
+									+ index
+									+ ')"></textarea></div><div class="itembox-rightbox" style="margin-left: 0px;"><span class="option-mul-span" style="margin-left: 20px;">옵션 미리보기</span><div class="item-option-priview' + index + ' privew-design" style="margin-bottom: 10px; margin-right: 10px; line-height: 23px;"readonly>※ Enter를 통해 줄바꿈이 됩니다.<br>1. 각인이나 메시지를 적어주세요<br>2. 사이즈 또는 색상을 적어주세요<br>ex.1)<br>블랙 - 240mm 5개<br>화이트 - 240mm 5개</div></div></div></div></div><div class="itembox-add-info5"><div class="itembox-leftbox"><span class="itembox-add-span-design">배송 조건</span></div><div class="itembox-rightbox"><input type="checkbox" id="delivery-check' + index + '" name="itemList[' + index + '].delichk" style="margin-left: 7px;"><label class="itembox-label" for="delivery-check' + index + '">배송을 위한 주소지가 필요하면 체크해주세요!</label></div></div><div class="itembox-add-info6"><div class="itembox-leftbox"><span class="itembox-add-span-design">수량</span></div><div class="itembox-rightbox"><div class="limit-number"><span class="count-span">상품의 수량은</span><input type="number" class="reward-count" name="itemList[' + index + '].count" min="1" value="1"><span class="count-span">개입니다.</span></div></div></div><div class="itembox-add-info7"><div class="itembox-leftbox"><span class="itembox-add-span-design">제한 수량</span></div><div class="itembox-rightbox"><div class="limit-number"><span class="limit-span">리워드를</span><input type="number" class="countlimit' + index + ' countform" name="itemList[' + index + '].limit" min="1" value="1"><span class="limit-span">개로 제한합니다.</span></div><div style="margin-top: 5px;"><input class="limitCheck'
+									+ index
+									+ '" type="checkbox" id="limit-check'
+									+ index
+									+ '" style="margin-left: 7px;" onchange="limitnumber('
+									+ index
+									+ ')"><label class="itembox-label" for="limit-check' + index + '">수량에 제한이 없으면 체크해주세요!</label></div></div></div><div class="itembox-add-info8"><div class="itembox-leftbox"><span class="itembox-add-span-design">발송시작일</span></div><div class="itembox-rightbox"><select class="year-design cal" name="itemList[' + index + '].Year"><option value="2021" selected>2021년</option><option value="2022">2022년</option><option value="2023">2023년</option></select><select class="month-design cal" name="itemList[' + index + '].Month" style="margin-left: 10px;"><option value="01">1월</option><option value="02">2월</option><option value="03">3월</option><option value="04">4월</option><option value="05">5월</option><option value="06">6월</option><option value="07">7월</option><option value="08">8월</option><option value="09">9월</option><option value="10">10월</option><option value="11">11월</option><option value="12">12월</option></select><select class="day-design cal" name="itemList[' + index + '].day" style="margin-left: 10px;"><option value="05">초(1일~10일)</option><option value="15">중순(11일~20일)</option><option value="25">3월</option></select><input type="hidden" name="itemList[' + index + '].deliveryDate" value="2021-01-01"></div></div><div class="itembox-add-info9"><div class="itembox-leftbox" style="margin-left: 30px;"><button type="button" class="del-design" id="reward-deletebtn' + index + '">리워드 삭제</button><button type="button" class="modify-design" id="reward-modifybtn' + index + '">리워드 수정</button></div><div class="itembox-rightbox"><span class="itembox-label" style="font-size: 24px;">※ 작성이 완료되면 반드시<span style="color: red;">저장</span>해주세요!<button type="button" class="savebtn-design" id="reward-savebtn" onclick="itemSave('
+									+ index
+									+ ')">리워드 저장</button></div></div></div>';
 
-					$("#reward-modifybtn" + index).click(
-							function() {
-								$("#item-add" + index).css("pointer-events",
-										"auto");
-								$("#reward-modifybtn" + index).css(
-										"pointer-events", "none");
+							$(".addbtn-design").before(additembox);
+
+							var scroll = $(".items-add-button").offset().top - 800;
+							$("html").animate({
+								scrollTop : scroll
+							}, 700);
+
+							index = index + 1;
+							count = count + 1;
+
+							if (count == 10) {
+								$(".items-add-button").css("pointer-events",
+										"none");
 								Swal.fire({
-									text : "원하시는 리워드를 수정해주세요",
+									text : "상품 추가는 10개까지만 가능합니다.",
 									position : "center",
 									confirmButtonText : "닫기"
-								})
+								});
+							}
+
+							//삭제 버튼 후 index와 count 값 1 감소
+							$("#reward-deletebtn" + (index - 1)).click(
+									function() {
+
+										if (index > 0) {
+											$target = $("#item-add"
+													+ (index - 1));
+
+											$target.slideUp("normal",
+													function() {
+														$target.remove();
+
+													})
+											index = index - 1;
+											count = count - 1;
+										}
+										if (count < 10) {
+											$(".items-add-button").css(
+													"pointer-events", "auto");
+										}
+									});
+
+						});
+	</script>
+	<script>
+		//멀티프리뷰 
+		function mulpriview(num) {
+			var getText = $("#itemonkey" + num).val();
+			getText = getText.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+
+			if (getText == "") {
+				$(".item-option-priview" + num).text(getText) = "";
+			} else {
+				$(".item-option-priview" + num).html(getText);
+			}
+		};
+		//숫자 천단위로 콤마
+		function pricecomma(number) {
+			var price = $(".itembox-add-price" + number).val();
+			price = price.replace(/[^0-9]/g, '');
+			price = price.replace(/,/g, '');
+			$(".itembox-add-price" + number).val(
+					price.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+			$(".pricechange" + number).val(
+					price.replace(/\B(?=(\d{3})+(?!\d))/g, ""));
+		};
+
+		//리워드 (상품명, 가격, 설명, 수량) 체크
+		function itemdate(index) {
+
+			var date1 = $("#item-name" + index).val();
+			var date2 = $("#item-price" + index).val();
+			var date3 = $("#item-ex" + index).val();
+			var date4 = $("input[name='itemList[" + index + "].count']").val();
+			var date5 = $("input[name='itemList[" + index + "].deliveryDate']")
+					.val();
+
+			var calCheck = new Date();
+
+			var currentYear = calCheck.getFullYear();
+			var currentMonth = calCheck.getMonth() + 1;
+			var currentDay = calCheck.getDate();
+
+			if (currentMonth < 10) {
+				currentMonth = "0" + currentMonth;
+			}
+			if (currentDay < 10) {
+				currentDay = "0" + currentDay;
+			}
+			var currentDate = currentYear + "" + currentMonth + "" + currentDay;
+			var checkDate = Number(currentDate - date5.replace(/-/gi, ""));
+
+			//날짜 체크
+			if (checkDate > 0) {
+				Swal.fire({
+					text : "유효한 발송일이 아닙니다.",
+					position : "center",
+					confirmButtonText : "닫기",
+				})
+				return false;
+			}
+
+			if (date1 <= 0) {
+				Swal.fire({
+					text : "상품명을 적어주세요",
+					position : "center",
+					confirmButtonText : "닫기",
+					didClose : function() {
+						$("#item-name" + index).focus();
+					}
+				})
+				return false;
+			}
+			if (date2 <= 0) {
+				Swal.fire({
+					text : "상품의 가격을 적어주세요",
+					position : "center",
+					confirmButtonText : "닫기",
+					didClose : function() {
+						$("#item-price" + index).focus();
+					}
+				})
+				return false;
+			}
+			if (date3 <= 0) {
+				Swal.fire({
+					text : "상품 설명을 적어주세요",
+					position : "center",
+					confirmButtonText : "닫기",
+					didClose : function() {
+						$("#item-ex" + index).focus();
+					}
+				})
+				return false;
+			}
+			if (date4 <= 0) {
+				Swal.fire({
+					text : "상품의 수량을 적어주세요",
+					position : "center",
+					confirmButtonText : "닫기",
+					didClose : function() {
+						$("input[name='itemList[" + index + "].count").focus();
+					}
+				})
+				return false;
+			}
+			return true;
+		}
+
+		function itemSave(index) {
+
+			if (itemdate(index)) {
+				Swal.fire({
+					text : "리워드가 저장되었습니다.",
+					position : "center",
+					confirmButtonText : "닫기",
+					willClose : function() {
+						$("#itemisSave" + index).val("true");
+					}
+				})
+
+				$("#item-add" + index).css("pointer-events", "none");
+				$("#reward-modifybtn" + index).css("pointer-events", "auto");
+				$("#reward-deletebtn" + index).css("pointer-events", "auto");
+
+				$("#reward-modifybtn" + index).click(
+						function() {
+							$("#item-add" + index)
+									.css("pointer-events", "auto");
+							$("#reward-modifybtn" + index).css(
+									"pointer-events", "none");
+							Swal.fire({
+								text : "원하시는 리워드를 수정해주세요",
+								position : "center",
+								confirmButtonText : "닫기"
 							})
+						})
 
-					var test = $("#itemisSave" + index).val("true");
+			}
+		}
+	</script>
+	<script>
+		// 리워드에서 옵션 선택 시
 
+		$(document).on(
+				"change",
+				".optioncheck",
+				function() {
+					var value = $(this).val();
+
+					if (value == 2) {
+						$(this).parent().next().show();
+						$(this).parent().next().next().next().hide();
+					} else if (value == 3) {
+						$(this).parent().prev().hide();
+						$(this).parent().next().show();
+					} else {
+						$(this).parent().next().next().css("display", "none");
+						$(this).parent().next().next().next().next().css(
+								"display", "none");
+					}
+				});
+
+		//수량에 제한이 없을 때
+		function limitnumber(index) {
+			$(document).on("change", ".limitCheck" + index, function() {
+				if ($(this).is(":checked")) {
+					$(this).parent().prev().hide();
+					$(".countlimit" + index).val(-1);
+				} else {
+					$(this).parent().prev().show();
+					$(".countlimit" + index).val(1);
+				}
+			});
+		}
+
+		//배송일 조합
+		$(document).on("input", ".cal", function() {
+
+			var year = $(this).parent().children().val(); //년도
+			var month = $(this).parent().children().next().val(); //월 
+			var day = $(this).parent().children().next().next().val(); //일
+
+			var calDate = year + "-" + month + "-" + day;
+
+			$(this).parent().children().next().next().next().val(calDate);
+
+		});
+	</script>
+	<script>
+		$(function() {
+			var startday = new Date();
+			var year1 = startday.getFullYear();
+			var year2 = startday.getFullYear() + 1;
+			var year3 = startday.getFullYear() + 2;
+
+			$("#startyear").append(
+					"<option value='" + year1 + "'>" + year1 + "년</option");
+			$("#startyear").append(
+					"<option value=" + year2 + ">" + year2 + "년</option");
+			$("#startyear").append(
+					"<option value=" + year3 + ">" + year3 + "년</option");
+
+			calmon();
+			calday();
+		});
+
+		function calmon() {
+			var date = new Date();
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+
+			var currentyear = $("#startyear").val();
+			var currentmonth = $("#startmonth").val();
+			var index = 1;
+			$("#startmonth").empty();
+			if (year == currentyear) {
+
+				while (index < month) {
+					$("#startmonth").append(
+							"<option value='" + index + "' disabled>" + index
+									+ "월</option>");
+					index++;
+				}
+				while (month <= 12) {
+					$("#startmonth").append(
+							"<option value='" + month + "'>" + month
+									+ "월</option>");
+					month++;
+				}
+			} else {
+				$("#startmonth").append("<option value='1'>1월</option>");
+				$("#startmonth").append("<option value='2'>2월</option>");
+				$("#startmonth").append("<option value='3'>3월</option>");
+				$("#startmonth").append("<option value='4'>4월</option>");
+				$("#startmonth").append("<option value='5'>5월</option>");
+				$("#startmonth").append("<option value='6'>6월</option>");
+				$("#startmonth").append("<option value='7'>7월</option>");
+				$("#startmonth").append("<option value='8'>8월</option>");
+				$("#startmonth").append("<option value='9'>9월</option>");
+				$("#startmonth").append("<option value='10'>10월</option>");
+				$("#startmonth").append("<option value='11'>11월</option>");
+				$("#startmonth").append("<option value='12'>12월</option>");
+			}
+		};
+		function calday() {
+			var startday = new Date();
+			var calyear = startday.getFullYear();
+			var calmonth = startday.getMonth() + 1;
+			var calday = startday.getDate();
+
+			var currentyear = $("#startyear").val();
+			var currentmonth = $("#startmonth").val();
+
+			if (currentyear == null) {
+				currentyear = calyear;
+			}
+			if (currentmonth == null) {
+				currentmonth = calmonth;
+			}
+
+			$("#startday").empty();
+
+			if (calyear == currentyear && calmonth == currentmonth) {
+				var index = 1;
+				while (index < calday) {
+					$("#startday").append(
+							"<option value='" + index + "' disabled>" + index
+									+ "일</option>");
+					index++;
+				}
+				if (currentmonth == 1 || currentmonth == 3 || currentmonth == 5
+						|| currentmonth == 7 || currentmonth == 8
+						|| currentmonth == 10 || currentmonth == 12) {
+					calday = 31;
+				} else if (currentmonth == 4 || currentmonth == 6
+						|| currentmonth == 9 || currentmonth == 11) {
+					calday = 30;
+				} else if (currentmonth == 2 && currentyear % 4 == 0) {
+					calday = 29;
+				} else {
+					calday = 28;
+				}
+				while (index <= calday) {
+					$("#startday").append(
+							"<option value='" + index + "'>" + index
+									+ "일</option>");
+					index++;
+				}
+			} else {
+				$("#startday").append("<option value='1'>1일</option>");
+				$("#startday").append("<option value='2'>2일</option>");
+				$("#startday").append("<option value='3'>3일</option>");
+				$("#startday").append("<option value='4'>4일</option>");
+				$("#startday").append("<option value='5'>5일</option>");
+				$("#startday").append("<option value='6'>6일</option>");
+				$("#startday").append("<option value='7'>7일</option>");
+				$("#startday").append("<option value='8'>8일</option>");
+				$("#startday").append("<option value='9'>9일</option>");
+				$("#startday").append("<option value='10'>10일</option>");
+				$("#startday").append("<option value='11'>11일</option>");
+				$("#startday").append("<option value='12'>12일</option>");
+				$("#startday").append("<option value='13'>13일</option>");
+				$("#startday").append("<option value='14'>14일</option>");
+				$("#startday").append("<option value='15'>15일</option>");
+				$("#startday").append("<option value='16'>16일</option>");
+				$("#startday").append("<option value='17'>17일</option>");
+				$("#startday").append("<option value='18'>18일</option>");
+				$("#startday").append("<option value='19'>19일</option>");
+				$("#startday").append("<option value='20'>20일</option>");
+				$("#startday").append("<option value='21'>21일</option>");
+				$("#startday").append("<option value='22'>22일</option>");
+				$("#startday").append("<option value='23'>23일</option>");
+				$("#startday").append("<option value='24'>24일</option>");
+				$("#startday").append("<option value='25'>25일</option>");
+				$("#startday").append("<option value='26'>26일</option>");
+				$("#startday").append("<option value='27'>27일</option>");
+				$("#startday").append("<option value='28'>28일</option>");
+				if (currentmonth == 1 || currentmonth == 3 || currentmonth == 5
+						|| currentmonth == 7 || currentmonth == 8
+						|| currentmonth == 10 || currentmonth == 12) {
+					$("#startday").append("<option value='29'>29일</option>");
+					$("#startday").append("<option value='30'>30일</option>");
+					$("#startday").append("<option value='31'>31일</option>");
+				} else if (currentmonth == 4 || currentmonth == 6
+						|| currentmonth == 9 || currentmonth == 11) {
+					$("#startday").append("<option value='29'>29일</option>");
+					$("#startday").append("<option value='30'>30일</option>");
+				} else if (currentmonth == 2 && currentyear % 4 == 0) {
+					$("#startday").append("<option value='29'>29일</option>");
 				}
 			}
-		</script>
-		<script>
-			// 리워드에서 옵션 선택 시
+		};
 
-			$(document).on(
-					"change",
-					".optioncheck",
+		$("#startyear").on("input", function() {
+			calmon();
+		});
+		$("#startmonth, #startyear").on("input", function() {
+			calday();
+		});
+		$(function() {
+			$("#startyear, #startmonth, #startday, #endday").on("input",
 					function() {
-						var value = $(this).val();
-						
-
-						if (value == 2) {
-							$(this).parent().next().show();
-							$(this).parent().next().next().next().hide();
-						} else if (value == 3) {
-							$(this).parent().prev().hide();
-							$(this).parent().next().show();
-						} else {
-							$(this).parent().next().next().css("display",
-									"none");
-							$(this).parent().next().next().next().next().css(
-									"display", "none");
-						}
+						startdate();
+						enddate();
 					});
 
-			//수량에 제한이 없을 때
-			function limitnumber(index) {
-				$(document).on("change", ".limitCheck" + index, function() {
-					if ($(this).is(":checked")) {
-						$(this).parent().prev().hide();
-						$(".countlimit" + index).val(-1);
-					} else {
-						$(this).parent().prev().show();
-						$(".countlimit" + index).val(1);
-					}
-				});
+			function startdate() {
+				var year = $("#startyear").val();
+				var month = $("#startmonth").val();
+				var day = $("#startday").val();
+
+				var caldate = year + "-" + month + "-" + day;
+				$("#calopenday").val(caldate);
+
+				var spandate = year + "년 " + month + "월 " + day + "일";
+				$(".openday-text").text(spandate);
 			}
+			;
+			function enddate() {
+				var year = $("#startyear").val();
+				var month = $("#startmonth").val();
+				var day = $("#startday").val();
+				var endday = Number($("#endday").val());
 
-			//배송일 조합
-			$(document).on("input", ".cal", function() {
+				var calstartday = new Date(year, month - 1, day);
+				var calendday = new Date(year, month - 1, day);
 
-				var year = $(this).parent().children().val(); //년도
-				var month = $(this).parent().children().next().val(); //월 
-				var day = $(this).parent().children().next().next().val(); //일
-
-				var calDate = year + "-" + month + "-" + day;
-
-				$(this).parent().children().next().next().next().val(calDate);
-
-			});
-		</script>
-		<script>
-			$(function() {
-				var startday = new Date();
-				var year1 = startday.getFullYear();
-				var year2 = startday.getFullYear() + 1;
-				var year3 = startday.getFullYear() + 2;
-
-				$("#startyear").append(
-						"<option value='" + year1 + "'>" + year1 + "년</option");
-				$("#startyear").append(
-						"<option value=" + year2 + ">" + year2 + "년</option");
-				$("#startyear").append(
-						"<option value=" + year3 + ">" + year3 + "년</option");
-
-				calmon();
-				calday();
-			});
-
-			function calmon() {
-				var date = new Date();
-				var year = date.getFullYear();
-				var month = date.getMonth() + 1;
-
-				var currentyear = $("#startyear").val();
-				var currentmonth = $("#startmonth").val();
-				var index = 1;
-				$("#startmonth").empty();
-				if (year == currentyear) {
-
-					while (index < month) {
-						$("#startmonth").append(
-								"<option value='" + index + "' disabled>"
-										+ index + "월</option>");
-						index++;
-					}
-					while (month <= 12) {
-						$("#startmonth").append(
-								"<option value='" + month + "'>" + month
-										+ "월</option>");
-						month++;
-					}
-				} else {
-					$("#startmonth").append("<option value='1'>1월</option>");
-					$("#startmonth").append("<option value='2'>2월</option>");
-					$("#startmonth").append("<option value='3'>3월</option>");
-					$("#startmonth").append("<option value='4'>4월</option>");
-					$("#startmonth").append("<option value='5'>5월</option>");
-					$("#startmonth").append("<option value='6'>6월</option>");
-					$("#startmonth").append("<option value='7'>7월</option>");
-					$("#startmonth").append("<option value='8'>8월</option>");
-					$("#startmonth").append("<option value='9'>9월</option>");
-					$("#startmonth").append("<option value='10'>10월</option>");
-					$("#startmonth").append("<option value='11'>11월</option>");
-					$("#startmonth").append("<option value='12'>12월</option>");
-				}
-			};
-			function calday() {
-				var startday = new Date();
-				var calyear = startday.getFullYear();
-				var calmonth = startday.getMonth() + 1;
-				var calday = startday.getDate();
-
-				var currentyear = $("#startyear").val();
-				var currentmonth = $("#startmonth").val();
-
-				if (currentyear == null) {
-					currentyear = calyear;
-				}
-				if (currentmonth == null) {
-					currentmonth = calmonth;
-				}
-
-				$("#startday").empty();
-
-				if (calyear == currentyear && calmonth == currentmonth) {
-					var index = 1;
-					while (index < calday) {
-						$("#startday").append(
-								"<option value='" + index + "' disabled>"
-										+ index + "일</option>");
-						index++;
-					}
-					if (currentmonth == 1 || currentmonth == 3
-							|| currentmonth == 5 || currentmonth == 7
-							|| currentmonth == 8 || currentmonth == 10
-							|| currentmonth == 12) {
-						calday = 31;
-					} else if (currentmonth == 4 || currentmonth == 6
-							|| currentmonth == 9 || currentmonth == 11) {
-						calday = 30;
-					} else if (currentmonth == 2 && currentyear % 4 == 0) {
-						calday = 29;
-					} else {
-						calday = 28;
-					}
-					while (index <= calday) {
-						$("#startday").append(
-								"<option value='" + index + "'>" + index
-										+ "일</option>");
-						index++;
-					}
-				} else {
-					$("#startday").append("<option value='1'>1일</option>");
-					$("#startday").append("<option value='2'>2일</option>");
-					$("#startday").append("<option value='3'>3일</option>");
-					$("#startday").append("<option value='4'>4일</option>");
-					$("#startday").append("<option value='5'>5일</option>");
-					$("#startday").append("<option value='6'>6일</option>");
-					$("#startday").append("<option value='7'>7일</option>");
-					$("#startday").append("<option value='8'>8일</option>");
-					$("#startday").append("<option value='9'>9일</option>");
-					$("#startday").append("<option value='10'>10일</option>");
-					$("#startday").append("<option value='11'>11일</option>");
-					$("#startday").append("<option value='12'>12일</option>");
-					$("#startday").append("<option value='13'>13일</option>");
-					$("#startday").append("<option value='14'>14일</option>");
-					$("#startday").append("<option value='15'>15일</option>");
-					$("#startday").append("<option value='16'>16일</option>");
-					$("#startday").append("<option value='17'>17일</option>");
-					$("#startday").append("<option value='18'>18일</option>");
-					$("#startday").append("<option value='19'>19일</option>");
-					$("#startday").append("<option value='20'>20일</option>");
-					$("#startday").append("<option value='21'>21일</option>");
-					$("#startday").append("<option value='22'>22일</option>");
-					$("#startday").append("<option value='23'>23일</option>");
-					$("#startday").append("<option value='24'>24일</option>");
-					$("#startday").append("<option value='25'>25일</option>");
-					$("#startday").append("<option value='26'>26일</option>");
-					$("#startday").append("<option value='27'>27일</option>");
-					$("#startday").append("<option value='28'>28일</option>");
-					if (currentmonth == 1 || currentmonth == 3
-							|| currentmonth == 5 || currentmonth == 7
-							|| currentmonth == 8 || currentmonth == 10
-							|| currentmonth == 12) {
-						$("#startday")
-								.append("<option value='29'>29일</option>");
-						$("#startday")
-								.append("<option value='30'>30일</option>");
-						$("#startday")
-								.append("<option value='31'>31일</option>");
-					} else if (currentmonth == 4 || currentmonth == 6
-							|| currentmonth == 9 || currentmonth == 11) {
-						$("#startday")
-								.append("<option value='29'>29일</option>");
-						$("#startday")
-								.append("<option value='30'>30일</option>");
-					} else if (currentmonth == 2 && currentyear % 4 == 0) {
-						$("#startday")
-								.append("<option value='29'>29일</option>");
-					}
-				}
-			};
-
-			$("#startyear").on("input", function() {
-				calmon();
-			});
-			$("#startmonth, #startyear").on("input", function() {
-				calday();
-			});
-			$(function() {
-				$("#startyear, #startmonth, #startday, #endday").on("input",
-						function() {
-							startdate();
-							enddate();
-						});
-
-				function startdate() {
-					var year = $("#startyear").val();
-					var month = $("#startmonth").val();
-					var day = $("#startday").val();
-
-					var caldate = year + "-" + month + "-" + day;
-					$("#calopenday").val(caldate);
-
-					var spandate = year + "년 " + month + "월 " + day + "일";
-					$(".openday-text").text(spandate);
-				}
-				;
-				function enddate() {
-					var year = $("#startyear").val();
-					var month = $("#startmonth").val();
-					var day = $("#startday").val();
-					var endday = Number($("#endday").val());
-
-					var calstartday = new Date(year, month - 1, day);
-					var calendday = new Date(year, month - 1, day);
-
-					calendday.setDate(calendday.getDate() + endday);
-					inputendday = calendday.getFullYear() + "-"
-							+ (calendday.getMonth() + 1) + "-"
-							+ calendday.getDate();
-					$("#calendday").val(inputendday);
-					calendday = calendday.getFullYear() + "년 "
-							+ (calendday.getMonth() + 1) + "월 "
-							+ calendday.getDate() + "일";
-					$(".endday-text").text(calendday);
-				}
-				;
-			});
-		</script>
-		<script>
-			$(function() {
-				$("#pMainImageUpload")
-						.on(
-								"click",
-								function() {
-									var input = "";
-									input += '<div id="mimagearea"><div id="mimageinputarea"><div id="mimagetabarea"><ul><li class="ontab"><button type="button" class="img-regist-btn">이미지 등록</button></li><li><button type="button" class="url-regist-btn">동영상 URL 등록</button></li></ul></div><div id="mimageimagearea"><div id="mimageimagecontent"><div id="mimageimageshowbox"><input type="hidden" id="isIMG" value="1"><div id="mimagenoimage"><a href="javascript:pmainimgclick();"><i class="material-icons outbox">outbox</i></a></div><div id="mimageimgcontent"><a href="javascript:pmainimgclick();"><img src="" id="mimg" style="width: 100%; height: 100%;"></a></div></div><div id="mimageimagedescbox"><p>사진을 등록해 주세요.</p><p>· 사이즈는 가로: 450px,<br> 세로:350px로 조정됩니다.</p><p>· 최대 10MB 이하의 파일만 업로드해주세요!</p></div></div></div>';
-									input += '<div id="mimageurlarea"><div id="mimageurlcontent"><div id="mimageurldescbox"><input type="hidden" id="isURL" value="0"><p>· YouTube 혹은 Vimeo에 등록된 영상의 URL주소를 입력해주세요.</p><p>· URL 입력후 창을 닫으시면 등록된 영상을 확인하실 수 있습니다.</p><p>· 영상은 원본이 삭제되면 재생되지 않을 수 있습니다.</p></div><div id="mimageurlinputbox"><input type="text" class="url-design" id="imgURLinput"><button class="btn-custom2" id="mimageurlbtn">등록하기</button></div></div></div></div></div>';
-									Swal
-											.fire({
-												title : '메인이미지 등록',
-												html : input,
-												customClass : 'swal-form',
-												confirmButtonText : '닫기',
-												willClose : function() {
-													if ($("#isIMG").val() == 1) {
-														if ($("#mimg").attr(
-																"src") != "") {
-															$("#pmainimg")
-																	.attr(
-																			"src",
-																			$(
-																					"#mimg")
-																					.attr(
-																							"src"));
-														}
-														$("#isIMGorURL").val(1);
-														$("#videoURL").val("");
-														$("#img-url").attr(
-																"data", "");
-														pmainimgload();
-													} else {
-														if ($("#imgURLinput")
-																.val() != "") {
-															var url = $(
-																	"#imgURLinput")
-																	.val()
-																	.split("/");
-															url = url[url.length - 1];
-															$("#img-url")
-																	.attr(
-																			"data",
-																			"//www.youtube.com/embed/"
-																					+ url);
-															$("#videoURL").val(
-																	url);
-														}
-														$("#mainfile").val("");
-														$("#pmainimg").attr(
-																"src", "");
-														$("#isIMGorURL").val(2);
-														pmainimgload();
+				calendday.setDate(calendday.getDate() + endday);
+				inputendday = calendday.getFullYear() + "-"
+						+ (calendday.getMonth() + 1) + "-"
+						+ calendday.getDate();
+				$("#calendday").val(inputendday);
+				calendday = calendday.getFullYear() + "년 "
+						+ (calendday.getMonth() + 1) + "월 "
+						+ calendday.getDate() + "일";
+				$(".endday-text").text(calendday);
+			}
+			;
+		});
+	</script>
+	<script>
+		$(function() {
+			$("#pMainImageUpload")
+					.on(
+							"click",
+							function() {
+								var input = "";
+								input += '<div id="mimagearea"><div id="mimageinputarea"><div id="mimagetabarea"><ul><li class="ontab"><button type="button" class="img-regist-btn">이미지 등록</button></li><li><button type="button" class="url-regist-btn">동영상 URL 등록</button></li></ul></div><div id="mimageimagearea"><div id="mimageimagecontent"><div id="mimageimageshowbox"><input type="hidden" id="isIMG" value="1"><div id="mimagenoimage"><a href="javascript:pmainimgclick();"><i class="material-icons outbox">outbox</i></a></div><div id="mimageimgcontent"><a href="javascript:pmainimgclick();"><img src="" id="mimg" style="width: 100%; height: 100%;"></a></div></div><div id="mimageimagedescbox"><p>사진을 등록해 주세요.</p><p>· 사이즈는 가로: 450px,<br> 세로:350px로 조정됩니다.</p><p>· 최대 10MB 이하의 파일만 업로드해주세요!</p></div></div></div>';
+								input += '<div id="mimageurlarea"><div id="mimageurlcontent"><div id="mimageurldescbox"><input type="hidden" id="isURL" value="0"><p>· YouTube 혹은 Vimeo에 등록된 영상의 URL주소를 입력해주세요.</p><p>· URL 입력후 창을 닫으시면 등록된 영상을 확인하실 수 있습니다.</p><p>· 영상은 원본이 삭제되면 재생되지 않을 수 있습니다.</p></div><div id="mimageurlinputbox"><input type="text" class="url-design" id="imgURLinput"><button class="btn-custom2" id="mimageurlbtn">등록하기</button></div></div></div></div></div>';
+								Swal
+										.fire({
+											title : '메인이미지 등록',
+											html : input,
+											customClass : 'swal-form',
+											confirmButtonText : '닫기',
+											willClose : function() {
+												if ($("#isIMG").val() == 1) {
+													if ($("#mimg").attr("src") != "") {
+														$("#pmainimg")
+																.attr(
+																		"src",
+																		$(
+																				"#mimg")
+																				.attr(
+																						"src"));
 													}
-
+													$("#isIMGorURL").val(1);
+													$("#videoURL").val("");
+													$("#img-url").attr("data",
+															"");
+													pmainimgload();
+												} else {
+													if ($("#imgURLinput").val() != "") {
+														var url = $(
+																"#imgURLinput")
+																.val().split(
+																		"/");
+														url = url[url.length - 1];
+														$("#img-url").attr(
+																"data",
+																"//www.youtube.com/embed/"
+																		+ url);
+														$("#videoURL").val(url);
+													}
+													$("#mainfile").val("");
+													$("#pmainimg").attr("src",
+															"");
+													$("#isIMGorURL").val(2);
+													pmainimgload();
 												}
-											});
-									$("#mimageimagearea").show();
-									$("#mimageurlarea").hide();
-									$("#mimageimgcontent").hide();
-								});
-				//삭제버튼
-				$("#pmainimgdelete").on("click", function() {
-					$("#mainfile").val("");
-					$("#videoURL").val("");
-					$("#isIMGorURL").val(0);
-					pmainimgload();
-				});
-				// 프로젝트 메인 썸네일 사진&동영상 등록 메소드입니다.
-				$(document).on(
-						"click",
-						"#mimagetabarea ul li button",
-						function() {
-							$(".ontab").removeClass("ontab");
-							$(this).parent().addClass("ontab");
-							if ($("#mimagetabarea ul li:nth-child(1)").is(
-									".ontab")) { // 사진등록탭
-								$("#mimageurlarea").hide();
+
+											}
+										});
 								$("#mimageimagearea").show();
-								$("#isIMG").val(1);
-								$("#isURL").val(0);
-							} else { // 동영상 URL 탭
-								$("#mimageimagearea").hide();
-								$("#mimageurlarea").show();
-								$("#isIMG").val(0);
-								$("#isURL").val(1);
-							}
-						});
-				$(document).on("click", "#mimageurlbtn", function() {
-					alert("등록되었습니다.");
-				});
+								$("#mimageurlarea").hide();
+								$("#mimageimgcontent").hide();
+							});
+			//삭제버튼
+			$("#pmainimgdelete").on("click", function() {
+				$("#mainfile").val("");
+				$("#videoURL").val("");
+				$("#isIMGorURL").val(0);
+				pmainimgload();
 			});
-			function pmainimgload() {
-				var pvalue = $("#isIMGorURL").val();
-				if (pvalue > 0) {
-					$("#noImage").hide();
-					$("#onImage").hide();
-					$("#video-url").hide();
-					if (pvalue == 1) { //이미지가 등록되었다면
-						$("#onImage").show();
-					} else if (pvalue == 2) { //동영상이 등록되었다면
-						$("#video-url").show();
-					}
-					$("#pmainimgdelete").show();
-				} else { //삭제버튼을 클릭했을시 작동
-					$("#onImage").hide();
-					$("#video-url").hide();
-					$("#noImage").show();
-					$("#pmainimgdelete").hide();
+			// 프로젝트 메인 썸네일 사진&동영상 등록 메소드입니다.
+			$(document).on("click", "#mimagetabarea ul li button", function() {
+				$(".ontab").removeClass("ontab");
+				$(this).parent().addClass("ontab");
+				if ($("#mimagetabarea ul li:nth-child(1)").is(".ontab")) { // 사진등록탭
+					$("#mimageurlarea").hide();
+					$("#mimageimagearea").show();
+					$("#isIMG").val(1);
+					$("#isURL").val(0);
+				} else { // 동영상 URL 탭
+					$("#mimageimagearea").hide();
+					$("#mimageurlarea").show();
+					$("#isIMG").val(0);
+					$("#isURL").val(1);
 				}
-			}
-			pmainimgload();
-			function pmainimgclick() {
-				var input = $("#mainfile");
-				input.click();
-			};
-
-			function loadPImg(value) { //이미지 읽어오는 곳
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					$("#mimagenoimage").hide();
-					$("#mimageimgcontent").show();
-					$("#mimg").attr("src", e.target.result);
-				}
-				reader.readAsDataURL(value.files[0]);
-			}
-
-			$(function() {
-				var pMainImg = '${project.MAIN_IMG}';
-				if (pMainImg != "") {
-					$("#noImage").hide();
-					$("#onImage").hide();
-					$("#video-url").hide();
-					if (pMainImg.includes('main')) { // 사진부분
-						$("#onImage").show();
-						$("#pmainimg").attr(
-								"src",
-								"resources/images/projectImg/mainImg/"
-										+ pMainImg);
-					} else { // 영상부분
-						$("#video-url").show();
-						$("#img-url").attr("data",
-								"//www.youtube.com/embed/" + pMainImg);
-					}
-					$("#pmainimgdelete").show();
-				}
-				;
 			});
-		</script>
+			$(document).on("click", "#mimageurlbtn", function() {
+				alert("등록되었습니다.");
+			});
+		});
+		function pmainimgload() {
+			var pvalue = $("#isIMGorURL").val();
+			if (pvalue > 0) {
+				$("#noImage").hide();
+				$("#onImage").hide();
+				$("#video-url").hide();
+				if (pvalue == 1) { //이미지가 등록되었다면
+					$("#onImage").show();
+				} else if (pvalue == 2) { //동영상이 등록되었다면
+					$("#video-url").show();
+				}
+				$("#pmainimgdelete").show();
+			} else { //삭제버튼을 클릭했을시 작동
+				$("#onImage").hide();
+				$("#video-url").hide();
+				$("#noImage").show();
+				$("#pmainimgdelete").hide();
+			}
+		}
+		pmainimgload();
+		function pmainimgclick() {
+			var input = $("#mainfile");
+			input.click();
+		};
+
+		function loadPImg(value) { //이미지 읽어오는 곳
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#mimagenoimage").hide();
+				$("#mimageimgcontent").show();
+				$("#mimg").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(value.files[0]);
+		}
+
+		$(function() {
+			var pMainImg = '${project.mainImg}';
+			if (pMainImg != "") {
+				$("#noImage").hide();
+				$("#onImage").hide();
+				$("#video-url").hide();
+				if (pMainImg.includes('main')) { // 사진부분
+					$("#onImage").show();
+					$("#pmainimg").attr("src",
+							"resources/images/projectImg/mainImg/" + pMainImg);
+				} else { // 영상부분
+					$("#video-url").show();
+					$("#img-url").attr("data",
+							"//www.youtube.com/embed/" + pMainImg);
+				}
+				$("#pmainimgdelete").show();
+			}
+			;
+		});
+	</script>
+	<script>
+		$(function() {
+			$("#submitbtn").on("click", function() {
+				submitBtn();
+			});
+		});
+		function submitBtn() {
+			$("#statusNum").val(2);
+
+			var formData = new FormData(document.getElementById("insertfrm"));
+			console.log(formData);
+			Swal
+					.fire({
+						title : "검토하기를 요청하셨습니다.<br><br>",
+						html : "한 번 제출하시면 더 이상 수정이 불가능합니다. <br> 신중하게 제출해주세요",
+						type : "warning",
+						customClass : 'warning',
+						backdrop : "rgba(0,0,123,0.4)",
+						showCancelButton : true,
+						cancelButtonText : "계속 작성하기",
+						cancelButtonColor : "blue",
+						confirmButtonText : "제출하겠습니다.",
+						reverseButtons : true,
+						showLoaderOnConfirm : true,
+
+						preConfirm : function() {
+							$
+									.ajax({
+										url : "project",
+										type : "post",
+										data : formData,
+										encType : "multipart/form-data",
+										processData : false,
+										contentType : false,
+										success : function(result) {
+											var page = result;
+											console.log(page);
+
+											if (page != "error") {
+												Swal
+														.fire({
+															title : '<h1>제출에 성공하셨습니다.</h1>',
+															type : 'success',
+															html : "검토가 완료된 후 프로젝트가 오픈됩니다. <br> 검토사항에 문제가 있으면 텀블업으로 문의해주세요",
+															focusConfirm : false,
+															confirmButtonText : "확인",
+															willClose : function() {
+																location.href = page;
+															}
+														})
+											} else {
+												Swal.fire({
+													type : 'error',
+													title : "제출에 실패하셨습니다",
+													showConfirmButton : false,
+													timer : 1500
+												});
+											}
+										},
+										error : function(request, status, error) {
+											alert("code:" + request.status
+													+ "\n" + "message:"
+													+ request.responseText
+													+ "\n" + "error:" + error);
+
+											Swal.fire({
+												type : 'error',
+												title : "제출에 실패하셨습니다",
+												showConfirmButton : false,
+												timer : 1500
+											});
+										}
+									});
+						}
+					})
+		}
+	</script>
+	<script>
+		$(function() {
+			var pArtistImg = '${project.writerProfileImg}';
+			if (pArtistImg != "") {
+				$("#artistimg").attr("src",
+						"resources/images/projectImg/artistImg/" + pArtistImg);
+				$("#noimage").hide();
+				$("#okimage").show();
+				$("#artimgdelete").show();
+			}
+			;
+		});
+	</script>
 </body>
 </html>
