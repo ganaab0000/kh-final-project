@@ -13,11 +13,11 @@ public class RewardVo {
 	private Integer id;
 	private Integer price;
 	private String name;
-	private String detail;
-	private Integer maxStock;
-	private Integer currentStock;
-	private String isAddressRequired;
-	private Date dateDeliveryEstimated;
+	private String ex;
+	private Integer limit;
+	private Integer count;
+	private String delichk;
+	private Date deliveryDate;
 	private Integer projectId;
 	private String optionForm;
 	private String Save;

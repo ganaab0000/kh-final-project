@@ -164,7 +164,7 @@ input {
 	 width: 20%;
 }
 .article-container{
-	padding: 24px 24px 64px;
+	padding: 24px 24px 24px;
 	width: 1080px;
     margin: 0px auto;
 }
@@ -205,7 +205,7 @@ input {
 	 color: rgb(39, 163, 255);
 	}
 .isState{
-	padding: 25px 10px;
+	padding: 15px 10px;
 	float: right;
 }
 .footer>p{
