@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.config.auth.dto.OAuthAttributes;
 import com.example.demo.config.auth.dto.SessionMember;
+import com.example.demo.controller.exception.InternalErrorCodeException;
 import com.example.demo.domain.Role;
 import com.example.demo.domain.dto.MemberDto;
 import com.example.demo.domain.dto.OauthDto;
@@ -43,7 +45,7 @@ public class UserOAuth2ServiceImpl implements OAuth2UserService<OAuth2UserReques
 	private HttpSession httpSession;
 
 	@Override
-	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException, InternalErrorCodeException {
 		OAuth2UserService<OAuth2UserRequest, ?> delegate = new DefaultOAuth2UserService();
 		OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
@@ -71,6 +73,16 @@ public class UserOAuth2ServiceImpl implements OAuth2UserService<OAuth2UserReques
 		MemberDetailVo memberVo = saveOrUpdate(attributes, registrationId);
 		HashSet<GrantedAuthority> authorities = userDetailsServiceImpl.getAuthorityList(memberVo);
 
+		if(authorities.contains(new SimpleGrantedAuthority(Role.MEMBER_BLOCK.getValue()))) {
+			httpSession.setAttribute("MEMBER_SIGNIN_EXCEPTION", "차단된 회원입니다. 궁금하신 것이 있으신 경우 문의 기능을 사용해주세요.");
+			oauth2Error = new OAuth2Error("INVALID_AUTHORITY");
+			throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
+		}
+		if(authorities.contains(new SimpleGrantedAuthority(Role.MEMBER_DEL.getValue()))) {
+			httpSession.setAttribute("MEMBER_SIGNIN_EXCEPTION", "탈퇴한 회원입니다. 궁금하신 것이 있으신 경우 문의 기능을 사용해주세요.");
+			oauth2Error = new OAuth2Error("INVALID_AUTHORITY");
+			throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
+		}
 		return new DefaultOAuth2User(authorities, attributes.getAttributes(), attributes.getNameAttributeKey());
 	}
 

@@ -132,7 +132,6 @@ $(function() {
 							<th>#</th>
 							<th width="70%">내용</th>
 							<th>일자</th>
-							<th>선택</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -142,9 +141,6 @@ $(function() {
 								<td><c:out value="${notificationDto.content}" /></td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
 										value="${notificationDto.dateCreated}" /></td>
-								<td><input class="form-check-input button-member-block"
-									type="checkbox" id="input-block-${notificationDto.id}">
-								</td>
 							</tr>
 						</c:forEach>
 					</tbody>

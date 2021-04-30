@@ -29,13 +29,19 @@ public class AuthOauth2FailureHandlerImpl implements AuthenticationFailureHandle
 	        String url = "/member/redirect/confirm";
 	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
 	        requestDispatcher.forward(request, response);
+		} else if (exception.getMessage().contains("INVALID_AUTHORITY")) {
+			request.setAttribute("url", "/member/signin");
+			request.setAttribute("message", "");
+	        String url = "/member/redirect";
+	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
+	        requestDispatcher.forward(request, response);
 		} else if (exception.getMessage().contains("authorization_request_not_found")) {
 			request.setAttribute("url", "/member/signin");
 			request.setAttribute("message", "계정정보를 받아오는 데 실패하였습니다. 다시 시도해주세요.");
 	        String url = "/member/redirect";
 	        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
 	        requestDispatcher.forward(request, response);
-		} else {
+		}else {
 			response.sendRedirect("/member/denied");
 		}
 	}

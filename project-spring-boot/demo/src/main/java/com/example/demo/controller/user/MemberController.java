@@ -208,7 +208,7 @@ public class MemberController {
 		if (member == null)
 			throw new InternalErrorCodeException("101");
 		sendAuthMail(member.toMemberDto());
-		model.addAttribute("url", "/member");
+		model.addAttribute("url", "/");
 		model.addAttribute("message", "메일이 발송되었습니다. 수신받은 메일을 확인하여 인증을 완료 해주세요.");
 		return REDIRECT_PATH;
 	}
@@ -237,7 +237,7 @@ public class MemberController {
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member != null)
 			updateCurrentAuthRole(session);
-		model.addAttribute("url", "/member");
+		model.addAttribute("url", "/");
 		model.addAttribute("message", "성공적으로 인증되었습니다.");
 		return REDIRECT_PATH;
 	}
@@ -258,7 +258,7 @@ public class MemberController {
 			throw new InternalErrorCodeException("102");
 		MemberDto member = opMember.get();
 		sendInitPwdMail(member);
-		model.addAttribute("url", "/member");
+		model.addAttribute("url", "/");
 		model.addAttribute("message", "메일이 발송되었습니다. 메일을 확인 해주세요.");
 		return REDIRECT_PATH;
 	}
@@ -288,7 +288,7 @@ public class MemberController {
 		int isSuccess = userServiceimpl.updatePwdById(memberDto);
 		if (isSuccess == 0)
 			throw new InternalErrorCodeException();
-		model.addAttribute("url", "/member");
+		model.addAttribute("url", "/");
 		model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다.");
 		return REDIRECT_PATH;
 	}

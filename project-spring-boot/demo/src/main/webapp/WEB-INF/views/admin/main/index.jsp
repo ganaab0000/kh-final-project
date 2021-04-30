@@ -179,7 +179,7 @@ canvas{
 					</div>
 					<div class="col-lg-3 pb-5">
 						<h4 class="py-2">고객</h4>
-						<p class="py-2">문의 : ? 개</p>
+						<p class="py-2">문의 : 1 개</p>
 					</div>
 				</div>
 

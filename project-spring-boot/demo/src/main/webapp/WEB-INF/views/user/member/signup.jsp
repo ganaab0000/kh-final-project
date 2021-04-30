@@ -77,7 +77,7 @@
 
 		    <form action="/member/signup" method="post">
 		        <img class="my-2" src="/img/logo/favicon-32x32.png" />
-		        
+
 			    <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
 
@@ -87,7 +87,7 @@
 			       value="${memberDto.email}"
 			      required>
 			      <label for="floatingInput">이메일 주소 입력</label>
-		            <span>${valid_email}</span>
+		            <span class="text-danger">${valid_email}</span>
 		            <!--
 		            <span>(비동기 자동 중복 확인)</span>
 		             -->
@@ -98,7 +98,7 @@
 			      value="${memberDto.nickname}"
 			      required>
 			      <label for="floatingNickname">닉네임 입력</label>
-		            <span>${valid_nickname}</span>
+		            <span class="text-danger">${valid_nickname}</span>
 		            <!--
 		            <span>(비동기 자동 중복 확인)</span>
 		             -->
@@ -108,9 +108,14 @@
 			    <div class="form-floating my-3">
 			      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
 			      <label for="floatingPassword">비밀번호 입력</label>
-			      <span>${valid_pwd}</span>
+			      <span class="text-danger">${valid_pwd}</span>
 			    </div>
 
+
+			    <div class="form-floating my-3">
+			      <input name="repwd" type="password" class="form-control" id="floatingPassword" placeholder="RePassword" required>
+			      <label for="floatingPassword">비밀번호 재입력</label>
+			    </div>
 
 			    <button class="w-100 btn btn-lg btn-primary" type="submit">회원가입</button>
 

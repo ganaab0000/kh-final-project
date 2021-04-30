@@ -46,6 +46,10 @@ public class ExceptionController {
             url = "/member/withdraw";
             msg = "비밀번호가 일치하지 않습니다.";
             break;
+        case "999":
+            url = "";
+            msg = "";
+            break;
         default:
             url = "/";
             msg = "오류가 발생하였습니다. 다시 시도해주세요.";
