@@ -469,9 +469,10 @@
                         <div class="rewardList ${isClose ? 'disabled' : '' }">
                         	<div class="reward contentBox">
                                 <div class="rewardInfo">
+                                	<input type="hidden" id="projectName" name="projectName" value="${project.title}">
                                 	<input type="hidden" id="projectId" name="projectId" value="${project.id}">
                                 	<input type="hidden" id="rewardPrice" name="rewardPrice" value="1000">
-                                	<input type="hidden" id="rewardName" name="rewardName" value="선물을 선택하지 않고 밀어만 줍니다.">
+                                	<input type="hidden" id="rewardName" name="rewardName" value="선물을 선택하지 않고 밀어만 줍니다">
                                     <div class="rewardPrice">1000원 +</div>
                                     <div class="rewardDetail">선물을 선택하지 않고 밀어만 줍니다.</div>
                                 </div>
@@ -504,7 +505,7 @@
         <div class="extraSupport">
             <div class="extraTitle">추가 후원금(선택)</div>
             <div class="input">
-                <input type="text" class="extraAmount form-control" id="additionalBilling" name="additionalBilling" placeholder="0">
+                <input type="text" class="extraAmount form-control" id="additionalBillings" name="additionalBillings" placeholder="0">
             </div>
             <div class="extraComment">*추가 후원을 하시면 프로젝트 성사가 앞당겨집니다.</div>
             <div class="extraSupportBtnWrapper">
@@ -515,7 +516,7 @@
             </div>
         </div>
         <div class="projectJoin">
-            <button class="btn submitBtn btn-outline-dark"><span class="totalAmount"></span>원 후원하기</button>
+            <button class="btn submitBtn btn-outline-dark" onclick="javascript: form.action='/project/reserve/{id}';"><span class="totalAmount"></span>원 후원하기</button>
         </div>
     </script>
 
@@ -641,10 +642,6 @@
         var category;
         var page;
         var max;
-        
-        $("#reserve").click(function () {
- 	       $("form").attr("action", "/project/reserve/{id}");
- 		});
         
         //커뮤니티 불러오기
         $(".communityBtn.filter").on("click", function(){

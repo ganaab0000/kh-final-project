@@ -18,6 +18,7 @@ import com.example.demo.config.auth.dto.SessionMember;
 import com.example.demo.controller.exception.InternalErrorCodeException;
 import com.example.demo.domain.dto.ReserveDto;
 import com.example.demo.domain.vo.ProjectVo;
+import com.example.demo.domain.vo.ReserveVo;
 import com.example.demo.service.EmailServiceImpl;
 import com.example.demo.service.NotificationServiceImpl;
 import com.example.demo.service.member.ConfirmEmailServiceImpl;
@@ -37,9 +38,9 @@ public class ReserveController {
 	
 	//예약 페이지
 	@GetMapping("/project/reserve/{id}")
-	public String index(@PathVariable("id") String id, Model model, HttpSession session, int projectId, String additionalBilling, int rewardPrice, String rewardName) {
+	public String index(@PathVariable("id") String id, Model model, HttpSession session, int projectId, int additionalBillings, int rewardPrice, String rewardName, String projectName) {
 		String name = rewardName.replace(" ", "_");
-		String additionalBillings = additionalBilling.replace(" ", "0");
+		String pName = projectName.replace(" ", "_");
 		log.info("projectId : " + id);
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
@@ -49,33 +50,68 @@ public class ReserveController {
 		model.addAttribute("rewardName", name);
 		model.addAttribute("memberId", member.getId());
 		model.addAttribute("projectId", projectId);
+		model.addAttribute("projectName", pName);
 		return "user/reserve/reserve";
 	}
 	//예약 신청
 	@ResponseBody
 	@RequestMapping("/project/reserve/reserve")
-	public String insertReserve(String billingkey, int additionalBillings, String receiverName, int receiverPhone, String receiverAddress, String requestForDelivery, int memberId, int projectId) {
+	public String insertReserve(ReserveDto reserveDto) {
 		log.info("/project/reserve/reserve");
-		reserveServiceImpl.insertReserve(billingkey, additionalBillings, receiverName, receiverPhone, receiverAddress, requestForDelivery, memberId, projectId);
-
-		return null;
+		reserveServiceImpl.insertReserve(reserveDto);
+		return "true";
 	}
+	
 	//예약 확인
 	@GetMapping("/reserve/find")
 	public String findByMemberId(Model model, HttpSession session) {
+		log.info("/reserve/find");
 		SessionMember member = (SessionMember) session.getAttribute("member");
 		if (member == null)
 			throw new InternalErrorCodeException("101");
 		List<ReserveDto> reserveDto = reserveServiceImpl.findByMemberId(member.getId());
+		model.addAttribute("memberId", member.getId());
 		model.addAttribute("reserve", reserveDto);
 		return "user/reserve/reserveComplete";
 	}
+	//상세 페이지
+	@GetMapping("/reserve/detail/{id}")
+	public String detail(@PathVariable("id") String id, Model model, HttpSession session, int reserveId) {
+		log.info("/reserve/detail/{id}");
+		SessionMember member = (SessionMember) session.getAttribute("member");
+		if (member == null)
+			throw new InternalErrorCodeException("101");
+		List<ReserveDto> reserveDto = reserveServiceImpl.detail(reserveId);
+		model.addAttribute("memberId", member.getId());
+		model.addAttribute("reserve", reserveDto);
+		return "user/reserve/detail";
+	}
+	//수정 페이지
+	@GetMapping("/reserve/edit/{id}")
+	public String edit(@PathVariable("id") String id, Model model, HttpSession session, int reserveId) {
+		log.info("/reserve/detail/{id}");
+		SessionMember member = (SessionMember) session.getAttribute("member");
+		if (member == null)
+			throw new InternalErrorCodeException("101");
+		List<ReserveDto> reserveDto = reserveServiceImpl.detail(reserveId);
+		model.addAttribute("memberId", member.getId());
+		model.addAttribute("reserve", reserveDto);
+		return "user/reserve/edit";
+	}
+	//예약 수정
+	@PostMapping("/reserve/fix")
+	public String fixReserve(ReserveVo reserveVo) {
+		log.info("/reserve/fix");
+		reserveServiceImpl.fixReserve(reserveVo);
+
+		return "redirect:/reserve/find";
+	}
 	//예약 취소
 	@PostMapping("/reserve/cancel")
-	public String deleteReserve(int memberId, int projectId) {
+	public String deleteReserve(int id) {
 		log.info("/reserve/cancel");
-		reserveServiceImpl.deleteReserve(memberId, projectId);
+		reserveServiceImpl.deleteReserve(id);
 
-		return "redirect:/user/reserve/reserveComplete";
+		return "redirect:/reserve/find";
 	}
 }

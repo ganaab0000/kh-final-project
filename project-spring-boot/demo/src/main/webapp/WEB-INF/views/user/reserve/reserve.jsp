@@ -78,6 +78,7 @@
 	}
 	#reserveDiv{
 		padding-left:20%;
+		padding-right:19%;
 	}
 	#finishBtn {
 		border:none;
@@ -109,6 +110,11 @@
 						<tr>
 							<td colspan="2">
 								<h2 id="divH2">府况靛 备己</h2>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<input type="text" style="font-size: 25px; width: 100%;" id="projectName" name="projectName" value=<%= request.getAttribute("projectName") %> readonly>
 							</td>
 						</tr>
 						<tr>
@@ -286,6 +292,9 @@
 	  function ajaxReserve() {
 			var billingkey = <%= request.getAttribute("projectId") %> + "_" + <%= request.getAttribute("memberId") %> + "_"+ $("#cardNo4").val();
 			var additionalBillings = <%= request.getAttribute("additionalBillings") %>;
+			var projectName = $("#projectName").val();
+			var rewardName = $("#rewardName").val();
+			var rewardPrice = <%= request.getAttribute("rewardPrice") %>;
 			var receiverName = $("#receiverName").val();
 			var receiverPhone = $("#receiverPhone").val();
 			var receiverAddress = $("#receiverAddress1").val()+ "," +$("#receiverAddress2").val()+ "," +$("#receiverAddress3").val();
@@ -297,6 +306,9 @@
 				type: "POST",
 				data: { billingkey: billingkey,
 						additionalBillings: additionalBillings,
+						projectName: projectName,
+						rewardName: rewardName,
+						rewardPrice: rewardPrice,
 						receiverName: receiverName,
 						receiverPhone: receiverPhone,
 						receiverAddress: receiverAddress,

@@ -3,6 +3,7 @@ package com.example.demo.service.reserve;
 import java.util.List;
 
 import com.example.demo.domain.dto.ReserveDto;
+import com.example.demo.domain.vo.ReserveVo;
 
 public interface ReserveService {
 	
@@ -12,9 +13,13 @@ public interface ReserveService {
 	
 	public int getCollected(int projectId);
 	
-	public int insertReserve(String billingkey, int additionalBillings, String receiverName, int receiverPhone, String receiverAddress, String requestForDelivery, int memberId, int projectId);
+	public int insertReserve(ReserveDto reserveDto);
 	
 	public List<ReserveDto> findByMemberId(int memberId);
 	
-	public int deleteReserve(int memberId, int projectId);
+	public List<ReserveDto> detail(int id);
+	
+	public int deleteReserve(int id);
+	
+	public int fixReserve(ReserveVo reserveVo);
 }

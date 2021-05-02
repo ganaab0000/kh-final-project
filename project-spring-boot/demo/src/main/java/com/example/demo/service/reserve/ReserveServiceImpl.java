@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.dto.ReserveDto;
+import com.example.demo.domain.vo.ReserveVo;
 import com.example.demo.repository.ReserveRepository;
 
 @Service
@@ -30,8 +31,8 @@ public class ReserveServiceImpl implements ReserveService {
 	}
 
 	@Override
-	public int insertReserve(String billingkey, int additionalBillings, String receiverName, int receiverPhone, String receiverAddress, String requestForDelivery, int memberId, int projectId) {
-		return reserveRepository.insertReserve(billingkey, additionalBillings, receiverName, receiverPhone, receiverAddress, requestForDelivery, memberId, projectId);
+	public int insertReserve(ReserveDto reserveDto) {
+		return reserveRepository.insertReserve(reserveDto);
 	}
 
 	@Override
@@ -40,8 +41,18 @@ public class ReserveServiceImpl implements ReserveService {
 	}
 
 	@Override
-	public int deleteReserve(int memberId, int projectId) {
-		return reserveRepository.deleteReserve(memberId, projectId);
+	public int deleteReserve(int id) {
+		return reserveRepository.deleteReserve(id);
+	}
+
+	@Override
+	public int fixReserve(ReserveVo reserveVo) {
+		return reserveRepository.fixReserve(reserveVo);
+	}
+
+	@Override
+	public List<ReserveDto> detail(int id) {
+		return reserveRepository.detail(id);
 	}
 
 }

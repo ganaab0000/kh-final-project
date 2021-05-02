@@ -12,10 +12,13 @@ import lombok.ToString;
 public class ReserveDto {
 	private Integer id;
 	private String billingkey;
+	private String projectName;
+	private String rewardName;
+	private String rewardPrice;
 	private Integer additionalBillings;
 	private Date dateCreated;
 	private String receiverName;
-	private Integer receiverPhone;
+	private String receiverPhone;
 	private String receiverAddress;
 	private String requestForDelivery;
 	private Integer reserveStatusCategoryId;
