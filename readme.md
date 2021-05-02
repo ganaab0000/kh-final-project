@@ -112,11 +112,13 @@
 
 <img src="/docs/img/hajun/image21.png">
 
+* 통계 기능(Chart.js)
 #### 계정 관리 (송하준)
 
 <img src="/docs/img/hajun/image22.png"> | <img src="/docs/img/hajun/image23.png"> | <img src="/docs/img/hajun/image24.png">  | <img src="/docs/img/hajun/image25.png">  | <img src="/docs/img/hajun/image26.png"> 
 :-:|:-:|:-:|:-:|:-:
 
+* Spring Security 기반 Role(권한) 관리
 #### 프로젝트 관리
 #### 예약 관리
 #### 고객 관리
