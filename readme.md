@@ -95,11 +95,13 @@
 :-:|:-:|:-:
 
 * 비밀번호 - Bcrypt 암호화
+* SMTP
 
 ##### 비밀번호 찾기
 <img src="/docs/img/hajun/image7.png"> | <img src="/docs/img/hajun/image13.png">  | <img src="/docs/img/hajun/image3.png"> 
 :-:|:-:|:-:
 
+* SMTP
 ##### 회원정보 변경, 비밀번호 변경, 회원탈퇴
 <img src="/docs/img/hajun/image8.png"> | <img src="/docs/img/hajun/image15.png"> | <img src="/docs/img/hajun/image16.png">  | <img src="/docs/img/hajun/image17.png">  | <img src="/docs/img/hajun/image18.png"> 
 :-:|:-:|:-:|:-:|:-:
