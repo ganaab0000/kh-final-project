@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.AdminProjectRepository">
+
+	<select id="selectProjectListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM PROJECT
+		WHERE 1=1
+        <if test='PROJECT_CATEGORY_ID != null and PROJECT_CATEGORY_ID != ""'>
+        	AND PROJECT_CATEGORY_ID = #{PROJECT_CATEGORY_ID}
+        </if>
+        <if test='PROJECT_STATUS_CATEGORY_ID != null and PROJECT_STATUS_CATEGORY_ID != ""'>
+        	AND PROJECT_STATUS_CATEGORY_ID = #{PROJECT_STATUS_CATEGORY_ID}
+        </if>
+        <if test='SEARCH_STRING != null and SEARCH_STRING != ""'>
+        	AND TITLE LIKE '%' || #{SEARCH_STRING} || '%'
+        </if>
+        <if test='DATE_PROJECT_STARTED != null and DATE_PROJECT_STARTED != ""'>
+        	<if test='DATE_PROJECT_CLOSED != null and DATE_PROJECT_CLOSED != ""'>
+        		AND (TO_CHAR(DATE_PROJECT_STARTED, 'YYYYMMDD') BETWEEN #{DATE_PROJECT_STARTED} AND #{DATE_PROJECT_CLOSED}
+        		OR TO_CHAR(DATE_PROJECT_CLOSED, 'YYYYMMDD') BETWEEN #{DATE_PROJECT_STARTED} AND #{DATE_PROJECT_CLOSED})
+        	</if>
+        </if>
+	</select>
+
+	<select id="selectProjectList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT *
+		FROM (
+			SELECT ROW_NUMBER() OVER(ORDER BY TEMP.TITLE ASC) AS RN
+				, TEMP.*
+			FROM (
+				SELECT a.ID
+		            , a.TITLE
+		            , a.SUB_TITLE
+		            , a.TARGET_AMOUNT
+		            , TO_CHAR(a.DATE_PROJECT_STARTED, 'YYYY-MM-DD') AS DATE_PROJECT_STARTED
+		            , TO_CHAR(a.DATE_PROJECT_CLOSED, 'YYYY-MM-DD') AS DATE_PROJECT_CLOSED
+		            , a.HASHTAG
+		            , a.THUMB_IMG
+		            , a.MAIN_IMG
+		            , a.SUMMARY
+		            , a.WRITER_NAME
+		            , a.WRITER_PROFILE_IMG
+		            , a.WRITER_SNS_INSTAGRAM
+		            , a.WRITER_SNS_FACEBOOK
+		            , a.WRITER_PHONE
+		            , a.WRITER_EMAIL
+		            , b.NICKNAME
+		            , (SELECT NAME FROM PROJECT_CATEGORY WHERE ID = a.PROJECT_CATEGORY_ID) AS CATEGORY_NM
+		            , (SELECT DETAIL FROM PROJECT_STATUS_CATEGORY WHERE ID = a.PROJECT_STATUS_CATEGORY_ID) AS CATEGORY_STATUS_NM
+		            , TO_CHAR(a.DATE_CREATED, 'YYYY-MM-DD') AS DATE_CREATED
+		        FROM PROJECT a, MEMBER b
+		        WHERE 1=1
+		        AND a.MEMBER_ID = b.ID
+		        <if test='PROJECT_CATEGORY_ID != null and PROJECT_CATEGORY_ID != ""'>
+		        	AND PROJECT_CATEGORY_ID = #{PROJECT_CATEGORY_ID}
+		        </if>
+		        <if test='PROJECT_STATUS_CATEGORY_ID != null and PROJECT_STATUS_CATEGORY_ID != ""'>
+		        	AND PROJECT_STATUS_CATEGORY_ID = #{PROJECT_STATUS_CATEGORY_ID}
+		        </if>
+		        <if test='SEARCH_STRING != null and SEARCH_STRING != ""'>
+		        	AND TITLE LIKE '%' || #{SEARCH_STRING} || '%'
+		        </if>
+		        <if test='DATE_PROJECT_STARTED != null and DATE_PROJECT_STARTED != ""'>
+		        	<if test='DATE_PROJECT_CLOSED != null and DATE_PROJECT_CLOSED != ""'>
+		        		AND (TO_CHAR(DATE_PROJECT_STARTED, 'YYYYMMDD') BETWEEN #{DATE_PROJECT_STARTED} AND #{DATE_PROJECT_CLOSED}
+		        		OR TO_CHAR(DATE_PROJECT_CLOSED, 'YYYYMMDD') BETWEEN #{DATE_PROJECT_STARTED} AND #{DATE_PROJECT_CLOSED})
+		        	</if>
+		        </if>
+			) TEMP
+		)
+		WHERE RN BETWEEN #{START_ROW_NO} AND #{END_ROW_NO}
+	</select>
+	
+	<select id="selectProjectListEndCount" resultType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM PROJECT
+		WHERE 1=1
+		AND TO_CHAR(SYSDATE, 'YYYYMMDD') > TO_CHAR(DATE_PROJECT_CLOSED, 'YYYYMMDD')
+	</select>
+
+	<select id="selectProjectListEnd" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT *
+		FROM (
+			SELECT ROW_NUMBER() OVER(ORDER BY TEMP.TITLE ASC) AS RN
+				, TEMP.*
+			FROM (
+				SELECT a.ID
+		            , a.TITLE
+		            , a.SUB_TITLE
+		            , a.TARGET_AMOUNT
+		            , TO_CHAR(a.DATE_PROJECT_STARTED, 'YYYY-MM-DD') AS DATE_PROJECT_STARTED
+		            , TO_CHAR(a.DATE_PROJECT_CLOSED, 'YYYY-MM-DD') AS DATE_PROJECT_CLOSED
+		            , a.HASHTAG
+		            , a.THUMB_IMG
+		            , a.MAIN_IMG
+		            , a.SUMMARY
+		            , a.WRITER_NAME
+		            , a.WRITER_PROFILE_IMG
+		            , a.WRITER_SNS_INSTAGRAM
+		            , a.WRITER_SNS_FACEBOOK
+		            , a.WRITER_PHONE
+		            , a.WRITER_EMAIL
+		            , b.NICKNAME
+		            , (SELECT NAME FROM PROJECT_CATEGORY WHERE ID = a.PROJECT_CATEGORY_ID) AS CATEGORY_NM
+		            , (SELECT DETAIL FROM PROJECT_STATUS_CATEGORY WHERE ID = a.PROJECT_STATUS_CATEGORY_ID) AS CATEGORY_STATUS_NM
+		            , TO_CHAR(a.DATE_CREATED, 'YYYY-MM-DD') AS DATE_CREATED
+		        FROM PROJECT a, MEMBER b
+		        WHERE 1=1
+		        AND a.MEMBER_ID = b.ID
+				AND TO_CHAR(SYSDATE, 'YYYYMMDD') > TO_CHAR(a.DATE_PROJECT_CLOSED, 'YYYYMMDD')
+			) TEMP
+		)
+		WHERE RN BETWEEN #{START_ROW_NO} AND #{END_ROW_NO}
+	</select>
+	
+	<select id="selectProjectInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT a.ID
+            , a.TITLE
+            , a.SUB_TITLE
+            , a.TARGET_AMOUNT
+            , a.DATE_PROJECT_STARTED
+            , a.DATE_PROJECT_CLOSED
+            , a.HASHTAG
+            , a.THUMB_IMG
+            , a.MAIN_IMG
+            , a.SUMMARY
+            , a.STORY
+            , a.WRITER_NAME
+            , a.WRITER_PROFILE_IMG
+            , a.WRITER_SNS_INSTAGRAM
+            , a.WRITER_SNS_FACEBOOK
+            , a.WRITER_PHONE
+            , a.WRITER_EMAIL
+            , b.NAME
+            , (SELECT NAME FROM PROJECT_CATEGORY WHERE ID = a.PROJECT_CATEGORY_ID) AS CATEGORY_NM
+            , (SELECT DETAIL FROM PROJECT_STATUS_CATEGORY WHERE ID = a.PROJECT_STATUS_CATEGORY_ID) AS CATEGORY_STATUS_NM
+            , TO_CHAR(DATE_CREATED, 'YYYY-MM-DD') AS DATE_CREATED
+		FROM PROJECT a, MEMBER b
+		WHERE a.MEMBER_ID = b.ID
+		AND a.ID = #{ID}
+	</select>
+	
+	<update id="updateProjectStatus" parameterType="java.util.HashMap">
+		UPDATE PROJECT
+			SET DATE_UPDATED = SYSDATE
+				, PROJECT_STATUS_CATEGORY_ID = #{PROJECT_STATUS_CATEGORY_ID}
+		WHERE ID = #{ID}
+	</update>
+</mapper>

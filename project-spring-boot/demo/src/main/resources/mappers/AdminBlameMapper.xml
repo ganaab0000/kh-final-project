@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.AdminBlameRepository">
+	<select id="selectBlameListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM BLAME a, MEMBER b, PROJECT c
+		WHERE a.MEMBER_ID = b.ID
+		AND a.PROJECT_ID = c.ID
+		<if test='SEARCH_STRING != null and SEARCH_STRING != ""'>
+			AND CONTENT LIKE '%' || #{SEARCH_STRING} || '%'
+		</if>
+	</select>
+
+	<select id="selectBlameList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT *
+		FROM (
+			SELECT ROW_NUMBER() OVER(ORDER BY TEMP.ID DESC) AS RN
+				, TEMP.*
+			FROM (
+				SELECT a.ID
+				     , c.TITLE AS PROJECT_TITLE
+				     , a.CONTENT
+				     , b.NICKNAME
+				     , TO_CHAR(a.DATE_CREATED, 'YYYY-MM-DD') AS DATE_CREATED
+				     , (CASE WHEN (SELECT COUNT(1) FROM BLAME_REPLY WHERE BLAME_ID = a.ID) > 0 THEN 'Y' ELSE 'N' END) AS REPLY_YN
+				FROM BLAME a, MEMBER b, PROJECT c
+				WHERE a.MEMBER_ID = b.ID
+				AND a.PROJECT_ID = c.ID
+				<if test='SEARCH_STRING != null and SEARCH_STRING != ""'>
+					AND CONTENT LIKE '%' || #{SEARCH_STRING} || '%'
+				</if>
+			) TEMP
+		)
+		WHERE RN BETWEEN #{START_ROW_NO} AND #{END_ROW_NO}
+	</select>
+	
+	<select id="selectBlameInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT a.ID, a.CONTENT, b.CONTENT AS REPLY, DECODE(b.ID, '', 'N', 'Y') AS REPLY_YN
+		FROM BLAME a
+		LEFT OUTER JOIN BLAME_REPLY b ON a.ID = b.BLAME_ID 
+		WHERE a.ID = #{ID}
+	</select>
+	
+	<insert id="insertBlameReply" parameterType="java.util.HashMap">
+		INSERT INTO BLAME_REPLY (
+			ID,
+			BLAME_ID,
+			MEMBER_ID,
+			CONTENT,
+			DATE_CREATED
+		) VALUES (
+			BLAME_REPLY_ID_SEQ.nextVal,
+			#{BLAME_ID},
+			#{MEMBER_ID},
+			#{CONTENT},
+			SYSDATE
+		)
+	</insert>
+	
+	<update id="updateBlameReply" parameterType="java.util.HashMap">
+		UPDATE BLAME_REPLY 
+			SET CONTENT = #{CONTENT}
+		WHERE BLAME_ID = #{BLAME_ID}
+	</update>
+	
+	
+	<delete id="deleteblame" parameterType="java.util.HashMap">
+	DELETE FROM BLAME WHERE ID = #{ID}
+      </delete>
+</mapper>

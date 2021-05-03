@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.repository.BlameRepository">
+	<insert id="insertBlame" parameterType="java.util.HashMap">
+		INSERT INTO BLAME (
+			ID,
+			DATE_CREATED,
+			PROJECT_ID,
+			MEMBER_ID,
+			CONTENT
+		) VALUES (
+			BLAME_ID_SEQ.nextval,
+			SYSDATE,
+			#{PROJECT_ID},
+			#{MEMBER_ID},
+			#{CONTENT}
+		)
+	</insert>
+</mapper>
