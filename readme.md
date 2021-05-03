@@ -23,7 +23,9 @@
 4. [프로젝트 화면](#프로젝트-화면)
     1. [일반 회원](#일반-회원)
     2. [관리자](#관리자)
-6. [설치](docs/installation.md)
+5. [설치](docs/installation.md)
+6. [발표영상](https://youtu.be/qQJLGfPixyU)
+
 
 ## 개발환경
 * OS
@@ -109,11 +111,12 @@
 :-:|:-:|:-:
 
 * 비밀번호 - Bcrypt 암호화
-
+* SMTP
 ##### 비밀번호 찾기
 <img src="/docs/img/hajun/image7.png"> | <img src="/docs/img/hajun/image13.png">  | <img src="/docs/img/hajun/image3.png"> 
 :-:|:-:|:-:
 
+* SMTP
 ##### 회원정보 변경, 비밀번호 변경, 회원탈퇴
 <img src="/docs/img/hajun/image8.png"> | <img src="/docs/img/hajun/image15.png"> | <img src="/docs/img/hajun/image16.png">  | <img src="/docs/img/hajun/image17.png">  | <img src="/docs/img/hajun/image18.png"> 
 :-:|:-:|:-:|:-:|:-:
@@ -123,14 +126,15 @@
 
 ### 관리자
 #### 대시보드 (송하준)
-
 <img src="/docs/img/hajun/image21.png">
 
+* 통계 기능(Chart.js)
 #### 계정 관리 (송하준)
 
 <img src="/docs/img/hajun/image22.png"> | <img src="/docs/img/hajun/image23.png"> | <img src="/docs/img/hajun/image24.png">  | <img src="/docs/img/hajun/image25.png">  | <img src="/docs/img/hajun/image26.png"> 
 :-:|:-:|:-:|:-:|:-:
 
+* Spring Security 기반 Role 관리
 #### 프로젝트 관리
 #### 예약 관리
 #### 고객 관리
