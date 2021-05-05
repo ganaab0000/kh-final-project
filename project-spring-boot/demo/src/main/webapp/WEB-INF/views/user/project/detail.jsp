@@ -12,6 +12,14 @@
 	<jsp:include page="/WEB-INF/views/user/common/head.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/projectCommon.css">
     <style>
+       .notify{
+            width: 100%;
+            height: 50px;
+            margin-right: 1rem;
+            background-color: lightcoral;
+		   color: white;
+		   font-weight: bold;
+        }
         .main{
             width: 1080px;
             margin: 0 auto;
@@ -477,6 +485,12 @@
 	                                </div>
 			                    </form>
                             </div>
+                            
+                            <div>
+                                <button class="notify btn"
+											data-bs-toggle="modal" data-bs-target="#form-send-message" data-id="${project.id}">프로젝트 신고하기</button>
+                            </div>
+                            
                         	<c:forEach items="${rewardList}" var="reward">
                         		<div class="reward contentBox">
 				                    <form name="form" method="get">
@@ -499,6 +513,34 @@
             </div>
         </div>
    	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="form-send-message" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">프로젝트 신고하기</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="message-text" class="col-form-label">신고
+								내용:</label>
+							<textarea class="form-control" id="message-text"></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary submit-btn" data-bs-dismiss="modal">전송</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	<jsp:include page="/WEB-INF/views/user/common/footer.jsp"></jsp:include>
 	
@@ -590,6 +632,53 @@
     </script>
     <script>
     	var loginUser = ${member.id == null ? 0 : member.id};
+    	
+    	//신고하기
+    	$(document).ready(function(){
+    	
+			$('.notify').click(function(){
+				console.log("clicked notify");
+				
+				var projectId = $(this).attr('data-id');
+				var form = $('#form-send-message');
+				var formTextArea = $('#form-send-message textarea');
+				var submitBtn = $('#form-send-message .submit-btn');
+				formTextArea.val('');
+				submitBtn.off();
+				submitBtn.bind("click", clickFunc );
+				function clickFunc(){
+					var params = {
+							PROJECT_ID: projectId,
+							MEMBER_ID: loginUser,
+							CONTENT: formTextArea.val()
+						}
+				        $.ajax({
+				            type : "POST",
+				            url : "/api/blame/regist",
+				            data : JSON.stringify(params),
+				            dataType: "json",
+				            contentType: "application/json",
+				            success : function(res){
+				                if(!res.resultMessage == "RSLT0000"){
+				                    new SnackBar({
+				                        message: res.resultMessage
+				                    });
+				                    return;
+				                }
+				                new SnackBar({
+				                    message: "신고가 접수 되었습니다."
+				                });
+				            },
+				            error : function(XMLHttpRequest, textStatus, errorThrown){
+				                new SnackBar({
+				                    message: "통신에 실패하였습니다."
+				                });
+				            }
+				        });
+				};
+		
+			});
+    	});
     	
     	//리워드 엑스트라 
         $(".rewardInfo").on("click", function(){

@@ -57,10 +57,13 @@ function getPrevDate(day){
 	      </div>
 	      <div class="collapse collapse-el" id="collapse-el-3" style="">
 	        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-	          <li><a href="#" class="link-dark rounded d-block px-4">전체</a></li>
-	          <li><a href="#" class="link-dark rounded d-block px-4">심사</a></li>
-	          <li><a href="#" class="link-dark rounded d-block px-4">마감</a></li>
-	          <li><a href="#" class="link-dark rounded d-block px-4">신고</a></li>
+	        <li><a href="${pageContext.request.contextPath}/admin/project/list?PROJECT_STATUS_CATEGORY_ID=" class="link-dark rounded d-block px-4">전체</a></li>
+	          <li><a href="${pageContext.request.contextPath}/admin/project/list?PROJECT_STATUS_CATEGORY_ID=1" class="link-dark rounded d-block px-4">미승인</a></li>
+	          <li><a href="${pageContext.request.contextPath}/admin/project/list?PROJECT_STATUS_CATEGORY_ID=2" class="link-dark rounded d-block px-4">승인</a></li>
+	          <li><a href="${pageContext.request.contextPath}/admin/project/list?PROJECT_STATUS_CATEGORY_ID=3" class="link-dark rounded d-block px-4">성사</a></li>
+	          <li><a href="${pageContext.request.contextPath}/admin/project/list?PROJECT_STATUS_CATEGORY_ID=4" class="link-dark rounded d-block px-4">실패</a></li>
+	          <li><a href="${pageContext.request.contextPath}/admin/blame/list" class="link-dark rounded d-block px-4">신고</a></li>
+	          <li><a href="${pageContext.request.contextPath}/admin/project/listEnd" class="link-dark rounded d-block px-4">마감</a></li>
 	        </ul>
 	      </div>
 	    </li>
